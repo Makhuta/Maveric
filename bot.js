@@ -14,7 +14,7 @@ bot.on('message', msg=>{
 
     switch(args[0]){
         case 'test':
-            msg.channel.send('Tohle je test');
+            msg.channel.send('Tohle je test 2.0');
             break;
         case 'creator':
             msg.channel.send('https://www.youtube.com/Makhuta')
