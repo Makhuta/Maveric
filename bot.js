@@ -3,28 +3,21 @@ const Discord = require('discord.js');
 const bot = new Discord.Client();
 
 
-const PREFIX = botconfig.prefix;
 
 bot.on('ready', () =>{
     console.log('Ready!');
+    bot.user.setActivity("Just normal day at Work.")
 })
 
-bot.on('message', msg=>{
-	if (msg.author == bot.user) { // Prevent bot from responding to its own messages
-        return
-    }
+bot.on('message', message => {
+    if (message.author.bot) return;
+    if (message.channel.type === "dm") return;
 
-    let args = msg.content.substring(PREFIX.length).split(" ");
-
-    switch(args[0]){
-        case 'test':
-            msg.channel.send('Tohle je test');
-            break;
-        case 'creator':
-            msg.channel.send('https://www.youtube.com/Makhuta')
-            break;
-        
-    }
+    let prefix = botconfig.prefix;
+    let messageArray = message.content.split(" ");
+    let cmd = messageArray[0];
+    let args = messageArray.slice(1);
+    
 })
 
 bot.login(process.env.BOT_TOKEN);
