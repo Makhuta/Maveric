@@ -10,16 +10,15 @@ bot.on('ready', () =>{
 })
 
 bot.on('message', msg=>{
-    if (msg.author == bot.user) { // Prevent bot from responding to its own messages
+	if (msg.author == bot.user) { // Prevent bot from responding to its own messages
         return
     }
-    
-    let args = msg.content.substring(PREFIX.length).split(" ");
-    let cmd = args[0];
 
-    switch(cmd){
+    let args = msg.content.substring(PREFIX.length).split(" ");
+
+    switch(args[0]){
         case 'test':
-            msg.channel.send('Tohle je test 2.0');
+            msg.channel.send('Tohle je test');
             break;
         case 'creator':
             msg.channel.send('https://www.youtube.com/Makhuta')
