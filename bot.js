@@ -20,12 +20,21 @@ bot.on("message", async message => {
 
     if(cmd === `${prefix}botinfo`){
 
-        let botembed = new Discord.RichEmbed()
-        .setDescription("Bot Information")
-        .setColor("#15f153")
-        .addField("Bot Name", bot.user.username);
+        message.channel.send({embed: {
+            color: ff1100,
+            author: {
+                name: client.user.username,
+                icon_url: client.user.avatarURL
+            },
+            title: "Bot Information",
+            fields: [{
+                name: "Bot Name",
+                value: `${bot.user.username}`
+            }]
+        }
+    });
 
-        return message.channel.send({embed: botembed});
+        return;
     }
     
 });
