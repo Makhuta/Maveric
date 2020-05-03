@@ -1,9 +1,9 @@
-const botconfig = require("./botconfig.json");
-const Discord = require('discord.js');
-const bot = new Discord.Client();
+import { prefix, token } from "./botconfig.json";
+import { Client } from 'discord.js';
+const bot = new Client();
 
 
-const PREFIX = botconfig.prefix;
+const PREFIX = prefix;
 
 bot.on('ready', () =>{
     console.log('Ready!');
@@ -27,4 +27,4 @@ bot.on('message', msg=>{
     }
 })
 
-bot.login(process.env.BOT_TOKEN);
+bot.login(token);
