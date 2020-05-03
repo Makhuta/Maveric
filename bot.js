@@ -25,7 +25,7 @@ bot.on('message', msg=>{
             break;
         case 'botinfo':
             let botembed = new Discord.MessageEmbed()
-            .setDescription("Bot Information")
+            .setTitle("Bot Information")
             .setColor("#15f153")
             .addField("Bot Name", bot.user.username);
             msg.channel.send(botembed);
