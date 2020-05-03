@@ -15,8 +15,9 @@ bot.on('message', msg=>{
     }
     
     let args = msg.content.substring(PREFIX.length).split(" ");
+    let cmd = args[0];
 
-    switch(args[0]){
+    switch(cmd){
         case 'test':
             msg.channel.send('Tohle je test 2.0');
             break;
