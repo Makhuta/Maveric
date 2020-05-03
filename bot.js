@@ -9,7 +9,7 @@ bot.on('ready', () =>{
     console.log('Ready!');
 })
 
-bot.on('message', msg=>{
+bot.on('message', async msg=>{
     if (msg.author == bot.user) { // Prevent bot from responding to its own messages
         return
     }
