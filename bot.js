@@ -25,12 +25,8 @@ bot.on('message', message => {
         .setColor("#15f153")
         .addField("Bot Name", bot.user.username);
 
-
         return message.channel.send(botembed);
     }
-
-
-
     
 })
 
