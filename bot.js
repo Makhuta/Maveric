@@ -14,9 +14,11 @@ bot.on('message', msg=>{
         return
     }
 
-    let args = msg.content.substring(PREFIX.length).split(" ");
+    let messageArray = msg.content.substring(PREFIX.length).split(" ");
+    let cmd = messageArray[0];
+    let args = messageArray.slice(1);
 
-    switch(args[0]){
+    switch(cmd){
         case 'test':
             msg.channel.send('Tohle je test');
             break;
