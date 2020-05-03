@@ -3,7 +3,7 @@ const Discord = require('discord.js');
 const bot = new Discord.Client();
 
 
-const PREFIX = '!';
+const PREFIX = botconfig.prefix;
 
 bot.on('ready', () =>{
     console.log('Ready!');
