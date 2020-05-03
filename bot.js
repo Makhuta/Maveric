@@ -34,7 +34,7 @@ bot.on("message", async message => {
         }
     });
 
-        return;
+    
     }
     
 });
