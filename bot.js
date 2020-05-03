@@ -19,7 +19,7 @@ bot.on("message", async message => {
 
     switch (cmd) {
         case 'botinfo':
-            message.channel.send({embed: {
+            message.channel.send("Tohle má být info")/*{embed: {
                 color: 3447003,
                 author: {
                   name: client.user.username,
@@ -47,7 +47,7 @@ bot.on("message", async message => {
                   text: "© Example"
                 }
               }
-            });
+            });*/
             break;
     }
 
