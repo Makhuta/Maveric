@@ -18,7 +18,7 @@ bot.on('message', message => {
     let cmd = messageArray[0];
     let args = messageArray.slice(1);
 
-    if(cmd === 'botinfo') {
+    if(cmd === "botinfo") {
 
         let botembed = new Discord.RichEmbed()
         .setDescription("Bot Information")
