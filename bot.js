@@ -1,8 +1,9 @@
+const botconfig = require("./botconfig.json");
 const Discord = require('discord.js');
 const bot = new Discord.Client();
 
 
-const PREFIX = '!';
+const PREFIX = botconfig.prefix;
 
 bot.on('ready', () =>{
     console.log('Ready!');
@@ -26,4 +27,4 @@ bot.on('message', msg=>{
     }
 })
 
-bot.login(process.env.BOT_TOKEN);
+bot.login(botconfig.token);
