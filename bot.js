@@ -1,15 +1,15 @@
-import { prefix, token } from "./botconfig.json";
-import { Client } from 'discord.js';
-const bot = new Client();
+const botconfig = require("./botconfig.json");
+const Discord = require('discord.js');
+const bot = new Discord.Client();
 
 
-const PREFIX = prefix;
+const PREFIX = botconfig.prefix;
 
 bot.on('ready', () =>{
     console.log('Ready!');
 })
 
-bot.on('message', async msg=>{
+bot.on('message', msg=>{
     if (msg.author == bot.user) { // Prevent bot from responding to its own messages
         return
     }
@@ -27,4 +27,4 @@ bot.on('message', async msg=>{
     }
 })
 
-bot.login(process.env.BOT_TOKEN);
+bot.login(botconfig.token);
