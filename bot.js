@@ -7,7 +7,7 @@ const prefix = botconfig.prefix;
 
 bot.on('ready', () =>{
     console.log('Ready!');
-    bot.user.setGame("Just normal day at Work.")
+    bot.user.setActivity("Just normal day at Work.")
 })
 
 bot.on('message', message => {
