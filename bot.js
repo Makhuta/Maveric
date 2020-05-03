@@ -4,12 +4,12 @@ const bot = new Discord.Client();
 
 
 
-bot.on('ready', () =>{
+bot.on("ready", () =>{
     console.log('Ready!');
     bot.user.setActivity("Just normal day at Work.")
 })
 
-bot.on('message', message => {
+bot.on("message", message => {
     if (message.author.bot) return;
     if (message.channel.type === "dm") return;
 
