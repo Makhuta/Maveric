@@ -2,7 +2,7 @@ const botconfig = require("./botconfig.json");
 const Discord = require('discord.js');
 const bot = new Discord.Client();
 
-
+const PREFIX = botconfig.prefix;
 
 bot.on("ready", async () =>{
     console.log('Ready!');
@@ -13,12 +13,11 @@ bot.on("message", async message => {
     if (message.author.bot) return;
     if (message.channel.type === "dm") return;
 
-    let prefix = botconfig.prefix;
-    let messageArray = message.content.split(" ");
+    let messageArray = msg.content.substring(PREFIX.length).split(" ");
     let cmd = messageArray[0];
     let args = messageArray.slice(1);
 
-    if(cmd === `${prefix}botinfo`){
+    if(cmd === `botinfo`){
 
         message.channel.send({embed: {
             color: ff1100,
@@ -34,7 +33,7 @@ bot.on("message", async message => {
         }
     });
 
-    
+
     }
     
 });
