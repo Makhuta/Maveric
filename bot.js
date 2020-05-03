@@ -6,10 +6,10 @@ const PREFIX = botconfig.prefix;
 
 bot.on("ready", async () => {
     console.log('Ready!');
-    bot.user.setActivity("Just normal day at Work.")
-});
+    bot.user.setActivity("Just normal day at Work.");
+})
 
-bot.on("message", async message => {
+bot.on("message", message => {
     if (message.author.bot) return;
     if (message.channel.type === "dm") return;
 
@@ -52,6 +52,6 @@ bot.on("message", async message => {
     }
 
 
-});
+})
 
 bot.login(process.env.BOT_TOKEN);
