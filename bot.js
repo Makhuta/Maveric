@@ -4,12 +4,12 @@ const bot = new Discord.Client();
 
 
 
-bot.on("ready", () =>{
+bot.on("ready", async () =>{
     console.log('Ready!');
     bot.user.setActivity("Just normal day at Work.")
 })
 
-bot.on("message", message => {
+bot.on("message", async message => {
     if (message.author.bot) return;
     if (message.channel.type === "dm") return;
 
@@ -28,6 +28,6 @@ bot.on("message", message => {
         return message.channel.send(botembed);
     }
     
-})
+});
 
 bot.login(process.env.BOT_TOKEN);
