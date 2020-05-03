@@ -4,7 +4,7 @@ const bot = new Discord.Client();
 
 const PREFIX = botconfig.prefix;
 
-bot.on("ready", async () =>{
+bot.on("ready", async () => {
     console.log('Ready!');
     bot.user.setActivity("Just normal day at Work.")
 });
@@ -17,25 +17,26 @@ bot.on("message", async message => {
     let cmd = messageArray[0];
     let args = messageArray.slice(1);
 
-    if(cmd === `botinfo`){
-
-        message.channel.send({embed: {
-            color: ff1100,
-            author: {
-                name: client.user.username,
-                icon_url: client.user.avatarURL
-            },
-            title: "Bot Information",
-            fields: [{
-                name: "Bot Name",
-                value: `${bot.user.username}`
-            }]
-        }
-    });
-
-
+    switch (cmd) {
+        case 'botinfo':
+            message.channel.send({
+                embed: {
+                    color: ff1100,
+                    author: {
+                        name: client.user.username,
+                        icon_url: client.user.avatarURL
+                    },
+                    title: "Bot Information",
+                    fields: [{
+                        name: "Bot Name",
+                        value: `${bot.user.username}`
+                    }]
+                }
+            });
+            break;
     }
-    
+
+
 });
 
 bot.login(process.env.BOT_TOKEN);
