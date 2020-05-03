@@ -24,7 +24,7 @@ bot.on('message', msg=>{
             msg.channel.send('https://www.youtube.com/Makhuta')
             break;
         case 'botinfo':
-            let botembed = new Discord.RichEmbed()
+            let botembed = new Discord.MessageEmbed()
             .setDescription("Bot Information")
             .setColor("#15f153")
             .addField("Bot Name", bot.user.username);
