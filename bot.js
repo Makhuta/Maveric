@@ -9,7 +9,10 @@ bot.on('ready', () =>{
 })
 
 bot.on('message', msg=>{
-
+    if (msg.author == bot.user) { // Prevent bot from responding to its own messages
+        return
+    }
+    
     let args = msg.content.substring(PREFIX.length).split(" ");
 
     switch(args[0]){
