@@ -6,7 +6,7 @@ module.exports.run = async (bot, msg, args) => {
         .setColor("#15f153")
         .addField("Bot Name", bot.user.username);
 
-    msg.channel.send(botembed);
+    msg.channel.send({embed: botembed});
 
 }
 
