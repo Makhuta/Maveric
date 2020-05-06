@@ -1,8 +1,8 @@
-const { bot, Collection } = require("discord.js");
+const Discord = require("discord.js");
 const fs = require("fs");
 
-const bot = new bot({disableEveryone: true});
-bot.commands = new Collection();
+const bot = new Discord.Client({disableEveryone: true});
+bot.commands = new Discord.Collection();
 
 
 bot.on("ready", () => {
