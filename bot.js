@@ -1,10 +1,11 @@
 const { Client, Collection } = require("discord.js");
+const botconfig = require("./botconfig.json")
 const fs = require("fs");
 
 const bot = new Client({disableEveryone: true});
 bot.commands = new Collection();
 
-const TOKEN = "Your Token here"
+
 
 bot.on("ready", () => {
   console.log(`${bot.user.username} rocket arrived on Mars!`);
@@ -33,7 +34,7 @@ bot.on("message", async message => {
    if (message.author.bot) return; 
    if (message.channel.type === "dm") return;
 
-   let prefix = "bot prefix"
+   let prefix = botconfig.prefix
    let messageArray = message.content.split(" ");
    let cmd = messageArray[0].toLowerCase();
    let args = messageArray.slice(1);
@@ -42,4 +43,4 @@ bot.on("message", async message => {
   if(commandfile) commandfile.run(bot, message, args);
 })
 
-bot.login(TOKEN);
+bot.login(process.env.BOT_TOKEN);
