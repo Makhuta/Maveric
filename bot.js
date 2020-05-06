@@ -39,13 +39,13 @@ bot.on('message', async message=>{
     let cmd = bot.commands.get(command.slice(prefix.length))
     if(cmd) cmd.run(bot, message, args);
 
-    /*switch(command){
-        case 'test':
+    switch(command){
+        /*case 'test':
             message.channel.send('Tohle je test');
             break;
         case 'creator':
             message.channel.send('https://www.youtube.com/Makhuta')
-            break;
+            break;*/
         case 'botinfo':
             let botembed = new Discord.MessageEmbed()
             .setTitle("Bot Information")
@@ -53,7 +53,7 @@ bot.on('message', async message=>{
             .addField("Bot Name", bot.user.username);
             message.channel.send(botembed);
             break;
-    }*/
+    }
 })
 
 bot.login(process.env.BOT_TOKEN);

@@ -7,7 +7,7 @@ module.exports.run = async (bot, message, args) => {
         .addField("Bot Name", bot.user.username);
 
     message.channel.send({embed: botembed});
-    message.channel.send("test");
+    message.channel.send("test folder");
 
 }
 
