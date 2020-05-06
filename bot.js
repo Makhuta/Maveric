@@ -1,61 +1,44 @@
-const botconfig = require("./botconfig.json");
-const Discord = require('discord.js');
+const { bot, Collection } = require("discord.js");
 const fs = require("fs");
-const bot = new Discord.Client();
-bot.commands = new Discord.Collection();
 
-fs.readdirSync("./commands/", (err, files) => {
-    if(err) console.error(err);
+const bot = new bot({disableEveryone: true});
+bot.commands = new Collection();
 
-    let jsfiles = files.filter(f => f.split(".").pop() === "js");
-    if(jsfiles.length <= 0) {
-        console.log("No commands!");
-        return;
-    }
-    console.log(`Loading ${jsfiles.length} commands!`);
 
-    jsfiles.forEach((f, i) => {
-        let props = require(`./commands/${f}`);
-        bot.commands.set(props.help.name, props);
-    });
+bot.on("ready", () => {
+  console.log(`${bot.user.username} rocket arrived on Mars!`);
+  bot.user.setActivity(`${cliet.guilds.size} Servers`);
+})
+          
+fs.readdir("./commands/", (err, files) => {
+
+  if(err) console.log(err);
+  let jsfile = files.filter(f => f.split(".").pop() === "js");
+  if(jsfile.length <= 0){
+    console.log("There isn't any command to load!");
+    return;
+  }
+  console.log(`Loading ${jsfile.length} commands!`);
+
+  jsfile.forEach((f, i) =>{
+    let props = require(`./commands/${f}`);
+    console.log(`${f} command has loaded!`);
+    bot.commands.set(props.help.name, props);
+  });
 });
 
-const PREFIX = botconfig.prefix;
-const prefix = botconfig.prefix;
+          
+bot.on("message", async message => {
+   if (message.author.bot) return; 
+   if (message.channel.type === "dm") return;
 
-bot.on('ready', () =>{
-    console.log('Ready!');
-})
+   let prefix = "bot prefix"
+   let messageArray = message.content.split(" ");
+   let cmd = messageArray[0].toLowerCase();
+   let args = messageArray.slice(1);
 
-bot.on('message', async message=>{
-	if (message.author == bot.user) { // Prevent bot from responding to its own messages
-        return
-    }
-
-    let messageArray = message.content.split(" ");
-    let command = messageArray[0];
-    let args = messageArray.slice(1);
-
-    if(!command.startsWith(prefix)) return;
-
-    let cmd = bot.commands.get(command.slice(prefix.length))
-    if(cmd) cmd.run(bot, message, args);
-
-    /*switch(command){
-        case 'test':
-            message.channel.send('Tohle je test');
-            break;
-        case 'creator':
-            message.channel.send('https://www.youtube.com/Makhuta')
-            break;
-        case 'botinfo':
-            let botembed = new Discord.MessageEmbed()
-            .setTitle("Bot Information")
-            .setColor("#15f153")
-            .addField("Bot Name", bot.user.username);
-            message.channel.send(botembed);
-            break;
-    }*/
+  let commandfile = bot.commands.get(cmd.slice(prefix.length));
+  if(commandfile) commandfile.run(bot, message, args);
 })
 
 bot.login(process.env.BOT_TOKEN);
