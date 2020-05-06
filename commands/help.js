@@ -1,8 +1,5 @@
-const fs = require("fs");
-const Discord = require("discord.js");
-
 module.exports.run = async(bot, message, args) => {
-    fs.readdir("./cmds/", (err, files) => {
+    fs.readdir("./comamnds/", (err, files) => {
         if(err) console.error(err);
 
         let jsfiles = files.filter(f => f.split(".").pop() === "js");
@@ -11,18 +8,13 @@ module.exports.run = async(bot, message, args) => {
             return;
         }
 
-        var namelist = "";
-        var desclist = "";
-        var usage = "";
 
         let result = jsfiles.forEach((f, i) => {
             let props = require(`./${f}`);
-            namelist = props.help.name;
-            desclist = props.help.description;
-            usage = props.help.usage;
+            let filesArray = [props.help.name, props.help.description, props.help.usage]
+            message.author.send(`**${filesArray[0]}** \n${filesArray[1]} \n${filesArray[2]}`);
         });
 
-        message.author.send(`**${namelist}** \n${desclist} \n${usage}`);
     });
 }
 
