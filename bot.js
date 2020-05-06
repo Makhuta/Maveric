@@ -27,31 +27,31 @@ bot.on('ready', () =>{
     console.log('Ready!');
 })
 
-bot.on('message', msg=>{
-	if (msg.author == bot.user) { // Prevent bot from responding to its own messages
+bot.on('message', async message=>{
+	if (message.author == bot.user) { // Prevent bot from responding to its own messages
         return
     }
 
-    let messageArray = msg.content.substring(PREFIX.length).split(" ");
+    let messageArray = message.content.substring(PREFIX.length).split(" ");
     let command = messageArray[0];
     let args = messageArray.slice(1);
 
     let cmd = bot.commands.get(command.slice(prefix.length))
-    if(cmd) cmd.run(bot, msg, args);
+    if(cmd) cmd.run(bot, message, args);
 
     /*switch(command){
         case 'test':
-            msg.channel.send('Tohle je test');
+            message.channel.send('Tohle je test');
             break;
         case 'creator':
-            msg.channel.send('https://www.youtube.com/Makhuta')
+            message.channel.send('https://www.youtube.com/Makhuta')
             break;
         case 'botinfo':
             let botembed = new Discord.MessageEmbed()
             .setTitle("Bot Information")
             .setColor("#15f153")
             .addField("Bot Name", bot.user.username);
-            msg.channel.send(botembed);
+            message.channel.send(botembed);
             break;
     }*/
 })
