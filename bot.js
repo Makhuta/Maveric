@@ -1,9 +1,10 @@
-const Discord = require("discord.js");
+const { Client, Collection } = require("discord.js");
 const fs = require("fs");
 
-const bot = new Discord.Client({disableEveryone: true});
-bot.commands = new Discord.Collection();
+const bot = new Client({disableEveryone: true});
+bot.commands = new Collection();
 
+const TOKEN = "Your Token here"
 
 bot.on("ready", () => {
   console.log(`${bot.user.username} rocket arrived on Mars!`);
@@ -41,4 +42,4 @@ bot.on("message", async message => {
   if(commandfile) commandfile.run(bot, message, args);
 })
 
-bot.login(process.env.BOT_TOKEN);
+bot.login(TOKEN);
