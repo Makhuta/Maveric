@@ -17,7 +17,7 @@ bot.on("guildMemberAdd", (member) => {
                 .setDescription(`
             **Nový člen smečky**
             Právě se k nám přidal **${member.user.username}**
-            Discord účet si založil: **${d.toLocaleString()}**
+            Discord účet si založil: **${d.toLocaleString('eu')}**
             `)
                 .setThumbnail(url)
                 .setTimestamp()
