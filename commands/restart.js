@@ -1,15 +1,15 @@
 const Discord = require("discord.js");
-const { prefix, verifyroom, token, verifyemojiname} = require("../botconfig.json")
+const { prefix, verifyroom, verifyemojiname} = require("../botconfig.json")
 const color = require("../colors.json")
 
 module.exports.run = async (bot, message, args) => {
     await bot.channels.cache.find(c => c.name === verifyroom).messages.fetch({ limit: 99 }).then(messages => {
         bot.channels.cache.find(c => c.name === verifyroom).bulkDelete(messages)
     })
-    
-    bot.channels.fetch("697241380489134141")
+
+    bot.channels.fetch(bot.channels.cache.find(c => c.name === botconfig.verifyroom).id)
         .then(channel => {
-            bot.channels.fetch("693528477332406282")
+            bot.channels.fetch(bot.channels.cache.find(c => c.name === botconfig.pravidlaroom).id)
                 .then(channelname => {
                     const msg = bot.channels.cache.get(channel.id)
                     const lastmsg = msg.messages.channel.lastMessageID
