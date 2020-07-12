@@ -1,15 +1,26 @@
 const Discord = require("discord.js");
+const { prefix, botusername, creatorusername } = require("../botconfig.json")
+const color = require("../colors.json")
 module.exports.run = async (bot, message, args) => {
 
     let botembed = new Discord.MessageEmbed()
-        .setTitle("Bot Information")
-        .setColor("#15f153")
-        .addField("Bot Name", bot.user.username);
+        .setTitle("Informace")
+        .setColor(color.red)
+        .setDescription(`
+            - **Jméno bota** ${bot.user.username}
+            - **Bota vytvořil** ${creatorusername}
+            `)
+            .setFooter(bot.user.username)
 
-    message.channel.send({embed: botembed});
+
+    message.channel.send({ embed: botembed });
 
 }
 
 module.exports.help = {
-    name: "botinfo"
+    name: "botinfo",
+    description: `Vypíše informace o *${botusername}*ovi`,
+    usage: `${prefix}botinfo`,
+    accessableby: "Member",
+    aliases: ["bi"]
 }

@@ -1,7 +1,7 @@
 {
-  "name": "nsbr_bot",
-  "version": "1.0.1",
-  "description": "",
+  "name": "nsbr-bot",
+  "version": "1.0.0",
+  "description": "NSBR Bot Code",
   "main": "bot.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -9,6 +9,8 @@
   "author": "Makhuta",
   "license": "ISC",
   "dependencies": {
-    "discord.js": "^12.2.0"
+    "common-tags": "^1.8.0",
+    "discord.js": "^12.2.0",
+    "random-color": "^1.0.1"
   }
 }

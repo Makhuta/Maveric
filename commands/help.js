@@ -1,68 +1,66 @@
-const { RichEmbed } = require("discord.js");
-const { stripIndents } = require("common-tags");
+const Discord = require("discord.js");
+const { prefix } = require("../botconfig.json")
+const color = require("../colors.json")
+const fs = require("fs");
+const { replaceResultTransformer } = require("common-tags");
 
-module.exports = {
-    name: "help",
-    aliases: ["h"],
-    category: "info",
-    description: "Returns all commands, or one specific command info",
-    usage: "[command | alias]",
-    run: async (bot, message, args) => {
-        // If there's an args found
-        // Send the info of that command found
-        // If no info found, return not found embed.
-        if (args[0]) {
-            return getCMD(bot, message, args[0]);
-        } else {
-            // Otherwise send all the commands available
-            // Without the cmd info
-            return getAll(bot, message);
+module.exports.run = async (bot, message, args) => {
+    //We have to set a argument for the help command beacuse its going to have a seperate argument.
+    let helpArray = message.content.split(" ");
+    let helpArgs = helpArray.slice(1);
+    
+
+    //Normal usage of (prefix)help without any args. (Shows all of the commands and you should set the commands yourself)
+    if (!helpArgs[0]) {
+        fs.readdir("./commands/", (err, files) => {
+
+            var embed = new Discord.MessageEmbed()
+            embed.setAuthor(`Seznam použitelných příkazů:`)
+            global.seznamjs = files.toString()
+            for (var i = 0; i <= files.length; i++) {
+                seznamjs = seznamjs.replace('.js', '');
+            };
+            for (var i = 0; i <= files.length; i++) {
+                seznamjs = seznamjs.replace(',', '.');
+            };
+            for (var i = 0; i <= files.length; i++) {
+                seznamjs = seznamjs.replace('.', ', ');
+            };
+            embed.setDescription(seznamjs)
+            embed.addFields({ name: 'Prefix', value: prefix, inline: true })
+            embed.setColor(color.aqua)
+
+            message.channel.send(embed);
+
+        })
+    }
+
+    //Reads the moudle.exports.help (This line of code is on commands folder, each command will read automaticly) by the second argument (the command name) and shows the information of it.
+    if (helpArgs[0]) {
+        let command = helpArgs[0];
+
+        if (bot.commands.has(command)) {
+
+            command = bot.commands.get(command);
+            var embed = new Discord.MessageEmbed()
+                .setAuthor(`Příkaz ${command.help.name}`)
+                .setDescription(`
+            - **Popis příkazu** __${command.help.description || "Pro příkaz není žádný popis."}__
+            - **Použití příkazu:** __${command.help.usage || "Žádné použití"}__
+            - **Permise pro příkaz:** __${command.help.accessableby || "Member"}__
+            - **Alias příkazu:** __${command.help.aliases || "Žádné aliasy"}__
+            `)
+                .setColor(color.lime)
+
+            message.channel.send(embed);
         }
     }
 }
 
-function getAll(bot, message) {
-    const embed = new RichEmbed()
-        .setColor("RANDOM")
-        
-    // Map all the commands
-    // with the specific category
-    const commands = (category) => {
-        return bot.commands
-            .filter(cmd => cmd.category === category)
-            .map(cmd => `- \`${cmd.name}\``)
-            .join("\n");
-    }
-
-    // Map all the categories
-    const info = bot.categories
-        .map(cat => stripIndents`**${cat[0].toUpperCase() + cat.slice(1)}** \n${commands(cat)}`)
-        .reduce((string, category) => string + "\n" + category);
-
-    return message.channel.send(embed.setDescription(info));
-}
-
-function getCMD(bot, message, input) {
-    const embed = new RichEmbed()
-
-    // Get the cmd by the name or alias
-    const cmd = bot.commands.get(input.toLowerCase()) || bot.commands.get(bot.aliases.get(input.toLowerCase()));
-    
-    let info = `No information found for command **${input.toLowerCase()}**`;
-
-    // If no cmd is found, send not found embed
-    if (!cmd) {
-        return message.channel.send(embed.setColor("RED").setDescription(info));
-    }
-
-    // Add all cmd info to the embed
-    if (cmd.name) info = `**Command name**: ${cmd.name}`;
-    if (cmd.aliases) info += `\n**Aliases**: ${cmd.aliases.map(a => `\`${a}\``).join(", ")}`;
-    if (cmd.description) info += `\n**Description**: ${cmd.description}`;
-    if (cmd.usage) {
-        info += `\n**Usage**: ${cmd.usage}`;
-        embed.setFooter(`Syntax: <> = required, [] = optional`);
-    }
-
-    return message.channel.send(embed.setColor("GREEN").setDescription(info));
+module.exports.help = {
+    name: "help",
+    description: "",
+    usage: `${prefix}help pro seznam příkazů nebo ${prefix}help [příkaz] pro konkrétní příkaz`,
+    accessableby: "Member",
+    aliases: ["h"]
 }
