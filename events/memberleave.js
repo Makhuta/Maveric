@@ -7,7 +7,10 @@ const color = require("../colors.json")
 bot.on("guildMemberRemove", (member) => {
     bot.channels.fetch(bot.channels.cache.find(c => c.name === botconfig.gateroom).id)
         .then(channel => {
-            var d = new Date(member.joinedTimestamp)
+            var d = new Date(member.joinedTimestamp).toLocaleDateString('cz-CZ')
+            for (var i = 0; i <= 2; i++) {
+                d = d.replace('/', '. ');
+            };
             var url = member.user.displayAvatarURL({ format: "png", size: 512 })
             var boturl = bot.user.displayAvatarURL({ format: "png", size: 512 })
             const msg = bot.channels.cache.get(channel.id)
@@ -17,7 +20,7 @@ bot.on("guildMemberRemove", (member) => {
                 .setDescription(`
             **Další zrádce**
             Právě nás zradil **${member.user.username}**
-            Discord účet si založil: **${d.toLocaleDateString('cz-CZ')}**
+            Discord účet si založil: **${d}**
             `)
                 .setThumbnail(url)
                 .setTimestamp()
