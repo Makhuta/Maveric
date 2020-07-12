@@ -22,6 +22,7 @@ bot.on("guildMemberRemove", (member) => {
                 .setThumbnail(url)
                 .setTimestamp()
                 .setFooter(bot.user.username, boturl)
+                .setColor(color.red)
             msg.send({ embed: welcomemsg });
         })
 })
