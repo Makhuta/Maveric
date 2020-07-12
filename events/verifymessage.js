@@ -6,9 +6,9 @@ const color = require("../colors.json")
 
 
 bot.on('ready', () => {
-    bot.channels.fetch("731565704595374130")
+    bot.channels.fetch("697241380489134141")
         .then(channel => {
-            bot.channels.fetch("706239418893074529")
+            bot.channels.fetch("693528477332406282")
                 .then(channelname => {
                     const msg = bot.channels.cache.get(channel.id)
                     const lastmsg = msg.messages.channel.lastMessageID
