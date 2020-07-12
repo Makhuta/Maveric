@@ -7,7 +7,7 @@ module.exports.run = async (bot, message, args) => {
         bot.channels.cache.find(c => c.name === verifyroom).bulkDelete(messages)
     })
     await bot.destroy()
-    bot.login(BOT_TOKEN)
+    bot.login(process.env.BOT_TOKEN)
     bot.channels.fetch("731565704595374130")
         .then(channel => {
             bot.channels.fetch("706239418893074529")
