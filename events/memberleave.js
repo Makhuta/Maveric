@@ -17,7 +17,7 @@ bot.on("guildMemberRemove", (member) => {
                 .setDescription(`
             **Další zrádce**
             Právě nás zradil **${member.user.username}**
-            Discord účet si založil: **${d.toLocaleString('eu')}**
+            Discord účet si založil: **${d.toLocaleString('cz')}**
             `)
                 .setThumbnail(url)
                 .setTimestamp()
