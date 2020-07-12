@@ -1,6 +1,6 @@
 {
     "prefix": "!",
-    "token": "BOT_TOKEN",
+    "token": process.env.BOT_TOKEN,
     "botusername": "NSBR BOT",
     "creatorusername": "Makhuta#5103",
     "verifyemojiname": "check",
