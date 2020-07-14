@@ -5,7 +5,7 @@ module.exports.run = async (bot, message, args) => {
 
     message.channel.send("This is test!");
     //message.guild.member(user).add(role)
-    console.log(message.channel.guild.members)
+    //console.log(message.channel.guild.members)
 
 }
 
