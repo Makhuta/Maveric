@@ -36,16 +36,18 @@ module.exports.run = async (bot, message, args) => {
         shuffle(args)
         //console.log(args)
 
-        var team1 = args.slice(teamsize0 + 1, teamsize)
-
-        var team2 = args.slice(0 ,teamsize0 + 1)
+        var team1 = (args.slice(teamsize0 + 1, teamsize)).join('\n')
+        var team2 = (args.slice(0 ,teamsize0 + 1)).join('\n')
+        var boturl = bot.user.displayAvatarURL({ format: "png", size: 512 })
 
         var embed = new Discord.MessageEmbed()
             .addFields(
-                { name: '**Team 1**', value: `${team1}` },
-                { name: '**Team 2**', value: `${team2}` }
+                { name: '**Team 1**', value: `${team1}`, inline: true },
+                { name: '**Team 2**', value: `${team2}`,inline: true }
             )
             .setColor(color.red)
+            .setTimestamp()
+            .setFooter(bot.user.username, boturl)
         message.channel.send(embed)
     }
 
