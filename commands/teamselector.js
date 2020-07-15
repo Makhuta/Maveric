@@ -34,12 +34,12 @@ module.exports.run = async (bot, message, args) => {
         shuffle(a)
         let asize = a.length
         let asizehalf = Math.round((asize / 2) + 0, 5)
-        let team1 = (a.slice(asizehalf, asize)).join('\n')
-        let team2 = (a.slice(0, asizehalf)).join('\n')
+        let team3 = (a.slice(asizehalf, asize)).join('\n')
+        let team4 = (a.slice(0, asizehalf)).join('\n')
         let boturl = bot.user.displayAvatarURL({ format: "png", size: 512 })
         let team1length = team1.length
         let team2length = team2.length
-        let team = [`${team1}`, `${team2}`]
+        let team = [`${team3}`, `${team4}`]
         shuffle(team)
 
         if ((team1length != 0) || (team2length != 0)) {
