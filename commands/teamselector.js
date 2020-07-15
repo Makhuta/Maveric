@@ -69,6 +69,7 @@ module.exports.run = async (bot, message, args) => {
             .setTimestamp()
             .setFooter(bot.user.username, boturl)
         message.channel.send(embed)
+        message.channel.send(asize)
     }
 
     if (teamsize !== 0) {
