@@ -115,7 +115,7 @@ module.exports.run = async (bot, message, args) => {
         }
 
         let usraraysliced = usraray.split(",")
-        delete usraraysliced[usraraysliced.find(m => m === '')]
+        //delete usraraysliced[usraraysliced.find(m => m === '')]
         vystupnoargs(usraraysliced)
         delete usraraysliced
     }
