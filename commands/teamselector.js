@@ -65,8 +65,8 @@ module.exports.run = async (bot, message, args) => {
 
         let embed = new Discord.MessageEmbed()
             .addFields(
-                { name: '**Team 1**', value: `${team1}`, inline: true },
-                { name: '**Team 2**', value: `${team2}`, inline: true }
+                { name: '**Team 1**', value: `${team1}` || 'Hráč/i nebyl/i definován/i', inline: true },
+                { name: '**Team 2**', value: `${team2}` || 'Hráč/i nebyl/i definován/i', inline: true }
             )
             .setColor(color.red)
             .setTimestamp()
