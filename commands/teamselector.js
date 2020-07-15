@@ -3,10 +3,11 @@ const { prefix } = require("../botconfig.json")
 const color = require("../colors.json")
 const fs = require("fs");
 const { replaceResultTransformer } = require("common-tags");
+const { url } = require("inspector");
 
 module.exports.run = async (bot, message, args) => {
-    const teamsize = args.length
-    const teamsize0 = (Math.round((teamsize / 2) + 0,5)) - 1
+    var teamsize = args.length
+    var teamsize0 = (Math.round((teamsize / 2) + 0, 5)) - 1
 
     function shuffle(array) {
         let counter = array.length;
@@ -28,27 +29,93 @@ module.exports.run = async (bot, message, args) => {
         return array;
     }
 
-    //console.log(teamsize0)
+    function vystupnoargs(a) {
+        shuffle(a)
+        let asize = a.length
+        let asizehalf = Math.round((asize / 2) + 0, 5)
+        let team1 = (a.slice(asizehalf, asize)).join('\n')
+        let team2 = (a.slice(0, asizehalf)).join('\n')
+        let boturl = bot.user.displayAvatarURL({ format: "png", size: 512 })
 
-    if (teamsize !== 0) {
-
-        //console.log(args)
-        shuffle(args)
-        //console.log(args)
-
-        var team1 = (args.slice(teamsize0 + 1, teamsize)).join('\n')
-        var team2 = (args.slice(0 ,teamsize0 + 1)).join('\n')
-        var boturl = bot.user.displayAvatarURL({ format: "png", size: 512 })
-
-        var embed = new Discord.MessageEmbed()
+        if (team1 || team2 !== '') {
+        let embed1 = new Discord.MessageEmbed()
             .addFields(
                 { name: '**Team 1**', value: `${team1}`, inline: true },
-                { name: '**Team 2**', value: `${team2}`,inline: true }
+                { name: '**Team 2**', value: `${team2}`, inline: true }
+            )
+            .setColor(color.red)
+            .setTimestamp()
+            .setFooter(bot.user.username, boturl)
+        message.channel.send(embed1)
+    }
+}
+
+    function vystupargs(a) {
+        shuffle(a)
+
+        let team1 = (a.slice(teamsize0 + 1, teamsize)).join('\n')
+        let team2 = (a.slice(0, teamsize0 + 1)).join('\n')
+        let boturl = bot.user.displayAvatarURL({ format: "png", size: 512 })
+
+
+        let embed = new Discord.MessageEmbed()
+            .addFields(
+                { name: '**Team 1**', value: `${team1}`, inline: true },
+                { name: '**Team 2**', value: `${team2}`, inline: true }
             )
             .setColor(color.red)
             .setTimestamp()
             .setFooter(bot.user.username, boturl)
         message.channel.send(embed)
+    }
+
+    if (teamsize !== 0) {
+
+        vystupargs(args)
+
+    }
+
+    else {
+        let membervch = message.member.voice.channel
+        let membervchname = membervch.name
+
+        if (!membervch) return
+        let chan = bot.channels.cache.find(c => c.name === membervchname);
+        let mems = chan.guild.members.guild.voiceStates.cache;
+        let memsid = mems.map(n => n.id)
+        let memssize = memsid.length
+        let usrchid = mems.get(message.author.id).channelID
+        let usraray = ""
+        var membersize = 0
+
+        mems.forEach(element => {
+
+            if (usrchid === element.channelID) {
+                membersize = membersize + 1
+            }
+        })
+
+
+
+        for (let m = 0; m < membersize; m++) {
+            let allid = mems.get(memsid[m]).channelID
+            if (usrchid === allid) {
+                let usrname = bot.users.cache.find(n => n.id === memsid[m]).username
+                if (m !== membersize - 1) {
+                    usraray = usraray.concat(usrname + ",")
+                }
+
+                else {
+                    usraray = usraray.concat(usrname)
+                }
+            }
+            else { }
+        }
+
+        let usraraysliced = usraray.split(",")
+        delete usraraysliced[usraraysliced.find(m => m === '')]
+        vystupnoargs(usraraysliced)
+        delete usraraysliced
     }
 
 }
