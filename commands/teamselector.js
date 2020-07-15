@@ -99,8 +99,8 @@ module.exports.run = async (bot, message, args) => {
 
 
 
-        for (let m = 0; m <= membersize; m++) {
-            let allid = mems.get(memsid[m - 1]).channelID
+        for (let m = 0; m < membersize; m++) {
+            let allid = mems.get(memsid[m]).channelID
             if (usrchid === allid) {
                 let usrname = bot.users.cache.find(n => n.id === memsid[m]).username
                 if (m !== membersize) {
