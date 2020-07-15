@@ -110,6 +110,7 @@ module.exports.run = async (bot, message, args) => {
                 else {
                     usraray = usraray.concat(usrname)
                 }
+                console.log(allid)
             }
             else { }
         }
