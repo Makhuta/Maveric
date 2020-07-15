@@ -37,12 +37,12 @@ module.exports.run = async (bot, message, args) => {
         let team3 = (a.slice(asizehalf, asize)).join('\n')
         let team4 = (a.slice(0, asizehalf)).join('\n')
         let boturl = bot.user.displayAvatarURL({ format: "png", size: 512 })
-        let team1length = team1.length
-        let team2length = team2.length
+        let team3length = team3.length
+        let team4length = team4.length
         let team = [`${team3}`, `${team4}`]
         shuffle(team)
 
-        if ((team1length != 0) || (team2length != 0)) {
+        if ((team3length != 0) || (team4length != 0)) {
             let embed1 = new Discord.MessageEmbed()
                 .addFields(
                     { name: '**Team 1**', value: `${team[0]}` || 'Hráč/i nebyl/i definován/i', inline: true },
