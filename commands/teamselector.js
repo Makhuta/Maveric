@@ -49,6 +49,7 @@ module.exports.run = async (bot, message, args) => {
                 .setTimestamp()
                 .setFooter(bot.user.username, boturl)
             message.channel.send(embed1)
+            message.channel.send(asize)
         
     }
 
