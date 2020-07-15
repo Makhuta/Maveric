@@ -6,7 +6,7 @@ const { replaceResultTransformer } = require("common-tags");
 
 module.exports.run = async (bot, message, args) => {
     const teamsize = args.length
-    const teamsize0 = (Math.round(teamsize / 2)) - 1
+    const teamsize0 = (Math.round((teamsize / 2) + 0,5)) - 1
 
     function shuffle(array) {
         let counter = array.length;
