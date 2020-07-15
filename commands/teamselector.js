@@ -113,6 +113,7 @@ module.exports.run = async (bot, message, args) => {
                 console.log(allid)
             }
             else { }
+            console.log(memsid)
         }
 
         let usraraysliced = usraray.split(",")
