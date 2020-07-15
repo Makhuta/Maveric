@@ -4,6 +4,7 @@ const color = require("../colors.json")
 const fs = require("fs");
 const { replaceResultTransformer } = require("common-tags");
 const { url } = require("inspector");
+const { isNull } = require("util");
 
 module.exports.run = async (bot, message, args) => {
     var teamsize = args.length
@@ -36,19 +37,23 @@ module.exports.run = async (bot, message, args) => {
         let team1 = (a.slice(asizehalf, asize)).join('\n')
         let team2 = (a.slice(0, asizehalf)).join('\n')
         let boturl = bot.user.displayAvatarURL({ format: "png", size: 512 })
+        let team1length = team1.length
+        let team2length = team2.length
+        let team = [`${team1}`, `${team2}`]
+        shuffle(team)
 
-        if (team1 || team2 !== '') {
-        let embed1 = new Discord.MessageEmbed()
-            .addFields(
-                { name: '**Team 1**', value: `${team1}`, inline: true },
-                { name: '**Team 2**', value: `${team2}`, inline: true }
-            )
-            .setColor(color.red)
-            .setTimestamp()
-            .setFooter(bot.user.username, boturl)
-        message.channel.send(embed1)
+        if ((team1length != 0) || (team2length != 0)) {
+            let embed1 = new Discord.MessageEmbed()
+                .addFields(
+                    { name: '**Team 1**', value: `${team[0]}` || 'Hráč/i nebyl/i definován/i', inline: true },
+                    { name: '**Team 2**', value: `${team[1]}` || 'Hráč/i nebyl/i definován/i', inline: true }
+                )
+                .setColor(color.red)
+                .setTimestamp()
+                .setFooter(bot.user.username, boturl)
+            message.channel.send(embed1)
+        }
     }
-}
 
     function vystupargs(a) {
         shuffle(a)
