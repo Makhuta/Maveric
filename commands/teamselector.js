@@ -9,6 +9,8 @@ const { isNull } = require("util");
 module.exports.run = async (bot, message, args) => {
     var teamsize = args.length
     var teamsize0 = (Math.round((teamsize / 2) + 0, 5)) - 1
+    console.log(message.member.guild.members.cache)
+    //bot.users.fetch(`${message.author.id}`)
 
     function shuffle(array) {
         let counter = array.length;
@@ -101,7 +103,7 @@ module.exports.run = async (bot, message, args) => {
         for (let m = 0; m < membersize; m++) {
             let allid = mems.get(memsid[m]).channelID
             if (usrchid === allid) {
-                let usrname = bot.users.cache.find(n => n.id === memsid[m]).username
+                let usrname = message.member.guild.members.cache.find(n => n.id === memsid[m]).user.username
                 if (m !== membersize - 1) {
                     usraray = usraray.concat(usrname + ",")
                 }
