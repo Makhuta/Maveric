@@ -9,7 +9,7 @@ const { isNull } = require("util");
 module.exports.run = async (bot, message, args) => {
     var teamsize = args.length
     var teamsize0 = (Math.round((teamsize / 2) + 0, 5)) - 1
-    console.log(message.member.guild.members.cache)
+    //console.log(message.member.guild.members.cache)
     //bot.users.fetch(`${message.author.id}`)
 
     function shuffle(array) {
