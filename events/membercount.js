@@ -8,8 +8,11 @@ const Canvas = require('canvas')
 
     const updateMembers = guild => {
         const channel = guild.channels.cache.get(botconfig.membercountid)
-        channel.setName('Members: ' + guild.memberCount.toLocaleString())
-        console.log(guild.memberCount.toLocaleString())
+        const numofallmemb = guild.memberCount.toLocaleString()
+        const botroleid = guild.roles.cache.find(r => r.name === botconfig.botrolename).id
+        const numofallbots = guild.roles.cache.get(botroleid).members.size
+        const numofallmembnobots = (numofallmemb - numofallbots).toLocaleString()
+        channel.setName('Members: ' + numofallmembnobots)
     }
 
     bot.on('ready', () => {
