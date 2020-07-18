@@ -13,8 +13,8 @@ const updateMembers = guild => {
     const botroleid = guild.roles.cache.find(r => r.name === botconfig.botrolename).id
     const numofallbots = guild.roles.cache.get(botroleid).members.size.toLocaleString()
     const numofallmembnobots = (numofallmemb - numofallbots).toLocaleString()
-    const offlinecount = (guild.members.cache.filter(m => m.presence.status === 'offline').size.toLocaleString())
-    const onlinecount = (numofallmembnobots - offlinecount) - numofallbots
+    const offlinecount = (guild.members.cache.filter(m => m.presence.status === 'offline').size.toLocaleString()) - numofallbots
+    const onlinecount = numofallmembnobots - offlinecount
     onlinechannel.setName('Online: ' + onlinecount)
     offlinechannel.setName('Offline: ' + offlinecount)
     console.log(onlinecount + " " + offlinecount)
