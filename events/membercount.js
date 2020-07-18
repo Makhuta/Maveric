@@ -18,6 +18,10 @@ const Canvas = require('canvas')
     bot.on('ready', () => {
         const guild = bot.guilds.cache.get(botconfig.guildid)
         updateMembers(guild)
+
+        setInterval(() => {
+        updateMembers(guild)
+        }, 600000 )
     });
 
     bot.on("guildMemberAdd", member => {
