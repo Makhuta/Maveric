@@ -17,6 +17,7 @@ const updateMembers = guild => {
     const onlinecount = (numofallmembnobots - offlinecount) - numofallbots
     onlinechannel.setName('Online: ' + onlinecount)
     offlinechannel.setName('Offline: ' + offlinecount)
+    console.log(onlinecount + " " + offlinecount)
 }
 
 bot.on('ready', () => {
