@@ -5,14 +5,15 @@ module.exports.run = async (bot, message, args) => {
 
     var boturl = bot.user.displayAvatarURL({ format: "png", size: 512 })
     var servername = bot.guilds.cache.get(guildid).name
+    var botusername = bot.user.username
 
     let botembed = new Discord.MessageEmbed()
         .setTitle("Informace")
         .setColor(color.red)
         .addFields(
-            { name: "**Jméno bota**", value: bot.user.username, inline: true },
+            { name: "**Jméno bota**", value: botusername, inline: true },
             { name: "**Bota vytvořil**", value: `[${creatorusername}](${youtubeurl})`, inline: true },
-            { name: "**Účel bota**", value: `${bot.user.username} byl vytvořen na základě snížení náročnosti na správu ${servername} serveru a zajistit snazší interakci uživatelů se serverem.` }
+            { name: "**Účel bota**", value: `${botusername} byl vytvořen na základě snížení náročnosti na správu ${servername} serveru a zajistit snazší interakci uživatelů se serverem.` }
         )
         .setFooter(bot.user.username, boturl)
         .setTimestamp()
