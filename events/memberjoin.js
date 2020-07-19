@@ -8,7 +8,7 @@ const Canvas = require('canvas')
 bot.on("guildMemberAdd", (member) => {
     bot.channels.fetch(bot.channels.cache.find(c => c.name === botconfig.gateroom).id)
         .then(channel => {
-            var d = new Date(member.guild.joinedTimestamp).toLocaleDateString('en').split("/" || ". ")
+            var d = new Date(member.guild.joinedTimestamp).toLocaleDateString('en').split("/")
             var datum = [d[1], d[0], d[2]].join(". ")
             var url = member.user.displayAvatarURL({ format: "png", size: 512 })
             var boturl = bot.user.displayAvatarURL({ format: "png", size: 512 })
