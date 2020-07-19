@@ -12,7 +12,6 @@ module.exports.run = async (bot, message, args) => {
         .addFields(
             { name: "**Jméno bota**", value: bot.user.username, inline: true },
             { name: "**Bota vytvořil**", value: `[${creatorusername}](${youtubeurl})`, inline: true },
-            { name: "**Youtube channel autora**", value: `[Makhuta, inline: true },
             { name: "**Účel bota**", value: `${bot.user.username} byl vytvořen na základě snížení náročnosti na správu ${servername} serveru a zajistit snazší interakci uživatelů se serverem.` }
         )
         .setFooter(bot.user.username, boturl)
