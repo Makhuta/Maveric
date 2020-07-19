@@ -124,9 +124,9 @@ module.exports.run = async (bot, message, args) => {
 }
 
 module.exports.help = {
-    name: "teamselector",
+    name: "teamselectorold",
     description: "Slouží k random rozhození lidí do týmu.",
     usage: `${prefix}teamselector`,
     accessableby: "Member",
-    aliases: ["ts"]
+    aliases: ["tso"]
 }
