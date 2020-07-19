@@ -18,7 +18,7 @@ bot.on("guildMemberRemove", (member) => {
                 .setDescription(`
             **Další zrádce**
             Právě nás zradil **${member.user.username}**
-            Discord účet si založil: **${datum}**
+            Naším členem byl od: **${datum}**
             `)
                 .setThumbnail(url)
                 .setTimestamp()
