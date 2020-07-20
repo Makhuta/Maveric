@@ -18,9 +18,9 @@ async function verifymessage() {
           var embed = new Discord.MessageEmbed()
             .setTitle(` __Ověření__ `)
             .setDescription(`
-            Pro přístup k serveru potvrďte že jste si přečetl/a ${channelname} reakcí.\n
-↓ ↓ ↓ ↓
-        `)
+            Pro přístup k serveru potvrďte že jste si přečetl/a ${channelname} reakcí.\n↓ ↓ ↓ ↓/*
+
+        */`)
             .setColor(color.red)
           msg.send(embed)
           if (!msg.guild.emojis.cache.find(emoji => emoji.name === botconfig.verifyemojiname)) return
