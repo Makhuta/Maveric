@@ -17,7 +17,7 @@ bot.on("guildMemberRemove", (member) => {
                 .setColor(color.red)
                 .setDescription(`
             **Další zrádce**
-            Právě nás zradil **${member.user.username}**
+            Právě nás zradil/a **${member.user.username}**
             Naším členem byl od: **${datum}**
             `)
                 .setThumbnail(url)
