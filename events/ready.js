@@ -18,8 +18,8 @@ async function verifymessage() {
           var embed = new Discord.MessageEmbed()
             .setTitle(` __Ověření__ `)
             .setDescription(`
-            Pro přístup k serveru potvrďte že jste si přečetl/a ${channelname} reakcí.
-            ↓ ↓ ↓ ↓
+            Pro přístup k serveru potvrďte že jste si přečetl/a ${channelname} reakcí.\n
+↓ ↓ ↓ ↓
         `)
             .setColor(color.red)
           msg.send(embed)
