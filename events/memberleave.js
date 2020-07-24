@@ -15,11 +15,7 @@ bot.on("guildMemberRemove", (member) => {
             let welcomemsg = new Discord.MessageEmbed()
                 .setTitle(`Zrádce ${member.user.username}`)
                 .setColor(color.red)
-                .setDescription(`
-            **Další zrádce**
-            Právě nás zradil/a **${member.user.username}**
-            Naším členem byl od: **${datum}**
-            `)
+                .setDescription(`**Další zrádce**\nPrávě nás zradil/a **${member.user.username}**\nNaším členem byl od: **${datum}**\n`)
                 .setThumbnail(url)
                 .setTimestamp()
                 .setFooter(bot.user.username, boturl)

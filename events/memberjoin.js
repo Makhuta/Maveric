@@ -16,11 +16,7 @@ bot.on("guildMemberAdd", (member) => {
             let welcomemsg = new Discord.MessageEmbed()
                 .setTitle(`Vítej ${member.user.username}`)
                 .setColor(color.red)
-                .setDescription(`
-            **Nový člen smečky**
-            Právě se k nám přidal **${member.user.username}**
-            Discord účet si založil: **${datum}**
-            `)
+                .setDescription(`**Nový člen smečky**\nPrávě se k nám přidal **${member.user.username}**\nDiscord účet si založil: **${datum}**`)
                 .setThumbnail(url)
                 .setTimestamp()
                 .setFooter(bot.user.username, boturl)
