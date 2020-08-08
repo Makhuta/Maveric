@@ -13,7 +13,5 @@
     "guildid": "355369119358517250",
     "botrolename": "BOTS",
     "youtubeurl": "https://www.youtube.com/channel/UCWCvP0wzCg9hXmcyDiTmT2Q?view_as=subscriber",
-    "owner_role": "Bulgy",
-    "admin_role": "Admins",
-    "moderator_role": "Moderátor"
+    "admins_roles": ["Bulgy", "Admins", "Moderátor"]
 }

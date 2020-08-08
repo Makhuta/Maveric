@@ -4,25 +4,20 @@ const color = require("../colors.json")
 const fs = require("fs");
 
 module.exports.run = async (bot, message, args) => {
-    const ownerroleid = message.guild.roles.cache.find(rla => rla.name === botconfig.owner_role).id
-    const adminroleid = message.guild.roles.cache.find(rla => rla.name === botconfig.admin_role).id
-    const moderatorroleid = message.guild.roles.cache.find(rla => rla.name === botconfig.moderator_role).id
-    const rolesid = [ownerroleid, adminroleid, moderatorroleid]
-    const rolesname = ['Majitel', 'Admini', 'Moderátoři']
+    const numofroles = botconfig.admins_roles.length
+    const rolesid = []
+    for(r = 0; r < numofroles; r++){
+    rolesid.push(message.guild.roles.cache.find(rla => rla.name === botconfig.admins_roles[r]).id)
+    }
+    const rolesname = botconfig.admins_roles
 
     function listofat(embed) {
-        for (var i = 0; i < 3; i++) {
-            //message.guild.roles.cache.find(u => u.id === rolesid[i])
+        for (var i = 0; i < numofroles; i++) {
             const role = rolesname[i].toString()
             const usernames = message.guild.roles.cache.get(rolesid[i]).members.map(m => m.user.tag).join(', ').toString()
-            embed.addFields({ name: `${role}`, value: `${usernames}` || 'test'})
-            console.log(usernames + ' ' + role)
+            embed.addFields({ name: role || `Žádná role s názvem ${rolesname[i]}`, value: usernames || 'Žádný člen role'})
         }
     }
-    //console.log(message.guild.roles.cache)
-
-
-
 
     var embed = new Discord.MessageEmbed()
         .setColor(color.red)
