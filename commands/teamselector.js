@@ -72,6 +72,8 @@ module.exports.run = async (bot, message, args) => {
 
     }
 
+    else if (message.member.voice.channel === null) return
+
     else {
         let membervch = message.member.voice.channel
         let membervchname = membervch.name
