@@ -66,29 +66,34 @@ module.exports.run = async (bot, message, args) => {
         message.channel.send(embed)
     }
 
-    if (teamsize !== 0) {
-
-        vystupargs(args)
-
+    function errorzprava() {
+        let embedneu = new Discord.MessageEmbed()
+            .setAuthor('Chyba')
+            .setDescription(`Nenacházíš se v místnosti s potřebným počtem lidí pro utvoření týmů o alespoň jednom hráči.\nPoužij buď příkaz **${prefix}teamselector [args]** nebo se připoj do místnosti s více lidmi.`)
+            .setColor(color.red)
+        message.channel.send(embedneu)
     }
 
-    else if (message.member.voice.channel === null) return
+    if (teamsize !== 0) {
+        vystupargs(args)
+    }
+
+    else if (message.member.voice.channel === null) {
+        errorzprava()
+        return
+    }
 
     else {
-        let membervch = message.member.voice.channel
-        let membervchname = membervch.name
-        let membervchid = membervch.id
+        let membervchname = message.member.voice.channel.name
+        let membervchid = message.member.voice.channel.id
 
-        if (!membervch) return
-        
         let chan = message.guild.channels.cache.find(c => c.name === membervchname);
         let mems = chan.guild.members.guild.voiceStates.cache;
         let memsid = mems.map(n => n.id)
         let memssize = memsid.length
         let usrchid = mems.get(message.author.id).channelID
-        let usraray = []
+        const usraray = []
         var membersize = 0
-        console.log(chan)
 
         mems.forEach(element => {
 
@@ -103,23 +108,18 @@ module.exports.run = async (bot, message, args) => {
             let allid = mems.get(memsid[m]).channelID
             if (usrchid === allid) {
                 let usrname = message.member.guild.members.cache.find(n => n.id === memsid[m]).user.username
-                if (m !== membersize - 1) {
-                    usraray.push(usrname)
-                }
-
-                else {
-                    usraray = usraray.concat(usrname)
-                }
+                usraray.push(usrname)
             }
-            else { }
         }
- 
-        if(usraray.length <= 1) return
 
-        let usraraysliced = usraray.split(",")
-        delete usraraysliced[usraraysliced.find(m => m === '')]
-        vystupnoargs(usraraysliced)
-        delete usraraysliced
+        if (usraray.length <= 1) {
+            errorzprava()
+            return
+        }
+
+        //console.log(usraray)
+
+        vystupnoargs(usraray)
     }
 
 }
