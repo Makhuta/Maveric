@@ -14,8 +14,8 @@ module.exports.run = async (bot, message, args) => {
     function listofat(embed) {
         for (var i = 0; i < numofroles; i++) {
             const role = rolesname[i].toString()
-            const usernames = message.guild.roles.cache.get(rolesid[i]).members.map(m => m.user.tag).join(', ').toString()
-            embed.addFields({ name: role || `Žádná role s názvem ${rolesname[i]}`, value: usernames || 'Žádný člen role'})
+            const usernames = message.guild.roles.cache.get(rolesid[i]).members.map(m => m.user.tag).join('\n').toString()
+            embed.addFields({ name: role || `Žádná role s názvem ${rolesname[i]}`, value: usernames || 'Žádný člen role', inline: true})
         }
     }
 
