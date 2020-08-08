@@ -12,5 +12,8 @@
     "offlinecountid": "698255505780375582",
     "guildid": "355369119358517250",
     "botrolename": "BOTS",
-    "youtubeurl": "https://www.youtube.com/channel/UCWCvP0wzCg9hXmcyDiTmT2Q?view_as=subscriber"
+    "youtubeurl": "https://www.youtube.com/channel/UCWCvP0wzCg9hXmcyDiTmT2Q?view_as=subscriber",
+    "owner_role": "Bulgy",
+    "admin_role": "Admins",
+    "moderator_role": "Moderátor"
 }

@@ -8,7 +8,7 @@ module.exports.run = async (bot, message, args) => {
     //We have to set a argument for the help command beacuse its going to have a seperate argument.
     let helpArray = message.content.split(" ");
     let helpArgs = helpArray.slice(1);
-    
+
 
     //Normal usage of (prefix)help without any args. (Shows all of the commands and you should set the commands yourself)
     if (!helpArgs[0]) {
@@ -16,18 +16,13 @@ module.exports.run = async (bot, message, args) => {
 
             var embed = new Discord.MessageEmbed()
             embed.setAuthor(`Seznam použitelných příkazů:`)
-            global.seznamjs = files.toString()
+            global.seznamjs = files.join(', ')
             for (var i = 0; i <= files.length; i++) {
-                seznamjs = seznamjs.replace('.js', '');
-            };
-            for (var i = 0; i <= files.length; i++) {
-                seznamjs = seznamjs.replace(',', '.');
-            };
-            for (var i = 0; i <= files.length; i++) {
-                seznamjs = seznamjs.replace('.', ', ');
-            };
+                seznamjs = seznamjs.replace('.js', '')
+            }
             embed.setDescription(seznamjs)
-            embed.addFields({ name: 'Prefix', value: prefix, inline: true })
+            embed.addFields({ name: 'Prefix', value: prefix, inline: true },
+            { name: 'Dotazy', value: 'Pro konkrétnější dotazy se obraťte na Admin team.\nPro seznam Admin teamu použijte příkaz ' + prefix + 'admins'})
             embed.setColor(color.aqua)
 
             message.channel.send(embed);
