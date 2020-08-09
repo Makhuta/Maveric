@@ -1,6 +1,12 @@
 const Discord = require("discord.js");
-const { prefix, verifyroom, verifyemojiname, pravidlaroom} = require("../botconfig.json")
+const { prefix, verifyroom, pravidlaroom, verifyemojiname} = require("../botconfig.json")
 const color = require("../colors.json")
+
+const name = "restart"
+const description = `Tento příkaz pro restartování a nastavení ${verifyroom} bota.`
+const usage = `${prefix}restart`
+const accessableby = "Bulgy, Admins"
+const aliases = ["r"]
 
 module.exports.run = async (bot, message, args) => {
     await bot.channels.cache.find(c => c.name === verifyroom).messages.fetch({ limit: 99 }).then(messages => {
@@ -13,10 +19,6 @@ module.exports.run = async (bot, message, args) => {
                 .then(channelname => {
                     const msg = bot.channels.cache.get(channel.id)
                     const lastmsg = msg.messages.channel.lastMessageID
-                    //console.log(bot.channels.cache.find(c => c.name === channel.name).messages.fetch({limit: 99}))
-                    //channel.messages.cacheType
-                    //bot.channels.cache.find(c => c.name === channel.name).messages.bulk(lastmsg)
-                    //console.log(emoji);
                     var embed = new Discord.MessageEmbed()
                         .setTitle(` __Ověření__ `)
                         .setDescription(`
@@ -24,19 +26,16 @@ module.exports.run = async (bot, message, args) => {
                 ↓ ↓ ↓ ↓
             `)
                         .setColor(color.red)
-                    //console.log(lastmsg)
                     msg.send(embed)
                     if (!msg.guild.emojis.cache.find(emoji => emoji.name === verifyemojiname)) return
                 });
         })
 }
 
-
-
 module.exports.help = {
-    name: "restart",
-    description: `Tento příkaz pro restartování a nastavení ${verifyroom} bota.`,
-    usage: `${prefix}restart`,
-    accessableby: "Bulgy, Admins",
-    aliases: ["r"]
+    name: name,
+    description: description,
+    usage: usage,
+    accessableby: accessableby,
+    aliases: aliases
 }

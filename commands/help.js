@@ -4,6 +4,12 @@ const color = require("../colors.json")
 const fs = require("fs");
 const { replaceResultTransformer } = require("common-tags");
 
+const name = "help"
+const description = ""
+const usage = `${prefix}help pro seznam příkazů nebo ${prefix}help [příkaz] pro konkrétní příkaz`
+const accessableby = "Member"
+const aliases = ["h"]
+
 module.exports.run = async (bot, message, args) => {
     //We have to set a argument for the help command beacuse its going to have a seperate argument.
     let helpArray = message.content.split(" ");
@@ -53,9 +59,9 @@ module.exports.run = async (bot, message, args) => {
 }
 
 module.exports.help = {
-    name: "help",
-    description: "",
-    usage: `${prefix}help pro seznam příkazů nebo ${prefix}help [příkaz] pro konkrétní příkaz`,
-    accessableby: "Member",
-    aliases: ["h"]
+    name: name,
+    description: description,
+    usage: usage,
+    accessableby: accessableby,
+    aliases: aliases
 }

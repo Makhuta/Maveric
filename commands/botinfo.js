@@ -1,6 +1,13 @@
 const Discord = require("discord.js");
 const { prefix, botusername, creatorusername, guildid, youtubeurl } = require("../botconfig.json")
 const color = require("../colors.json")
+
+const name = "botinfo"
+const description = `Vypíše informace o *${botusername}*ovi`
+const usage = `${prefix}botinfo`
+const accessableby = "Member"
+const aliases = ["bi"]
+
 module.exports.run = async (bot, message, args) => {
 
     var boturl = bot.user.displayAvatarURL({ format: "png", size: 512 })
@@ -24,9 +31,9 @@ module.exports.run = async (bot, message, args) => {
 }
 
 module.exports.help = {
-    name: "botinfo",
-    description: `Vypíše informace o *${botusername}*ovi`,
-    usage: `${prefix}botinfo`,
-    accessableby: "Member",
-    aliases: ["bi"]
+    name: name,
+    description: description,
+    usage: usage,
+    accessableby: accessableby,
+    aliases: aliases
 }

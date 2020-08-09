@@ -6,6 +6,12 @@ const { replaceResultTransformer } = require("common-tags");
 const { url } = require("inspector");
 const { isNull } = require("util");
 
+const name = "teamselector"
+const description = "Slouží k random rozhození lidí do týmu."
+const usage = `${prefix}teamselector`
+const accessableby = "Member"
+const aliases = ["ts"]
+
 module.exports.run = async (bot, message, args) => {
     var teamsize = args.length
     var teamsize0 = (Math.round((teamsize / 2) + 0, 5)) - 1
@@ -125,9 +131,9 @@ module.exports.run = async (bot, message, args) => {
 }
 
 module.exports.help = {
-    name: "teamselector",
-    description: "Slouží k random rozhození lidí do týmu.",
-    usage: `${prefix}teamselector`,
-    accessableby: "Member",
-    aliases: ["ts"]
+    name: name,
+    description: description,
+    usage: usage,
+    accessableby: accessableby,
+    aliases: aliases
 }

@@ -3,6 +3,12 @@ const botconfig = require("../botconfig.json")
 const color = require("../colors.json")
 const fs = require("fs");
 
+const name = "admins"
+const description = `Vypíše seznam členů Admin teamu`
+const usage = `${botconfig.prefix}admins`
+const accessableby = "Member"
+const aliases = ["at"]
+
 module.exports.run = async (bot, message, args) => {
     const numofroles = botconfig.admins_roles.length
     const rolesid = []
@@ -27,9 +33,9 @@ module.exports.run = async (bot, message, args) => {
 }
 
 module.exports.help = {
-    name: "admins",
-    description: `Vypíše seznam členů Admin teamu`,
-    usage: `${botconfig.prefix}admins`,
-    accessableby: "Member",
-    aliases: ["at"]
+    name: name,
+    description: description,
+    usage: usage,
+    accessableby: accessableby,
+    aliases: aliases
 }
