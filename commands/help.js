@@ -22,10 +22,13 @@ module.exports.run = async (bot, message, args) => {
 
             var embed = new Discord.MessageEmbed()
             embed.setAuthor(`Seznam použitelných příkazů:`)
+            var testindex = files.indexOf("test")
+            files.splice(testindex, 1)
             global.seznamjs = files.join(', ')
             for (var i = 0; i <= files.length; i++) {
                 seznamjs = seznamjs.replace('.js', '')
             }
+            
             embed.setDescription(seznamjs)
             embed.addFields({ name: 'Prefix', value: prefix, inline: true },
             { name: 'Dotazy', value: 'Pro konkrétnější dotazy se obraťte na Admin team.\nPro seznam Admin teamu použijte příkaz ' + prefix + 'admins'})
