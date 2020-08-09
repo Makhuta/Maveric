@@ -39,12 +39,12 @@ module.exports.run = async (bot, message, args) => {
             command = bot.commands.get(command);
             var embed = new Discord.MessageEmbed()
                 .setAuthor(`Příkaz ${command.help.name}`)
-                .setDescription(`
-            - **Popis příkazu** __${command.help.description || "Pro příkaz není žádný popis."}__
-            - **Použití příkazu:** __${command.help.usage || "Žádné použití"}__
-            - **Permise pro příkaz:** __${command.help.accessableby || "Member"}__
-            - **Alias příkazu:** __${command.help.aliases || "Žádné aliasy"}__
-            `)
+                .setDescription(
+            `- **Popis příkazu** __${command.help.description || "Pro příkaz není žádný popis."}__\n` +
+            `- **Použití příkazu:** __${command.help.usage || "Žádné použití"}__\n` +
+            `- **Permise pro příkaz:** __${command.help.accessableby || "Member"}__\n` +
+            `- **Alias příkazu:** __${command.help.aliases || "Žádné aliasy"}__`
+            )
                 .setColor(color.lime)
 
             message.channel.send(embed);
