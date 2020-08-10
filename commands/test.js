@@ -5,7 +5,6 @@ const color = require("../colors.json")
 const name = "test"
 const description = "Tento příkaz je jen pro budoucí testování bota."
 const usage = `${botconfig.prefix}test`
-const accessableby = "Bulgy, Admins"
 const accessableby = ["Bulgy", "Admins"]
 const aliases = ["t"]
 
