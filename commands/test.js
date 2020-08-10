@@ -6,11 +6,13 @@ const name = "test"
 const description = "Tento příkaz je jen pro budoucí testování bota."
 const usage = `${botconfig.prefix}test`
 const accessableby = "Bulgy, Admins"
+const accessableby = ["Bulgy", "Admins"]
 const aliases = ["t"]
 
 module.exports.run = async (bot, message, args) => {
-    /*console.log(message.author.username)
-        let welcomemsg = new Discord.MessageEmbed()
+    const prikaz = message.content
+    console.log(prikaz.slice(botconfig.prefix.length))
+       /* let welcomemsg = new Discord.MessageEmbed()
             .setTitle(`Vítej ${message.author.username}`)
             .setColor(color.red)
             .setDescription(`
@@ -18,11 +20,11 @@ module.exports.run = async (bot, message, args) => {
                 Právě se k nám přidal ${message.author.username}
                 `)
                 .setFooter(bot.user.username)
-    
-        message.channel.send({ embed: welcomemsg });*/
+    */
+        message.channel.send("test");
 
 
-    bot.channels.fetch(bot.channels.cache.find(c => c.name === botconfig.gateroom).id)
+    /*bot.channels.fetch(bot.channels.cache.find(c => c.name === botconfig.gateroom).id)
         .then(channel => {
             //console.log(message.author.avatarURL)
             var d = "nejake datum (je funkcni)"

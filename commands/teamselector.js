@@ -9,7 +9,7 @@ const { isNull } = require("util");
 const name = "teamselector"
 const description = "Slouží k random rozhození lidí do týmu."
 const usage = `${prefix}teamselector`
-const accessableby = "Member"
+const accessableby = ["Member"]
 const aliases = ["ts"]
 
 module.exports.run = async (bot, message, args) => {

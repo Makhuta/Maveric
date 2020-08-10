@@ -7,7 +7,7 @@ const { isNumber } = require("util");
 const name = "clean"
 const description = `Smaže **X** zpráv.`
 const usage = `${prefix}clean`
-const accessableby = "Bulgy, Admins, Moderátor"
+const accessableby = ["Bulgy", "Admins", "Moderátor"]
 const aliases = ["c"]
 
 module.exports.run = async (bot, message, args) => {

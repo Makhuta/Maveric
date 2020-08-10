@@ -5,7 +5,7 @@ const color = require("../colors.json")
 const name = "botinfo"
 const description = `Vypíše informace o *${botusername}*ovi`
 const usage = `${prefix}botinfo`
-const accessableby = "Member"
+const accessableby = ["Member"]
 const aliases = ["bi"]
 
 module.exports.run = async (bot, message, args) => {

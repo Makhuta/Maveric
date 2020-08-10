@@ -5,7 +5,7 @@ const color = require("../colors.json")
 const name = "online"
 const description = ""
 const usage = `${prefix}online`
-const accessableby = "Bulgy, Admins"
+const accessableby = ["Bulgy", "Admins"]
 const aliases = ["o"]
 
 module.exports.run = async (bot, message, args) => {

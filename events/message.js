@@ -11,9 +11,9 @@ bot.on("message", async message => {
   
     if (!message.content.startsWith(prefix)) return;
     let commandfile = bot.commands.get(cmd.slice(prefix.length)) || bot.commands.get(bot.aliases.get(cmd.slice(prefix.length)));
-    let rleall = commandfile.help.accessableby
-    let rle = rleall.split(", ")
-  
+    let rle = commandfile.help.accessableby
+    //console.log(message.member.roles.cache)
+
     for (var r = 0; r < rle.length; r++) {
       //console.log(rle[r])
       if (rle[r] === undefined) return;

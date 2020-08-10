@@ -7,7 +7,7 @@ const { replaceResultTransformer } = require("common-tags");
 const name = "help"
 const description = ""
 const usage = `${prefix}help pro seznam příkazů nebo ${prefix}help [příkaz] pro konkrétní příkaz`
-const accessableby = "Member"
+const accessableby = ["Member"]
 const aliases = ["h"]
 
 module.exports.run = async (bot, message, args) => {
