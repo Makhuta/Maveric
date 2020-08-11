@@ -14,7 +14,7 @@ var con = mysql.createConnection({
 });
 
 con.connect(err => {
-  //if (err) throw err;
+  if (err) throw err;
   console.log("\nConnected to database!\n")
 });
 
@@ -38,7 +38,7 @@ bot.on("message", async message => {
   let args = messageArray.slice(1);
 
   con.query(`SELECT * FROM userstats WHERE id = '${message.author.id}'`, (err, rows) => {
-    //if (err) throw err;
+    if (err) throw err;
 
     let sql
 
