@@ -3,7 +3,7 @@ const Discord = require("discord.js");
 const botconfig = require("../botconfig.json");
 const { Guild } = require('discord.js');
 const color = require("../colors.json")
-const Canvas = require('canvas')
+
 
 bot.on("guildMemberAdd", (member) => {
     bot.channels.fetch(bot.channels.cache.find(c => c.name === botconfig.gateroom).id)

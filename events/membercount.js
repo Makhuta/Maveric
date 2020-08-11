@@ -3,7 +3,6 @@ const Discord = require("discord.js");
 const botconfig = require("../botconfig.json");
 const { Guild } = require('discord.js');
 const color = require("../colors.json")
-const Canvas = require('canvas')
 
 
     const updateMembers = guild => {
