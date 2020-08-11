@@ -17,5 +17,8 @@
     "mysql": "^2.18.1",
     "random": "^2.2.0",
     "random-color": "^1.0.1"
+  },
+  "engines": {
+    "node": "13.1.0"
   }
 }
