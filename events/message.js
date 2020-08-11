@@ -16,7 +16,6 @@ var con = mysql.createConnection({
 con.connect(err => {
   if (err) throw err;
   console.log("\nConnected to database!\n")
-  console.log(err + "\n")
 });
 
 function generateXP() {
@@ -40,6 +39,7 @@ bot.on("message", async message => {
 
   con.query(`SELECT * FROM userstats WHERE id = '${message.author.id}'`, (err, rows) => {
     if (err) throw err;
+    console.log(err + "\n")
 
     let sql
 
