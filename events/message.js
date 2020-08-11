@@ -6,17 +6,17 @@ const mysql = require('mysql')
 const random = require('random')
 const color = require("../colors.json")
 
-var con = mysql.createConnection({
+var con = mysql.createPool({
   host: mysqlconfig.host,
   user: mysqlconfig.user,
   password: mysqlconfig.password,
   database: mysqlconfig.database
 });
 
-con.connect(err => {
+/*con.connect(err => {
   if (err) throw err;
   console.log("\nConnected to database!\n")
-});
+});*/
 
 function generateXP() {
   return random.int(10, 30)
