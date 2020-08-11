@@ -65,17 +65,19 @@ bot.on("message", async message => {
         sql = `UPDATE userstats SET level = ${level} WHERE id = '${message.author.id}'`;
         con.query(sql)
         sql = `UPDATE userstats SET last_message = ${cas} WHERE id = '${message.author.id}'`;
+        con.query(sql)
       }
       else {
         sql = `UPDATE userstats SET xp = ${xp} WHERE id = '${message.author.id}'`, `UPDATE userstats SET last_message = ${cas} WHERE id = '${message.author.id}'`;
         con.query(sql)
         sql = `UPDATE userstats SET last_message = ${cas} WHERE id = '${message.author.id}'`;
+        con.query(sql)
       }
       }
       else return
       //console.log(level + " " + xp)
     }
-    con.query(sql)
+   
     //console.log(rows)
   })
 
