@@ -16,6 +16,7 @@ var con = mysql.createConnection({
 con.connect(err => {
   if (err) throw err;
   console.log("\nConnected to database!\n")
+  console.log(err + "\n")
 });
 
 function generateXP() {
