@@ -11,7 +11,7 @@ const aliases = [""]
 
 function zprava(xp, level, message, Discord) {
     let embed = new Discord.MessageEmbed()
-    embed.addFields({name: "Level "+ message.author.username, value: "Tvůj Level je " + level + "\nTvoje XP jsou " + xp})
+    embed.addFields({name: "Statistiky uživatele "+ message.author.username, value: "Tvůj Level je " + level + "\nTvoje XP jsou " + xp})
     embed.setColor(color.red)
     message.channel.send(embed)
 }
