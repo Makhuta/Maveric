@@ -5,6 +5,7 @@ const mysqlconfig = require("../mysqlconfig.json")
 const mysql = require('mysql')
 const random = require('random')
 const color = require("../colors.json")
+const prefix = botconfig.prefix;
 
 var con = mysql.createPool({
   host: mysqlconfig.host,
@@ -30,8 +31,6 @@ message.channel.send(embed)
 }
 
 function prikaz(message){
-  if (message.author.bot || message.channel.type === "dm") return;
-  let prefix = botconfig.prefix;
   let messageArray = message.content.split(" ");
   let cmd = messageArray[0].toLowerCase();
   let args = messageArray.slice(1);
