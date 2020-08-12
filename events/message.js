@@ -37,6 +37,10 @@ function prikaz(message){
 
   if (!message.content.startsWith(prefix)) return;
   let commandfile = bot.commands.get(cmd.slice(prefix.length)) || bot.commands.get(bot.aliases.get(cmd.slice(prefix.length)));
+  if (commandfile === undefined) {
+    message.channel.send("Příkaz neexistuje")
+    return
+  }
   let rle = commandfile.help.accessableby
   //console.log(message.member.roles.cache)
 
@@ -51,7 +55,7 @@ function prikaz(message){
   }
 }
 
-function databaze(message){
+function databaze(message, con){
   con.query(`SELECT * FROM userstats WHERE id = '${message.author.id}'`, (err, rows) => {
     if (err) throw err;
     //console.log(err + "\n")
@@ -103,6 +107,6 @@ bot.on("message", message => {
   prikaz(message);
 
   if (message.content === prefix + "xp") return
-  databaze(message);
+  databaze(message, con);
 
 })
