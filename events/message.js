@@ -24,13 +24,13 @@ function generateXP() {
 }
 
 function zprava(level, typek, message, Discord) {
-let embed = new Discord.MessageEmbed()
-embed.addFields({name: "Level UP", value: typek + " právě postoupil do levlu " + level + "."})
-embed.setColor(color.red)
-message.channel.send(embed)
+  let embed = new Discord.MessageEmbed()
+  embed.addFields({ name: "Level UP", value: typek + " právě postoupil do levlu " + level + "." })
+  embed.setColor(color.red)
+  message.channel.send(embed)
 }
 
-function prikaz(message){
+function prikaz(message) {
   let messageArray = message.content.split(" ");
   let cmd = messageArray[0].toLowerCase();
   let args = messageArray.slice(1);
@@ -55,16 +55,17 @@ function prikaz(message){
   }
 }
 
-function databaze(message, con){
+function databaze(message, con) {
   con.query(`SELECT * FROM userstats WHERE id = '${message.author.id}'`, (err, rows) => {
     if (err) throw err;
     //console.log(err + "\n")
 
     let sql
-console.log(`\n${rows}\n`)
+    //console.log(`\n${rows}\n`)
     if (rows.length < 1) {
-      console.log("prvni")
+      //console.log("prvni")
       sql = `INSERT INTO userstats (id, xp) VALUES ('${message.author.id}', ${generateXP()})`
+      con.query(sql)
     }
     else {
       var xp = rows[0].xp
@@ -72,33 +73,33 @@ console.log(`\n${rows}\n`)
       var lastmsg = rows[0].last_message
       var cas = Date.now()
 
-      if(Date.now() - lastmsg > 60000){
-      xp += generateXP()
-      var xpToNextLevel = 5 * Math.pow(level, 2) + 50 * level + 100
-      //console.log(xpToNextLevel)
-      if (xp >= xpToNextLevel) {
-        level++;
-        xp = xp - xpToNextLevel;
-        zprava(level, message.author.username, message, Discord)
+      if (Date.now() - lastmsg > 60000) {
+        xp += generateXP()
+        var xpToNextLevel = 5 * Math.pow(level, 2) + 50 * level + 100
+        //console.log(xpToNextLevel)
+        if (xp >= xpToNextLevel) {
+          level++;
+          xp = xp - xpToNextLevel;
+          zprava(level, message.author.username, message, Discord)
 
-        sql = `UPDATE userstats SET xp = ${xp} WHERE id = '${message.author.id}'`;
-        con.query(sql)
-        sql = `UPDATE userstats SET level = ${level} WHERE id = '${message.author.id}'`;
-        con.query(sql)
-        sql = `UPDATE userstats SET last_message = ${cas} WHERE id = '${message.author.id}'`;
-        con.query(sql)
-      }
-      else {
-        sql = `UPDATE userstats SET xp = ${xp} WHERE id = '${message.author.id}'`, `UPDATE userstats SET last_message = ${cas} WHERE id = '${message.author.id}'`;
-        con.query(sql)
-        sql = `UPDATE userstats SET last_message = ${cas} WHERE id = '${message.author.id}'`;
-        con.query(sql)
-      }
+          sql = `UPDATE userstats SET xp = ${xp} WHERE id = '${message.author.id}'`;
+          con.query(sql)
+          sql = `UPDATE userstats SET level = ${level} WHERE id = '${message.author.id}'`;
+          con.query(sql)
+          sql = `UPDATE userstats SET last_message = ${cas} WHERE id = '${message.author.id}'`;
+          con.query(sql)
+        }
+        else {
+          sql = `UPDATE userstats SET xp = ${xp} WHERE id = '${message.author.id}'`, `UPDATE userstats SET last_message = ${cas} WHERE id = '${message.author.id}'`;
+          con.query(sql)
+          sql = `UPDATE userstats SET last_message = ${cas} WHERE id = '${message.author.id}'`;
+          con.query(sql)
+        }
       }
       else return
       //console.log(level + " " + xp)
     }
-   
+
     //console.log(rows)
   })
 }
