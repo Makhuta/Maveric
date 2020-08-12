@@ -100,9 +100,10 @@ function databaze(message){
 }
 
 bot.on("message", message => {
+  if (message.author.bot || message.channel.type === "dm") return;
+  prikaz(message);
 
+  if (message.content === prefix + "xp") return
   databaze(message);
-  prikaz(message)
-
 
 })
