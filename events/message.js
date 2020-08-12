@@ -61,8 +61,9 @@ function databaze(message, con){
     //console.log(err + "\n")
 
     let sql
-
+console.log(`\n${rows}\n`)
     if (rows.length < 1) {
+      console.log("prvni")
       sql = `INSERT INTO userstats (id, xp) VALUES ('${message.author.id}', ${generateXP()})`
     }
     else {
