@@ -1,0 +1,212 @@
+{
+    "cz": {
+        "admins": {
+            "description": "",
+            "part1": "Žádná role s názvem",
+            "part2": "Žádný člen role"
+        },
+        "botinfo": {
+            "description": {
+                "part1": "Vypíše informace o ",
+                "part2": "ovi"
+            },
+            "part1": "Jméno bota",
+            "part2": "Bota vytvořil",
+            "part3": "Účel bota",
+            "part4": " byl vytvořen na základě snížení náročnosti na správu ",
+            "part5": " serveru a zajistit snazší interakci uživatelů se serverem."
+        },
+        "clean": {
+            "description": {
+                "part1": "Smaže ",
+                "part2": " zpráv."
+            }
+        },
+        "help": {
+            "usage": {
+                "part1": "help pro seznam příkazů nebo ",
+                "part2": "help [příkaz] pro konkrétní příkaz"
+            },
+            "part1": "Seznam použitelných příkazů:",
+            "part2": "Dotazy",
+            "part3": "Pro konkrétnější dotazy se obraťte na Admin team.\nPro seznam Admin teamu použijte příkaz ",
+            "part4": "Příkaz ",
+            "part5": "Popis příkazu",
+            "part6": "Pro příkaz není žádný popis.",
+            "part7": "Použití příkazu:",
+            "part8": "Žádné použití",
+            "part9": "Permise pro příkaz:",
+            "part10": "Alias příkazu:",
+            "part11": "Žádné aliasy"
+        },
+        "teamselector": {
+            "description": "Slouží k random rozhození lidí do týmu.",
+            "part1": "Hráč/i nebyl/i definován/i"
+        },
+        "xp": {
+            "description": "Vypíše počet XP",
+            "part1": "Tvůj Level je ",
+            "part2": "This user has no XP on record."
+        },
+        "memberjoin": {
+            "part1": " právě postoupil do levlu ",
+            "part2": "Nový člen smečky",
+            "part3": "Právě se k nám přidal ",
+            "part4": "Discord účet si založil: "
+        },
+        "memberleave": {
+            "part1": "Další zrádce",
+            "part2": "Právě nás zradil/a ",
+            "part3": "Naším členem byl od: "
+        },
+        "message": {
+            "part1": " právě postoupil do levlu ",
+            "part2": "Příkaz neexistuje"
+        },
+        "ready": {
+            "part1": "Ověření",
+            "part2": "Pro přístup k serveru potvrďte že jste si přečetl/a ",
+            "part3": " reakcí."
+        }
+    },
+    "sk": {
+        "admins": {
+            "description": "",
+            "part1": "Žádná role s názvem",
+            "part2": "Žádný člen role"
+        },
+        "botinfo": {
+            "description": {
+                "part1": "Vypíše informace o ",
+                "part2": "ovi"
+            },
+            "part1": "Jméno bota",
+            "part2": "Bota vytvořil",
+            "part3": "Účel bota",
+            "part4": " byl vytvořen na základě snížení náročnosti na správu ",
+            "part5": " serveru a zajistit snazší interakci uživatelů se serverem."
+        },
+        "clean": {
+            "description": {
+                "part1": "Smaže ",
+                "part2": " zpráv."
+            }
+        },
+        "help": {
+            "usage": {
+                "part1": "help pro seznam příkazů nebo ",
+                "part2": "help [příkaz] pro konkrétní příkaz"
+            },
+            "part1": "Seznam použitelných příkazů:",
+            "part2": "Dotazy",
+            "part3": "Pro konkrétnější dotazy se obraťte na Admin team.\nPro seznam Admin teamu použijte příkaz ",
+            "part4": "Příkaz ",
+            "part5": "Popis příkazu",
+            "part6": "Pro příkaz není žádný popis.",
+            "part7": "Použití příkazu:",
+            "part8": "Žádné použití",
+            "part9": "Permise pro příkaz:",
+            "part10": "Alias příkazu:",
+            "part11": "Žádné aliasy"
+        },
+        "teamselector": {
+            "description": "Slouží k random rozhození lidí do týmu.",
+            "part1": "Hráč/i nebyl/i definován/i"
+        },
+        "xp": {
+            "description": "Vypíše počet XP",
+            "part1": "Tvůj Level je ",
+            "part2": "This user has no XP on record."
+        },
+        "memberjoin": {
+            "part1": " právě postoupil do levlu ",
+            "part2": "Nový člen smečky",
+            "part3": "Právě se k nám přidal ",
+            "part4": "Discord účet si založil: "
+        },
+        "memberleave": {
+            "part1": "Další zrádce",
+            "part2": "Právě nás zradil/a ",
+            "part3": "Naším členem byl od: "
+        },
+        "message": {
+            "part1": " právě postoupil do levlu ",
+            "part2": "Příkaz neexistuje"
+        },
+        "ready": {
+            "part1": "Ověření",
+            "part2": "Pro přístup k serveru potvrďte že jste si přečetl/a ",
+            "part3": " reakcí."
+        }
+    },
+    "en": {
+        "admins": {
+            "description": "",
+            "part1": "Žádná role s názvem",
+            "part2": "Žádný člen role"
+        },
+        "botinfo": {
+            "description": {
+                "part1": "Vypíše informace o ",
+                "part2": "ovi"
+            },
+            "part1": "Jméno bota",
+            "part2": "Bota vytvořil",
+            "part3": "Účel bota",
+            "part4": " byl vytvořen na základě snížení náročnosti na správu ",
+            "part5": " serveru a zajistit snazší interakci uživatelů se serverem."
+        },
+        "clean": {
+            "description": {
+                "part1": "Smaže ",
+                "part2": " zpráv."
+            }
+        },
+        "help": {
+            "usage": {
+                "part1": "help pro seznam příkazů nebo ",
+                "part2": "help [příkaz] pro konkrétní příkaz"
+            },
+            "part1": "Seznam použitelných příkazů:",
+            "part2": "Dotazy",
+            "part3": "Pro konkrétnější dotazy se obraťte na Admin team.\nPro seznam Admin teamu použijte příkaz ",
+            "part4": "Příkaz ",
+            "part5": "Popis příkazu",
+            "part6": "Pro příkaz není žádný popis.",
+            "part7": "Použití příkazu:",
+            "part8": "Žádné použití",
+            "part9": "Permise pro příkaz:",
+            "part10": "Alias příkazu:",
+            "part11": "Žádné aliasy"
+        },
+        "teamselector": {
+            "description": "Slouží k random rozhození lidí do týmu.",
+            "part1": "Hráč/i nebyl/i definován/i"
+        },
+        "xp": {
+            "description": "Vypíše počet XP",
+            "part1": "Tvůj Level je ",
+            "part2": "This user has no XP on record."
+        },
+        "memberjoin": {
+            "part1": " právě postoupil do levlu ",
+            "part2": "Nový člen smečky",
+            "part3": "Právě se k nám přidal ",
+            "part4": "Discord účet si založil: "
+        },
+        "memberleave": {
+            "part1": "Další zrádce",
+            "part2": "Právě nás zradil/a ",
+            "part3": "Naším členem byl od: "
+        },
+        "message": {
+            "part1": " právě postoupil do levlu ",
+            "part2": "Příkaz neexistuje"
+        },
+        "ready": {
+            "part1": "Ověření",
+            "part2": "Pro přístup k serveru potvrďte že jste si přečetl/a ",
+            "part3": " reakcí."
+        }
+    }
+}
