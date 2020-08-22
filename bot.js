@@ -9,6 +9,14 @@ bot.commands = new Discord.Collection();
 bot.aliases = new Discord.Collection();
 bot.accessable = new Discord.Collection();
 
+var con = mysql.createPool({
+  host: mysqlconfig.host,
+  user: mysqlconfig.user,
+  password: mysqlconfig.password,
+  database: mysqlconfig.database
+});
+
 module.exports = {
-  bot: bot
+  bot: bot,
+  con: con
 }
