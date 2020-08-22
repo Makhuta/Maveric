@@ -21,9 +21,9 @@ async function statistika(xp, level, target, message, xpToNextLevel) {
 
     ctx.beginPath();
     ctx.lineWidth = 4;
-    ctx.strokeStyle = "#000000";
+    ctx.strokeStyle = "#ffffff";
     ctx.globalAlpha = 0.2;
-    ctx.fillStyle = "#000000";
+    ctx.fillStyle = "#ffffff";
     ctx.fillRect(180, 216, 770, 65);
     ctx.fill();
     ctx.globalAlpha = 1;
@@ -38,7 +38,7 @@ async function statistika(xp, level, target, message, xpToNextLevel) {
 
     ctx.font = "30px Arial";
     ctx.textAlign = "center";
-    ctx.fillStyle = "#000000";
+    ctx.fillStyle = "#ffffff";
     ctx.fillText(`${xp}/${xpToNextLevel} XP`, 600, 260);
 
     ctx.textAlign = "left"
@@ -50,7 +50,7 @@ async function statistika(xp, level, target, message, xpToNextLevel) {
 
     ctx.arc(170, 160, 120, 0, Math.PI * 2, true);
     ctx.lineWidth = 6;
-    ctx.strokeStyle = "#000000";
+    ctx.strokeStyle = "#ffffff";
     ctx.stroke();
     ctx.closePath();
     ctx.clip();
