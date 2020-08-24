@@ -69,7 +69,7 @@ function databaze(message, con) {
 }
 
 bot.on("message", message => {
-    if (message.author.bot || message.channel.type === "dm" || message.content === botconfig.prefix + "xp") return
+    if (message.author.bot || message.channel.type === "dm" || message.content.startsWith(botconfig.prefix)) return
     databaze(message, con);
 
 })
