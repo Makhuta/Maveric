@@ -85,6 +85,7 @@ module.exports.run = async (bot, message, args) => {
     }
 
     else if (message.member.voice.channel === null) {
+        console.log("VCH = null")
         errorzprava()
         return
     }
@@ -119,6 +120,7 @@ module.exports.run = async (bot, message, args) => {
         }
 
         if (usraray.length <= 1) {
+            console.log("usraray.length")
             errorzprava()
             return
         }
