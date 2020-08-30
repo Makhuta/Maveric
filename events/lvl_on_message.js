@@ -48,8 +48,6 @@ function databaze(message, con) {
 
                     sql = `UPDATE userstats SET xp = ${xp} WHERE id = '${message.author.id}'`;
                     con.query(sql)
-                    sql = `UPDATE userstats SET allxp = ${allxp(level, xp, sql, message)} WHERE id = '${message.author.id}'`;
-                    con.query(sql)
                     sql = `UPDATE userstats SET level = ${level} WHERE id = '${message.author.id}'`;
                     con.query(sql)
                     sql = `UPDATE userstats SET last_message = ${cas} WHERE id = '${message.author.id}'`;
@@ -57,8 +55,6 @@ function databaze(message, con) {
                 }
                 else {
                     sql = `UPDATE userstats SET xp = ${xp} WHERE id = '${message.author.id}'`, `UPDATE userstats SET last_message = ${cas} WHERE id = '${message.author.id}'`;
-                    con.query(sql)
-                    sql = `UPDATE userstats SET allxp = ${allxp(level, xp, sql, message)} WHERE id = '${message.author.id}'`;
                     con.query(sql)
                     sql = `UPDATE userstats SET last_message = ${cas} WHERE id = '${message.author.id}'`;
                     con.query(sql)
@@ -72,16 +68,7 @@ function databaze(message, con) {
     })
 }
 
-function allxp(level, xp, sql, message) {
-    var xpecka = xp
-    for (let l = 0; l < level; l++) {
-        var xpToNextLevel = 5 * Math.pow(l, 2) + 50 * l + 100;
-        xpecka = xpecka + xpToNextLevel;
-    }
-    sql = `UPDATE userstats SET allxp = ${xpecka} WHERE id = '${message.author.id}'`;
-    con.query(sql)
-    return
-}
+
 
 bot.on("message", message => {
     if (message.author.bot || message.channel.type === "dm" || message.content.startsWith(botconfig.prefix)) return

@@ -64,24 +64,26 @@ async function statistika(xp, level, target, message, xpToNextLevel, rank) {
     message.channel.send(attachment)
 }
 
-function allxp(level, xp, sql, target) {
+function allxp(level, xp) {
     var xpecka = xp
     for (let l = 0; l < level; l++) {
         var xpToNextLevel = 5 * Math.pow(l, 2) + 50 * l + 100;
         xpecka = xpecka + xpToNextLevel;
     }
-    sql = `UPDATE userstats SET allxp = ${xpecka} WHERE id = '${target.id}'`;
-    con.query(sql)
-    return
+    /*sql = `UPDATE userstats SET allxp = ${xpecka} WHERE id = '${target.id}'`;
+    con.query(sql)*/
+    return(xpecka)
 }
 
 function getrank(xp, level, con, resid, resallxp, rank, target, message, xpToNextLevel) {
-    con.query(`SELECT id, allxp FROM userstats ORDER BY allxp`, function (err, result, fields) {
+    con.query(`SELECT id, xp, level FROM userstats ORDER BY allxp`, function (err, result, fields) {
         if (err) throw err;
         var reslength = result.length - 1
         for (let d = 0; d <= reslength; d++) {
             resid = result[d].id;
-            resallxp = result[d].allxp;
+            let reslevel = result[d].level;
+            let resxp = result[d].xp;
+            resallxp = allxp(reslevel, resxp, target)
             if (resid === target.id) {
                 rank = d + 1
                 //console.log(resid + " " + resallxp + " #" + rank)
@@ -112,7 +114,7 @@ module.exports.run = async (bot, message, args, con) => {
         let sql
         var xpToNextLevel = 5 * Math.pow(level, 2) + 50 * level + 100
         allxp(level, xp, sql, target)
-        getrank(xp, level, con, resid, resallxp, rank, target, message, xpToNextLevel)
+        getrank(xp, level, con, resid, resallxp, rank, target, message, xpToNextLevel, sql)
     })
 }
 
