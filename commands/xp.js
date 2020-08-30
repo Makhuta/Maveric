@@ -94,7 +94,7 @@ function getrank(xp, level, con, resid, resallxp, rank, target, message, xpToNex
                 rank = d + 1
                 //console.log(resid + " " + resallxp + " #" + rank)
 
-                //console.log(usraray[d])
+                console.log(usraray)
                 statistika(xp, level, target, message, xpToNextLevel, rank)
             }
 
