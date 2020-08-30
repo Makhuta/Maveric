@@ -1,3 +1,4 @@
+const { bot, con } = require('../bot');
 const { MessageAttachment } = require("discord.js");
 const botconfig = require("../botconfig.json")
 const color = require("../colors.json")
@@ -12,7 +13,7 @@ const usage = `${botconfig.prefix}xp`
 const accessableby = ["Member"]
 const aliases = [""]
 
-async function statistika(xp, level, target, message, xpToNextLevel) {
+async function statistika(xp, level, target, message, xpToNextLevel, rank) {
     const canvas = createCanvas(1000, 333);
     const ctx = canvas.getContext('2d');
     const background = await loadImage(join(__dirname, "..", "pictures", "background.jpg"));
@@ -42,11 +43,13 @@ async function statistika(xp, level, target, message, xpToNextLevel) {
     ctx.fillText(`${xp}/${xpToNextLevel} XP`, 600, 260);
 
     ctx.textAlign = "left"
-    ctx.fillText(target.username + "#" + target.discriminator, 300, 120);
+    ctx.fillText(target.username + " #" + target.discriminator, 300, 80);
 
     ctx.font = "50px Arial";
-    ctx.fillText("Level:", 300, 180);
-    ctx.fillText(level, 470, 180);
+    ctx.fillText("Level: #" + level, 300, 130);
+
+    ctx.font = "50px Arial";
+    ctx.fillText("Rank: #" + rank, 300, 180);
 
     ctx.arc(170, 160, 120, 0, Math.PI * 2, true);
     ctx.lineWidth = 6;
@@ -61,17 +64,55 @@ async function statistika(xp, level, target, message, xpToNextLevel) {
     message.channel.send(attachment)
 }
 
+function allxp(level, xp, sql, message) {
+    var xpecka = xp
+    for (let l = 0; l < level; l++) {
+        var xpToNextLevel = 5 * Math.pow(l, 2) + 50 * l + 100;
+        xpecka = xpecka + xpToNextLevel;
+    }
+    sql = `UPDATE userstats SET allxp = ${xpecka} WHERE id = '${message.author.id}'`;
+    con.query(sql)
+    return
+}
+
+function getrank(xp, level, con, resid, resallxp, rank, target, message, xpToNextLevel) {
+    con.query(`SELECT id, allxp FROM userstats ORDER BY allxp`, function (err, result, fields) {
+        if (err) throw err;
+        var reslength = result.length - 1
+        for (let d = 0; d <= reslength; d++) {
+            resid = result[d].id;
+            resallxp = result[d].allxp;
+            if (resid === target.id) {
+                rank = d + 1
+                //console.log(resid + " " + resallxp + " #" + rank)
+
+                statistika(xp, level, target, message, xpToNextLevel, rank)
+            }
+        }
+
+    });
+}
+
 module.exports.run = async (bot, message, args, con) => {
     let target = message.mentions.users.first() || message.guild.members.cache.get(args[1]) || message.author;
+    var rank
+    var resid
+    var resallxp
+
+
 
     con.query(`SELECT * FROM userstats WHERE id = '${target.id}'`, (err, rows) => {
         if (err) throw err;
 
+
+
         if (!rows[0]) return message.channel.send("This user has no XP on record.")
         let xp = rows[0].xp
         let level = rows[0].level
+        let sql
         var xpToNextLevel = 5 * Math.pow(level, 2) + 50 * level + 100
-        statistika(xp, level, target, message, xpToNextLevel)
+        allxp(level, xp, sql, message)
+        getrank(xp, level, con, resid, resallxp, rank, target, message, xpToNextLevel)
     })
 }
 

@@ -37,7 +37,7 @@ function databaze(message, con) {
             var lastmsg = rows[0].last_message
             var cas = Date.now()
 
-            if (Date.now() - lastmsg > 60000) {
+            if (Date.now() - lastmsg > 1000) {
                 xp += generateXP()
                 var xpToNextLevel = 5 * Math.pow(level, 2) + 50 * level + 100
                 //console.log(xpToNextLevel)
@@ -48,6 +48,8 @@ function databaze(message, con) {
 
                     sql = `UPDATE userstats SET xp = ${xp} WHERE id = '${message.author.id}'`;
                     con.query(sql)
+                    sql = `UPDATE userstats SET allxp = ${allxp(level, xp, sql, message)} WHERE id = '${message.author.id}'`;
+                    con.query(sql)
                     sql = `UPDATE userstats SET level = ${level} WHERE id = '${message.author.id}'`;
                     con.query(sql)
                     sql = `UPDATE userstats SET last_message = ${cas} WHERE id = '${message.author.id}'`;
@@ -55,6 +57,8 @@ function databaze(message, con) {
                 }
                 else {
                     sql = `UPDATE userstats SET xp = ${xp} WHERE id = '${message.author.id}'`, `UPDATE userstats SET last_message = ${cas} WHERE id = '${message.author.id}'`;
+                    con.query(sql)
+                    sql = `UPDATE userstats SET allxp = ${allxp(level, xp, sql, message)} WHERE id = '${message.author.id}'`;
                     con.query(sql)
                     sql = `UPDATE userstats SET last_message = ${cas} WHERE id = '${message.author.id}'`;
                     con.query(sql)
@@ -66,6 +70,17 @@ function databaze(message, con) {
 
         //console.log(rows)
     })
+}
+
+function allxp(level, xp, sql, message) {
+    var xpecka = xp
+    for (let l = 0; l < level; l++) {
+        var xpToNextLevel = 5 * Math.pow(l, 2) + 50 * l + 100;
+        xpecka = xpecka + xpToNextLevel;
+    }
+    sql = `UPDATE userstats SET allxp = ${xpecka} WHERE id = '${message.author.id}'`;
+    con.query(sql)
+    return
 }
 
 bot.on("message", message => {
