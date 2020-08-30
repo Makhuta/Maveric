@@ -87,7 +87,7 @@ function getrank(xp, level, con, resid, resallxp, rank, target, message, xpToNex
             resallxp = allxp(reslevel, resxp, target)
             usraray.push({id: resid, allxps: resallxp})
         }
-        usraray.sort((a, b) => (a.id > b.id) ? 1 : (a.id === b.id) ? ((a.allxps > b.allxps) ? 1 : -1) : -1 )
+        usraray.sort((a, b) => (a.allxps < b.allxps) ? 1 : (a.allxps === b.allxps) ? ((a.id < b.id) ? 1 : -1) : -1 )
         
         for (let d = 0; d <= reslength; d++) {
             if (usraray[d].id === target.id) {
