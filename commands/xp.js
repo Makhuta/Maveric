@@ -72,25 +72,34 @@ function allxp(level, xp) {
     }
     /*sql = `UPDATE userstats SET allxp = ${xpecka} WHERE id = '${target.id}'`;
     con.query(sql)*/
-    return(xpecka)
+    return (xpecka)
 }
 
 function getrank(xp, level, con, resid, resallxp, rank, target, message, xpToNextLevel) {
-    con.query(`SELECT id, xp, level FROM userstats ORDER BY allxp`, function (err, result, fields) {
+    con.query(`SELECT id, xp, level FROM userstats`, function (err, result, fields) {
         if (err) throw err;
+        var usraray = []
         var reslength = result.length - 1
         for (let d = 0; d <= reslength; d++) {
             resid = result[d].id;
             let reslevel = result[d].level;
             let resxp = result[d].xp;
             resallxp = allxp(reslevel, resxp, target)
-            if (resid === target.id) {
+            usraray.push({id: resid, allxps: resallxp})
+        }
+        usraray.sort((a, b) => (a.id > b.id) ? 1 : (a.id === b.id) ? ((a.allxps > b.allxps) ? 1 : -1) : -1 )
+        
+        for (let d = 0; d <= reslength; d++) {
+            if (usraray[d].id === target.id) {
                 rank = d + 1
                 //console.log(resid + " " + resallxp + " #" + rank)
 
+                //console.log(usraray[d])
                 statistika(xp, level, target, message, xpToNextLevel, rank)
             }
+
         }
+       
 
     });
 }
