@@ -64,13 +64,13 @@ async function statistika(xp, level, target, message, xpToNextLevel, rank) {
     message.channel.send(attachment)
 }
 
-function allxp(level, xp, sql, message) {
+function allxp(level, xp, sql, target) {
     var xpecka = xp
     for (let l = 0; l < level; l++) {
         var xpToNextLevel = 5 * Math.pow(l, 2) + 50 * l + 100;
         xpecka = xpecka + xpToNextLevel;
     }
-    sql = `UPDATE userstats SET allxp = ${xpecka} WHERE id = '${message.author.id}'`;
+    sql = `UPDATE userstats SET allxp = ${xpecka} WHERE id = '${target.id}'`;
     con.query(sql)
     return
 }
@@ -111,7 +111,7 @@ module.exports.run = async (bot, message, args, con) => {
         let level = rows[0].level
         let sql
         var xpToNextLevel = 5 * Math.pow(level, 2) + 50 * level + 100
-        allxp(level, xp, sql, message)
+        allxp(level, xp, sql, target)
         getrank(xp, level, con, resid, resallxp, rank, target, message, xpToNextLevel)
     })
 }
