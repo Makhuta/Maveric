@@ -37,7 +37,7 @@ function databaze(message, con) {
             var lastmsg = rows[0].last_message
             var cas = Date.now()
 
-            if (Date.now() - lastmsg > 1000) {
+            if (Date.now() - lastmsg > 60000) {
                 xp += generateXP()
                 var xpToNextLevel = 5 * Math.pow(level, 2) + 50 * level + 100
                 //console.log(xpToNextLevel)
