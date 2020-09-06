@@ -6,7 +6,7 @@ const fs = require("fs");
 
 const name = "eventxp"
 const description = `Přídá členovi počet XP`
-const usage = `${botconfig.prefix}eventxp`
+const usage = `${botconfig.prefix}eventxp [@user] [počet XP]`
 const accessableby = ["Bulgy", "Admins", "Moderátor"]
 const aliases = ["exp"]
 
@@ -56,11 +56,12 @@ module.exports.run = async (bot, message, args, con) => {
     var targetusername = target.username
     var numofxp = parseInt(args[1])
     //console.log(numofxp)
-    if (isInt(args[1])) {
+    if (isInt(args[1]) && args[1] > 0) {
         //console.log(targetid)
         addxp(targetid, targetusername, numofxp, message)
     }
-    else if (!isInt(args[1])) message.channel.send("Prosím překontrolujte si hodnotu nebo formát XP.")
+    else if (!isInt(args[1])) return message.channel.send("Prosím překontrolujte si hodnotu nebo formát XP.")
+    else if (args[1] < 0) return message.channel.send("Prosím nepoužívejte záporné hodnoty XP s tímto příkazem.")
 }
 
 
