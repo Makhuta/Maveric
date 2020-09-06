@@ -1,7 +1,6 @@
 const Discord = require("discord.js")
 const { bot, con } = require('../bot');
 const botconfig = require("../botconfig.json")
-const mysqlconfig = require("../mysqlconfig.json")
 const mysql = require('mysql')
 const random = require('random')
 const color = require("../colors.json")
