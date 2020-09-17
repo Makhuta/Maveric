@@ -58,7 +58,7 @@ module.exports.run = async (bot, message, args, con) => {
         let xp = rows[0].xp
         let level = rows[0].level
         var xpToNextLevel = 5 * Math.pow(level, 2) + 50 * level + 100
-        canvasxp.execute(xp, level, target, message, xpToNextLevel)
+        canvasxp.run(xp, level, target, message, xpToNextLevel)
 
     })
 }
