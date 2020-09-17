@@ -3,8 +3,7 @@ const { createCanvas, loadImage, Canvas } = require("canvas");
 const { join } = require("path");
 
 module.exports = {
-    name: "canvasxp",
-    async execute(xp, level, target, message, xpToNextLevel) {
+    async run(xp, level, target, message, xpToNextLevel) {
         const canvas = createCanvas(1000, 333);
     const ctx = canvas.getContext('2d');
     const background = await loadImage(join(__dirname, "..", "pictures", "background.jpg"));
