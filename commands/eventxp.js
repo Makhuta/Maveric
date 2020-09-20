@@ -7,7 +7,7 @@ const fs = require("fs");
 const name = "eventxp"
 const description = `Přídá členovi počet XP`
 const usage = `${botconfig.prefix}eventxp [@user] [počet XP]`
-const accessableby = ["Bulgy", "Admins", "Moderátor"]
+const accessableby = ["Bulgy", "Admins", "Moderátor", "Eventer"]
 const aliases = ["exp"]
 
 function addxp(targetid, targetusername, numofxp, message) {
