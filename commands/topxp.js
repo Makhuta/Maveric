@@ -49,7 +49,7 @@ module.exports.run = async (bot, message, args, con) => {
             let topid = (usraray[d] || undefinedaray[0]).id
             let topxp = (usraray[d] || undefinedaray[0]).xp
             let toplevel = (usraray[d] || undefinedaray[0]).level
-            let username = (bot.users.cache.get(topid) || undefinedaray[0]).username + "#" + (bot.users.cache.get(topid) || undefinedaray[0]).discriminator
+            let username = (bot.users.cache.get(topid) || undefinedaray[0]).username + " #" + (bot.users.cache.get(topid) || undefinedaray[0]).discriminator
             let user = bot.users.cache.get(topid)
 
 

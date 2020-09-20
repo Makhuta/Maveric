@@ -17,7 +17,9 @@ module.exports = {
         for (l = 0; l <= top10length0; l++) {
             var xpToNextLevel = 5 * Math.pow(top10[l].level, 2) + 50 * top10[l].level + 100
             var sirka = ((100 / (xpToNextLevel)) * top10[l].xp) * 7.7;
-
+            var delkajmena = top10[l].username.length
+            var namepart1 = top10[l].username.slice(0, 17)
+            var namepart2 = top10[l].username.slice(17)
             //console.log(message.guild.members.cache.get(bot.user.id))
 
             let target = top10[l].user || bot.user
@@ -52,7 +54,14 @@ module.exports = {
             ctx.font = "30px Arial";
             ctx.textAlign = "left"
             ctx.fillStyle = "#ffffff";
-            ctx.fillText(top10[l].username, 130, vyska[l] + 50);
+            if (delkajmena <= 17) {
+                ctx.fillText(top10[l].username, 130, vyska[l] + 50);
+            }
+            else {
+                ctx.fillText(namepart1, 130, vyska[l] + 50);
+                ctx.fillText(namepart2, 130, vyska[l] + 85);
+            }
+
 
             ctx.font = "30px Arial";
             ctx.textAlign = "left"
@@ -73,7 +82,8 @@ module.exports = {
             ctx.clip();
             ctx.drawImage(avatar, 10, vyska[l] + 10, 80, 80);
             ctx.restore()
-            //console.log(target)
+
+            //console.log(top10[l].username.slice(0, 17))
         }
 
 
