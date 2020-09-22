@@ -92,7 +92,7 @@ module.exports = {
         //ctx.clip();
 
 
-        console.log(circle)
+        //console.log(circle)
 
         const attachment = new MessageAttachment(canvas.toBuffer(), "rank.png");
         message.channel.send(attachment)
