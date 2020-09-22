@@ -31,7 +31,7 @@ module.exports = {
         var nezname_procenta = numofallmembnobots
         var procenta = (nezname_procenta / jedno_procento)
         var procenta_setina = procenta / 100
-        
+
 
         /*console.log(
             `first_int_of_members: ---\n length_of_members: ${length_of_members}\n goal: ${goal}\n sto_procent: ${sto_procent}\n jedno_procento: ${jedno_procento}\n nezname_procenta: ${nezname_procenta}\n procenta: ${procenta}\n procenta_na_stupne: ${procenta_na_stupne}`
@@ -42,7 +42,9 @@ module.exports = {
         const background = await loadImage(join(__dirname, "..", "pictures", "background.jpg"));
         const guildavatar = await loadImage(guild.iconURL({ format: "jpg" }));
         const pi = Math.PI
-        const pistart = pi * 1.5
+        const circle = 2 * pi 
+        const zacinajiciuhel = circle * 0.75
+        const konecnyuhel = circle * procenta_setina + zacinajiciuhel
         ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
 
         ctx.beginPath();
@@ -57,7 +59,7 @@ module.exports = {
         ctx.restore()
 
         //ctx.save()
-        
+
         ctx.beginPath();
         ctx.arc(750, 250, 200, 0, pi * 2, true);
         ctx.lineWidth = 6;
@@ -70,7 +72,7 @@ module.exports = {
 
         for (let i = 3; i <= 196; i++) {
             ctx.beginPath();
-            ctx.arc(750, 250, i, pistart, pistart * procenta_setina, true);
+            ctx.arc(750, 250, i, zacinajiciuhel, konecnyuhel, false);
             ctx.lineWidth = 6;
             ctx.strokeStyle = "red";
             ctx.save()
@@ -90,7 +92,7 @@ module.exports = {
         //ctx.clip();
 
 
-        console.log(procenta_setina)
+        console.log(circle)
 
         const attachment = new MessageAttachment(canvas.toBuffer(), "rank.png");
         message.channel.send(attachment)
