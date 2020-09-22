@@ -8,7 +8,7 @@ const roundTo = require('round-to');
 
 
 function degres(stupne, pi) {
-    var radiany = stupne * (pi / 180)
+    var radiany = stupne * (pi / 180)// + (pi * 0.5)
     console.log(
         `Radiany: ${radiany}\n Stupně: ${stupne}`
     )
@@ -30,7 +30,8 @@ module.exports = {
         var jedno_procento = sto_procent / 100
         var nezname_procenta = numofallmembnobots
         var procenta = (nezname_procenta / jedno_procento)
-        var procenta_na_stupne = procenta * 3.6
+        var procenta_setina = procenta / 100
+        
 
         /*console.log(
             `first_int_of_members: ---\n length_of_members: ${length_of_members}\n goal: ${goal}\n sto_procent: ${sto_procent}\n jedno_procento: ${jedno_procento}\n nezname_procenta: ${nezname_procenta}\n procenta: ${procenta}\n procenta_na_stupne: ${procenta_na_stupne}`
@@ -41,6 +42,7 @@ module.exports = {
         const background = await loadImage(join(__dirname, "..", "pictures", "background.jpg"));
         const guildavatar = await loadImage(guild.iconURL({ format: "jpg" }));
         const pi = Math.PI
+        const pistart = pi * 1.5
         ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
 
         ctx.beginPath();
@@ -68,7 +70,7 @@ module.exports = {
 
         for (let i = 3; i <= 196; i++) {
             ctx.beginPath();
-            ctx.arc(750, 250, i, pi * 1.5, degres(procenta_na_stupne, pi), true);
+            ctx.arc(750, 250, i, pistart, pistart * procenta_setina, true);
             ctx.lineWidth = 6;
             ctx.strokeStyle = "red";
             ctx.save()
@@ -76,7 +78,7 @@ module.exports = {
             ctx.closePath();
             ctx.clip();
             ctx.restore()
-            console.log(i)
+            //console.log(i)
         }
 
         ctx.beginPath();
@@ -88,7 +90,7 @@ module.exports = {
         //ctx.clip();
 
 
-        console.log(guild.iconURL())
+        console.log(procenta_setina)
 
         const attachment = new MessageAttachment(canvas.toBuffer(), "rank.png");
         message.channel.send(attachment)
