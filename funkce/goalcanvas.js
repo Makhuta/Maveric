@@ -4,6 +4,7 @@ const { join } = require("path");
 const { bot } = require('../bot');
 const botconfig = require("../botconfig.json");
 const roundTo = require('round-to');
+const rainbow = require('../rainbow.json')
 
 
 
@@ -65,7 +66,7 @@ module.exports = {
         ctx.lineWidth = 6;
         ctx.strokeStyle = "#ffffff";
         ctx.globalAlpha = 0.6;
-        ctx.fillStyle = "blue";
+        ctx.fillStyle = "#ffffff";
         ctx.fill()
         ctx.stroke();
         ctx.closePath();
@@ -74,7 +75,7 @@ module.exports = {
             ctx.beginPath();
             ctx.arc(750, 250, i, zacinajiciuhel, konecnyuhel, false);
             ctx.lineWidth = 6;
-            ctx.strokeStyle = "red";
+            ctx.strokeStyle = `${rainbow[i - 3]}`;
             ctx.save()
             ctx.stroke();
             ctx.closePath();
@@ -85,7 +86,7 @@ module.exports = {
 
         ctx.beginPath();
         ctx.arc(750, 250, 200, 0, pi * 2, true);
-        ctx.lineWidth = 6;
+        ctx.lineWidth = 10;
         ctx.strokeStyle = "#ffffff";
         ctx.stroke();
         ctx.closePath();
