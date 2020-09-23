@@ -3,6 +3,8 @@ const Discord = require("discord.js");
 const botconfig = require("../botconfig.json");
 const { Guild } = require('discord.js');
 const color = require("../colors.json")
+const mysqlconfig = require("../mysqlconfig.json")
+const rankup = require("../funkce/rankup")
 const fs = require('fs')
 const mysql = require('mysql')
 const random = require('random')
@@ -43,7 +45,7 @@ function databaze(message, con) {
                 if (xp >= xpToNextLevel) {
                     level++;
                     xp = xp - xpToNextLevel;
-                    zprava(level, message.author.username, message, Discord)
+                    rankup.run(message, level)
 
                     sql = `UPDATE userstats SET xp = ${xp} WHERE id = '${message.author.id}'`;
                     con.query(sql)
@@ -66,8 +68,6 @@ function databaze(message, con) {
         //console.log(rows)
     })
 }
-
-
 
 bot.on("message", message => {
     if (message.author.bot || message.channel.type === "dm" || message.content.startsWith(botconfig.prefix)) return
