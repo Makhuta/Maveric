@@ -50,7 +50,7 @@ function level_cislo(ctx, stred_x, stred_y, level) {
 module.exports = {
     async run(message, level) {
 
-        console.log(message.author.avatar)
+        //console.log(message.author.avatar)
 
         const canvas = createCanvas(550, 1100);
         const ctx = canvas.getContext('2d');
