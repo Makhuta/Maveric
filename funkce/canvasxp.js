@@ -47,7 +47,7 @@ module.exports = {
         ctx.stroke();
         ctx.closePath();
         ctx.clip();
-        const avatar = await loadImage(target.displayAvatarURL({ format: "jpg", size: 32 }));
+        const avatar = await loadImage(target.displayAvatarURL({ format: "jpg", size: 512 }));
         ctx.drawImage(avatar, 40, 40, 250, 250);
 
         const attachment = new MessageAttachment(canvas.toBuffer(), "rank.png");

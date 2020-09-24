@@ -26,7 +26,7 @@ module.exports = {
 
 
 
-            var avatar = await loadImage(target.displayAvatarURL({ format: "jpg", size: 512 }));
+            var avatar = await loadImage(target.displayAvatarURL({ format: "jpg", size: 64 }));
 
             ctx.beginPath();
             ctx.lineWidth = 4;
