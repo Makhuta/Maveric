@@ -3,6 +3,7 @@ const Discord = require("discord.js");
 const botconfig = require("../botconfig.json")
 const color = require("../colors.json")
 const fs = require("fs");
+const rankup = require("../funkce/rankup")
 
 const name = "eventxp"
 const description = `Přídá členovi počet XP`
@@ -18,20 +19,7 @@ function addxp(targetid, targetusername, numofxp, message) {
         xp += numofxp
         var xpToNextLevel = 5 * Math.pow(level, 2) + 50 * level + 100
         //console.log(xpToNextLevel)
-        if (xp >= xpToNextLevel) {
-            level++;
-            xp = xp - xpToNextLevel;
-            zprava(level, message.author.username, message)
-
-            sql = `UPDATE userstats SET xp = ${xp} WHERE id = '${targetid}'`;
-            con.query(sql)
-            sql = `UPDATE userstats SET level = ${level} WHERE id = '${targetid}'`;
-            con.query(sql)
-        }
-        else {
-            sql = `UPDATE userstats SET xp = ${xp} WHERE id = '${targetid}'`;
-            con.query(sql)
-        }
+        rankup.run(message, xp, level, sql, con)
     })
     message.channel.send(`${numofxp} XP bylo přičteno uživateli ${targetusername}.`)
 }
