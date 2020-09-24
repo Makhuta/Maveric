@@ -1,6 +1,6 @@
 const Discord = require("discord.js");
 const botconfig = require("../botconfig.json")
-const color = require("../colors.json")
+const color = require("../colors/colors.json")
 
 const name = "test"
 const description = "Tento příkaz je jen pro budoucí testování bota."
