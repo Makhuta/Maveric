@@ -54,7 +54,7 @@ module.exports.run = async (bot, message, args) => {
         var cas_ted = Date.now()
         var milisekundy = (parseInt(lastmsg) + 600000) - cas_ted
         var minuty = Math.round(milisekundy/60000);
-        console.log(minuty + "\n" + milisekundy + "\n" + lastmsg + "\n" + cas_ted)
+        //console.log(minuty + "\n" + milisekundy + "\n" + lastmsg + "\n" + cas_ted)
         if (resallxp < args[0]) return (message.channel.send("Nemáš dostatek XP pro tuto hru."))
         if (Date.now() - lastmsg < 600000) return (message.channel.send(`Příkaz Coinflip můžete opět použít za ${minuty} minut.`))
         var sazka = ({ xp: args[0], pravdepodobnost: args[1] })
