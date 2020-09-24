@@ -1,6 +1,6 @@
 const Discord = require("discord.js");
 const { prefix } = require("../botconfig.json")
-const color = require("../colors.json")
+const color = require("../colors/colors.json")
 const fs = require("fs");
 const { isNumber } = require("util");
 

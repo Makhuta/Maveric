@@ -3,7 +3,7 @@ const { bot, con } = require('../bot');
 const botconfig = require("../botconfig.json")
 const mysql = require('mysql')
 const random = require('random')
-const color = require("../colors.json")
+const color = require("../colors/colors.json")
 const prefix = botconfig.prefix;
 
 function prikaz(message) {

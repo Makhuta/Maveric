@@ -1,7 +1,7 @@
 const { bot, con } = require('../bot');
 const Discord = require("discord.js");
 const botconfig = require("../botconfig.json")
-const color = require("../colors.json")
+const color = require("../colors/colors.json")
 const fs = require("fs");
 const rankup = require("../funkce/rankup")
 

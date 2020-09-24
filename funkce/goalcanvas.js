@@ -4,7 +4,7 @@ const { join } = require("path");
 const { bot } = require('../bot');
 const botconfig = require("../botconfig.json");
 const roundTo = require('round-to');
-const rainbow = require('../rainbow.json')
+const rainbow = require('../colors/rainbow.json')
 
 
 

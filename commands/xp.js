@@ -1,7 +1,7 @@
 const { bot, con } = require('../bot');
 const { MessageAttachment } = require("discord.js");
 const botconfig = require("../botconfig.json")
-const color = require("../colors.json")
+const color = require("../colors/colors.json")
 const fs = require("fs");
 const { createCanvas, loadImage, Canvas } = require("canvas");
 const { join } = require("path");

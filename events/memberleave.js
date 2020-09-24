@@ -2,7 +2,7 @@ const { bot } = require('../bot');
 const Discord = require("discord.js");
 const botconfig = require("../botconfig.json");
 const { Guild } = require('discord.js');
-const color = require("../colors.json")
+const color = require("../colors/colors.json")
 
 bot.on("guildMemberRemove", (member) => {
     bot.channels.fetch(bot.channels.cache.find(c => c.name === botconfig.gateroom).id)

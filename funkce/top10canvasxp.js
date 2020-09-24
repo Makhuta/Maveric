@@ -2,6 +2,7 @@ const { MessageAttachment } = require("discord.js");
 const { createCanvas, loadImage, Canvas } = require("canvas");
 const { join } = require("path");
 const { bot } = require('../bot');
+const xpcolor = require("..//colors/xpcolor.json")
 
 module.exports = {
     async run(top10, message) {
@@ -16,6 +17,7 @@ module.exports = {
 
         for (l = 0; l <= top10length0; l++) {
             var xpToNextLevel = 5 * Math.pow(top10[l].level, 2) + 50 * top10[l].level + 100
+            var procenta = Math.round(top10[l].xp / (xpToNextLevel / 100))
             var sirka = ((100 / (xpToNextLevel)) * top10[l].xp) * 7.7;
             var delkajmena = top10[l].username.length
             var namepart1 = top10[l].username.slice(0, 17)
@@ -40,7 +42,7 @@ module.exports = {
             ctx.stroke();
 
             ctx.globalAlpha = 0.6;
-            ctx.fillStyle = "#e67e22";
+            ctx.fillStyle = `${xpcolor[procenta]}`;
             ctx.fillRect(430, vyska[l] + 20, sirka, 65);
             ctx.fill();
             ctx.globalAlpha = 1;

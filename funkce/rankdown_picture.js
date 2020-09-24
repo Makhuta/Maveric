@@ -3,7 +3,7 @@ const { createCanvas, loadImage, Canvas } = require("canvas");
 const { join } = require("path");
 const { bot } = require('../bot');
 const botconfig = require("../botconfig.json");
-const colors = require("../colors.json");
+const colors = require("../colors/colors.json");
 
 function sipka(ctx, stred_x, stred_y, sirka_sipka) {
 

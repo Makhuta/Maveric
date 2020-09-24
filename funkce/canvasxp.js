@@ -1,6 +1,7 @@
 const { MessageAttachment } = require("discord.js");
 const { createCanvas, loadImage, Canvas } = require("canvas");
 const { join } = require("path");
+const xpcolor = require("..//colors/xpcolor.json")
 
 module.exports = {
     async run(xp, level, target, message, xpToNextLevel, rank) {
@@ -8,6 +9,7 @@ module.exports = {
         const ctx = canvas.getContext('2d');
         const background = await loadImage(join(__dirname, "..", "pictures", "background.jpg"));
         var sirka = ((100 / (xpToNextLevel)) * xp) * 7.7;
+        var procenta = Math.round(xp / (xpToNextLevel / 100))
         ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
 
         ctx.beginPath();
@@ -22,7 +24,7 @@ module.exports = {
         ctx.stroke();
 
         ctx.globalAlpha = 0.6;
-        ctx.fillStyle = "#e67e22";
+        ctx.fillStyle = `${xpcolor[procenta]}`;
         ctx.fillRect(180, 216, sirka, 65);
         ctx.fill();
         ctx.globalAlpha = 1;
