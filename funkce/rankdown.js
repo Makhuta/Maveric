@@ -3,7 +3,6 @@ const Discord = require("discord.js");
 const botconfig = require("../botconfig.json");
 const { Guild } = require('discord.js');
 const color = require("../colors.json")
-const mysqlconfig = require("../mysqlconfig.json")
 const rankdown_picture = require("../funkce/rankdown_picture")
 const fs = require('fs')
 const mysql = require('mysql')
