@@ -51,8 +51,12 @@ module.exports.run = async (bot, message, args) => {
             lastmsg = rows[0].last_coinflip
             resallxp = allxp(level, xp)
         }
+        var cas_ted = Date.now()
+        var milisekundy = (parseInt(lastmsg) + 600000) - cas_ted
+        var minuty = Math.round(milisekundy/60000);
+        console.log(minuty + "\n" + milisekundy + "\n" + lastmsg + "\n" + cas_ted)
         if (resallxp < args[0]) return (message.channel.send("Nemáš dostatek XP pro tuto hru."))
-        if (Date.now() - lastmsg < 600000) return (message.channel.send("Příkaz Coinflip lze použít pouze 1 za 10 minut."))
+        if (Date.now() - lastmsg < 600000) return (message.channel.send(`Příkaz Coinflip můžete opět použít za ${minuty} minut.`))
         var sazka = ({ xp: args[0], pravdepodobnost: args[1] })
         coinflip.run(sazka, sql, con, xp, level, message)
         sql = `UPDATE userstats SET last_coinflip = ${cas} WHERE id = '${message.author.id}'`;
