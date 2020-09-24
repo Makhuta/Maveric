@@ -24,7 +24,7 @@ function allxp(level, xp) {
 }
 
 module.exports.run = async (bot, message, args) => {
-    if (!isNumber(args[0]) || !isNumber(args[1])) return (message.channel.send("Zkontroluj si příkaz."))
+    if (!isNumber(args[0]) || !isNumber(args[1])) return (message.channel.send("Zkontroluj si příkaz.\n**Příklad příkazu:** /coinflip 100 60"))
     if (args[1] > 90) return (message.channel.send("Šance může být maximálně 90%."))
     if (args[1] < 10) return (message.channel.send("Šance může být minimálně 10%."))
     if (args[0] < 10) return (message.channel.send("Minimální množství XP je 10."))
@@ -51,7 +51,7 @@ module.exports.run = async (bot, message, args) => {
             lastmsg = rows[0].last_coinflip
             resallxp = allxp(level, xp)
         }
-        if (resallxp < args[0]) return (message.channel.send("Nemáš dostatek XP pro tento hru."))
+        if (resallxp < args[0]) return (message.channel.send("Nemáš dostatek XP pro tuto hru."))
         if (Date.now() - lastmsg < 600000) return (message.channel.send("Příkaz Coinflip lze použít pouze 1 za 10 minut."))
         var sazka = ({ xp: args[0], pravdepodobnost: args[1] })
         coinflip.run(sazka, sql, con, xp, level, message)
