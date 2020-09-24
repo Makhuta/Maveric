@@ -1,7 +1,7 @@
 const fs = require("fs");
 
 module.exports = (bot) => {
-    
+
 
     fs.readdir("./events/", (err, files) => {
 
@@ -36,6 +36,22 @@ module.exports = (bot) => {
                 bot.aliases.set(alias, pull.help.name)
                 console.log(`${i + 1}: ${f} loaded!`)
             });
+        });
+    });
+
+    fs.readdir("./funkce/", (err, files) => {
+
+        if (err) console.log(err);
+
+        let jsfile = files.filter(f => f.split(".").pop() === "js");
+        if (jsfile.length <= 0) {
+            console.log("There isn't any function to load!");
+            return;
+        }
+        console.log(`Loading ${jsfile.length} functions...`)
+        jsfile.forEach((f, i) => {
+            let pull = require(`./funkce/${f}`);
+            console.log(`${i + 1}: ${f} loaded!`)
         });
     });
 
