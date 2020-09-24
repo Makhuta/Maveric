@@ -39,26 +39,10 @@ function databaze(message, con) {
 
             if (Date.now() - lastmsg > 60000) {
                 xp += generateXP()
-                var xpToNextLevel = 5 * Math.pow(level, 2) + 50 * level + 100
-                //console.log(xpToNextLevel)
-                if (xp >= xpToNextLevel) {
-                    level++;
-                    xp = xp - xpToNextLevel;
-                    rankup.run(message, level)
 
-                    sql = `UPDATE userstats SET xp = ${xp} WHERE id = '${message.author.id}'`;
-                    con.query(sql)
-                    sql = `UPDATE userstats SET level = ${level} WHERE id = '${message.author.id}'`;
-                    con.query(sql)
-                    sql = `UPDATE userstats SET last_message = ${cas} WHERE id = '${message.author.id}'`;
-                    con.query(sql)
-                }
-                else {
-                    sql = `UPDATE userstats SET xp = ${xp} WHERE id = '${message.author.id}'`, `UPDATE userstats SET last_message = ${cas} WHERE id = '${message.author.id}'`;
-                    con.query(sql)
-                    sql = `UPDATE userstats SET last_message = ${cas} WHERE id = '${message.author.id}'`;
-                    con.query(sql)
-                }
+                rankup.run(message, xp, level, sql, con)
+                sql = `UPDATE userstats SET last_message = ${cas} WHERE id = '${message.author.id}'`;
+                con.query(sql)
             }
             else return
             //console.log(level + " " + xp)
