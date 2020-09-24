@@ -6,6 +6,7 @@ const color = require("../colors.json")
 const mysqlconfig = require("../mysqlconfig.json")
 const rankup = require("../funkce/rankup")
 const rankdown = require("../funkce/rankdown")
+const coinflipcanvas = require("../funkce/coinflipcanvas")
 const fs = require('fs')
 const mysql = require('mysql')
 const random = require('random')
@@ -26,13 +27,12 @@ module.exports = {
         if (nahodnecislo <= sazkapravdepodobnost) {
             xp += vyhernixp
             await rankup.run(message, xp, level, sql, con)
-            console.log("Win")
+            await coinflipcanvas.run(message, color.lime, color.green, "Win")
         }
         else if (nahodnecislo > sazkapravdepodobnost) {
             xp -= prohraxp
             await rankdown.run(message, xp, level, sql, con)
-            console.log("Lose")
+            await coinflipcanvas.run(message, color.red, color.maroon, "Lose")
         }
-        console.log(` Nahodne cislo: ${nahodnecislo}\n Vyherni XP: ${vyhernixp}\n XP: ${xp}\n Nasobitel XP: ${nasobitelxp}`)
     }
 }

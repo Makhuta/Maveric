@@ -48,14 +48,14 @@ module.exports.run = async (bot, message, args) => {
         else {
             xp = rows[0].xp
             level = rows[0].level
-            lastmsg = rows[0].last_message
+            lastmsg = rows[0].last_coinflip
             resallxp = allxp(level, xp)
         }
         if (resallxp < args[0]) return (message.channel.send("Nemáš dostatek XP pro tento hru."))
         if (Date.now() - lastmsg < 600000) return (message.channel.send("Příkaz Coinflip lze použít pouze 1 za 10 minut."))
         var sazka = ({ xp: args[0], pravdepodobnost: args[1] })
         coinflip.run(sazka, sql, con, xp, level, message)
-        sql = `UPDATE userstats SET last_message = ${cas} WHERE id = '${message.author.id}'`;
+        sql = `UPDATE userstats SET last_coinflip = ${cas} WHERE id = '${message.author.id}'`;
         con.query(sql)
     })
 }
