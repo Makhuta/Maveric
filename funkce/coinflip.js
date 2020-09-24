@@ -19,7 +19,7 @@ module.exports = {
         var sazkaxp = sazka.xp
         var sazkapravdepodobnost = sazka.pravdepodobnost
         var nasobitelxp = (100 - sazkapravdepodobnost) / 10
-        var vyhernixp = nasobitelxp * sazkaxp
+        var vyhernixp = (nasobitelxp * sazkaxp) / 10
         var prohraxp = sazkaxp
         var nahodnecislo = randomnumber()
 
