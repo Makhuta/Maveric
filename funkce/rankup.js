@@ -13,7 +13,7 @@ async function rank(xp, level, sql, message, xpToNextLevel, target) {
         level++;
         xp = xp - xpToNextLevel;
 
-        await rankup_picture.run(message, level)
+        await rankup_picture.run(message, level, target)
 
 
         sql = `UPDATE userstats SET xp = ${xp} WHERE id = '${target.id || message.author.id}'`;

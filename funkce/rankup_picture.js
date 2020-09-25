@@ -48,14 +48,14 @@ function level_cislo(ctx, stred_x, stred_y, level) {
 
 
 module.exports = {
-    async run(message, level) {
+    async run(message, level, target) {
 
         //console.log(message.author.avatar)
 
         const canvas = createCanvas(550, 1100);
         const ctx = canvas.getContext('2d');
         const background = await loadImage(join(__dirname, "..", "pictures", "rankup_background.jpg"));
-        const avatar = await loadImage(message.author.displayAvatarURL({ format: "jpg", size: 512 }));
+        const avatar = await loadImage((target || message.author).displayAvatarURL({ format: "jpg", size: 512 }));
         const pi = Math.PI;
         const canvas_sirka = canvas.width;
         const stred_sipky_x = 275
