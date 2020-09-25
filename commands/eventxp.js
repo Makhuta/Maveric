@@ -11,7 +11,7 @@ const usage = `${botconfig.prefix}eventxp [@user] [počet XP]`
 const accessableby = ["Bulgy", "Admins", "Moderátor", "Eventer"]
 const aliases = ["exp"]
 
-function addxp(targetid, targetusername, numofxp, message) {
+function addxp(targetid, targetusername, numofxp, message, target) {
     con.query(`SELECT * FROM userstats WHERE id = '${targetid}'`, (err, rows) => {
         let sql
         var xp = rows[0].xp
@@ -19,7 +19,7 @@ function addxp(targetid, targetusername, numofxp, message) {
         xp += numofxp
         var xpToNextLevel = 5 * Math.pow(level, 2) + 50 * level + 100
         //console.log(xpToNextLevel)
-        rankup.run(message, xp, level, sql, con)
+        rankup.run(message, xp, level, sql, con, target)
     })
     message.channel.send(`${numofxp} XP bylo přičteno uživateli ${targetusername}.`)
 }
@@ -46,7 +46,7 @@ module.exports.run = async (bot, message, args, con) => {
     //console.log(numofxp)
     if (isInt(args[1]) && args[1] > 0) {
         //console.log(targetid)
-        addxp(targetid, targetusername, numofxp, message)
+        addxp(targetid, targetusername, numofxp, message, target)
     }
     else if (!isInt(args[1])) return message.channel.send("Prosím překontrolujte si hodnotu nebo formát XP.")
     else if (args[1] < 0) return message.channel.send("Prosím nepoužívejte záporné hodnoty XP s tímto příkazem.")
