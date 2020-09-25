@@ -34,7 +34,7 @@ module.exports = {
             rank(xp, level, sql, message, xpToNextLevel, target)
         }
         else {
-            sql = `UPDATE userstats SET xp = ${xp} WHERE id = '${message.author.id}'`;
+            sql = `UPDATE userstats SET xp = ${xp} WHERE id = '${target.id || message.author.id}'`;
             con.query(sql)
         }
 

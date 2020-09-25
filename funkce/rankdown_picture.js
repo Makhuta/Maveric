@@ -48,7 +48,7 @@ function level_cislo(ctx, stred_x, stred_y, level) {
 
 
 module.exports = {
-    async run(message, level) {
+    async run(message, level, target) {
 
         //console.log(message.author.avatar)
 
