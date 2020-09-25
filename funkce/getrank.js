@@ -1,6 +1,7 @@
 var rank
 var resid
 var resallxp
+var vsechnyxpecka
 
 function allxp(level, xp) {
     var xpecka = xp
@@ -35,9 +36,11 @@ module.exports = {
             for (let d = 0; d <= reslength; d++) {
                 if (usraray[d].id === target.id) {
                     rank = d + 1
+                    vsechnyxpecka = allxp(level, xp)
+
                     //console.log(resid + " " + resallxp + " #" + rank)
 
-                    callfunction(xp, level, target, message, xpToNextLevel, rank)
+                    callfunction(xp, level, target, message, xpToNextLevel, rank, vsechnyxpecka)
                 }
 
             }

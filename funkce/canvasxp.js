@@ -4,7 +4,7 @@ const { join } = require("path");
 const xpcolor = require("..//colors/xpcolor.json")
 
 module.exports = {
-    async run(xp, level, target, message, xpToNextLevel, rank) {
+    async run(xp, level, target, message, xpToNextLevel, rank, allxp) {
         const canvas = createCanvas(1000, 333);
         const ctx = canvas.getContext('2d');
         const background = await loadImage(join(__dirname, "..", "pictures", "background.jpg"));
@@ -42,6 +42,13 @@ module.exports = {
 
         ctx.font = "50px Arial";
         ctx.fillText("Rank: #" + rank, 300, 180);
+
+        ctx.textAlign = "right"
+        ctx.font = "50px Arial";
+        ctx.fillText("All XP:", 950, 130);
+
+        ctx.font = "50px Arial";
+        ctx.fillText(allxp, 950, 180);
 
         ctx.arc(170, 160, 120, 0, Math.PI * 2, true);
         ctx.lineWidth = 6;
