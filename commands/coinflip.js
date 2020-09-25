@@ -57,6 +57,7 @@ module.exports.run = async (bot, message, args) => {
         var minuty = Math.round(milisekundy/60000);
         //console.log(minuty + "\n" + milisekundy + "\n" + lastmsg + "\n" + cas_ted)
         if (resallxp < args[0]) return (message.channel.send("Nemáš dostatek XP pro tuto hru."))
+        if (resallxp > 5000) return (message.channel.send("Maximální XP které lze vsadit je 5000."))
         if (Date.now() - lastmsg < 600000) return (message.channel.send(`Příkaz Coinflip můžete opět použít za ${minuty} minut.`))
         var sazka = ({ xp: args[0], pravdepodobnost: args[1] })
         coinflip.run(sazka, sql, con, xp, level, message, target)
