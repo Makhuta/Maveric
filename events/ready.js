@@ -36,3 +36,11 @@ bot.on("ready", () => {
   verifymessage()
 
 })
+
+bot.on("message", async message => {
+  const channel = botconfig.verifyroom
+  if (message.channel.id !== bot.channels.cache.find(r => r.name === botconfig.verifyroom).id) return
+  const emoji = message.guild.emojis.cache.find(emoji => emoji.name === botconfig.verifyemojiname).id
+  message.react(emoji)
+  //console.log(bot.channels.cache.find(c => c.name === channel).messages.channel.messages.cache.find(m => m.id === message.id).channel.messages.cache)
+})
