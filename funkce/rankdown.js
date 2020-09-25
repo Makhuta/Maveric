@@ -8,30 +8,30 @@ const fs = require('fs')
 const mysql = require('mysql')
 const random = require('random')
 
-async function rank(xp, level, sql, message, xpToNextLevel) {
+async function rank(xp, level, sql, message, xpToNextLevel, target) {
     for (xp; xp < 0; xp) {
         level--;
         xp = xp + xpToNextLevel;
 
-        await rankdown_picture.run(message, level)
+        await rankdown_picture.run(message, level, target)
 
 
-        sql = `UPDATE userstats SET xp = ${xp} WHERE id = '${message.author.id}'`;
+        sql = `UPDATE userstats SET xp = ${xp} WHERE id = '${target.id || message.author.id}'`;
         con.query(sql)
-        sql = `UPDATE userstats SET level = ${level} WHERE id = '${message.author.id}'`;
+        sql = `UPDATE userstats SET level = ${level} WHERE id = '${target.id || message.author.id}'`;
         con.query(sql)
         xpToNextLevel = 5 * Math.pow(level, 2) + 50 * level + 100
     }
 }
 
 module.exports = {
-    async run(message, xp, level, sql, con) {
+    async run(message, xp, level, sql, con, target) {
 
         
         var xpToNextLevel = 5 * Math.pow(level, 2) + 50 * level + 100
         //console.log(xpToNextLevel)
         if (xp < 0) {
-            rank(xp, level, sql, message, xpToNextLevel)
+            rank(xp, level, sql, message, xpToNextLevel, target)
         }
         else {
             sql = `UPDATE userstats SET xp = ${xp} WHERE id = '${message.author.id}'`;

@@ -37,11 +37,12 @@ function databaze(message, con) {
             var level = rows[0].level
             var lastmsg = rows[0].last_message
             var cas = Date.now()
+            var target = message.author
 
             if (Date.now() - lastmsg > 60000) {
                 xp += generateXP()
 
-                rankup.run(message, xp, level, sql, con)
+                rankup.run(message, xp, level, sql, con, target)
                 sql = `UPDATE userstats SET last_message = ${cas} WHERE id = '${message.author.id}'`;
                 con.query(sql)
             }

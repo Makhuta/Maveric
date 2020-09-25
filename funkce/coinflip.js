@@ -15,22 +15,22 @@ function randomnumber() {
 }
 
 module.exports = {
-    async run(sazka, sql, con, xp, level, message) {
+    async run(sazka, sql, con, xp, level, message, target) {
         var sazkaxp = sazka.xp
         var sazkapravdepodobnost = sazka.pravdepodobnost
         var nasobitelxp = (100 - sazkapravdepodobnost) / 10
-        var vyhernixp = (nasobitelxp * sazkaxp) / 10
+        var vyhernixp = nasobitelxp * sazkaxp
         var prohraxp = sazkaxp
         var nahodnecislo = randomnumber()
 
         if (nahodnecislo <= sazkapravdepodobnost) {
             xp += vyhernixp
-            await rankup.run(message, xp, level, sql, con)
+            await rankup.run(message, xp, level, sql, con, target)
             await coinflipcanvas.run(message, color.lime, color.green, "Win")
         }
         else if (nahodnecislo > sazkapravdepodobnost) {
             xp -= prohraxp
-            await rankdown.run(message, xp, level, sql, con)
+            await rankdown.run(message, xp, level, sql, con, target)
             await coinflipcanvas.run(message, color.red, color.maroon, "Lose")
         }
     }
