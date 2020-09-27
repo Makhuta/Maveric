@@ -44,7 +44,7 @@ module.exports = {
         ctx.beginPath();
         ctx.font = "30px Calibri";
         ctx.textAlign = "center";
-        ctx.fillStyle = color1;
+        ctx.fillStyle = "#d8fd00";
         ctx.fillText(vyhernicislo, 250, 450);
         ctx.closePath();
         
