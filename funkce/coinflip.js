@@ -26,12 +26,12 @@ module.exports = {
         if (nahodnecislo <= sazkapravdepodobnost) {
             xp += vyhernixp
             await rankup.run(message, xp, level, sql, con, target)
-            await coinflipcanvas.run(message, color.lime, color.green, "Win")
+            await coinflipcanvas.run(message, color.lime, color.green, "Win", nahodnecislo)
         }
         else if (nahodnecislo > sazkapravdepodobnost) {
             xp -= prohraxp
             await rankdown.run(message, xp, level, sql, con, target)
-            await coinflipcanvas.run(message, color.red, color.maroon, "Lose")
+            await coinflipcanvas.run(message, color.red, color.maroon, "Lose", nahodnecislo)
         }
     }
 }

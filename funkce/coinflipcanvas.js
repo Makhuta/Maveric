@@ -3,7 +3,7 @@ const { createCanvas, loadImage, Canvas } = require("canvas");
 const { join } = require("path");
 
 module.exports = {
-    async run(message, color2, color1, vysledek) {
+    async run(message, color2, color1, vysledek, vyhernicislo) {
         const canvas = createCanvas(500, 500);
         const ctx = canvas.getContext('2d');
         const background = await loadImage(join(__dirname, "..", "pictures", "background.jpg"));
@@ -39,6 +39,13 @@ module.exports = {
         ctx.textAlign = "center";
         ctx.fillStyle = color2;
         ctx.fillText(`${vysledek[0]}`, 250, 340);
+        ctx.closePath();
+
+        ctx.beginPath();
+        ctx.font = "30px Calibri";
+        ctx.textAlign = "center";
+        ctx.fillStyle = color1;
+        ctx.fillText(vyhernicislo + "%", 250, 450);
         ctx.closePath();
         
 
