@@ -14,7 +14,7 @@ const name = "xp"
 const description = `Vypíše počet XP`
 const usage = `${botconfig.prefix}xp`
 const accessableby = ["Member"]
-const aliases = [""]
+const aliases = []
 
 module.exports.run = async (bot, message, args, con) => {
     let target = message.mentions.users.first();

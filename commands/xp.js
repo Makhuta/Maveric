@@ -13,7 +13,7 @@ const name = "xp"
 const description = `Vypíše počet XP`
 const usage = `${botconfig.prefix}xp`
 const accessableby = ["Member"]
-const aliases = [""]
+const aliases = []
 
 async function statistika(xp, level, target, message, xpToNextLevel, rank) {
     const canvas = createCanvas(1000, 333);
