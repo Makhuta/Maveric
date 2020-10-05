@@ -2,7 +2,6 @@ const Discord = require("discord.js");
 const { bot } = require('../bot');
 const roomnames = require("../botconfig/roomnames.json")
 const emojinames = require("../botconfig/emojinames.json")
-const token = require("../botconfig/token.json")
 const color = require("../colorpaletes/colors.json")
 const verifymessage = require("../handlers/verification/verifymessage")
 const examplereaction = require("../handlers/verification/reaction")
