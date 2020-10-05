@@ -1,37 +1,35 @@
 const { MessageAttachment } = require("discord.js");
 const { createCanvas, loadImage, Canvas } = require("canvas");
 const { join } = require("path");
-const { bot } = require('../bot');
-const botconfig = require("../botconfig.json");
-const colors = require("../colors/colors.json");
+const colors = require("../../colorpaletes/colors.json");
 
 function sipka(ctx, stred_x, stred_y, sirka_sipka) {
 
     //Light part
     ctx.beginPath();
-    ctx.moveTo(stred_x - 200, stred_y)
-    ctx.lineTo(stred_x - sirka_sipka / 2, stred_y + sirka_sipka + 50)
-    ctx.lineTo(stred_x + sirka_sipka / 2, stred_y + sirka_sipka + 50)
-    ctx.lineTo(stred_x + 200, stred_y)
-    ctx.lineTo(stred_x + 200 - sirka_sipka * 1.6, stred_y)
-    ctx.lineTo(stred_x + sirka_sipka / 2, stred_y + 50)
-    ctx.lineTo(stred_x - sirka_sipka / 2, stred_y + 50)
-    ctx.lineTo(stred_x - 200 + sirka_sipka * 1.6, stred_y)
-    ctx.fillStyle = `${colors.red}`;
+    ctx.moveTo(stred_x - 200, stred_y + 100)
+    ctx.lineTo(stred_x - sirka_sipka / 2, stred_y)
+    ctx.lineTo(stred_x + sirka_sipka / 2, stred_y)
+    ctx.lineTo(stred_x + 200, stred_y + 100)
+    ctx.lineTo(stred_x + 200 - sirka_sipka * 1.6, stred_y + 100)
+    ctx.lineTo(stred_x + sirka_sipka / 2, stred_y + sirka_sipka)
+    ctx.lineTo(stred_x - sirka_sipka / 2, stred_y + sirka_sipka)
+    ctx.lineTo(stred_x - 200 + sirka_sipka * 1.6, stred_y + 100)
+    ctx.fillStyle = `${colors.lime}`;
     ctx.fill();
     ctx.closePath();
 
     //Dark part
     ctx.beginPath();
-    ctx.moveTo(stred_x - 200 + 24, stred_y + 6)
-    ctx.lineTo(stred_x - sirka_sipka / 2 + 6, stred_y + sirka_sipka + 50 - 6)
-    ctx.lineTo(stred_x + sirka_sipka / 2 - 6, stred_y + sirka_sipka + 50 - 6)
-    ctx.lineTo(stred_x + 200 - 24, stred_y + 6)
-    ctx.lineTo(stred_x + 200 - sirka_sipka * 1.6 + 6, stred_y + 6)
-    ctx.lineTo(stred_x + sirka_sipka / 2 + 6, stred_y + 50 + 6)
-    ctx.lineTo(stred_x - sirka_sipka / 2 - 6, stred_y + 50 + 6)
-    ctx.lineTo(stred_x - 200 + sirka_sipka * 1.6 - 6, stred_y + 6)
-    ctx.fillStyle = `${colors.maroon}`;
+    ctx.moveTo(stred_x - 200 + 24, stred_y + 100 - 6)
+    ctx.lineTo(stred_x - sirka_sipka / 2 + 6, stred_y + 6)
+    ctx.lineTo(stred_x + sirka_sipka / 2 - 6, stred_y + 6)
+    ctx.lineTo(stred_x + 200 - 24, stred_y + 100 - 6)
+    ctx.lineTo(stred_x + 200 - sirka_sipka * 1.6 + 6, stred_y + 100 - 6)
+    ctx.lineTo(stred_x + sirka_sipka / 2 + 6, stred_y + sirka_sipka - 6)
+    ctx.lineTo(stred_x - sirka_sipka / 2 - 6, stred_y + sirka_sipka - 6)
+    ctx.lineTo(stred_x - 200 + sirka_sipka * 1.6 - 6, stred_y + 100 - 6)
+    ctx.fillStyle = `${colors.green}`;
     ctx.fill();
     ctx.closePath();
 
@@ -54,7 +52,7 @@ module.exports = {
 
         const canvas = createCanvas(550, 1100);
         const ctx = canvas.getContext('2d');
-        const background = await loadImage(join(__dirname, "..", "pictures", "rankup_background.jpg"));
+        const background = await loadImage(join(__dirname, "../..", "pictures", "rankup_background.jpg"));
         const avatar = await loadImage((target || message.author).displayAvatarURL({ format: "jpg", size: 512 }));
         const pi = Math.PI;
         const canvas_sirka = canvas.width;
@@ -89,7 +87,7 @@ module.exports = {
         }
         level_cislo(ctx, stred_lvlu_x, stred_lvlu_y, level)
 
-        const attachment = new MessageAttachment(canvas.toBuffer(), "rankdown.png");
+        const attachment = new MessageAttachment(canvas.toBuffer(), "rankup.png");
         message.channel.send(attachment)
     }
 }

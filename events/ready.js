@@ -1,46 +1,21 @@
 const Discord = require("discord.js");
 const { bot } = require('../bot');
-const botconfig = require("../botconfig.json")
-const color = require("../colors/colors.json")
-
-async function verifymessage() {
-
-  await bot.channels.cache.find(c => c.name === botconfig.verifyroom).messages.fetch({ limit: 99 }).then(messages => {
-    bot.channels.cache.find(c => c.name === botconfig.verifyroom).bulkDelete(messages)
-  })
-
-  bot.channels.fetch(bot.channels.cache.find(c => c.name === botconfig.verifyroom).id)
-    .then(channel => {
-      bot.channels.fetch(bot.channels.cache.find(c => c.name === botconfig.pravidlaroom).id)
-        .then(channelname => {
-          const msg = bot.channels.cache.get(channel.id)
-          const lastmsg = msg.messages.channel.lastMessageID
-          var embed = new Discord.MessageEmbed()
-            .setTitle(` __Ověření__ `)
-            .setDescription(`
-            Pro přístup k serveru potvrďte že jste si přečetl/a ${channelname} reakcí.\n` + 
-            `↓ ↓ ↓ ↓`
-            )
-            .setColor(color.red)
-          msg.send(embed)
-          if (!msg.guild.emojis.cache.find(emoji => emoji.name === botconfig.verifyemojiname)) return
-        });
-    })
-}
+const roomnames = require("../botconfig/roomnames.json")
+const emojinames = require("../botconfig/emojinames.json")
+const token = require("../botconfig/token.json")
+const color = require("../colorpaletes/colors.json")
+const verifymessage = require("../handlers/verification/verifymessage")
+const examplereaction = require("../handlers/verification/reaction")
 
 bot.login(process.env.BOT_TOKEN);
 bot.on("ready", () => {
   console.log(`${bot.user.username} is Ready!`);
   bot.user.setActivity('NSBR Server', { type: "WATCHING" });
-
-  verifymessage()
-
+  let hodnoty = ({ bot: bot, verifyroomname: roomnames.verifyroom, color: color, discord: Discord, verifyemojiname: emojinames.verifyemojiname })
+  verifymessage.run(hodnoty)
 })
 
 bot.on("message", async message => {
-  const channel = botconfig.verifyroom
-  if (message.channel.id !== bot.channels.cache.find(r => r.name === botconfig.verifyroom).id) return
-  const emoji = message.guild.emojis.cache.find(emoji => emoji.name === botconfig.verifyemojiname).id
-  message.react(emoji)
-  //console.log(bot.channels.cache.find(c => c.name === channel).messages.channel.messages.cache.find(m => m.id === message.id).channel.messages.cache)
+  let hodnoty = ({ bot: bot, verifyroomname: roomnames.verifyroom, verifyemojiname: emojinames.verifyemojiname, message: message })
+  examplereaction.run(hodnoty)
 })

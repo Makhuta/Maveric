@@ -1,26 +1,18 @@
 const { bot } = require('../bot');
-const Discord = require("discord.js");
 const botconfig = require("../botconfig.json");
-const { Guild } = require('discord.js');
-const color = require("../colors/colors.json")
-const Canvas = require('canvas')
+const roomids = require("../botconfig/roomids.json");
 
 
 const updateMembers = guild => {
-    const onlinechannel = guild.channels.cache.get(botconfig.onlinecountid)
-    const offlinechannel = guild.channels.cache.get(botconfig.offlinecountid)
-    const numofallmemb = guild.memberCount.toLocaleString()
+    const onlinechannel = guild.channels.cache.get(roomids.onlinecountid)
+    const offlinechannel = guild.channels.cache.get(roomids.offlinecountid)
     const botroleid = guild.roles.cache.find(r => r.name === botconfig.botrolename).id
     const numofallbots = guild.roles.cache.get(botroleid).members.size.toLocaleString()
-    const numofallmembnobots = (numofallmemb - numofallbots).toLocaleString()
     const offlinecount = (guild.members.cache.filter(m => m.presence.status === 'offline').size.toString())
-    const online = guild.members.cache.filter(m => m.presence.status === 'online').size
-    const dnd = guild.members.cache.filter(m => m.presence.status === 'dnd').size
-    const idle = guild.members.cache.filter(m => m.presence.status === 'idle').size
-    const onlinecount = ((online + dnd + idle) - numofallbots)//.toLocaleString()
+    const online = guild.members.cache.filter(m => m.presence.status !== 'offline').size
+    const onlinecount = (online - numofallbots)
     onlinechannel.setName('Online: ' + onlinecount)
     offlinechannel.setName('Offline: ' + offlinecount)
-    //console.log("Online: " + online + " DND: " + dnd + " Idle: " + idle + " Online Count: " + onlinecount)
 }
 
 bot.on('ready', () => {

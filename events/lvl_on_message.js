@@ -1,24 +1,13 @@
 const { bot, con } = require('../bot');
-const Discord = require("discord.js");
 const botconfig = require("../botconfig.json");
-const { Guild } = require('discord.js');
-const color = require("../colors/colors.json")
-const rankup_picture = require("../funkce/rankup_picture")
-const rankup = require("../funkce/rankup")
-const fs = require('fs')
-const mysql = require('mysql')
+const color = require("../colorpaletes/colors.json")
 const random = require('random')
+const signpost = require("../handlers/ranks/signpost")
 
 function generateXP() {
     return random.int(10, 30)
 }
 
-function zprava(level, typek, message, Discord) {
-    let embed = new Discord.MessageEmbed()
-    embed.addFields({ name: "Level UP", value: typek + " právě postoupil do levlu " + level + "." })
-    embed.setColor(color.red)
-    message.channel.send(embed)
-}
 
 function databaze(message, con) {
     con.query(`SELECT * FROM userstats WHERE id = '${message.author.id}'`, (err, rows) => {
@@ -41,16 +30,13 @@ function databaze(message, con) {
 
             if (Date.now() - lastmsg > 60000) {
                 xp += generateXP()
-
-                rankup.run(message, xp, level, sql, con, target)
+                let hodnoty = ({ type: "rankup", level: level, xp: xp, sql: sql, user: target, con: con, message: message })
+                signpost.run(hodnoty)
                 sql = `UPDATE userstats SET last_message = ${cas} WHERE id = '${message.author.id}'`;
                 con.query(sql)
             }
             else return
-            //console.log(level + " " + xp)
         }
-
-        //console.log(rows)
     })
 }
 

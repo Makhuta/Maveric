@@ -1,12 +1,6 @@
 const { bot, con } = require('../bot');
-const { MessageAttachment } = require("discord.js");
 const botconfig = require("../botconfig.json")
-const color = require("../colors/colors.json")
-const fs = require("fs");
-const { createCanvas, loadImage, Canvas } = require("canvas");
-const { join } = require("path");
-const { createGzip } = require("zlib");
-const top10canvasxp = require("../funkce/top10canvasxp")
+const top10canvasxp = require("../handlers/xp/top10canvasxp")
 
 const name = "topxp"
 const description = `Vypíše XP top 10ti členů`
@@ -25,7 +19,7 @@ function allxp(level, xp) {
     return (xpecka)
 }
 
-module.exports.run = async (bot, message, args, con) => {
+module.exports.run = async (message, args) => {
 
     con.query(`SELECT id, xp, level FROM userstats`, function (err, result, fields) {
         if (err) throw err;
@@ -34,7 +28,6 @@ module.exports.run = async (bot, message, args, con) => {
         var undefinedaray = [{ id: "No user", xp: "undefined", level: "No user", username: "No username", discriminator: "0000" }]
         var reslevel
         var resxp
-        var reslength = result.length
         var reslength0 = result.length - 1
         for (let d = 0; d <= reslength0; d++) {
             resid = result[d].id;

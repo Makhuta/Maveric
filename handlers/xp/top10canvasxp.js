@@ -1,14 +1,14 @@
 const { MessageAttachment } = require("discord.js");
 const { createCanvas, loadImage, Canvas } = require("canvas");
 const { join } = require("path");
-const { bot } = require('../bot');
-const xpcolor = require("..//colors/xpcolor.json")
+const { bot } = require('../../bot');
+const xpcolor = require("../../colorpaletes/xpcolor.json")
 
 module.exports = {
     async run(top10, message) {
         const canvas = createCanvas(1600, 1000);
         const ctx = canvas.getContext('2d');
-        const background = await loadImage(join(__dirname, "..", "pictures", "background.jpg"));
+        const background = await loadImage(join(__dirname, "../..", "pictures", "xp_background.jpg"));
         var vyska = [0, 100, 200, 300, 400, 500, 600, 700, 800, 900]
         ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
         let top10length0 = top10.length - 1

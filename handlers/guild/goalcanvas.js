@@ -1,20 +1,10 @@
 const { MessageAttachment } = require("discord.js");
 const { createCanvas, loadImage, Canvas } = require("canvas");
 const { join } = require("path");
-const { bot } = require('../bot');
-const botconfig = require("../botconfig.json");
+const botconfig = require("../../botconfig.json");
 const roundTo = require('round-to');
-const rainbow = require('../colors/rainbow.json')
+const rainbow = require('../../colorpaletes/rainbow.json')
 
-
-
-function degres(stupne, pi) {
-    var radiany = stupne * (pi / 180)// + (pi * 0.5)
-    console.log(
-        `Radiany: ${radiany}\n Stupně: ${stupne}`
-    )
-    return (radiany)
-}
 
 module.exports = {
     async run(message, guild) {
@@ -24,23 +14,17 @@ module.exports = {
         var numofallmembnobots = (numofallmemb - numofallbots)
         var numofallmembnobotsstring = numofallmembnobots.toLocaleString()
 
-        //var first_int_of_members = numofallmembnobots.slice(0, 1)
         var length_of_members = numofallmembnobotsstring.length * -1
-        var goal = roundTo.up(numofallmembnobots, length_of_members) //Calculate next goal
+        var goal = roundTo.up(numofallmembnobots, length_of_members)
         var sto_procent = goal
         var jedno_procento = sto_procent / 100
         var nezname_procenta = numofallmembnobots
         var procenta = (nezname_procenta / jedno_procento)
         var procenta_setina = procenta / 100
 
-
-        /*console.log(
-            `first_int_of_members: ---\n length_of_members: ${length_of_members}\n goal: ${goal}\n sto_procent: ${sto_procent}\n jedno_procento: ${jedno_procento}\n nezname_procenta: ${nezname_procenta}\n procenta: ${procenta}\n procenta_na_stupne: ${procenta_na_stupne}`
-        )*/
-
         const canvas = createCanvas(1000, 500);
         const ctx = canvas.getContext('2d');
-        const background = await loadImage(join(__dirname, "..", "pictures", "background.jpg"));
+        const background = await loadImage(join(__dirname, "../..", "pictures", "xp_background.jpg"));
         const guildavatar = await loadImage(guild.iconURL({ format: "jpg", size: 512 }));
         const pi = Math.PI
         const circle = 2 * pi 
@@ -81,7 +65,6 @@ module.exports = {
             ctx.closePath();
             ctx.clip();
             ctx.restore()
-            //console.log(i)
         }
 
         ctx.beginPath();
@@ -90,12 +73,8 @@ module.exports = {
         ctx.strokeStyle = "#ffffff";
         ctx.stroke();
         ctx.closePath();
-        //ctx.clip();
 
-
-        //console.log(circle)
-
-        const attachment = new MessageAttachment(canvas.toBuffer(), "rank.png");
+        const attachment = new MessageAttachment(canvas.toBuffer(), "member_goal.png");
         message.channel.send(attachment)
     }
 }

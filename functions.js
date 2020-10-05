@@ -2,7 +2,6 @@ const fs = require("fs");
 
 module.exports = (bot) => {
 
-
     fs.readdir("./events/", (err, files) => {
 
         if (err) console.log(err);
@@ -38,21 +37,23 @@ module.exports = (bot) => {
             });
         });
     });
+    fs.readdir("./handlers/", (err, files1) => {
+        let fileslength = files1.length
+        for (let h = 0; h < fileslength; h++) {
+            fs.readdir(`./handlers/${files1[h]}`, (err, files) => {
 
-    fs.readdir("./funkce/", (err, files) => {
+                if (err) console.log(err);
 
-        if (err) console.log(err);
-
-        let jsfile = files.filter(f => f.split(".").pop() === "js");
-        if (jsfile.length <= 0) {
-            console.log("There isn't any function to load!");
-            return;
+                let jsfile = files.filter(f => f.split(".").pop() === "js");
+                if (jsfile.length <= 0) {
+                    console.log("There isn't any function to load!");
+                    return;
+                }
+                console.log(`Loading ${jsfile.length} handlers from ${files1[h]}...`)
+                jsfile.forEach((f, i) => {
+                    console.log(`${i + 1}: ${f} loaded!`)
+                });
+            });
         }
-        console.log(`Loading ${jsfile.length} functions...`)
-        jsfile.forEach((f, i) => {
-            let pull = require(`./funkce/${f}`);
-            console.log(`${i + 1}: ${f} loaded!`)
-        });
-    });
-
+    })
 };

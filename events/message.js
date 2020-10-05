@@ -1,12 +1,9 @@
-const Discord = require("discord.js")
-const { bot, con } = require('../bot');
+const { bot } = require('../bot');
 const botconfig = require("../botconfig.json")
-const mysql = require('mysql')
-const random = require('random')
-const color = require("../colors/colors.json")
 const prefix = botconfig.prefix;
+const prikaz = require("../handlers/prikaz/prikaztrigger")
 
-function prikaz(message) {
+/*function prikaz(message) {
   let messageArray = message.content.split(" ");
   let cmd = messageArray[0].toLowerCase();
   let args = messageArray.slice(1);
@@ -18,21 +15,19 @@ function prikaz(message) {
     return
   }
   let rle = commandfile.help.accessableby
-  //console.log(message.member.roles.cache)
 
   for (var r = 0; r < rle.length; r++) {
-    //console.log(rle[r])
     if (rle[r] === undefined) return;
     if (commandfile && message.member.roles.cache.has(message.guild.roles.cache.find(rla => rla.name === rle[r]).id)) {
-      //r === rle.length;
-      commandfile.run(bot, message, args, con);
+      commandfile.run(message, args);
       return
     }
   }
-}
+}*/
 
 bot.on("message", message => {
   if (message.author.bot || message.channel.type === "dm") return;
-  prikaz(message);
+  let hodnoty = ({ prefix: prefix, message: message, bot: bot })
+  prikaz.run(hodnoty);
 
 })

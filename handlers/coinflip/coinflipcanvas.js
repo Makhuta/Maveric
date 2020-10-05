@@ -6,7 +6,7 @@ module.exports = {
     async run(message, color2, color1, vysledek, vyhernicislo) {
         const canvas = createCanvas(500, 500);
         const ctx = canvas.getContext('2d');
-        const background = await loadImage(join(__dirname, "..", "pictures", "background.jpg"));
+        const background = await loadImage(join(__dirname, "../..", "pictures", "xp_background.jpg"));
         ctx.globalAlpha = 0;
         ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
 

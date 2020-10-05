@@ -1,9 +1,6 @@
-const { bot, con } = require('../bot');
-const Discord = require("discord.js");
+const { con } = require('../bot');
 const botconfig = require("../botconfig.json")
-const color = require("../colors/colors.json")
-const fs = require("fs");
-const rankup = require("../funkce/rankup")
+const signpost = require("../handlers/ranks/signpost")
 
 const name = "eventxp"
 const description = `Přídá členovi počet XP`
@@ -19,17 +16,12 @@ function addxp(targetid, targetusername, numofxp, message, target) {
         xp += numofxp
         var xpToNextLevel = 5 * Math.pow(level, 2) + 50 * level + 100
         //console.log(xpToNextLevel)
-        rankup.run(message, xp, level, sql, con, target)
+        let hodnoty = ({ type: "rankup", sql: sql, con: con, user: target, level: level, xpToNextLevel: xpToNextLevel, xp: xp, message: message })
+        signpost.run(hodnoty)
     })
     message.channel.send(`${numofxp} XP bylo přičteno uživateli ${targetusername}.`)
 }
 
-function zprava(level, typek, message) {
-    let embed = new Discord.MessageEmbed()
-    embed.addFields({ name: "Level UP", value: typek + " právě postoupil do levlu " + level + "." })
-    embed.setColor(color.red)
-    message.channel.send(embed)
-}
 
 function isInt(value) {
     return !isNaN(value) &&
@@ -37,9 +29,9 @@ function isInt(value) {
         !isNaN(parseInt(value, 10));
 }
 
-module.exports.run = async (bot, message, args, con) => {
+module.exports.run = async (message, args) => {
     let target = message.mentions.users.first() || message.guild.members.cache.get(args[1]);
-    if(target === undefined) return message.channel.send("Prosím specifukujte uživatele.")
+    if (target === undefined) return message.channel.send("Prosím specifukujte uživatele.")
     var targetid = target.id
     var targetusername = target.username
     var numofxp = parseInt(args[1])

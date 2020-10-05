@@ -1,11 +1,10 @@
 const { bot } = require('../bot');
 const Discord = require("discord.js");
-const botconfig = require("../botconfig.json");
-const { Guild } = require('discord.js');
-const color = require("../colors/colors.json")
+const roomnames = require("../botconfig/roomnames.json");
+const color = require("../colorpaletes/colors.json")
 
 bot.on("guildMemberRemove", (member) => {
-    bot.channels.fetch(bot.channels.cache.find(c => c.name === botconfig.gateroom).id)
+    bot.channels.fetch(bot.channels.cache.find(c => c.name === roomnames.gateroom).id)
         .then(channel => {
             var d = new Date(member.joinedTimestamp).toLocaleDateString('en').split("/")
             var datum = [d[1], d[0], d[2]].join(". ")

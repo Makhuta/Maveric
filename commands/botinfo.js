@@ -1,33 +1,19 @@
+const { bot } = require('../bot');
 const Discord = require("discord.js");
-const { prefix, botusername, creatorusername, guildid, youtubeurl } = require("../botconfig.json")
-const color = require("../colors/colors.json")
+const botconfig = require("../botconfig.json")
+const color = require("../colorpaletes/colors.json")
+const botinfooutput = require("../handlers/botinfo/botinfooutput")
+
 
 const name = "botinfo"
-const description = `Vypíše informace o *${botusername}*ovi`
-const usage = `${prefix}botinfo`
+const description = `Vypíše informace o *${botconfig.botusername}*ovi`
+const usage = `${botconfig.prefix}botinfo`
 const accessableby = ["Member"]
 const aliases = ["bi"]
 
-module.exports.run = async (bot, message, args) => {
-
-    var boturl = bot.user.displayAvatarURL({ format: "png", size: 512 })
-    var servername = bot.guilds.cache.get(guildid).name
-    var botusername = bot.user.username
-
-    let botembed = new Discord.MessageEmbed()
-        .setTitle("Informace")
-        .setColor(color.red)
-        .addFields(
-            { name: "**Jméno bota**", value: botusername, inline: true },
-            { name: "**Bota vytvořil**", value: `[${creatorusername}](${youtubeurl})`, inline: true },
-            { name: "**Účel bota**", value: `${botusername} byl vytvořen na základě snížení náročnosti na správu ${servername} serveru a zajistit snazší interakci uživatelů se serverem.` }
-        )
-        .setFooter(bot.user.username, boturl)
-        .setTimestamp()
-
-
-    message.channel.send({ embed: botembed });
-
+module.exports.run = async (message) => {
+    let hodnoty = ({bot: bot, discord: Discord, botconfig: botconfig, color: color, message: message})
+    botinfooutput.run(hodnoty)
 }
 
 module.exports.help = {

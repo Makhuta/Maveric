@@ -1,17 +1,9 @@
 {
     "prefix": "!",
-    "token": "process.env.BOT_TOKEN",
     "botusername": "NSBR BOT",
     "creatorusername": "Makhuta",
-    "verifyemojiname": "check",
-    "verifyroom": "🔐verify-room🔐",
-    "pravidlaroom": "📑pravidla",
-    "gateroom": "🚪nsbr-gate🚪",
-    "membercountid": "698255501905100861",
-    "onlinecountid": "698255503314387034",
-    "offlinecountid": "698255505780375582",
-    "guildid": "355369119358517250",
+    "guildid": "706239418612187176",
     "botrolename": "BOTS",
-    "youtubeurl": "https://www.youtube.com/channel/UCWCvP0wzCg9hXmcyDiTmT2Q?view_as=subscriber",
-    "admins_roles": ["Bulgy", "Admins", "Moderátor"]
+    "botroleid": "706239418612187185",
+    "youtubeurl": "https://www.youtube.com/channel/UCWCvP0wzCg9hXmcyDiTmT2Q?view_as=subscriber"
 }

@@ -1,7 +1,4 @@
 const Discord = require("discord.js");
-const botconfig = require("./botconfig.json")
-const fs = require("fs");
-const { clear } = require("console");
 const bot = new Discord.Client({ disableEveryone: true });
 const mysql = require('mysql')
 require("./functions")(bot);

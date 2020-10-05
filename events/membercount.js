@@ -1,13 +1,10 @@
 const { bot } = require('../bot');
-const Discord = require("discord.js");
 const botconfig = require("../botconfig.json");
-const { Guild } = require('discord.js');
-const color = require("../colors/colors.json")
-const Canvas = require('canvas')
+const roomids = require("../botconfig/roomids.json")
 
 
 const updateMembers = guild => {
-    const channel = guild.channels.cache.get(botconfig.membercountid)
+    const channel = guild.channels.cache.get(roomids.membercountid)
     const numofallmemb = guild.memberCount.toLocaleString()
     const botroleid = guild.roles.cache.find(r => r.name === botconfig.botrolename).id
     const numofallbots = guild.roles.cache.get(botroleid).members.size
