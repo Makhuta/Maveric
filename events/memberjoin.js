@@ -2,7 +2,10 @@ const { bot, con } = require('../bot');
 const Discord = require("discord.js");
 const roomnames = require("../botconfig/roomnames.json");
 const color = require("../colorpaletes/colors.json")
-const Canvas = require('canvas')
+const { createCanvas, loadImage } = require("canvas");
+const { MessageAttachment } = require("discord.js");
+const { join } = require("path");
+const welcome_canvas = require("../handlers/welcome/welcome_canvas")
 const memberjoinxp = 40
 const invites = {};
 
@@ -16,19 +19,13 @@ function zprava(level, typek, message, Discord) {
 function uvitani(member) {
     bot.channels.fetch(bot.channels.cache.find(c => c.name === roomnames.gateroom).id)
         .then(channel => {
-            var d = new Date(member.guild.joinedTimestamp).toLocaleDateString('en').split("/")
+            var d = new Date(member.joinedTimestamp).toLocaleDateString('en').split("/")
             var datum = [d[1], d[0], d[2]].join(". ")
-            var url = member.user.displayAvatarURL({ format: "png", size: 512 })
-            var boturl = bot.user.displayAvatarURL({ format: "png", size: 512 })
             const msg = bot.channels.cache.get(channel.id)
-            let welcomemsg = new Discord.MessageEmbed()
-                .setTitle(`Vítej ${member.user.username}`)
-                .setColor(color.red)
-                .setDescription(`**Nový člen smečky**\nPrávě se k nám přidal **${member.user.username}**\nDiscord účet si založil: **${datum}**`)
-                .setThumbnail(url)
-                .setTimestamp()
-                .setFooter(bot.user.username, boturl)
-            msg.send({ embed: welcomemsg });
+            let hodnoty = ({ createCanvas: createCanvas, message: msg, join: join, MessageAttachment: MessageAttachment, loadImage: loadImage, color: color, target: member.user, stav: "Welcome", datum: datum })
+            welcome_canvas.run(hodnoty)
+
+
         })
 }
 

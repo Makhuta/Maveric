@@ -1,5 +1,8 @@
 const { bot } = require('../bot');
-const Discord = require("discord.js");
+const { createCanvas, loadImage } = require("canvas");
+const welcome_canvas = require("../handlers/welcome/welcome_canvas")
+const { join } = require("path");
+const { MessageAttachment } = require("discord.js");
 const roomnames = require("../botconfig/roomnames.json");
 const color = require("../colorpaletes/colors.json")
 
@@ -8,16 +11,10 @@ bot.on("guildMemberRemove", (member) => {
         .then(channel => {
             var d = new Date(member.joinedTimestamp).toLocaleDateString('en').split("/")
             var datum = [d[1], d[0], d[2]].join(". ")
-            var url = member.user.displayAvatarURL({ format: "png", size: 512 })
-            var boturl = bot.user.displayAvatarURL({ format: "png", size: 512 })
             const msg = bot.channels.cache.get(channel.id)
-            let welcomemsg = new Discord.MessageEmbed()
-                .setTitle(`Zrádce ${member.user.username}`)
-                .setColor(color.red)
-                .setDescription(`**Další zrádce**\nPrávě nás zradil/a **${member.user.username}**\nNaším členem byl od: **${datum}**\n`)
-                .setThumbnail(url)
-                .setTimestamp()
-                .setFooter(bot.user.username, boturl)
-            msg.send({ embed: welcomemsg });
+            let hodnoty = ({ createCanvas: createCanvas, message: msg, join: join, MessageAttachment: MessageAttachment, loadImage: loadImage, color: color, target: member.user, stav: "Traitor", datum: datum })
+            welcome_canvas.run(hodnoty)
+
+
         })
 })
