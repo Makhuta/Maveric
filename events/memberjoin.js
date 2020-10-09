@@ -2,12 +2,13 @@ const { bot, con } = require('../bot');
 const Discord = require("discord.js");
 const roomnames = require("../botconfig/roomnames.json");
 const color = require("../colorpaletes/colors.json")
-const { createCanvas, loadImage } = require("canvas");
+const { createCanvas, loadImage, registerFont } = require("canvas");
 const { MessageAttachment } = require("discord.js");
 const { join } = require("path");
 const welcome_canvas = require("../handlers/welcome/welcome_canvas")
 const memberjoinxp = 40
 const invites = {};
+registerFont("./fonts/Square.ttf", { family: "test" })
 
 function zprava(level, typek, message, Discord) {
     let embed = new Discord.MessageEmbed()
@@ -46,7 +47,6 @@ function joinxp(member) {
             if (xp >= xpToNextLevel) {
                 level++;
                 xp = xp - xpToNextLevel;
-                zprava(level, message.author.username, message, Discord)
 
                 sql = `UPDATE userstats SET xp = ${xp + memberjoinxp} WHERE id = '${inviter.id}'`;
                 con.query(sql)
