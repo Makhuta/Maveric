@@ -1,11 +1,10 @@
 const { bot } = require('../bot');
-const { createCanvas, loadImage, registerFont } = require("canvas");
+const { createCanvas, loadImage } = require("canvas");
 const welcome_canvas = require("../handlers/welcome/welcome_canvas")
 const { join } = require("path");
 const { MessageAttachment } = require("discord.js");
 const roomnames = require("../botconfig/roomnames.json");
 const color = require("../colorpaletes/colors.json")
-registerFont("./fonts/Square.ttf", { family: "test" })
 
 bot.on("guildMemberRemove", (member) => {
     bot.channels.fetch(bot.channels.cache.find(c => c.name === roomnames.gateroom).id)

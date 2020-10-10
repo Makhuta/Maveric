@@ -24,7 +24,7 @@ module.exports = {
         let sirkapole = 60
         let velikost_textu = 15
         let text_mensi_o = velikost_textu - 3
-        let stav_font = "test"
+        let stav_font = "Square"
         let barvy = [color.light_blue, color.red]
         let obraz_jmeno = ["Join", "Leave"]
         let verze_pro_datum = ["Účet si založil", "Členem od"]
@@ -40,6 +40,7 @@ module.exports = {
         ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
 
         ctx.beginPath();
+        ctx.miterLimit = 1;
         ctx.globalAlpha = 1;
         ctx.fillStyle = color.dark_gray;
         ctx.fillRect(0, 0, sirka, vyska)

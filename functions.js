@@ -1,4 +1,5 @@
 const fs = require("fs");
+const { registerFont } = require("canvas");
 
 module.exports = (bot) => {
 
@@ -37,6 +38,7 @@ module.exports = (bot) => {
             });
         });
     });
+
     fs.readdir("./handlers/", (err, files1) => {
         let fileslength = files1.length
         for (let h = 0; h < fileslength; h++) {
@@ -56,4 +58,21 @@ module.exports = (bot) => {
             });
         }
     })
+
+    fs.readdir("./fonts/", (err, files) => {
+
+        if (err) console.log(err);
+
+        let jsfile = files.filter(f => f.split(".").pop() === "ttf");
+        let name = jsfile.toLocaleString().split(".")
+        if (jsfile.length <= 0) {
+            console.log("There isn't any fonts to load!");
+            return;
+        }
+        console.log(`Loading ${jsfile.length} fonts...`)
+        jsfile.forEach((f, i) => {
+            console.log(`${i + 1}: ${f} loaded!`)
+            registerFont(`./fonts/${f}`, { family: `${name[0]}` })
+        });
+    });
 };

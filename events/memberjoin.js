@@ -2,13 +2,12 @@ const { bot, con } = require('../bot');
 const Discord = require("discord.js");
 const roomnames = require("../botconfig/roomnames.json");
 const color = require("../colorpaletes/colors.json")
-const { createCanvas, loadImage, registerFont } = require("canvas");
+const { createCanvas, loadImage } = require("canvas");
 const { MessageAttachment } = require("discord.js");
 const { join } = require("path");
 const welcome_canvas = require("../handlers/welcome/welcome_canvas")
 const memberjoinxp = 40
 const invites = {};
-registerFont("./fonts/Square.ttf", { family: "test" })
 
 function zprava(level, typek, message, Discord) {
     let embed = new Discord.MessageEmbed()
