@@ -14,8 +14,9 @@ module.exports = (bot) => {
         }
         console.log(`Loading ${jsfile.length} events...`)
         jsfile.forEach((f, i) => {
+            let name = f.toLocaleString().split(".")
             let pull = require(`./events/${f}`);
-            console.log(`${i + 1}: ${f} loaded!`)
+            console.log(`${i + 1}: ${name[0]} loaded!`)
         });
     });
 
@@ -30,11 +31,12 @@ module.exports = (bot) => {
         }
         console.log(`Loading ${jsfile.length} commands...`)
         jsfile.forEach((f, i) => {
+            let name = f.toLocaleString().split(".")
             let pull = require(`./commands/${f}`);
             bot.commands.set(pull.help.name, pull);
             pull.help.aliases.forEach(alias => {
                 bot.aliases.set(alias, pull.help.name)
-                console.log(`${i + 1}: ${f} loaded!`)
+                console.log(`${i + 1}: ${name[0]} loaded!`)
             });
         });
     });
@@ -53,7 +55,8 @@ module.exports = (bot) => {
                 }
                 console.log(`Loading ${jsfile.length} handlers from ${files1[h]}...`)
                 jsfile.forEach((f, i) => {
-                    console.log(`${i + 1}: ${f} loaded!`)
+                    let name = f.toLocaleString().split(".")
+                    console.log(`${i + 1}: ${name[0]} loaded!`)
                 });
             });
         }
@@ -64,14 +67,14 @@ module.exports = (bot) => {
         if (err) console.log(err);
 
         let jsfile = files.filter(f => f.split(".").pop() === "ttf");
-        let name = jsfile.toLocaleString().split(".")
         if (jsfile.length <= 0) {
             console.log("There isn't any fonts to load!");
             return;
         }
         console.log(`Loading ${jsfile.length} fonts...`)
         jsfile.forEach((f, i) => {
-            console.log(`${i + 1}: ${f} loaded!`)
+            let name = f.toLocaleString().split(".")
+            console.log(`${i + 1}: ${name[0]} loaded!`)
             registerFont(`./fonts/${f}`, { family: `${name[0]}` })
         });
     });
