@@ -21,9 +21,10 @@ module.exports = {
 
         else if (hodnoty.type === "rankdown") {
             for (hodnoty.xp; hodnoty.xp < 0; hodnoty.xp) {
+
                 hodnoty.level--;
-                hodnoty.xp = hodnoty.xp + hodnoty.xpToNextLevel
                 hodnoty.xpToNextLevel = 5 * Math.pow(hodnoty.level, 2) + 50 * hodnoty.level + 100
+                hodnoty.xp = hodnoty.xp + hodnoty.xpToNextLevel
 
                 hodnoty.sql = `UPDATE userstats SET xp = ${hodnoty.xp} WHERE id = '${hodnoty.user.id}'`;
                 hodnoty.con.query(hodnoty.sql)

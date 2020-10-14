@@ -20,6 +20,7 @@ module.exports = {
             commandfile.run(message, args);
             return
           }
+          else return message.channel.send("Nemáš dostatečné práva na použití tohohle příkazu.")
         }
     }
 }
