@@ -88,6 +88,7 @@ module.exports = {
         level_cislo(ctx, stred_lvlu_x, stred_lvlu_y, level)
 
         const attachment = new MessageAttachment(canvas.toBuffer(), "rankdown.png");
-        message.channel.send(attachment)
+
+        target.send(attachment)
     }
 }

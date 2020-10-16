@@ -1,3 +1,5 @@
+const find_channel_by_name = require("../channelfinder/find_channel_by_name")
+
 module.exports = {
     run: (hodnoty) => {
         let Discord = hodnoty.discord
@@ -20,6 +22,8 @@ module.exports = {
         var embed = new Discord.MessageEmbed()
             .setColor(color.red)
         listofat(embed)
-        message.channel.send(embed)
+
+        let hodnotyout = ({zprava: embed, roomname: require("../../botconfig/roomnames.json").botcommand})
+        find_channel_by_name.run(hodnotyout)
     }
 }

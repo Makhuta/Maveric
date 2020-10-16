@@ -1,3 +1,5 @@
+const find_channel_by_name = require("../channelfinder/find_channel_by_name")
+
 module.exports = {
     run: (hodnoty) => {
         let bot = hodnoty.bot
@@ -23,7 +25,7 @@ module.exports = {
             .setFooter(bot.user.username, boturl)
             .setTimestamp()
 
-
-        message.channel.send({ embed: botembed });
+        let hodnotyout = ({ zprava: botembed, roomname: require("../../botconfig/roomnames.json").botcommand })
+        find_channel_by_name.run(hodnotyout)
     }
 }

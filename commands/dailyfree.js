@@ -31,7 +31,7 @@ module.exports.run = async (message) => {
         signpost.run(hodnoty)
         sql = `UPDATE userstats SET last_daily_xp = ${cas} WHERE id = '${message.author.id}'`;
         con.query(sql)
-        message.channel.send(`Právě sis vybral svou denní odměnu o hodnotě ${reward} XP`)
+        target.send(`Právě sis vybral svou denní odměnu o hodnotě ${reward} XP`)
     })
 }
 

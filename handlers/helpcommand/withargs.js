@@ -1,3 +1,5 @@
+const find_channel_by_name = require("../channelfinder/find_channel_by_name")
+
 module.exports = {
     run: (hodnoty) => {
         let helpArgs = hodnoty.helpargs
@@ -20,7 +22,8 @@ module.exports = {
                 )
                 .setColor(color.lime)
 
-            message.channel.send(embed);
+            let hodnotyout = ({ zprava: embed, roomname: require("../../botconfig/roomnames.json").botcommand })
+            find_channel_by_name.run(hodnotyout)
         }
     }
 }

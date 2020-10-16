@@ -3,6 +3,7 @@ const { createCanvas, loadImage, Canvas } = require("canvas");
 const { join } = require("path");
 const { bot } = require('../../bot');
 const xpcolor = require("../../colorpaletes/xpcolor.json")
+const find_channel_by_name = require("../channelfinder/find_channel_by_name")
 
 module.exports = {
     async run(top10, message) {
@@ -90,6 +91,8 @@ module.exports = {
 
 
         const attachment = new MessageAttachment(canvas.toBuffer(), "rank.png");
-        message.channel.send(attachment)
+
+        let hodnotyout = ({ zprava: attachment, roomname: require("../../botconfig/roomnames.json").botcommand })
+        find_channel_by_name.run(hodnotyout)
     }
 }

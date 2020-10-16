@@ -2,6 +2,7 @@ const { MessageAttachment } = require("discord.js");
 const { createCanvas, loadImage, Canvas } = require("canvas");
 const { join } = require("path");
 const xpcolor = require("../../colorpaletes/xpcolor.json")
+const find_channel_by_name = require("../../handlers/channelfinder/find_channel_by_name")
 
 module.exports = {
     async run(xp, level, target, message, xpToNextLevel, rank, allxp) {
@@ -60,6 +61,7 @@ module.exports = {
         ctx.drawImage(avatar, 40, 40, 250, 250);
 
         const attachment = new MessageAttachment(canvas.toBuffer(), "rank.png");
-        message.channel.send(attachment)
+        let hodnoty = ({zprava: attachment, roomname: require("../../botconfig/roomnames.json").botcommand})
+        find_channel_by_name.run(hodnoty)
     }
 }

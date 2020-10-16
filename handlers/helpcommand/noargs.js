@@ -1,3 +1,5 @@
+const find_channel_by_name = require("../channelfinder/find_channel_by_name")
+
 module.exports = {
     run: (hodnoty) => {
         let Discord = hodnoty.discord
@@ -12,14 +14,14 @@ module.exports = {
             for (var i = 0; i <= files.length; i++) {
                 seznamjs = seznamjs.replace('.js', '')
             }
-            
+
             embed.setDescription(seznamjs)
             embed.addFields({ name: 'Prefix', value: hodnoty.prefix, inline: true },
-            { name: 'Dotazy', value: 'Pro konkrétnější dotazy se obraťte na Admin team.\nPro seznam Admin teamu použijte příkaz ' + hodnoty.prefix + 'admins'})
+                { name: 'Dotazy', value: 'Pro konkrétnější dotazy se obraťte na Admin team.\nPro seznam Admin teamu použijte příkaz ' + hodnoty.prefix + 'admins' })
             embed.setColor(color.aqua)
 
-            message.channel.send(embed);
-
+            let hodnotyout = ({ zprava: embed, roomname: require("../../botconfig/roomnames.json").botcommand })
+            find_channel_by_name.run(hodnotyout)
         })
     }
 }

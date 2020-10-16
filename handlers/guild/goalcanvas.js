@@ -4,6 +4,7 @@ const { join } = require("path");
 const botconfig = require("../../botconfig.json");
 const roundTo = require('round-to');
 const rainbow = require('../../colorpaletes/rainbow.json')
+const find_channel_by_name = require("../channelfinder/find_channel_by_name")
 
 
 module.exports = {
@@ -75,6 +76,8 @@ module.exports = {
         ctx.closePath();
 
         const attachment = new MessageAttachment(canvas.toBuffer(), "member_goal.png");
-        message.channel.send(attachment)
+
+        let hodnotyout = ({ zprava: attachment, roomname: require("../../botconfig/roomnames.json").botcommand })
+        find_channel_by_name.run(hodnotyout)
     }
 }

@@ -1,6 +1,7 @@
 const { MessageAttachment } = require("discord.js");
 const { createCanvas, loadImage, Canvas } = require("canvas");
 const { join } = require("path");
+const find_channel_by_name = require("../channelfinder/find_channel_by_name")
 
 module.exports = {
     async run(message, color2, color1, vysledek, vyhernicislo) {
@@ -17,7 +18,7 @@ module.exports = {
         ctx.fillStyle = color1;
         ctx.fill();
         ctx.closePath();
-        
+
         ctx.beginPath();
         ctx.globalAlpha = 1;
         ctx.arc(250, 250, 210, 0, Math.PI * 2, true);
@@ -25,7 +26,7 @@ module.exports = {
         ctx.fillStyle = color2;
         ctx.fill();
         ctx.closePath();
-        
+
         ctx.beginPath();
         ctx.globalAlpha = 1;
         ctx.arc(250, 250, 175, 0, Math.PI * 2, true);
@@ -47,9 +48,11 @@ module.exports = {
         ctx.fillStyle = "#000000";
         ctx.fillText(vyhernicislo, 250, 450);
         ctx.closePath();
-        
+
 
         const attachment = new MessageAttachment(canvas.toBuffer(), `coinflip_${vysledek}.png`);
-        message.channel.send(attachment)
+
+        let hodnotyout = ({ zprava: attachment, roomname: require("../../botconfig/roomnames.json").botcommand })
+        find_channel_by_name.run(hodnotyout)
     }
 }

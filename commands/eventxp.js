@@ -1,6 +1,7 @@
 const { con } = require('../bot');
 const botconfig = require("../botconfig.json")
 const signpost = require("../handlers/ranks/signpost")
+const find_channel_by_name = require("../handlers/channelfinder/find_channel_by_name")
 
 const name = "eventxp"
 const description = `Přídá členovi počet XP`
@@ -19,7 +20,9 @@ function addxp(targetid, targetusername, numofxp, message, target) {
         let hodnoty = ({ type: "rankup", sql: sql, con: con, user: target, level: level, xpToNextLevel: xpToNextLevel, xp: xp, message: message })
         signpost.run(hodnoty)
     })
-    message.channel.send(`${numofxp} XP bylo přičteno uživateli ${targetusername}.`)
+    let hodnotyout = ({ zprava: `${numofxp} XP bylo přičteno uživateli ${targetusername}.`, roomname: require("../botconfig/roomnames.json").botcommand })
+    find_channel_by_name.run(hodnotyout)
+    //message.channel.send(`${numofxp} XP bylo přičteno uživateli ${targetusername}.`)
 }
 
 
