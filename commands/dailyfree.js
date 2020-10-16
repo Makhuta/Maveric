@@ -25,7 +25,7 @@ module.exports.run = async (message) => {
         var hodiny = Math.floor(minuty / 60)
         minuty -= (hodiny * 60)
         //console.log(`${hodiny}:${minuty}`)
-        if (Date.now() - last_claim < 86400000) return (message.channel.send(`Dnešní free XP sis již vybral.\nDalší odměnu si můžeš vybrat za ${hodiny} ${time_words.hodiny[hodiny]} a ${minuty} ${time_words.minuty[minuty]}.`))
+        if (Date.now() - last_claim < 86400000) return (target.send(`Dnešní free XP sis již vybral.\nDalší odměnu si můžeš vybrat za ${hodiny} ${time_words.hodiny[hodiny]} a ${minuty} ${time_words.minuty[minuty]}.`))
         xp += reward
         let hodnoty = ({ type: "rankup", sql: sql, con: con, user: target, level: level, xpToNextLevel: xpToNextLevel, xp: xp, message: message })
         signpost.run(hodnoty)

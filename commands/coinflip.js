@@ -1,6 +1,7 @@
 const { con } = require('../bot')
 const botconfig = require("../botconfig.json")
 const coinflip = require("../handlers/coinflip/coinflipcode")
+const find_channel_by_name = require("../handlers/channelfinder/find_channel_by_name")
 
 const name = "coinflip"
 const description = "Tento příkaz je jen pro budoucí testování bota."
@@ -10,8 +11,8 @@ const aliases = ["cf"]
 
 function isNumber(n) { return /^-?[\d.]+(?:e-?\d+)?$/.test(n); }
 
-function allxp(level, xp, tier) {
-    var xpecka = xp + tier * 155800
+function allxp(level, xp) {
+    var xpecka = xp
     for (let l = 0; l < level; l++) {
         var xpToNextLevel = 5 * Math.pow(l, 2) + 50 * l + 100;
         xpecka = xpecka + xpToNextLevel;
@@ -20,10 +21,35 @@ function allxp(level, xp, tier) {
 }
 
 module.exports.run = async (message, args) => {
-    if (!isNumber(args[0]) || !isNumber(args[1])) return (message.channel.send(`Zkontroluj si příkaz.\n**Příklad příkazu:** ${botconfig.prefix}coinflip 100 60`))
-    if (args[1] > 90) return (message.channel.send("Šance může být maximálně 90%."))
-    if (args[1] < 10) return (message.channel.send("Šance může být minimálně 10%."))
-    if (args[0] < 10) return (message.channel.send("Minimální množství XP je 10."))
+    if (!isNumber(args[0]) || !isNumber(args[1])){
+
+        let hodnotyout = ({ zprava: `Zkontroluj si příkaz.\n**Příklad příkazu:** ${botconfig.prefix}coinflip 100 60`, roomname: require("../botconfig/roomnames.json").botcommand })
+        find_channel_by_name.run(hodnotyout)
+        return
+    }
+    
+    if (args[1] > 90) {
+
+        let hodnotyout = ({ zprava: "Šance může být maximálně 90%.", roomname: require("../botconfig/roomnames.json").botcommand })
+        find_channel_by_name.run(hodnotyout)
+        return
+
+    }
+
+    if (args[1] < 10){
+
+        let hodnotyout = ({ zprava: "Šance může být minimálně 10%.", roomname: require("../botconfig/roomnames.json").botcommand })
+        find_channel_by_name.run(hodnotyout)
+        return
+
+    }
+    if (args[0] < 10){
+
+        let hodnotyout = ({ zprava: "Minimální množství XP je 10.", roomname: require("../botconfig/roomnames.json").botcommand })
+        find_channel_by_name.run(hodnotyout)
+        return
+
+    }
 
     con.query(`SELECT * FROM userstats WHERE id = '${message.author.id}'`, (err, rows) => {
         if (err) throw err;
@@ -44,16 +70,36 @@ module.exports.run = async (message, args) => {
             xp = rows[0].xp
             level = rows[0].level
             lastmsg = rows[0].last_coinflip
-            tier = rows[0].user_rank
-            resallxp = allxp(level, xp, tier)
+            resallxp = allxp(level, xp)
         }
         var target = message.author
         var cas_ted = Date.now()
         var milisekundy = (parseInt(lastmsg) + 600000) - cas_ted
-        var minuty = Math.round(milisekundy/60000);
-        if (resallxp < args[0]) return (message.channel.send("Nemáš dostatek XP pro tuto hru."))
-        if (5000 < args[0]) return (message.channel.send("Maximální XP které lze vsadit je 5000."))
-        if (Date.now() - lastmsg < 600000) return (message.channel.send(`Příkaz Coinflip můžete opět použít za ${minuty} minut.`))
+        var minuty = Math.round(milisekundy / 60000);
+        if (resallxp < args[0]){
+
+            let hodnotyout = ({ zprava: "Nemáš dostatek XP pro tuto hru.", roomname: require("../botconfig/roomnames.json").botcommand })
+            find_channel_by_name.run(hodnotyout)
+            return
+    
+        }
+
+        if (5000 < args[0]){
+
+            let hodnotyout = ({ zprava: "Maximální XP které lze vsadit je 5000.", roomname: require("../botconfig/roomnames.json").botcommand })
+            find_channel_by_name.run(hodnotyout)
+            return
+    
+        }
+
+        if (Date.now() - lastmsg < 600000){
+
+            let hodnotyout = ({ zprava: `Příkaz Coinflip můžete opět použít za ${minuty} minut.`, roomname: require("../botconfig/roomnames.json").botcommand })
+            find_channel_by_name.run(hodnotyout)
+            return
+    
+        }
+
         var sazka = ({ xp: args[0], pravdepodobnost: args[1] })
         coinflip.run(sazka, sql, con, xp, level, message, target, tier, xp)
         sql = `UPDATE userstats SET last_coinflip = ${cas} WHERE id = '${message.author.id}'`;
