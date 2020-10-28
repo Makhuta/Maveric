@@ -19,15 +19,6 @@ async function updateMembers (guild) {
 
     onlinechannel.setName('Online: ' + onlinecount)
     offlinechannel.setName('Offline: ' + offlinecount)
-
-
-    console.log("Online Count: " + onlinecount + "\nOffline Count: " + offlinecount + "\nOnline Bots: " + (onlinebots) + "\nOffline Bots: " + offlinebots + "\nAll Members: " + member_count)
-
-    let number = 1
-    guild.members.cache.forEach(element => {
-        console.log(number + ": " + element.user.username + ": " + element.presence.status + " - " + element.user.bot)
-        number = number + 1
-    });
 }
 
 bot.on('ready', () => {
