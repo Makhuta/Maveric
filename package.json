@@ -10,7 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "canvas": "^2.6.1",
-    "discord.js": "^12.3.1",
+    "discord.js": "^12.4.1",
     "mysql": "^2.18.1",
     "random": "^2.2.0",
     "round-to": "^4.1.0"
