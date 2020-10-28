@@ -1,5 +1,5 @@
 const Discord = require("discord.js");
-const bot = new Discord.Client({ disableEveryone: true });
+const bot = new Discord.Client({ disableMentions: "everyone", ws: { intents: Discord.Intents.ALL } });
 const mysql = require('mysql')
 require("./functions")(bot);
 
