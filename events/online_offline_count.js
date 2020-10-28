@@ -13,7 +13,7 @@ async function updateMembers (guild) {
     console.log("Online: " + onlinecount + "\nOffline: " + offlinecount)
     let number = 1
     guild.members.cache.forEach(element => {
-        console.log(number + ": " + element.user.username + ": " + element.presence.status)
+        console.log(number + ": " + element.user.username + ": " + element.presence.status + " - " + element.user.bot)
         number = number + 1
     });
 }
