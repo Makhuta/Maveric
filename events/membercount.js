@@ -9,7 +9,6 @@ const updateMembers = guild => {
     const numofallbots = guild.members.cache.filter(m => m.user.bot).size
     const numofallmembnobots = (numofallmemb - numofallbots).toLocaleString()
     channel.setName('Members: ' + numofallmembnobots)
-    console.log("Members: " + numofallmembnobots)
 }
 
 bot.on('ready', () => {
