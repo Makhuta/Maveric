@@ -6,8 +6,8 @@ const roomids = require("../botconfig/roomids.json");
 async function updateMembers (guild) {
     const onlinechannel = guild.channels.cache.get(roomids.onlinecountid)
     const offlinechannel = guild.channels.cache.get(roomids.offlinecountid)
-    const onlinecount = guild.members.cache.filter(m => m.presence.status != 'offline' && !m.user.bot).size
-    const offlinecount = guild.members.cache.filter(m => m.presence.status == 'offline'/* && !m.user.bot*/).size
+    const offlinecount = guild.memberCount - guild.members.cache.filter(m => m.presence.status != 'offline').size - guild.members.cache.filter(m => m.presence.status == 'offline' && m.user.bot).size
+    const onlinecount = guild.memberCount - guild.members.cache.filter(m => m.presence.status == 'offline').size - guild.members.cache.filter(m => m.presence.status != 'offline' && m.user.bot).size
     onlinechannel.setName('Online: ' + onlinecount)
     offlinechannel.setName('Offline: ' + offlinecount)
     console.log("Online: " + onlinecount + "\nOffline: " + offlinecount)
