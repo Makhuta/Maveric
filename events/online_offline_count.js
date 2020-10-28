@@ -12,16 +12,16 @@ async function updateMembers (guild) {
     const allbots = onlinebots + offlinebots
     const online = guild.members.cache.filter(m => m.presence.status != 'offline').size
     const offline = guild.members.cache.filter(m => m.presence.status == 'offline').size
-    const member_count = guild.memberCount
+    const member_count = guild.memberCount - allbots
 
-    const offlinecount = member_count - (online + offlinebots)
-    const onlinecount = member_count - (offline + onlinebots)
+    const offlinecount = member_count - online
+    const onlinecount = member_count - offline
 
     onlinechannel.setName('Online: ' + onlinecount)
     offlinechannel.setName('Offline: ' + offlinecount)
 
 
-    console.log("Online Count: " + onlinecount + "\nOffline Count: " + offlinecount + "\nOnline Bots: " + (onlinebots) + "\nOffline Bots: " + offlinebots)
+    console.log("Online Count: " + onlinecount + "\nOffline Count: " + offlinecount + "\nOnline Bots: " + (onlinebots) + "\nOffline Bots: " + offlinebots + "\nAll Members: " + member_count)
 
     let number = 1
     guild.members.cache.forEach(element => {
