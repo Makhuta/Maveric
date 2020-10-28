@@ -10,7 +10,6 @@ async function updateMembers (guild) {
     const onlinecount = guild.members.cache.filter(m => m.presence.status !== 'offline' && m.user.bot !== true).size
     onlinechannel.setName('Online: ' + onlinecount)
     offlinechannel.setName('Offline: ' + offlinecount)
-    console.log("Online: " + onlinecount + "\nOfflice: " + offlinecount)
 }
 
 bot.on('ready', () => {
