@@ -6,10 +6,16 @@ const roomids = require("../botconfig/roomids.json");
 async function updateMembers (guild) {
     const onlinechannel = guild.channels.cache.get(roomids.onlinecountid)
     const offlinechannel = guild.channels.cache.get(roomids.offlinecountid)
-    const offlinecount = guild.members.cache.filter(m => m.presence.status === 'offline' && m.user.bot !== true).size
-    const onlinecount = guild.members.cache.filter(m => m.presence.status !== 'offline' && m.user.bot !== true).size
+    const onlinecount = guild.members.cache.filter(m => m.presence.status != 'offline' && !m.user.bot).size
+    const offlinecount = guild.members.cache.filter(m => m.presence.status == 'offline' && !m.user.bot).size
     onlinechannel.setName('Online: ' + onlinecount)
     offlinechannel.setName('Offline: ' + offlinecount)
+    console.log("Online: " + onlinecount + "\nOffline: " + offlinecount)
+    let number = 1
+    guild.members.cache.forEach(element => {
+        console.log(number + ": " + element.user.username + ": " + element.presence.status)
+        number = number + 1
+    });
 }
 
 bot.on('ready', () => {
