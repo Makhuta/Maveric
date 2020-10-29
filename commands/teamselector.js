@@ -69,7 +69,6 @@ module.exports.run = async (message, args) => {
         let usrchid = mems.get(message.author.id).channelID
         let members_in_voice_channel = mems.filter(m => m.channelID === usrchid)
         let membersize_with_author = members_in_voice_channel.size
-        let membersize_no_author = membersize_with_author - 1
         let members_in_voice_channel_array = []
         members_in_voice_channel.forEach(user => {
             let user_usermane = message.guild.members.cache.get(user.id).user.username
@@ -78,10 +77,9 @@ module.exports.run = async (message, args) => {
             }
             members_in_voice_channel_array.push(user_usermane)
         });
-
+        
         teamsize = members_in_voice_channel_array.length
         half_teamsize = Math.ceil(teamsize / 2)
-        console.log(members_in_voice_channel_array)
         vystup(members_in_voice_channel_array)
     }
 

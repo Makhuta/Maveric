@@ -13,7 +13,6 @@ module.exports = {
         let vyska = (half_teamsize + 3) * 30// + 200
         let sirka = 600
         let sirka_half = sirka / 2
-        console.log(vyska + " " + sirka + " " + half_teamsize)
 
         const canvas = createCanvas(sirka, vyska);
         const ctx = canvas.getContext('2d');
