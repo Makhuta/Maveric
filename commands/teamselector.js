@@ -4,6 +4,7 @@ const Discord = require("discord.js");
 const color = require("../colorpaletes/colors.json")
 const shuffle = require("../handlers/shuffle/shuffle")
 const teamselector_canvas = require("../handlers/teamselector/teamselector_canvas")
+const random = require('random')
 
 const name = "teamselector"
 const description = ""
@@ -16,19 +17,28 @@ var teamsize, half_teamsize, message_author_channel
 function vystup(args) {
     let hodnoty = ({ array: args })
     shuffle.run(hodnoty)
+    let random_cislo = random.int(0, 1)
+    let choose_team = [[0, 1], [1, 0]]
+    let vyber_team = choose_team[random_cislo]
 
     let team_a_no = (args.slice(0, half_teamsize))
     let team_b_no = (args.slice(half_teamsize, teamsize))
+    
 
     team_a = ["Tým 1:"]
     team_b = ["Tým 2:"]
 
-    for (t = 0; t < team_a_no.length; t++) {
-        team_a.push(team_a_no[t])
+    let teams = [team_a_no, team_b_no]
+    let team_a_size = teams[vyber_team[0]]
+    let team_b_size = teams[vyber_team[1]]
+
+
+    for (t = 0; t < team_a_size.length; t++) {
+        team_a.push(team_a_size[t])
     }
 
-    for (t = 0; t < team_b_no.length; t++) {
-        team_b.push(team_b_no[t])
+    for (t = 0; t < team_b_size.length; t++) {
+        team_b.push(team_b_size[t])
     }
 
     let hodnoty_canvas = ({ team_a: team_a, team_b: team_b, half_teamsize: half_teamsize })
@@ -72,12 +82,12 @@ module.exports.run = async (message, args) => {
         let members_in_voice_channel_array = []
         members_in_voice_channel.forEach(user => {
             let user_usermane = message.guild.members.cache.get(user.id).user.username
-            if(user_usermane.length > 15){
+            if (user_usermane.length > 15) {
                 user_usermane = user_usermane.slice(0, 15) + "..."
             }
             members_in_voice_channel_array.push(user_usermane)
         });
-        
+
         teamsize = members_in_voice_channel_array.length
         half_teamsize = Math.ceil(teamsize / 2)
         vystup(members_in_voice_channel_array)
