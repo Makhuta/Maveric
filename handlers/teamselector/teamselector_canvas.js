@@ -21,20 +21,17 @@ module.exports = {
 
         for (t = 0; t <= half_teamsize; t++) {
             let teams = [team_a[t], team_b[t]]
-            let nahodne_cislo = random.int(0, 1)
-            let choose_team_a = [0, 1]
-            let choose_team_b = [1, 0]
             //Left side
             ctx.font = "30px Arial";
             ctx.textAlign = "center";
             ctx.fillStyle = "#ffffff";
-            ctx.fillText(teams[choose_team_a[nahodne_cislo]] || "No user", sirka_half / 2, 60 + t * 30);
+            ctx.fillText(teams[t] || "No user", sirka_half / 2, 60 + t * 30);
 
             //Right side
             ctx.font = "30px Arial";
             ctx.textAlign = "center";
             ctx.fillStyle = "#ffffff";
-            ctx.fillText(teams[choose_team_b[nahodne_cislo]] || "No user", sirka_half / 2 * 3, 60 + t * 30);
+            ctx.fillText(teams[t] || "No user", sirka_half / 2 * 3, 60 + t * 30);
         }
 
 
