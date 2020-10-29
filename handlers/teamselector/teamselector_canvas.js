@@ -2,7 +2,7 @@ const { MessageAttachment } = require("discord.js");
 const { createCanvas, loadImage } = require("canvas");
 const { join } = require("path");
 const find_channel_by_name = require("../channelfinder/find_channel_by_name");
-const { hostname } = require("os");
+const random = require('random')
 
 
 module.exports = {
@@ -20,17 +20,19 @@ module.exports = {
         ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
 
         for (t = 0; t <= half_teamsize; t++) {
+            let teams = [team_a[t], team_b[t]]
+            let nahodne_cislo = random.int(0, 1)
             //Left side
             ctx.font = "30px Arial";
             ctx.textAlign = "center";
             ctx.fillStyle = "#ffffff";
-            ctx.fillText(team_a[t] || "No user", sirka_half / 2, 60 + t * 30);
+            ctx.fillText(teams[nahodne_cislo] || "No user", sirka_half / 2, 60 + t * 30);
 
             //Right side
             ctx.font = "30px Arial";
             ctx.textAlign = "center";
             ctx.fillStyle = "#ffffff";
-            ctx.fillText(team_b[t] || "No user", sirka_half / 2 * 3, 60 + t * 30);
+            ctx.fillText(teams[nahodne_cislo] || "No user", sirka_half / 2 * 3, 60 + t * 30);
         }
 
 
