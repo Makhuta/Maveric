@@ -220,6 +220,11 @@ module.exports.result = async () => {
     let target = lower_or_higher_reaction_canvas.loh.target
     let author = lower_or_higher_reaction_canvas.loh.author
     let sql
+    let cislo_pro_nasobitel_xp = cislo_sazka
+    var nasobitel_xp_author
+    var nasobitel_xp_target
+    let win_xp_author
+    let win_xp_target
 
     if (emoji == emojinames.up) {
         stav = ({ target: "higher" })
@@ -230,12 +235,16 @@ module.exports.result = async () => {
 
     if (nahodnecislo < cislo_sazka) {
         if (stav.target == "lower") {
+            nasobitel_xp_target = 100 - cislo_pro_nasobitel_xp
+            nasobitel_xp_author = cislo_pro_nasobitel_xp
             //Target Wins
             result = result_array[1]
             result_canvas = result_array[1]
             //console.log("lower1")
         }
         else {
+            nasobitel_xp_target = cislo_pro_nasobitel_xp
+            nasobitel_xp_author = 100 - cislo_pro_nasobitel_xp
             //Target Lose
             result = result_array[0]
             result_canvas = result_array[0]
@@ -245,12 +254,16 @@ module.exports.result = async () => {
 
     else {
         if (stav.target == "higher") {
+            nasobitel_xp_target = 100 - cislo_pro_nasobitel_xp
+            nasobitel_xp_author = cislo_pro_nasobitel_xp
             //Target Wins
             result = result_array[1]
             result_canvas = result_array[0]
             //console.log("higher2")
         }
         else {
+            nasobitel_xp_target = cislo_pro_nasobitel_xp
+            nasobitel_xp_author = 100 - cislo_pro_nasobitel_xp
             //Target Lose
             result = result_array[0]
             result_canvas = result_array[1]
@@ -258,12 +271,17 @@ module.exports.result = async () => {
         }
     }
 
+    nasobitel_xp_target = nasobitel_xp_target / 100
+    nasobitel_xp_author = nasobitel_xp_author / 100
+
 
     con.query(`SELECT * FROM userstats WHERE id = '${author.id}'`, (err_author, rows_author) => {
         if (err_author) throw err_author;
 
         con.query(`SELECT * FROM userstats WHERE id = '${target.id}'`, async (err_target, rows_target) => {
             if (err_target) throw err_target;
+            win_xp_author = parseInt(nasobitel_xp_author * sazka_xp)
+            win_xp_target = parseInt(nasobitel_xp_target * sazka_xp)
 
             let xp_author = rows_author[0].xp
             let level_author = rows_author[0].level
@@ -274,7 +292,7 @@ module.exports.result = async () => {
 
 
             if (result[0] == 1) {
-                xp_target = xp_target + sazka_xp
+                xp_target = xp_target + win_xp_target
                 xp_author = xp_author - sazka_xp
                 let hodnoty1 = ({ type: "rankup", level: level_target, xp: xp_target, sql: sql, user: target, con: con })
                 await signpost.run(hodnoty1)
@@ -287,7 +305,7 @@ module.exports.result = async () => {
 
             else {
                 xp_target = xp_target - sazka_xp
-                xp_author = xp_author + sazka_xp
+                xp_author = xp_author + win_xp_author
                 let hodnoty1 = ({ type: "rankdown", level: level_target, xp: xp_target, sql: sql, user: target, con: con })
                 await signpost.run(hodnoty1)
 
@@ -297,8 +315,14 @@ module.exports.result = async () => {
                 //console.log("lose")
             }
 
-
-
+            /*
+            console.log(nasobitel_xp_author)
+            console.log(nasobitel_xp_target)
+            console.log(cislo_pro_nasobitel_xp)
+            console.log(win_xp_author)
+            console.log(win_xp_target)
+            console.log(nahodnecislo)
+            */
         })
     })
 
