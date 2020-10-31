@@ -211,6 +211,7 @@ module.exports.run = async (message, args) => {
 module.exports.result = async () => {
     let result_array = [[0, 1], [1, 0]]
     let result
+    let result_canvas
     let stav
     let emoji = lower_or_higher_reaction_canvas.loh.reakce
     let cislo_sazka = lower_or_higher_reaction_canvas.loh.cislo_sazka
@@ -231,10 +232,12 @@ module.exports.result = async () => {
         if (stav.target == "lower") {
             //Target Wins
             result = result_array[1]
+            result_canvas = result_array[1]
         }
         else {
             //Target Lose
             result = result_array[0]
+            result_canvas = result_array[1]
         }
     }
 
@@ -242,10 +245,12 @@ module.exports.result = async () => {
         if (stav.target == "higher") {
             //Target Wins
             result = result_array[1]
+            result_canvas = result_array[1]
         }
         else {
             //Target Lose
             result = result_array[0]
+            result_canvas = result_array[1]
         }
     }
 
@@ -305,7 +310,7 @@ module.exports.result = async () => {
 
 
 
-    let hodnoty = ({ result: result })
+    let hodnoty = ({ result: result_canvas })
     lower_or_higher_canvas.run(hodnoty)
 }
 
