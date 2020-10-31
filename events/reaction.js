@@ -1,6 +1,6 @@
 const { bot } = require('../bot');
 const lower_or_higher_reaction_canvas = require("../handlers/lower_or_higher/lower_or_higher_reaction_canvas").loh
-const lower_or_higher = require("../commands/lower_or_higher")
+const lower_or_higher = require("../commands/lowerorhigher")
 const roomnames = require("../botconfig/roomnames.json");
 const emojinames = require("../botconfig/emojinames.json");
 

@@ -1,4 +1,5 @@
 const find_channel_by_name = require("../channelfinder/find_channel_by_name")
+const { bot } = require("../../bot")
 
 module.exports = {
     run: (hodnoty) => {
@@ -6,14 +7,22 @@ module.exports = {
         let fs = hodnoty.fs
         let color = hodnoty.color
         let message = hodnoty.message
+        let command
+        let list_of_commands = []
         fs.readdir("./commands/", (err, files) => {
 
             var embed = new Discord.MessageEmbed()
             embed.setAuthor(`Seznam použitelných příkazů:`)
-            let seznamjs = files.join(', ')
-            for (var i = 0; i <= files.length; i++) {
-                seznamjs = seznamjs.replace('.js', '')
+            
+
+            for (var i = 0; i < files.length; i++){
+                let prikaz = files[i]
+                prikaz = prikaz.replace(".js", "")
+                command = bot.commands.get(prikaz);
+                list_of_commands.push(command.help.name)
             }
+
+            let seznamjs = list_of_commands.join(', ')
 
             embed.setDescription(seznamjs)
             embed.addFields({ name: 'Prefix', value: hodnoty.prefix, inline: true },
