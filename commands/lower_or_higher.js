@@ -9,7 +9,7 @@ const signpost = require("../handlers/ranks/signpost")
 
 const name = "lowerorhigher"
 const description = ""
-const usage = prefix + name + " [@user] [číslo (2-99)]"
+const usage = prefix + name + " [@user] [číslo (2-99)] [výše sázky]"
 const accessableby = ["Member"]
 const aliases = ["loh"]
 
