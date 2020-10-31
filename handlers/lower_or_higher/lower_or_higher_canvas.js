@@ -58,15 +58,15 @@ module.exports = {
         ctx.beginPath();
         ctx.font = "30px Calibri";
         ctx.textAlign = "center";
-        ctx.fillStyle = colors_result[0];
-        ctx.fillText(result_username[0], sirka_half / 2, 35);
+        ctx.fillStyle = colors_result[1];
+        ctx.fillText(result_username[1], sirka_half / 2, 35);
         ctx.closePath();
 
         ctx.beginPath();
         ctx.font = "30px Calibri";
         ctx.textAlign = "center";
-        ctx.fillStyle = colors_result[1];
-        ctx.fillText(result_username[1], sirka_half / 2 * 3, 35);
+        ctx.fillStyle = colors_result[0];
+        ctx.fillText(result_username[0], sirka_half / 2 * 3, 35);
         ctx.closePath();
 
         ctx.beginPath();
@@ -81,13 +81,13 @@ module.exports = {
         ctx.stroke();
 
         ctx.globalAlpha = 0.6;
-        ctx.fillStyle = colors_result[0];
+        ctx.fillStyle = colors_result[1];
         ctx.fillRect(10, vyska_half - 10, pozice1, vyska_half);
         ctx.fill();
         ctx.globalAlpha = 1;
 
         ctx.globalAlpha = 0.6;
-        ctx.fillStyle = colors_result[1];
+        ctx.fillStyle = colors_result[0];
         ctx.fillRect(sirka - 10, vyska_half - 10, pozice2, vyska_half);
         ctx.fill();
         ctx.globalAlpha = 1;
