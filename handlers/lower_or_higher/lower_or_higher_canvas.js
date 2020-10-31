@@ -16,6 +16,9 @@ module.exports = {
 
         let result = hodnoty.result
 
+        let result0 = 1
+        let result1 = 0
+
 
 
 
@@ -33,10 +36,22 @@ module.exports = {
         }
 
         let result_username_array = [author_username, target_username]
-        let result_username = [result_username_array[result[0]], result_username_array[result[1]]]
+
+        let lower_user = result_username_array[result[0]]
+        let higher_user = result_username_array[result[1]]
+
+        let result_username = [lower_user, higher_user]
 
         let colors_result_array = [color.light_blue, color.red]
-        let colors_result = [colors_result_array[result[0]], colors_result_array[result[1]]]
+
+        let author_color = colors_result_array[result[0]]
+        let target_color = colors_result_array[result[1]]
+
+        let colors_result = [author_color, target_color]
+
+        
+
+        
 
         let vyska = 120
         let sirka = 4 * vyska
@@ -58,15 +73,15 @@ module.exports = {
         ctx.beginPath();
         ctx.font = "30px Calibri";
         ctx.textAlign = "center";
-        ctx.fillStyle = colors_result[1];
-        ctx.fillText(result_username[1], sirka_half / 2, 35);
+        ctx.fillStyle = colors_result[result1];
+        ctx.fillText(result_username[result1], sirka_half / 2, 35);
         ctx.closePath();
 
         ctx.beginPath();
         ctx.font = "30px Calibri";
         ctx.textAlign = "center";
-        ctx.fillStyle = colors_result[0];
-        ctx.fillText(result_username[0], sirka_half / 2 * 3, 35);
+        ctx.fillStyle = colors_result[result0];
+        ctx.fillText(result_username[result0], sirka_half / 2 * 3, 35);
         ctx.closePath();
 
         ctx.beginPath();
@@ -81,13 +96,13 @@ module.exports = {
         ctx.stroke();
 
         ctx.globalAlpha = 0.6;
-        ctx.fillStyle = colors_result[1];
+        ctx.fillStyle = colors_result[result1];
         ctx.fillRect(10, vyska_half - 10, pozice1, vyska_half);
         ctx.fill();
         ctx.globalAlpha = 1;
 
         ctx.globalAlpha = 0.6;
-        ctx.fillStyle = colors_result[0];
+        ctx.fillStyle = colors_result[result0];
         ctx.fillRect(sirka - 10, vyska_half - 10, pozice2, vyska_half);
         ctx.fill();
         ctx.globalAlpha = 1;

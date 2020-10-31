@@ -233,11 +233,13 @@ module.exports.result = async () => {
             //Target Wins
             result = result_array[1]
             result_canvas = result_array[1]
+            console.log("lower1")
         }
         else {
             //Target Lose
             result = result_array[0]
-            result_canvas = result_array[1]
+            result_canvas = result_array[0]
+            console.log("higher1")
         }
     }
 
@@ -245,12 +247,14 @@ module.exports.result = async () => {
         if (stav.target == "higher") {
             //Target Wins
             result = result_array[1]
-            result_canvas = result_array[1]
+            result_canvas = result_array[0]
+            console.log("higher2")
         }
         else {
             //Target Lose
             result = result_array[0]
             result_canvas = result_array[1]
+            console.log("lower2")
         }
     }
 
@@ -309,6 +313,7 @@ module.exports.result = async () => {
     //console.log("Sazka: " + cislo_sazka + " Nahodné: " + nahodnecislo)
 
 
+    console.log(result_canvas)
 
     let hodnoty = ({ result: result_canvas })
     lower_or_higher_canvas.run(hodnoty)
