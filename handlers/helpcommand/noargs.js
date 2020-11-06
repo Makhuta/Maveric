@@ -27,7 +27,7 @@ module.exports = {
             embed.setDescription(seznamjs)
             embed.addFields(
                 { name: 'Prefix', value: hodnoty.prefix, inline: true },
-                { name: 'Konkrétní příkazy', value: `Pro info ke konkrétním příkazům použijte příkaz ${prefix}help [název příkazu]` },
+                { name: 'Konkrétní příkazy', value: `Pro info ke konkrétním příkazům použijte příkaz ${hodnoty.prefix}help [název příkazu]` },
                 { name: 'Dotazy', value: 'Pro konkrétnější dotazy se obraťte na Admin team.\nPro seznam Admin teamu použijte příkaz ' + hodnoty.prefix + 'admins' }
             )
             embed.setColor(color.aqua)
