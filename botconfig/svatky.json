@@ -1,6 +1,176 @@
 [
     {
         "nazev": [
+            "Den obnovy samostatného českého státu"
+        ],
+        "mesice": [
+            1
+        ],
+        "dny": [
+            [
+                1
+            ]
+        ],
+        "hodnota": [
+            300
+        ],
+        "zpusob": 1
+    },
+    {
+        "nazev": [
+            "Nový rok"
+        ],
+        "mesice": [
+            1
+        ],
+        "dny": [
+            [
+                1
+            ]
+        ],
+        "hodnota": [
+            300
+        ],
+        "zpusob": 1
+    },
+    {
+        "nazev": [
+            "Svátek práce"
+        ],
+        "mesice": [
+            5
+        ],
+        "dny": [
+            [
+                1
+            ]
+        ],
+        "hodnota": [
+            200
+        ],
+        "zpusob": 1
+    },
+    {
+        "nazev": [
+            "Den vítěztví"
+        ],
+        "mesice": [
+            5
+        ],
+        "dny": [
+            [
+                8
+            ]
+        ],
+        "hodnota": [
+            500
+        ],
+        "zpusob": 1
+    },
+    {
+        "nazev": [
+            "Den slovanských věrozvěstů Cyrila a Metoděje"
+        ],
+        "mesice": [
+            7
+        ],
+        "dny": [
+            [
+                5
+            ]
+        ],
+        "hodnota": [
+            400
+        ],
+        "zpusob": 1
+    },
+    {
+        "nazev": [
+            "Den upálení mistra Jana Husa"
+        ],
+        "mesice": [
+            7
+        ],
+        "dny": [
+            [
+                6
+            ]
+        ],
+        "hodnota": [
+            400
+        ],
+        "zpusob": 1
+    },
+    {
+        "nazev": [
+            "Makhutovy narozeniny"
+        ],
+        "mesice": [
+            9
+        ],
+        "dny": [
+            [
+                14
+            ]
+        ],
+        "hodnota": [
+            1000
+        ],
+        "zpusob": 2
+    },
+    {
+        "nazev": [
+            "Den české státnosti"
+        ],
+        "mesice": [
+            9
+        ],
+        "dny": [
+            [
+                28
+            ]
+        ],
+        "hodnota": [
+            100
+        ],
+        "zpusob": 1
+    },
+    {
+        "nazev": [
+            "Den vzniku samostatného československého státu"
+        ],
+        "mesice": [
+            10
+        ],
+        "dny": [
+            [
+                28
+            ]
+        ],
+        "hodnota": [
+            700
+        ],
+        "zpusob": 1
+    },
+    {
+        "nazev": [
+            "Den boje za svobodu a demokracii"
+        ],
+        "mesice": [
+            11
+        ],
+        "dny": [
+            [
+                17
+            ]
+        ],
+        "hodnota": [
+            600
+        ],
+        "zpusob": 1
+    },
+    {
+        "nazev": [
             "Vánoce"
         ],
         "mesice": [
@@ -35,7 +205,7 @@
             ]
         ],
         "hodnota": [
-            300
+            50
         ],
         "zpusob": 2
     }
