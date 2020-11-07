@@ -2,11 +2,11 @@ const {prefix} = require("../botconfig.json")
 
 const name = "online"
 const description = ""
-const usage = `${prefix}online`
+const usage = prefix + name
 const accessableby = ["Bulgy", "Admins"]
 const aliases = ["o"]
 
-module.exports.run = async (message) => {
+module.exports.run = async (message, args) => {
 
     message.channel.send("I am fully online sir.");
 
