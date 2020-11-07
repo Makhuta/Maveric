@@ -14,8 +14,8 @@ const aliases = ["hl"]
 
 function zprava(typ, svatek_nazev, zpusob, target, reward) {
     let vystup_zprava = [
-        ["Právě není žádný svátek."],
-        [`Právě jsou Velikonoce.`, `Právě je ${svatek_nazev}, bylo ti přičteno ${reward} XP`, `Právě jsou ${svatek_nazev}, bylo ti přičteno ${reward} XP`]
+        ["Dnes není žádný svátek."],
+        [`Dnes jsou Velikonoce.`, `Dnes je ${svatek_nazev}, bylo ti přičteno ${reward} XP`, `Dnes jsou ${svatek_nazev}, bylo ti přičteno ${reward} XP`]
     ]
     target.send(vystup_zprava[typ][zpusob])
 }
