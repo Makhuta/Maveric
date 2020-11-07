@@ -7,7 +7,7 @@ const signpost = require("../handlers/ranks/signpost")
 const find_channel_by_name = require("../handlers/channelfinder/find_channel_by_name")
 
 const name = "holiday"
-const description = ""
+const description = "V případě že v den použití příkazu je nějaký svátek tak vám připíše přednastavený počet XP pro každý svátek."
 const usage = prefix + name
 const accessableby = ["Member"]
 const aliases = ["hl"]
