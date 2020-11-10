@@ -27,7 +27,15 @@ const prikaz = require("../handlers/prikaz/prikaztrigger")
 
 bot.on("message", message => {
   if (message.author.bot || message.channel.type === "dm") return;
+  module.exports.msgzprava = message
   let hodnoty = ({ prefix: prefix, message: message, bot: bot })
   prikaz.run(hodnoty);
+  //console.log(module.exports.msgzprava)
 
+  
 })
+
+
+module.exports = {
+  msgzprava: ""
+}
