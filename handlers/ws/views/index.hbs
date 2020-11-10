@@ -1,0 +1,57 @@
+<iframe style="display: none;" name="dummyframe" id="dummyframe"></iframe>
+
+<form action="/sendMessage" method="POST" target="dummyframe">
+    <input type="hidden" name="token" value="{{token}}">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        .column {
+            float: left;
+            padding: 10px;
+            height: 300px;
+        }
+
+        .row:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+    </style>
+    <div class="row">
+
+        <div class="column" style="width: 220px;">
+            {{#each mems}}
+            <ol>
+                <col>{{this.username}}</col>
+            </ol>
+            {{/each}}
+        </div>
+
+        <div class="column" style="width: 150px;">
+            {{#each mems}}
+            <ol>
+                <col>{{this.discriminator}}</col>
+            </ol>
+            {{/each}}
+        </div>
+
+        <div class="column" style="width: 70px;">
+            {{#each mems}}
+            <ol>
+                <col>{{this.xp}}</col>
+            </ol>
+            {{/each}}
+        </div>
+
+        <div class="column" style="width: 300px;">
+            {{#each mems}}
+            <ol>
+                <col>{{this.level}}</col>
+            </ol>
+            {{/each}}
+        </div>
+
+    </div>
+</form>
