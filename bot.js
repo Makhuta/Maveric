@@ -11,10 +11,10 @@ bot.accessable = new Discord.Collection();
 
 
 var con = mysql.createPool({
-  host: process.env.HOST,
-  user: process.env.USER,
-  password: process.env.PASSWORD,
-  database: process.env.DATABASE
+  host: process.env.MYSQL_HOST,
+  user: process.env.MYSQL_USER,
+  password: process.env.MYSQL_PASSWORD,
+  database: process.env.MYSQL_DATABASE
 });
 
 var ws = new WS("statistics", process.env.PORT || 5665, bot, con)
