@@ -24,7 +24,6 @@ module.exports.run = async (message, args) => {
     let pretarget = message.guild.members.cache.get(get_user_from_args.run(args[0] || ""))
     let prereason = args.slice(1).join(" ")
     let message_author = message.author
-    console.log(pretarget)
 
     if (pretarget == undefined) {
         let typ = 0
