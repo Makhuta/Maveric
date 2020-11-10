@@ -10,30 +10,31 @@ const usage = prefix + name + " [user] [důvod nahlášení]"
 const accessableby = ["Member"]
 const aliases = ["rp"]
 
-function zprava(typ, canvas) {
+function zprava(typ, author) {
     let error_messages = [
         "Nemáš zadaného člena nebo jsi ho zadal špatně.",
         "Nemáš zadaný důvod nahlášení.",
-        canvas
+        "Nelze nahlásít sám sebe."
     ]
 
-    let hodnotyout = ({ zprava: error_messages[typ], roomname: require("../botconfig/roomnames.json").nahlaseni_uzivatele })
-    find_channel_by_name.run(hodnotyout)
+    author.send(error_messages[typ])
 }
 
 module.exports.run = async (message, args) => {
-    let pretarget = message.guild.members.cache.get(get_user_from_args.run(args[0]))
+    let pretarget = message.guild.members.cache.get(get_user_from_args.run(args[0] || ""))
     let prereason = args.slice(1).join(" ")
+    let message_author = message.author
+    console.log(pretarget)
 
     if (pretarget == undefined) {
         let typ = 0
-        zprava(typ)
+        zprava(typ, message_author)
         return
     }
 
     if (prereason == "") {
         let typ = 1
-        zprava(typ)
+        zprava(typ, message_author)
         return
     }
 
@@ -48,13 +49,15 @@ module.exports.run = async (message, args) => {
     let target = pretarget.user
 
     if (target == message.author) {
-        message.author.send("Nelze nahlásít sám sebe.")
+        let typ = 2
+        zprava(typ, message_author)
         return
     }
 
-    let hodnotyout = ({ reason: reason, target: target, author: message.author })
-    let typ = 2
-    zprava(typ, await report_canvas.run(hodnotyout))
+    let hodnotyoutzprava = ({ reason: reason, target: target, author: message.author })
+
+    let hodnotyout = ({ zprava: await report_canvas.run(hodnotyoutzprava), roomname: require("../botconfig/roomnames.json").nahlaseni_uzivatele })
+    find_channel_by_name.run(hodnotyout)
     const emoji = message.guild.emojis.cache.find(emoji => emoji.name === emojinames.verifyemojiname).id
     message.react(emoji)
 }
