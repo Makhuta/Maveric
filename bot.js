@@ -17,7 +17,7 @@ var con = mysql.createPool({
   database: process.env.MYSQL_DATABASE
 });
 
-var ws = new WS("statistics", process.env.PORT || 5665, bot, con)
+var ws = new WS("statistics", process.env.PORT || 8080, bot, con)
 
 module.exports = {
   bot: bot,
