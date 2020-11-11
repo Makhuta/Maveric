@@ -3,7 +3,7 @@ const { bot, con } = require("../../bot")
 
 
 module.exports = {
-    run(hodnoty) {
+    async run(hodnoty) {
         let res = hodnoty.res
         let view_hbs = hodnoty.view_hbs
         let title = hodnoty.title
@@ -14,7 +14,7 @@ module.exports = {
         var level
         var xpToNextLevel
 
-        bot.users.cache.filter(u => !u.bot).forEach(async user => {
+        await bot.users.cache.filter(u => !u.bot).forEach(async user => {
             con.query(`SELECT * FROM userstats WHERE id = '${user.id}'`, (err, rows) => {
                 if (err) throw err;
 
