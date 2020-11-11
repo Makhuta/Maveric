@@ -3,7 +3,7 @@ const { bot, con } = require("../../bot")
 
 
 module.exports = {
-    async run(hodnoty) {
+    run(hodnoty) {
         let res = hodnoty.res
         let view_hbs = hodnoty.view_hbs
         let title = hodnoty.title
@@ -14,11 +14,11 @@ module.exports = {
         var level
         var xpToNextLevel
 
-        await bot.users.cache.filter(u => !u.bot).forEach(async user => {
+        bot.users.cache.filter(u => !u.bot).forEach(async user => {
             con.query(`SELECT * FROM userstats WHERE id = '${user.id}'`, (err, rows) => {
                 if (err) throw err;
 
-                if (!rows[0]) return
+                if (!rows[0]) rows[0] = ({xp: 0,level: 0})
                 xp = rows[0].xp
                 level = rows[0].level
                 xpToNextLevel = 5 * Math.pow(level, 2) + 50 * level + 100
@@ -27,14 +27,12 @@ module.exports = {
                     id: user.id,
                     username: user.username,
                     discriminator: user.discriminator,
-                    xp: xp || "0",
-                    level: level || "0",
-                    xpToNextLevel: xpToNextLevel || "0"
+                    xp: xp,
+                    level: level,
+                    xpToNextLevel: xpToNextLevel
                 })
             })
         });
-
-        console.log(users)
 
         res.render(view_hbs, { title: title, host_value: host_value, user: users });
 
