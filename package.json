@@ -16,6 +16,7 @@
     "express-handlebars": "^5.2.0",
     "moment": "^2.29.1",
     "mysql": "^2.18.1",
+    "node-fetch": "^2.6.1",
     "random": "^2.2.0",
     "round-to": "^4.1.0"
   }
