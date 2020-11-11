@@ -9,7 +9,6 @@ module.exports = {
 
 
 
-        console.log("Main")
         res.render(view_hbs, { title: title, host_value: host_value });
     }
 }

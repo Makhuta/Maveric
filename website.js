@@ -4,7 +4,6 @@ const app = express()
 const path = require("path")
 const bodyParser = require("body-parser")
 const fs = require("fs");
-const { bot } = require("./bot")
 
 const hbs_webout = __dirname + "/ws_handlers/views/"
 const js_webout = __dirname + "/ws_handlers/getting_variables/"
@@ -45,7 +44,6 @@ app.get("/", async function (req, res) {
         }
         hbsfile.forEach((f, i) => {
             let name = f.toLocaleString().split(".")[0]
-            console.log(name)
             if (name != _token) {
                 hbs_exist = hbs_exist
             }
@@ -55,7 +53,6 @@ app.get("/", async function (req, res) {
                 out_name = name.split("_").join(" ")
             }
         })
-        console.log("HBS: " + hbs_exist)
 
 
 
@@ -66,7 +63,6 @@ app.get("/", async function (req, res) {
             }
             jsfile.forEach((f, i) => {
                 let name = f.toLocaleString().split(".")[0]
-                console.log(name)
                 if (name != _token) {
                     js_exist = js_exist
                 }
@@ -75,10 +71,6 @@ app.get("/", async function (req, res) {
                     js_exist = !js_exist
                 }
             })
-            console.log("JS: " + js_exist)
-
-
-            console.log(hbs_exist + " " + js_exist)
 
             if (!hbs_exist) {
                 res.render(hbs_webout + "error", { title: "HBS ERROR" });
@@ -90,7 +82,7 @@ app.get("/", async function (req, res) {
 
             else {
                 let title = out_name[0].toUpperCase() + out_name.slice(1)
-                let hodnoty = ({ res: res, view_hbs: hbs_webout + _token, title: title, host_value: host_value, token: _token })
+                let hodnoty = ({ res: res, view_hbs: hbs_webout + _token, title: title, host_value: host_value, token: _token, app: app })
                 await require("./ws_handlers/getting_variables/signpost").run(hodnoty)
                 /*
                 res.render(hbs_webout + _token, { title: out_name[0].toUpperCase() + out_name.slice(1), host_value: host_value, variables: variables });

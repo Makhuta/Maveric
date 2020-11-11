@@ -5,11 +5,6 @@ module.exports = {
         let title = hodnoty.title
         let host_value = hodnoty.host_value
 
-
-
-
-
-        console.log("Test")
         res.render(view_hbs, { title: title, host_value: host_value });
     }
 }

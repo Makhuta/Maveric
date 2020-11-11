@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script>
+    </script>
+    <style>
+        .columnmain {
+            float: left;
+            width: 150px;
+            padding-left: 10px;
+            padding-top: 50px;
+        }
+
+        .column {
+            float: left;
+            width: 150px;
+            padding-left: 10px;
+            padding-top: 10px;
+        }
+
+        .row:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="row">
+        <div class="row">
+            <b class="columnmain" style="width: 270px;">Username</b>
+            <b class="columnmain">XP</b>
+            <b class="columnmain">Level</b>
+            <b class="columnmain">XP to next Level</b>
+        </div>
+    </div>
+    <div class="row">
+        {{#each user}}
+        <div class="row">
+            <li class="row">
+                <div class="column" style="width: 270px;">{{this.username}} #{{this.discriminator}}</div>
+                <div class="column">{{this.xp}}</div>
+                <div class="column">{{this.level}}</div>
+                <div class="column">{{this.xpToNextLevel}}</div>
+            </li>
+        </div>
+        {{/each}}
+    </div>
+</body>
+
+</html>
