@@ -10,7 +10,7 @@ const webout = __dirname + "/ws_handlers/views/"
 
 var port = process.env.PORT || 8080
 
-var default_token = "index"
+var default_token = "main"
 
 app.engine("hbs", hbs({
     extname: "hbs",
@@ -27,14 +27,12 @@ app.use(bodyParser.json())
 app.use(express.static(__dirname));
 
 app.get("/", function (req, res) {
-    var _token = req.query.token
+    var _token = req.query.site || default_token
+    let host_value = "http://" + req.headers.host + "/?site="
 
-    if (_token == undefined) {
-        _token = default_token
-    }
-
-    fs.readdir(webout, (err, files) => {
+    fs.readdir(webout, async (err, files) => {
         let exist = false
+        let out_name
 
         if (err) console.log(err);
 
@@ -50,15 +48,17 @@ app.get("/", function (req, res) {
 
             else if (name == _token) {
                 exist = true
+                out_name = name.split("_").join(" ")
             }
         });
 
         if (!exist) {
-            res.render(webout + "error", { title: "discord bot website" });
+            res.render(webout + "error", { title: "ERROR" });
         }
 
         else {
-            res.render(webout + _token, { title: "discord bot website" });
+            let variables = await require("./ws_handlers/getting_variables/signpost").run(_token)
+            res.render(webout + _token, { title: out_name[0].toUpperCase() + out_name.slice(1), host_value: host_value, variables: variables });
         }
     });
 })
@@ -66,9 +66,3 @@ app.get("/", function (req, res) {
 app.listen(port, function () {
     console.log(`Website running on port ${port}`)
 })
-
-
-
-
-
-console.log(bot)
