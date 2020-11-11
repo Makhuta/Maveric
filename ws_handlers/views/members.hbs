@@ -41,10 +41,12 @@
     <div class="row">
         {{#each user}}
         <div class="row">
-            <li class="column" style="width: 270px;">{{this.username}} #{{this.discriminator}}</li>
-            <li class="column">{{this.xp}}</li>
-            <li class="column">{{this.level}}</li>
-            <li class="column">{{this.xpToNextLevel}}</li>
+            <li class="row">
+                <div class="column" style="width: 270px;">{{this.username}} #{{this.discriminator}}</div>
+                <div class="column">{{this.xp}}</div>
+                <div class="column">{{this.level}}</div>
+                <div class="column">{{this.xpToNextLevel}}</div>
+            </li>
         </div>
         {{/each}}
     </div>
