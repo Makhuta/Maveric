@@ -26,6 +26,7 @@ module.exports = {
                 level = user.level
                 xpToNextLevel = 5 * Math.pow(level, 2) + 50 * level + 100
                 let get_user = users.find(u => u.id == user.id)
+                if(!get_user) return
                 get_user.xp = xp
                 get_user.level = level
                 get_user.xpToNextLevel = xpToNextLevel
