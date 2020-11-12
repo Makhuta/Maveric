@@ -10,45 +10,56 @@
         .columnmain {
             float: left;
             width: 150px;
-            padding-left: 10px;
             padding-top: 50px;
         }
 
         .column {
             float: left;
             width: 150px;
-            padding-left: 10px;
-            padding-top: 10px;
+
+
         }
+
+        .rowmain::after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+
 
         .row:after {
             content: "";
             display: table;
             clear: both;
+            padding-top: 10px;
         }
     </style>
 </head>
 
 <body>
-    <div class="row">
+
+
+
+    <div class="rowmain">
         <div class="row">
             <b class="columnmain" style="width: 270px;">Username</b>
-            <b class="columnmain">XP</b>
             <b class="columnmain">Level</b>
-            <b class="columnmain">XP to next Level</b>
+            <b class="columnmain">XP</b>
+            <b class="columnmain">All XP</b>
         </div>
-    </div>
-    <div class="row">
+
         {{#each user}}
         <div class="row">
-            <li class="row">
+            <output>
                 <div class="column" style="width: 270px;">{{this.username}} #{{this.discriminator}}</div>
-                <div class="column">{{this.xp}}</div>
                 <div class="column">{{this.level}}</div>
-                <div class="column">{{this.xpToNextLevel}}</div>
-            </li>
+                <div class="column">{{this.xp}}/{{this.xpToNextLevel}}</div>
+                <div class="column">{{this.allxp}}</div>
+            </output>
         </div>
         {{/each}}
+
     </div>
 </body>
 

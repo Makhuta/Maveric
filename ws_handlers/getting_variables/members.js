@@ -1,5 +1,17 @@
+const { all } = require("async");
 const { bot, con } = require("../../bot")
 const local_database = require("../../events/local_database").database
+
+function allxp(level, xp) {
+    var xpecka = xp
+    for (let l = 0; l < level; l++) {
+        var xpToNextLevel = 5 * Math.pow(l, 2) + 50 * l + 100;
+        xpecka = xpecka + xpToNextLevel;
+    }
+    /*sql = `UPDATE userstats SET allxp = ${xpecka} WHERE id = '${target.id}'`;
+    con.query(sql)*/
+    return (xpecka)
+}
 
 module.exports = {
     async run(hodnoty) {
@@ -15,7 +27,7 @@ module.exports = {
         var rows = local_database.rows
 
         bot.users.cache.filter(u => !u.bot).forEach(async (user) => {
-            users.push({ id: user.id, username: user.username, discriminator: user.discriminator, xp: 0, level: 0, xpToNextLevel: 0 })
+            users.push({ id: user.id, username: user.username, discriminator: user.discriminator, xp: 0, level: 0, xpToNextLevel: 0, allxp: 0 })
         })
 
 
@@ -31,8 +43,14 @@ module.exports = {
                 get_user.xp = xp
                 get_user.level = level
                 get_user.xpToNextLevel = xpToNextLevel
+                if (xp != 0 || level != 0) {
+                    get_user.allxp = allxp(level, xp)
+                }
             }
         })
+
+
+        users.sort((a, b) => (a.allxp < b.allxp) ? 1 : (a.allxp === b.allxp) ? ((a.id < b.id) ? 1 : -1) : -1)
         res.render(view_hbs, { title: title, host_value: host_value, user: users });
 
 
