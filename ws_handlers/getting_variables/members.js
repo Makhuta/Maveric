@@ -35,7 +35,6 @@ module.exports = {
                     get_user.xpToNextLevel = xpToNextLevel
                 }
             })
-            console.log(users)
             res.render(view_hbs, { title: title, host_value: host_value, user: users });
         });
 
