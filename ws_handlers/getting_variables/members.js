@@ -1,4 +1,3 @@
-const { all } = require("async");
 const { bot, con } = require("../../bot")
 const local_database = require("../../events/local_database").database
 
