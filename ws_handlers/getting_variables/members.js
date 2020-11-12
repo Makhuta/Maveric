@@ -1,5 +1,5 @@
-const { use } = require("random")
 const { bot, con } = require("../../bot")
+const local_database = require("../../events/local_database").database
 
 module.exports = {
     async run(hodnoty) {
@@ -12,31 +12,29 @@ module.exports = {
         var level = 0
         var xpToNextLevel = 0
         var users = new Array()
+        var rows = local_database.rows
 
         bot.users.cache.filter(u => !u.bot).forEach(async (user) => {
             users.push({ id: user.id, username: user.username, discriminator: user.discriminator, xp: 0, level: 0, xpToNextLevel: 0 })
         })
 
-        con.query(`SELECT * FROM userstats`, async (err, rows) => {
-            if (err)
-                throw err
 
-            rows.forEach(async (user) => {
-                xp = user.xp
-                level = user.level
-                xpToNextLevel = 5 * Math.pow(level, 2) + 50 * level + 100
-                let get_user = users.find(u => u.id == user.id)
-                if (!get_user) {
+        rows.forEach(async (user) => {
+            xp = user.xp
+            level = user.level
+            xpToNextLevel = 5 * Math.pow(level, 2) + 50 * level + 100
+            let get_user = users.find(u => u.id == user.id)
+            if (!get_user) {
 
-                }
-                else {
-                    get_user.xp = xp
-                    get_user.level = level
-                    get_user.xpToNextLevel = xpToNextLevel
-                }
-            })
-            res.render(view_hbs, { title: title, host_value: host_value, user: users });
-        });
+            }
+            else {
+                get_user.xp = xp
+                get_user.level = level
+                get_user.xpToNextLevel = xpToNextLevel
+            }
+        })
+        res.render(view_hbs, { title: title, host_value: host_value, user: users });
+
 
 
 
