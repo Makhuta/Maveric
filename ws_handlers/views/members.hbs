@@ -5,11 +5,21 @@
     <meta charset="UTF-8">
     <title></title>
     <script>
+        function user_select() {
+            var u = document.getElementById("users")
+            var u_xp_xpToNextLevel = u.options[u.selectedIndex].getAttribute("xp_xpToNextLevel")
+            var u_level = u.options[u.selectedIndex].getAttribute("level")
+            var u_allxp = u.options[u.selectedIndex].getAttribute("allxp")
+
+            document.getElementById("level").value = u_level
+            document.getElementById("xp/xpToNextLevel").value = u_xp_xpToNextLevel
+            document.getElementById("allxp").value = u_allxp
+        }
     </script>
     <style>
         .columnmain {
             float: left;
-            width: 150px;
+            width: 160px;
             padding-top: 50px;
         }
 
@@ -43,23 +53,27 @@
 
     <div class="rowmain">
         <div class="row">
-            <b class="columnmain" style="width: 270px;">Username</b>
+            <b class="columnmain" style="width: 300px;">Username</b>
             <b class="columnmain">Level</b>
             <b class="columnmain">XP</b>
             <b class="columnmain">All XP</b>
         </div>
+    </div>
 
-        {{#each user}}
-        <div class="row">
-            <output>
-                <div class="column" style="width: 270px;">{{this.username}} #{{this.discriminator}}</div>
-                <div class="column">{{this.level}}</div>
-                <div class="column">{{this.xp}}/{{this.xpToNextLevel}}</div>
-                <div class="column">{{this.allxp}}</div>
-            </output>
-        </div>
-        {{/each}}
 
+    <div class="rowmain">
+        <select class="column" name="users" id="users" onchange="user_select()" style="width: 300px;">
+            <option value="" selected disabled hidden>Choose here</option>
+            {{#each user}}
+            <option value="{{this.id}}" name="{{this.username}}" xp_xpToNextLevel="{{this.xp}}/{{this.xpToNextLevel}}"
+                level="{{this.level}}" allxp="{{this.allxp}}">
+                {{this.username}}
+                #{{this.discriminator}}</option>
+            {{/each}}
+        </select>
+        <input class="column" type="text" id="level" disabled="disabled" />
+        <input class="column" type="text" id="xp/xpToNextLevel" disabled="disabled" />
+        <input class="column" type="text" id="allxp" disabled="disabled" />
     </div>
 </body>
 

@@ -49,7 +49,11 @@ module.exports = {
         })
 
 
-        users.sort((a, b) => (a.allxp < b.allxp) ? 1 : (a.allxp === b.allxp) ? ((a.id < b.id) ? 1 : -1) : -1)
+        users.sort(function (a, b) {
+            if (a.username.toLowerCase() < b.username.toLowerCase()) return -1;
+            if (a.username.toLowerCase() > b.username.toLowerCase()) return 1;
+            return 0;
+        })
         res.render(view_hbs, { title: title, host_value: host_value, user: users });
 
 
