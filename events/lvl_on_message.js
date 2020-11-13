@@ -41,7 +41,7 @@ function databaze(message, con) {
 }
 
 bot.on("message", message => {
-    if (message.author.bot || message.channel.type === "dm" || message.content.startsWith(botconfig.prefix)) return
+    if (message.author.bot || message.channel.type === "dm" || message.content.startsWith(botconfig.prefix) || message.channel.name == "joins") return
     databaze(message, con);
 
 })

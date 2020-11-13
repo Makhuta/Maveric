@@ -60,6 +60,12 @@ function joinxp(member) {
     })
 }
 
+function add_user(member) {
+    sql = `INSERT INTO userstats (id, xp) VALUES ('${member.id}', 0)`
+    con.query(sql)
+    console.log(`ADDED ${member.user.username}!`)
+}
+
 bot.on('ready', () => {
     bot.guilds.cache.forEach(g => {
         g.fetchInvites().then(guildInvites => {
@@ -70,6 +76,8 @@ bot.on('ready', () => {
 
 bot.on('guildMemberAdd', member => {
     uvitani(member);
+    add_user(member);
     joinxp(member);
+
 
 });
