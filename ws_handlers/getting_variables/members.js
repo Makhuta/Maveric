@@ -1,5 +1,7 @@
+const { loadImage } = require("canvas");
 const { bot, con } = require("../../bot")
 const local_database = require("../../events/local_database").database
+const xp_colors = require("../../colorpaletes/xpcolor.json")
 
 function allxp(level, xp) {
     var xpecka = xp
@@ -26,7 +28,7 @@ module.exports = {
         var rows = local_database.rows
 
         bot.users.cache.filter(u => !u.bot).forEach(async (user) => {
-            users.push({ id: user.id, username: user.username, discriminator: user.discriminator, xp: 0, level: 0, xpToNextLevel: 0, allxp: 0 })
+            users.push({ id: user.id, username: user.username, discriminator: user.discriminator, xp: 0, level: 0, xpToNextLevel: 0, allxp: 0, xp_color: "", avatar: user.displayAvatarURL({ format: "jpg", size: 512 }) })
         })
 
 
@@ -42,6 +44,7 @@ module.exports = {
                 get_user.xp = xp
                 get_user.level = level
                 get_user.xpToNextLevel = xpToNextLevel
+                get_user.xp_color = xp_colors[Math.ceil((100 / (xpToNextLevel)) * xp)]
                 if (xp != 0 || level != 0) {
                     get_user.allxp = allxp(level, xp)
                 }

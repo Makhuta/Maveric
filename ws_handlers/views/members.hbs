@@ -5,32 +5,132 @@
     <meta charset="UTF-8">
     <title></title>
     <script>
+
+        window.onload = function () {
+            let canvas = document.getElementById("avatar_canvas");
+            let context = canvas.getContext("2d");
+
+            context.beginPath()
+            context.arc(canvas.width / 2, canvas.height / 2, canvas.height / 2 - 3, 0, 2 * Math.PI, false);
+            context.fillStyle = "#ffffff";
+            context.fill();
+            context.lineWidth = 3;
+            context.strokeStyle = "#000000";
+            context.stroke();
+            context.closePath();
+            change_avatar_canvas("https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/avatars/da/dad3cddae08c3e6404d5ccdb5f69aa0eb888bc49_full.jpg")
+        };
+
         function user_select() {
             var u = document.getElementById("users")
-            var u_xp_xpToNextLevel = u.options[u.selectedIndex].getAttribute("xp_xpToNextLevel")
+            var avatar = u.options[u.selectedIndex].getAttribute("avatar")
+            var u_xp = u.options[u.selectedIndex].getAttribute("xp")
+            var u_xpToNextLevel = u.options[u.selectedIndex].getAttribute("xpToNextLevel")
             var u_level = u.options[u.selectedIndex].getAttribute("level")
             var u_allxp = u.options[u.selectedIndex].getAttribute("allxp")
+            var u_xp_color = u.options[u.selectedIndex].getAttribute("xp_color")
 
             document.getElementById("level").value = u_level
-            document.getElementById("xp/xpToNextLevel").value = u_xp_xpToNextLevel
             document.getElementById("allxp").value = u_allxp
+            change_xp_canvas(u_xp, u_xpToNextLevel, u_xp_color)
+            change_avatar_canvas(avatar)
         }
+
+        function change_xp_canvas(xp, xpToNextLevel, xp_colors) {
+            var c = document.getElementById("xp_canvas");
+            var ctx = c.getContext("2d");
+            var procenta = ((100 / (xpToNextLevel)) * xp)
+            var sirka = procenta * (c.width / 100);
+            ctx.beginPath()
+            ctx.clearRect(0, 0, c.width, c.height);
+            ctx.globalAlpha = 0.6;
+            ctx.fillStyle = xp_colors;
+            ctx.fillRect(0, 0, sirka, c.height);
+            ctx.fill();
+
+            ctx.globalAlpha = 1;
+            ctx.font = "30px Arial";
+            ctx.textAlign = "center";
+            ctx.fillStyle = "#000000";
+            ctx.fillText(`${xp}/${xpToNextLevel} XP`, c.width / 2, 44);
+        }
+
+        async function change_avatar_canvas(avatar) {
+            var c = document.getElementById("avatar_canvas");
+            var ctx = c.getContext("2d");
+            ctx.beginPath()
+            ctx.clearRect(0, 0, c.width, c.height);
+            var img = new Image();
+            img.onload = function () {
+                ctx.drawImage(img, 0, 0, 150, 150);
+            }
+            ctx.arc(c.width / 2, c.height / 2, c.height / 2 - 3, 0, Math.PI * 2, true);
+            ctx.lineWidth = 6;
+            ctx.strokeStyle = "#000000";
+            ctx.stroke();
+            ctx.closePath();
+            ctx.clip();
+            img.src = avatar;
+
+        }
+
     </script>
     <style>
+        .parts {
+            background-color: white;
+            margin-left: auto;
+            margin-right: auto;
+            width: fit-content;
+            text-align: center;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            -ms-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+        }
+
+        .user_stats {
+            display: block;
+            text-align: center;
+            float: left;
+            width: 150px;
+            height: 30px;
+            position: inherit;
+            margin-left: 10px;
+            margin-top: 60px;
+        }
+
+
         .columnmain {
+            text-align: center;
+            display: block;
             float: left;
             width: 160px;
-            padding-top: 50px;
+            margin-left: 10px;
+            position: inherit;
         }
 
         .column {
+            display: block;
+            text-align: center;
             float: left;
             width: 150px;
+            height: 30px;
+            position: inherit;
+            margin-left: 10px;
+        }
 
-
+        .column_avatar {
+            text-align: center;
+            float: left;
+            width: 150px;
+            height: 30px;
+            position: inherit;
+            margin-left: 10px;
         }
 
         .rowmain::after {
+            display: inline-table;
             content: "";
             display: table;
             clear: both;
@@ -42,38 +142,52 @@
             content: "";
             display: table;
             clear: both;
-            padding-top: 10px;
+            margin-top: 10px;
+        }
+
+        .pozadi {
+            background-color: lightskyblue;
         }
     </style>
 </head>
 
-<body>
+<body class="pozadi">
+    <div class="parts">
+        <div class="rowmain">
+            <div class="row">
+                <b class="column" style="width: 300px;">Username</b>
+                <b class="column">Level</b>
+                <b class="column" style="width: 400px;">XP</b>
+                <b class="column">All XP</b>
+            </div>
+
+
+            <div class="row">
+                <select class="user_stats" name="users" id="users" onchange="user_select()" style="width: 300px;">
+                    <option value="" selected disabled hidden>Choose here</option>
+                    {{#each user}}
+                    <option value="{{this.id}}" avatar="{{this.avatar}}" name="{{this.username}}"
+                        xp_xpToNextLevel="{{this.xp}}/{{this.xpToNextLevel}}" xp="{{this.xp}}"
+                        xpToNextLevel="{{this.xpToNextLevel}}" level="{{this.level}}" allxp="{{this.allxp}}"
+                        xp_color="{{this.xp_color}}">
+                        {{this.username}}
+                        #{{this.discriminator}}</option>
+                    {{/each}}
+                </select>
+
+                <input class="user_stats" type="text" id="level" disabled="disabled" />
+
+                <canvas class="user_stats" width="800" height="65" id="xp_canvas"
+                    style="width: 400px; border: 3px solid #000000;"></canvas>
+
+                <input class="user_stats" type="text" id="allxp" disabled="disabled" />
 
 
 
-    <div class="rowmain">
-        <div class="row">
-            <b class="columnmain" style="width: 300px;">Username</b>
-            <b class="columnmain">Level</b>
-            <b class="columnmain">XP</b>
-            <b class="columnmain">All XP</b>
+                <canvas class="column_avatar" id="avatar_canvas" width="150" height="150"
+                    style="width: 150px; height: 150px; top:75px"></canvas>
+            </div>
         </div>
-    </div>
-
-
-    <div class="rowmain">
-        <select class="column" name="users" id="users" onchange="user_select()" style="width: 300px;">
-            <option value="" selected disabled hidden>Choose here</option>
-            {{#each user}}
-            <option value="{{this.id}}" name="{{this.username}}" xp_xpToNextLevel="{{this.xp}}/{{this.xpToNextLevel}}"
-                level="{{this.level}}" allxp="{{this.allxp}}">
-                {{this.username}}
-                #{{this.discriminator}}</option>
-            {{/each}}
-        </select>
-        <input class="column" type="text" id="level" disabled="disabled" />
-        <input class="column" type="text" id="xp/xpToNextLevel" disabled="disabled" />
-        <input class="column" type="text" id="allxp" disabled="disabled" />
     </div>
 </body>
 
