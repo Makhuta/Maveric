@@ -26,9 +26,6 @@ bot.on("ready", () => {
             rows_ids.push(user_row.id)
         })
 
-        console.log(`User array: ${users_ids}`)
-        console.log(`Rows array: ${rows_ids}`)
-
 
         users_ids.forEach(id => {
             if (rows_ids.includes(id)) {
@@ -38,7 +35,6 @@ bot.on("ready", () => {
                 rows_exist.push({ id: id, exist: false })
             }
         })
-        console.log("Rows exist: " + rows_exist)
 
         rows_ids.forEach(id => {
             if (users_ids.includes(id)) {
@@ -48,7 +44,6 @@ bot.on("ready", () => {
                 users_exist.push({ id: id, exist: false })
             }
         })
-        console.log("Users exist: " + users_exist)
 
         rows_exist.forEach(exist => {
             if (!exist.exist) {
