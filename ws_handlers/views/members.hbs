@@ -87,24 +87,10 @@
 
     </script>
     <style>
-        .table_row {
-            display: table-row;
-        }
-
-        .table_cell {
-            display: table-cell;
-            vertical-align: middle;
-            align-items: center;
-            align-content: center;
-            text-align: center;
-            width: fit-content;
-            height: fit-content;
-        }
-
         .parts {
             background-color: white;
             width: fit-content;
-            text-align: center;
+            height: fit-content;
             position: absolute;
             top: 50%;
             left: 50%;
@@ -117,30 +103,30 @@
             float: left;
             width: 150px;
             height: 30px;
-            position: inherit;
-            margin-left: 10px;
             background-color: white;
             color: black;
         }
 
+        .column {
+            display: flex;
+            justify-content: center;
+            position: relative;
+            height: fit-content;
+            margin: 0 auto;
+            margin-top: 10px;
 
-        .columnmain {
-            text-align: center;
-            display: block;
-            float: left;
-            width: 160px;
-            margin-left: 10px;
-            position: inherit;
         }
 
-        .column {
-            display: block;
-            text-align: center;
-            float: left;
-            width: 150px;
-            height: 30px;
-            position: inherit;
-            margin-left: 10px;
+        .column_for_invicible {
+            border: 1px solid lightgray;
+            display: flex;
+            justify-content: center;
+            position: relative;
+            height: fit-content;
+            margin: 0 auto;
+            margin-top: 10px;
+            max-width: 200px;
+
         }
 
         .column_avatar {
@@ -148,77 +134,71 @@
             float: left;
             width: 150px;
             height: 30px;
-            margin-left: 10px;
-        }
-
-        .rowmain {
-            display: flex;
-            width: fit-content;
-            margin-top: 0px;
-        }
-
-
-
-        .row:after {
-            content: "";
-            clear: both;
-            margin-top: 10px;
+            margin-bottom: 10px;
         }
 
         .pozadi {
             background-color: lightskyblue;
         }
 
-        .back {
+        .back_placeholder {
             position: fixed;
             left: 0;
             bottom: 0;
             width: 100%;
-            background-color: lightgray;
-            color: white;
+        }
+
+        .back {
+            position: relative;
+            width: 200px;
+            bottom: 0;
+            display: flex;
+            justify-content: center;
+            margin: 0 auto;
+            background-color: lightcoral;
             text-align: center;
-            font-size: 32px;
+            font-size: 24px;
+            color: lightblue;
         }
     </style>
 </head>
 
 <body class="pozadi">
     <div class="parts">
-        <div class="table_cell">
-            <td class="rowmain">
-                <div class="row">
-                    <select class="user_stats" name="users" id="users" onchange="user_select()" style="width: 300px;">
-                        <option value="" selected disabled hidden>Username</option>
-                        {{#each user}}
-                        <option value="{{this.id}}" avatar="{{this.avatar}}" name="{{this.username}}"
-                            xp_xpToNextLevel="{{this.xp}}/{{this.xpToNextLevel}}" xp="{{this.xp}}"
-                            xpToNextLevel="{{this.xpToNextLevel}}" level="{{this.level}}" allxp="{{this.allxp}}"
-                            xp_color="{{this.xp_color}}">
-                            {{this.username}}
-                            #{{this.discriminator}}</option>
-                        {{/each}}
-                    </select>
-
-                    <input value="Level" class="user_stats" type="text" id="level" disabled="disabled"
-                        style="border: 0;" />
-
-                    <canvas class="user_stats" width="800" height="65" id="xp_canvas"
-                        style="width: 400px; border: 3px solid #000000;"></canvas>
-
-                    <input value="All XP" class="user_stats" type="text" id="allxp" disabled="disabled"
-                        style="border: 0;" />
-                </div>
-            </td>
+        <div class="column">
+            <select class="user_stats" name="users" id="users" onchange="user_select()">
+                <option value="" selected disabled hidden>Username</option>
+                {{#each user}}
+                <option value="{{this.id}}" avatar="{{this.avatar}}" name="{{this.username}}"
+                    xp_xpToNextLevel="{{this.xp}}/{{this.xpToNextLevel}}" xp="{{this.xp}}"
+                    xpToNextLevel="{{this.xpToNextLevel}}" level="{{this.level}}" allxp="{{this.allxp}}"
+                    xp_color="{{this.xp_color}}">
+                    {{this.username}}
+                    #{{this.discriminator}}</option>
+                {{/each}}
+            </select>
         </div>
+        <div class="column_for_invicible">
+            <input value="Level" class="user_stats" type="text" id="level" disabled="disabled" style="border: 0;" />
+        </div>
+        <div class="column">
+            <canvas class="user_stats" width="800" height="65" id="xp_canvas"
+                style="width: 400px; border: 3px solid #000000;"></canvas>
+        </div>
+        <div class="column_for_invicible">
+            <input value="All XP" class="user_stats" type="text" id="allxp" disabled="disabled" style="border: 0;" />
 
-        <div class="table_cell">
+        </div>
+        <div class="column">
             <canvas class="column_avatar" id="avatar_canvas" width="150" height="150"
                 style="width: 150px; height: 150px;"></canvas>
         </div>
     </div>
 
-    <div class="back">
-        <h2><a href="{{{host_value}}}main">Back</a><br></h2>
+    <div class="back_placeholder">
+        <div class="back">
+            <h2><a href="{{{host_value}}}main">Back</a><br></h2>
+        </div>
     </div>
 </body>
 
