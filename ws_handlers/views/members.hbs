@@ -18,6 +18,17 @@
             context.strokeStyle = "#000000";
             context.stroke();
             context.closePath();
+
+
+            let c = document.getElementById("xp_canvas");
+            ctx = c.getContext("2d");
+            ctx.beginPath()
+            ctx.globalAlpha = 1;
+            ctx.font = "30px Arial";
+            ctx.textAlign = "center";
+            ctx.fillStyle = "#000000";
+            ctx.fillText(`XP / XP to next Level`, c.width / 2, 44);
+            context.closePath();
             change_avatar_canvas("https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/avatars/da/dad3cddae08c3e6404d5ccdb5f69aa0eb888bc49_full.jpg")
         };
 
@@ -108,6 +119,8 @@
             height: 30px;
             position: inherit;
             margin-left: 10px;
+            background-color: white;
+            color: black;
         }
 
 
@@ -174,14 +187,6 @@
         <div class="table_cell">
             <td class="rowmain">
                 <div class="row">
-                    <b class="user_stats" style="width: 300px;">Username</b>
-                    <b class="user_stats">Level</b>
-                    <b class="user_stats" style="width: 400px;">XP / XP to next level</b>
-                    <b class="user_stats">All XP</b>
-                </div>
-
-
-                <div class="row">
                     <select class="user_stats" name="users" id="users" onchange="user_select()" style="width: 300px;">
                         <option value="" selected disabled hidden>Username</option>
                         {{#each user}}
@@ -194,12 +199,14 @@
                         {{/each}}
                     </select>
 
-                    <input class="user_stats" type="text" id="level" disabled="disabled" />
+                    <input value="Level" class="user_stats" type="text" id="level" disabled="disabled"
+                        style="border: 0;" />
 
                     <canvas class="user_stats" width="800" height="65" id="xp_canvas"
                         style="width: 400px; border: 3px solid #000000;"></canvas>
 
-                    <input class="user_stats" type="text" id="allxp" disabled="disabled" />
+                    <input value="All XP" class="user_stats" type="text" id="allxp" disabled="disabled"
+                        style="border: 0;" />
                 </div>
             </td>
         </div>
