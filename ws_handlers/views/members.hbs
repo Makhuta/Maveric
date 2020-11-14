@@ -76,10 +76,22 @@
 
     </script>
     <style>
+        .table_row {
+            display: table-row;
+        }
+
+        .table_cell {
+            display: table-cell;
+            vertical-align: middle;
+            align-items: center;
+            align-content: center;
+            text-align: center;
+            width: fit-content;
+            height: fit-content;
+        }
+
         .parts {
             background-color: white;
-            margin-left: auto;
-            margin-right: auto;
             width: fit-content;
             text-align: center;
             position: absolute;
@@ -90,14 +102,12 @@
         }
 
         .user_stats {
-            display: block;
             text-align: center;
             float: left;
             width: 150px;
             height: 30px;
             position: inherit;
             margin-left: 10px;
-            margin-top: 60px;
         }
 
 
@@ -125,22 +135,19 @@
             float: left;
             width: 150px;
             height: 30px;
-            position: inherit;
             margin-left: 10px;
         }
 
-        .rowmain::after {
-            display: inline-table;
-            content: "";
-            display: table;
-            clear: both;
+        .rowmain {
+            display: flex;
+            width: fit-content;
+            margin-top: 0px;
         }
 
 
 
         .row:after {
             content: "";
-            display: table;
             clear: both;
             margin-top: 10px;
         }
@@ -153,40 +160,42 @@
 
 <body class="pozadi">
     <div class="parts">
-        <div class="rowmain">
-            <div class="row">
-                <b class="column" style="width: 300px;">Username</b>
-                <b class="column">Level</b>
-                <b class="column" style="width: 400px;">XP</b>
-                <b class="column">All XP</b>
-            </div>
+        <div class="table_cell">
+            <td class="rowmain">
+                <div class="row">
+                    <b class="user_stats" style="width: 300px;">Username</b>
+                    <b class="user_stats">Level</b>
+                    <b class="user_stats" style="width: 400px;">XP</b>
+                    <b class="user_stats">All XP</b>
+                </div>
 
 
-            <div class="row">
-                <select class="user_stats" name="users" id="users" onchange="user_select()" style="width: 300px;">
-                    <option value="" selected disabled hidden>Choose here</option>
-                    {{#each user}}
-                    <option value="{{this.id}}" avatar="{{this.avatar}}" name="{{this.username}}"
-                        xp_xpToNextLevel="{{this.xp}}/{{this.xpToNextLevel}}" xp="{{this.xp}}"
-                        xpToNextLevel="{{this.xpToNextLevel}}" level="{{this.level}}" allxp="{{this.allxp}}"
-                        xp_color="{{this.xp_color}}">
-                        {{this.username}}
-                        #{{this.discriminator}}</option>
-                    {{/each}}
-                </select>
+                <div class="row">
+                    <select class="user_stats" name="users" id="users" onchange="user_select()" style="width: 300px;">
+                        <option value="" selected disabled hidden>Choose here</option>
+                        {{#each user}}
+                        <option value="{{this.id}}" avatar="{{this.avatar}}" name="{{this.username}}"
+                            xp_xpToNextLevel="{{this.xp}}/{{this.xpToNextLevel}}" xp="{{this.xp}}"
+                            xpToNextLevel="{{this.xpToNextLevel}}" level="{{this.level}}" allxp="{{this.allxp}}"
+                            xp_color="{{this.xp_color}}">
+                            {{this.username}}
+                            #{{this.discriminator}}</option>
+                        {{/each}}
+                    </select>
 
-                <input class="user_stats" type="text" id="level" disabled="disabled" />
+                    <input class="user_stats" type="text" id="level" disabled="disabled" />
 
-                <canvas class="user_stats" width="800" height="65" id="xp_canvas"
-                    style="width: 400px; border: 3px solid #000000;"></canvas>
+                    <canvas class="user_stats" width="800" height="65" id="xp_canvas"
+                        style="width: 400px; border: 3px solid #000000;"></canvas>
 
-                <input class="user_stats" type="text" id="allxp" disabled="disabled" />
+                    <input class="user_stats" type="text" id="allxp" disabled="disabled" />
+                </div>
+            </td>
+        </div>
 
-
-
-                <canvas class="column_avatar" id="avatar_canvas" width="150" height="150"
-                    style="width: 150px; height: 150px; top:75px"></canvas>
-            </div>
+        <div class="table_cell">
+            <canvas class="column_avatar" id="avatar_canvas" width="150" height="150"
+                style="width: 150px; height: 150px;"></canvas>
         </div>
     </div>
 </body>
