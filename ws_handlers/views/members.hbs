@@ -172,7 +172,7 @@
 
                 <div class="row">
                     <select class="user_stats" name="users" id="users" onchange="user_select()" style="width: 300px;">
-                        <option value="" selected disabled hidden>Choose here</option>
+                        <option value="" selected disabled hidden>Username</option>
                         {{#each user}}
                         <option value="{{this.id}}" avatar="{{this.avatar}}" name="{{this.username}}"
                             xp_xpToNextLevel="{{this.xp}}/{{this.xpToNextLevel}}" xp="{{this.xp}}"
