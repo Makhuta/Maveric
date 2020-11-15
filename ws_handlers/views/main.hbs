@@ -1,93 +1,106 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="utf-8">
-<title></title>
-<style type="text/css">
-.nadpis {
-	margin: 1% 1% 0.5% 1%;
-    left: 0;
-    top: 0;
-    width: 98%;
-    text-align: center;
-	background: #7289DA;
-	border-radius: 6px;
 
-}
-.nadpis_text_format {
-    font-size: 48px;
-	font: italic;
-    color: white;
-}
-.slider {
-	float: none;
-    width: 350px;
-    height: 500px;
-    overflow-y: scroll;
-	}
-	
-.slide {
-	float: none;
-    margin: 1% 1% 1% 1%;
-	width: 98%;
-	height: fit-content;
-	border-radius: 5px;
-	background-color: #2f3136;
-	}
-  ::-webkit-scrollbar {
-    width: 5px;
-  }
-  ::-webkit-scrollbar-thumb {
-        background: #37393b; 
-        border-radius: 10px;
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <style type="text/css">
+    .nadpis {
+      margin: 1% 1% 0.5% 1%;
+      left: 0;
+      top: 0;
+      width: 98%;
+      text-align: center;
+      background: #7289DA;
+      border-radius: 6px;
+
     }
-	
-.placeholder_main {
-position: absolute;
-	margin: 0.5% 1% 1% 1%;
-	width: 98%;
-	height: fit-content;
-	background: #7289DA;
-	border-radius: 6px;
-}
-.placeholder_father {
-	margin: 10px;
-	float: left;
-    width: fit-content;
-    height: 500px;
-	background: #202225;
-	border: 2px solid #202225;
-	border-radius: 6px;
-}
-.placeholder_child {
-    border: 1px solid black;
-}
-	.odkazy_format {
-		margin: 5px;
-		border-radius: inherit; 
-		font-size: 18px;
-		font-family: "Verdana";
-		color: #99AAB5;
-	}
-	
-	.remove_decor {
-			text-decoration: none;
-	}
-</style>
+
+    .nadpis_text_format {
+      font-size: 48px;
+      font: italic;
+      color: white;
+    }
+
+    .slider {
+      float: none;
+      width: 350px;
+      height: 500px;
+      overflow-y: scroll;
+    }
+
+    .slide {
+      float: none;
+      margin: 1% 1% 1% 1%;
+      width: 98%;
+      height: fit-content;
+      border-radius: 5px;
+      background-color: #2f3136;
+    }
+
+    ::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #37393b;
+      border-radius: 10px;
+    }
+
+    .placeholder_main {
+      position: absolute;
+      margin: 0.5% 1% 1% 1%;
+      width: 98%;
+      height: fit-content;
+      background: #7289DA;
+      border-radius: 6px;
+    }
+
+    .placeholder_father {
+      margin: 10px;
+      float: left;
+      width: fit-content;
+      height: 500px;
+      background: #202225;
+      border: 2px solid #202225;
+      border-radius: 6px;
+    }
+
+    .placeholder_child {
+      border: 1px solid black;
+    }
+
+    .odkazy_format {
+      margin: 5px;
+      border-radius: inherit;
+      font-size: 18px;
+      font-family: "Verdana";
+      color: #99AAB5;
+    }
+
+    .remove_decor {
+      text-decoration: none;
+    }
+  </style>
 </head>
 
 <body style="margin: 0;">
-<div class="nadpis"> <b class="nadpis_text_format">🎮 🎮 🎮 NSBR 🎮 🎮 🎮</b> </div>
-<div class="placeholder_main">
-  <div class="placeholder_father">
-    <div class="slider">
-      <a href="{{{host_value}}}members" class="remove_decor"><div class="slide"><b class="odkazy_format" id="members">Members</b></div></a>
-		
+  <div class="nadpis"> <b class="nadpis_text_format">🎮 🎮 🎮 NSBR 🎮 🎮 🎮</b> </div>
+  <div class="placeholder_main">
+    <div class="placeholder_father">
+      <div class="slider">
+        <a href="{{{host_value}}}members" class="remove_decor">
+          <div class="slide"><b class="odkazy_format" id="members">Members</b></div>
+        </a>
+
+      </div>
+    </div>
+    <div class="placeholder_father" style="float: right;">
+      <iframe src="https://discordapp.com/widget?id=355369119358517250&theme=dark" width="350" height="500"
+        allowtransparency="true" frameborder="0"
+        sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
     </div>
   </div>
-  <div class="placeholder_father">
-    <iframe src="https://discordapp.com/widget?id=355369119358517250&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
-  </div>
-</div>
 </body>
+
 </html>
