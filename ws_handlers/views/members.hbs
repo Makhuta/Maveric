@@ -14,8 +14,8 @@
             context.arc(canvas.width / 2, canvas.height / 2, canvas.height / 2 - 3, 0, 2 * Math.PI, false);
             context.fillStyle = "#ffffff";
             context.fill();
-            context.lineWidth = 3;
-            context.strokeStyle = "#000000";
+            context.lineWidth = 6;
+            context.strokeStyle = "#ffffff";
             context.stroke();
             context.closePath();
 
@@ -24,9 +24,9 @@
             ctx = c.getContext("2d");
             ctx.beginPath()
             ctx.globalAlpha = 1;
-            ctx.font = "30px Arial";
+            ctx.font = "30px Verdana";
             ctx.textAlign = "center";
-            ctx.fillStyle = "#000000";
+            ctx.fillStyle = "#99AAB5";
             ctx.fillText(`XP / XP to next Level`, c.width / 2, 44);
             context.closePath();
             change_avatar_canvas("https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/avatars/da/dad3cddae08c3e6404d5ccdb5f69aa0eb888bc49_full.jpg")
@@ -54,15 +54,18 @@
             var sirka = procenta * (c.width / 100);
             ctx.beginPath()
             ctx.clearRect(0, 0, c.width, c.height);
+            ctx.fillStyle = "#ffffff";
+            ctx.fillRect(180, 216, 770, 65);
+            ctx.fill();
             ctx.globalAlpha = 0.6;
             ctx.fillStyle = xp_colors;
             ctx.fillRect(0, 0, sirka, c.height);
             ctx.fill();
 
             ctx.globalAlpha = 1;
-            ctx.font = "30px Arial";
+            ctx.font = "30px Verdana";
             ctx.textAlign = "center";
-            ctx.fillStyle = "#000000";
+            ctx.fillStyle = "#99AAB5";
             ctx.fillText(`${xp}/${xpToNextLevel} XP`, c.width / 2, 44);
         }
 
@@ -77,7 +80,7 @@
             }
             ctx.arc(c.width / 2, c.height / 2, c.height / 2 - 3, 0, Math.PI * 2, true);
             ctx.lineWidth = 6;
-            ctx.strokeStyle = "#000000";
+            ctx.strokeStyle = "#2f3136";
             ctx.stroke();
             ctx.closePath();
             ctx.clip();
@@ -87,8 +90,13 @@
 
     </script>
     <style>
+        select {
+            -webkit-appearance: none;
+            text-align-last: center;
+        }
+
         .parts {
-            background-color: white;
+            background-color: #202225;
             width: fit-content;
             height: fit-content;
             position: absolute;
@@ -96,6 +104,7 @@
             left: 50%;
             -ms-transform: translate(-50%, -50%);
             transform: translate(-50%, -50%);
+            border-radius: 6px;
         }
 
         .user_stats {
@@ -103,8 +112,23 @@
             float: left;
             width: 150px;
             height: 30px;
-            background-color: white;
-            color: black;
+            background-color: #2f3136;
+            color: #99AAB5;
+            border-radius: 6px;
+            border: 0;
+            font-family: "Verdana";
+        }
+
+        .user_stats_select {
+            text-align: center;
+            float: left;
+            width: 150px;
+            height: 30px;
+            background-color: #2f3136;
+            color: #99AAB5;
+            border-radius: 6px;
+            border: 0;
+            font-family: "Verdana";
         }
 
         .column {
@@ -118,7 +142,6 @@
         }
 
         .column_for_invicible {
-            border: 1px solid lightgray;
             display: flex;
             justify-content: center;
             position: relative;
@@ -126,7 +149,6 @@
             margin: 0 auto;
             margin-top: 10px;
             max-width: 200px;
-
         }
 
         .column_avatar {
@@ -138,7 +160,27 @@
         }
 
         .pozadi {
-            background-color: lightskyblue;
+            background-color: #7289DA;
+        }
+
+        .main_placeholder {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin: 0 auto;
+            background-color: #202225;
+        }
+
+        .main {
+
+            text-align: center;
+            font-size: 18px;
+            color: #99AAB5;
+            text-decoration: none;
+            font-family: "Verdana";
         }
 
         .back_placeholder {
@@ -146,27 +188,32 @@
             left: 0;
             bottom: 0;
             width: 100%;
-        }
-
-        .back {
-            position: relative;
-            width: 200px;
-            bottom: 0;
             display: flex;
             justify-content: center;
             margin: 0 auto;
-            background-color: lightcoral;
+            background-color: #202225;
+        }
+
+        .back {
+
             text-align: center;
-            font-size: 24px;
-            color: lightblue;
+            font-size: 18px;
+            color: #99AAB5;
+            text-decoration: none;
+            font-family: "Verdana";
         }
     </style>
 </head>
 
 <body class="pozadi">
+    <div class="main">
+        <div class="main_placeholder">
+            <h2>Members Stats<br></h2>
+        </div>
+    </div>
     <div class="parts">
         <div class="column">
-            <select class="user_stats" name="users" id="users" onchange="user_select()">
+            <select class="user_stats_select" name="users" id="users" onchange="user_select()">
                 <option value="" selected disabled hidden>Username</option>
                 {{#each user}}
                 <option value="{{this.id}}" avatar="{{this.avatar}}" name="{{this.username}}"
@@ -179,14 +226,14 @@
             </select>
         </div>
         <div class="column_for_invicible">
-            <input value="Level" class="user_stats" type="text" id="level" disabled="disabled" style="border: 0;" />
+            <input value="Level" class="user_stats" type="text" id="level" disabled="disabled" />
         </div>
         <div class="column">
             <canvas class="user_stats" width="800" height="65" id="xp_canvas"
-                style="width: 400px; border: 3px solid #000000;"></canvas>
+                style="width: 400px; border: 3px solid #2f3136;"></canvas>
         </div>
         <div class="column_for_invicible">
-            <input value="All XP" class="user_stats" type="text" id="allxp" disabled="disabled" style="border: 0;" />
+            <input value="All XP" class="user_stats" type="text" id="allxp" disabled="disabled" />
 
         </div>
         <div class="column">
@@ -195,11 +242,11 @@
         </div>
     </div>
 
-    <div class="back_placeholder">
-        <div class="back">
-            <h2><a href="{{{host_value}}}main">Back</a><br></h2>
+    <a href="{{{host_value}}}main" class="back">
+        <div class="back_placeholder">
+            <h2>Back<br></h2>
         </div>
-    </div>
+    </a>
 </body>
 
 </html>
