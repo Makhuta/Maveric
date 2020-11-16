@@ -1,7 +1,6 @@
-const { loadImage } = require("canvas");
-const { bot, con } = require("../../bot")
-const local_database = require("../../events/local_database").database
-const xp_colors = require("../../colorpaletes/xpcolor.json")
+const { bot, con } = require("../../../bot")
+const local_database = require("../../../events/local_database").database
+const xp_colors = require("../../../colorpaletes/xpcolor.json")
 
 function allxp(level, xp) {
     var xpecka = xp
@@ -9,8 +8,6 @@ function allxp(level, xp) {
         var xpToNextLevel = 5 * Math.pow(l, 2) + 50 * l + 100;
         xpecka = xpecka + xpToNextLevel;
     }
-    /*sql = `UPDATE userstats SET allxp = ${xpecka} WHERE id = '${target.id}'`;
-    con.query(sql)*/
     return (xpecka)
 }
 
@@ -20,7 +17,6 @@ module.exports = {
         let view_hbs = hodnoty.view_hbs
         let title = hodnoty.title
         let host_value = hodnoty.host_value
-        let app = hodnoty.app
         var xp = 0
         var level = 0
         var xpToNextLevel = 0

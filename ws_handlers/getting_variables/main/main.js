@@ -1,13 +1,24 @@
+const fs = require("fs");
+const path = require("path")
+
 module.exports = {
     run(hodnoty) {
         let res = hodnoty.res
         let view_hbs = hodnoty.view_hbs
         let title = hodnoty.title
         let host_value = hodnoty.host_value
-        let sites = ([
-            { site: "members", name: "Members" },
-            { site: "games", name: "Games" }
-        ])
+        const main_list_folder = __dirname
+        let sites = []
+
+        let main_list = fs.readdirSync(path.join(main_list_folder, "..", "main_list"))
+        main_list.forEach(f => {
+            main_list[main_list.indexOf(f)] = f.split(".")[0]
+        })
+
+        main_list.forEach(f => {
+            let name = f[0].toUpperCase() + f.slice(1)
+            sites.push({ site: f, name: name })
+        })
 
         sites.forEach(this_site => {
             this_site.site = host_value + this_site.site

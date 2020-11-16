@@ -47,69 +47,66 @@ fs.readdir("./fonts/", (err, files) => {
 app.get("/", async function (req, res) {
     var _token = req.query.site || default_token
     let host_value = "http://" + req.headers.host + "/?site="
-    var js_exist = false
-    var hbs_exist = false
-    var out_name
+    var js_list = []
+    var hbs_list = []
+    var js_exist = []
+    var hbs_exist = []
 
-    fs.readdir(hbs_webout, async (err, files) => {
+    let hbs_folders = fs.readdirSync(hbs_webout)
+    let hbs_files
 
+    let js_folders = fs.readdirSync(js_webout)
+    let sp_pos = js_folders.indexOf(js_folders.find(s => s == "signpost.js"))
+    js_folders.splice(sp_pos, sp_pos + 1)
+    let js_files
 
-        if (err) console.log(err);
-
-        let hbsfile = files.filter(f => f.split(".").pop() === "hbs");
-        if (hbsfile.length <= 0) {
-            return;
-        }
-        hbsfile.forEach((f, i) => {
-            let name = f.toLocaleString().split(".")[0]
-            if (name != _token) {
-                hbs_exist = hbs_exist
-            }
-
-            else {
-                hbs_exist = !hbs_exist
-                out_name = name.split("_").join(" ")
-            }
+    hbs_folders.forEach(f => {
+        hbs_files = fs.readdirSync(hbs_webout + f)
+        let soubory_bez_koncovky = []
+        hbs_files.forEach(s => {
+            soubory_bez_koncovky.push(s.split(".")[0])
         })
-
-
-
-        fs.readdir(js_webout, async (err, files) => {
-            let jsfile = files.filter(f => f.split(".").pop() === "js");
-            if (jsfile.length <= 0) {
-                return;
-            }
-            jsfile.forEach((f, i) => {
-                let name = f.toLocaleString().split(".")[0]
-                if (name != _token) {
-                    js_exist = js_exist
-                }
-
-                else {
-                    js_exist = !js_exist
-                }
-            })
-
-            if (!hbs_exist) {
-                let hodnoty = ({ res: res, view_hbs: hbs_webout + "error", title: "HBS ERROR", host_value: host_value, token: "error", app: app })
-                await require("./ws_handlers/getting_variables/signpost").run(hodnoty)
-            }
-
-            else if (!js_exist) {
-                let hodnoty = ({ res: res, view_hbs: hbs_webout + "error", title: "JS ERROR", host_value: host_value, token: "error", app: app })
-                await require("./ws_handlers/getting_variables/signpost").run(hodnoty)
-            }
-
-            else {
-                let title = out_name[0].toUpperCase() + out_name.slice(1)
-                let hodnoty = ({ res: res, view_hbs: hbs_webout + _token, title: title, host_value: host_value, token: _token, app: app })
-                await require("./ws_handlers/getting_variables/signpost").run(hodnoty)
-                /*
-                res.render(hbs_webout + _token, { title: out_name[0].toUpperCase() + out_name.slice(1), host_value: host_value, variables: variables });
-                */
-            }
-        })
+        hbs_list.push(soubory_bez_koncovky)
     })
+
+    js_folders.forEach(f => {
+        js_files = fs.readdirSync(js_webout + f)
+        let soubory_bez_koncovky = []
+        js_files.forEach(s => {
+            soubory_bez_koncovky.push(s.split(".")[0])
+        })
+        js_list.push(soubory_bez_koncovky)
+    })
+
+    hbs_list.forEach(file => {
+        hbs_exist.push(file.includes(_token))
+    })
+
+    js_list.forEach(file => {
+        js_exist.push(file.includes(_token))
+    })
+
+    if (!(hbs_exist.includes(true))) {
+        let slozka = js_folders.indexOf('main')
+        let hodnoty = ({ res: res, view_hbs: hbs_webout + js_folders[slozka] + "/" + "error", title: "HBS ERROR", host_value: host_value, token: "error", app: app, folder: js_folders[slozka] })
+        await require("./ws_handlers/getting_variables/signpost").run(hodnoty)
+    }
+
+    else if (!(js_exist.includes(true))) {
+        let slozka = js_folders.indexOf('main')
+        let hodnoty = ({ res: res, view_hbs: hbs_webout + js_folders[slozka] + "/" + "error", title: "JS ERROR", host_value: host_value, token: "error", app: app, folder: js_folders[slozka] })
+        await require("./ws_handlers/getting_variables/signpost").run(hodnoty)
+    }
+
+    else {
+        let slozka = js_exist.indexOf(true)
+        let name = _token
+        let out_name = name.split("_").join(" ")
+        let title = out_name[0].toUpperCase() + out_name.slice(1)
+        let hodnoty = ({ res: res, view_hbs: hbs_webout + js_folders[slozka] + "/" + _token, title: title, host_value: host_value, token: _token, app: app, folder: js_folders[slozka] })
+        await require("./ws_handlers/getting_variables/signpost").run(hodnoty)
+    }
+
 })
 
 app.listen(port, function () {
