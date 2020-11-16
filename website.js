@@ -4,6 +4,7 @@ const app = express()
 const path = require("path")
 const bodyParser = require("body-parser")
 const fs = require("fs");
+const { registerFont } = require("canvas");
 
 const hbs_webout = __dirname + "/ws_handlers/views/"
 const js_webout = __dirname + "/ws_handlers/getting_variables/"
@@ -25,6 +26,23 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 app.use(express.static(__dirname));
+
+fs.readdir("./fonts/", (err, files) => {
+
+    if (err) console.log(err);
+
+    let jsfile = files.filter(f => f.split(".").pop() === "ttf");
+    if (jsfile.length <= 0) {
+        console.log("There isn't any fonts to load!");
+        return;
+    }
+    console.log(`Loading ${jsfile.length} fonts...`)
+    jsfile.forEach((f, i) => {
+        let name = f.toLocaleString().split(".")
+        console.log(`${i + 1}: ${name[0]} web loaded!`)
+        registerFont(`./fonts/${f}`, { family: `${name[0]}` })
+    });
+});
 
 app.get("/", async function (req, res) {
     var _token = req.query.site || default_token
@@ -73,11 +91,13 @@ app.get("/", async function (req, res) {
             })
 
             if (!hbs_exist) {
-                res.render(hbs_webout + "error", { title: "HBS ERROR" });
+                let hodnoty = ({ res: res, view_hbs: hbs_webout + "error", title: "HBS ERROR", host_value: host_value, token: "error", app: app })
+                await require("./ws_handlers/getting_variables/signpost").run(hodnoty)
             }
 
             else if (!js_exist) {
-                res.render(hbs_webout + "error", { title: "JS ERROR" });
+                let hodnoty = ({ res: res, view_hbs: hbs_webout + "error", title: "JS ERROR", host_value: host_value, token: "error", app: app })
+                await require("./ws_handlers/getting_variables/signpost").run(hodnoty)
             }
 
             else {
