@@ -26,8 +26,6 @@ module.exports = {
             channel_list.push({ channel_name: channel.name, users: users_in_channel })
         })
 
-        console.log(channel_list)
-
         let main_list = fs.readdirSync(path.join(main_list_folder, "..", "main_list"))
         main_list.forEach(f => {
             main_list[main_list.indexOf(f)] = f.split(".")[0]
