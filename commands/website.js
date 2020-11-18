@@ -1,5 +1,6 @@
 const { prefix } = require("../botconfig.json")
 const { ip } = require("../website").web
+const find_channel_by_name = require("../handlers/channelfinder/find_channel_by_name");
 
 const name = "online"
 const description = "Pošle adresu webové stránky serveru."
@@ -9,7 +10,9 @@ const aliases = ["w"]
 
 module.exports.run = async (message, args) => {
 
-    message.channel.send(ip);
+
+    let hodnotyout = ({ zprava: ip, roomname: require("../botconfig/roomnames.json").botcommand })
+    find_channel_by_name.run(hodnotyout)
 
 }
 
