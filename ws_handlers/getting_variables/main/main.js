@@ -9,6 +9,17 @@ module.exports = {
         let title = hodnoty.title
         let host_value = hodnoty.host_value
         const main_list_folder = __dirname
+        let member_count = bot.guilds.cache.first().members.cache.filter(user => !user.user.bot)
+        let users_activity = []
+        member_count.forEach(user => {
+            users_activity.push(user.user.presence.status)
+        })
+        let online_count = "Online: " + users_activity.filter(u => u == "online").length
+        let offline_count = "Offline: " + users_activity.filter(u => u == "offline").length
+        let idle_count = "Idle: " + users_activity.filter(u => u == "idle").length
+        let dnd_count = "DND: " + users_activity.filter(u => u == "dnd").length
+        member_count = "Members: " + member_count.size
+
         let sites = []
         let channel_list = []
         let channels = bot.channels.cache.filter(ch => ch.type == "voice").filter(ch => ch.name.split(" ")[0] == "Free")
@@ -17,6 +28,8 @@ module.exports = {
             if (a.rawPosition > b.rawPosition) return 1;
             return 0;
         })
+
+        let counter = ({ all: member_count, online: online_count, idle: idle_count, dnd: dnd_count, offline: offline_count })
 
         channels.forEach(channel => {
             let users_in_channel = []
@@ -54,6 +67,6 @@ module.exports = {
             return 0;
         })
 
-        res.render(view_hbs, { title: title, host_value: host_value, sites: sites, channel_list: channel_list });
+        res.render(view_hbs, { title: title, host_value: host_value, sites: sites, channel_list: channel_list, counter: counter });
     }
 }

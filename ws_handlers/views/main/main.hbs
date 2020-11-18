@@ -134,10 +134,15 @@
         {{/each}}
       </div>
     </div>
-    <div class="placeholder_father" style="float: right;">
-      <iframe src="https://discordapp.com/widget?id=355369119358517250&theme=dark" width="350" height="500"
-        allowtransparency="true" frameborder="0"
-        sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
+    <div class="placeholder_father">
+      <div class="placeholder_name">
+        <b class="placeholder_name_text">Members</b>
+      </div>
+      <div class="slider">
+        {{#each counter}}
+        <div class="slide"><b class="odkazy_format" id="members">{{this}}</b></div>
+        {{/each}}
+      </div>
     </div>
   </div>
 </body>
