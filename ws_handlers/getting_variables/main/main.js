@@ -17,6 +17,7 @@ module.exports = {
 
         main_list.forEach(f => {
             let name = f[0].toUpperCase() + f.slice(1)
+            name = name.split("_").join(" ")
             sites.push({ site: f, name: name })
         })
 
