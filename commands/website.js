@@ -2,7 +2,7 @@ const { prefix } = require("../botconfig.json")
 const { ip } = require("../website").web
 const find_channel_by_name = require("../handlers/channelfinder/find_channel_by_name");
 
-const name = "online"
+const name = "website"
 const description = "Pošle adresu webové stránky serveru."
 const usage = prefix + name
 const accessableby = ["Member"]
