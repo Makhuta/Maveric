@@ -1,7 +1,7 @@
 const {prefix} = require("../botconfig.json")
 
 const name = "online"
-const description = ""
+const description = "Slouží pro ověření zda-li bot běží."
 const usage = prefix + name
 const accessableby = ["Bulgy", "Admins"]
 const aliases = ["o"]

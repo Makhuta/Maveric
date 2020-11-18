@@ -2,7 +2,7 @@ const { prefix } = require("../botconfig.json")
 const find_channel_by_name = require("../handlers/channelfinder/find_channel_by_name")
 
 const name = "createroom"
-const description = ""
+const description = "Vytvoří vlastní soukromou room."
 const usage = `${prefix}createroom`
 const accessableby = ["Extra V.I.P."]
 const aliases = ["cr"]

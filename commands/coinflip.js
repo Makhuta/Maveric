@@ -4,7 +4,7 @@ const coinflip = require("../handlers/coinflip/coinflipcode")
 const find_channel_by_name = require("../handlers/channelfinder/find_channel_by_name")
 
 const name = "coinflip"
-const description = "Tento příkaz je jen pro budoucí testování bota."
+const description = "Vsadíte vámi zvolené množství XP (max 5000) na procentualní šanci (čím menší šance tím vyšší výhra)."
 const usage = `${botconfig.prefix}coinflip [výše sázky] [šance na výhru v %]`
 const accessableby = ["Member"]
 const aliases = ["cf"]

@@ -7,7 +7,7 @@ const teamselector_canvas = require("../handlers/teamselector/teamselector_canva
 const random = require('random')
 
 const name = "teamselector"
-const description = ""
+const description = "Náhodně rozhodí zadané uživatele nebo v případě že nejsou žádní zadaní tak uživatele z autorovy room do 2 teamů."
 const usage = prefix + name
 const accessableby = ["Member"]
 const aliases = ["ts"]

@@ -4,7 +4,7 @@ const signpost = require("../handlers/ranks/signpost")
 const find_channel_by_name = require("../handlers/channelfinder/find_channel_by_name")
 
 const name = "eventxp"
-const description = `Přídá členovi počet XP`
+const description = `Přídá členovi počet XP (určeno pro eventy).`
 const usage = `${botconfig.prefix}eventxp [@user] [počet XP]`
 const accessableby = ["Bulgy", "Admins", "Moderátor", "Eventer"]
 const aliases = ["exp"]

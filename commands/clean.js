@@ -3,7 +3,7 @@ const { bot } = require("../bot")
 
 
 const name = "clean"
-const description = `Smaže **X** zpráv.`
+const description = `Smaže [X] zpráv.`
 const usage = `${prefix}clean`
 const accessableby = ["Bulgy", "Admins", "Moderátor"]
 const aliases = ["c"]

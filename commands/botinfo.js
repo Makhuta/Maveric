@@ -6,7 +6,7 @@ const botinfooutput = require("../handlers/botinfo/botinfooutput")
 
 
 const name = "botinfo"
-const description = `Vypíše informace o *${botconfig.botusername}*ovi`
+const description = `Vypíše informace o ${botconfig.botusername}ovi.`
 const usage = `${botconfig.prefix}botinfo`
 const accessableby = ["Member"]
 const aliases = ["bi"]

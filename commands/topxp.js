@@ -3,7 +3,7 @@ const botconfig = require("../botconfig.json")
 const top10canvasxp = require("../handlers/xp/top10canvasxp")
 
 const name = "topxp"
-const description = `Vypíše XP top 10ti členů`
+const description = `Vypíše XP top 10ti členů od uživatele s nejvyžším počtem XP.`
 const usage = `${botconfig.prefix}topxp`
 const accessableby = ["Member"]
 const aliases = ["txp"]

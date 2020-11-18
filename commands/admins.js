@@ -6,7 +6,7 @@ const color = require("../colorpaletes/colors.json")
 const adminsoutput = require("../handlers/admins/adminsoutput")
 
 const name = "admins"
-const description = `Vypíše seznam členů Admin teamu`
+const description = `Vypíše seznam členů Admin teamu.`
 const usage = `${prefix}admins`
 const accessableby = ["Member"]
 const aliases = ["at"]

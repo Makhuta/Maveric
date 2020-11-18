@@ -8,7 +8,7 @@ const emojinames = require("../botconfig/emojinames.json")
 const signpost = require("../handlers/ranks/signpost")
 
 const name = "lowerorhigher"
-const description = ""
+const description = "Spustí hru pro 2 hráče založenou na tom že zakladatel vybere číslo a protihráč tipuje zda-li losované číslo bude vyšší nebo nižší než zvolené číslo."
 const usage = prefix + name + " [@user] [číslo (2-99)] [výše sázky]"
 const accessableby = ["Member"]
 const aliases = ["loh"]
