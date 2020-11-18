@@ -12,6 +12,7 @@ const js_webout = __dirname + "/ws_handlers/getting_variables/"
 var port = process.env.PORT || 8080
 
 var default_token = "main"
+var visitors = 0
 
 app.engine("hbs", hbs({
     extname: "hbs",
@@ -114,5 +115,6 @@ app.listen(port, function () {
 })
 
 module.exports.web = {
-    ip: process.env.PING_WEBSITE || "No website IP."
+    ip: process.env.PING_WEBSITE || "No website IP.",
+    visitors: visitors
 }

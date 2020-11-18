@@ -103,6 +103,23 @@
     .remove_decor {
       text-decoration: none;
     }
+
+    .counter_placeholder {
+      border-radius: 5px;
+      background-color: #202225;
+      margin: 1%;
+      width: fit-content background:;
+      position: fixed;
+      right: 0;
+      bottom: 0;
+    }
+
+    .counter {
+      margin: 5px;
+      font-size: 24px;
+      color: #99AAB5;
+      font-family: Verdana;
+    }
   </style>
 </head>
 
@@ -144,6 +161,9 @@
         {{/each}}
       </div>
     </div>
+  </div>
+  <div class="counter_placeholder">
+    <div class="counter"><b>Dnes navštívilo: {{counter.visitors}}</b></div>
   </div>
 </body>
 

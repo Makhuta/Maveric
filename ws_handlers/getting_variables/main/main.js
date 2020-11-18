@@ -1,6 +1,7 @@
 const fs = require("fs");
 const path = require("path")
 const { bot } = require("../../../bot")
+const web = require("../../../website").web
 
 module.exports = {
     run(hodnoty) {
@@ -29,7 +30,9 @@ module.exports = {
             return 0;
         })
 
-        let counter = ({ all: member_count, online: online_count, idle: idle_count, dnd: dnd_count, offline: offline_count })
+        web.visitors = web.visitors + 1
+
+        let counter = ({ all: member_count, online: online_count, idle: idle_count, dnd: dnd_count, offline: offline_count, visitors: web.visitors })
 
         channels.forEach(channel => {
             let users_in_channel = []
