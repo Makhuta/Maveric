@@ -112,3 +112,7 @@ app.get("/", async function (req, res) {
 app.listen(port, function () {
     console.log(`Website running on port ${port}`)
 })
+
+module.exports.web = {
+    ip: process.env.PING_WEBSITE || "No website IP."
+}
