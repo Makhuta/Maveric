@@ -24,7 +24,7 @@
     .slider {
       float: none;
       width: 350px;
-      height: 500px;
+      height: 430px;
       overflow-y: scroll;
       border-top: 0px;
     }
@@ -116,7 +116,22 @@
       <div class="slider">
         {{#each sites}}<a href="{{{this.site}}}" class="remove_decor">
           <div class="slide"><b class="odkazy_format" id="members">{{this.name}}</b></div>
-          {{/each}}
+        </a>
+        {{/each}}
+      </div>
+    </div>
+    <div class="placeholder_father">
+      <div class="placeholder_name">
+        <b class="placeholder_name_text">Momentální Aktivita</b>
+      </div>
+      <div class="slider">
+        {{#each channel_list}}
+        <div class="slide"><b class="odkazy_format" id="members">{{this.channel_name}}</b></div>
+        {{#each this.users}}
+        <div class="slide" style="margin-left: 5%; width: 94%;"><b class="odkazy_format" style="font-size: 16px;"
+            id="members">- {{this}}</b></div>
+        {{/each}}
+        {{/each}}
       </div>
     </div>
     <div class="placeholder_father" style="float: right;">

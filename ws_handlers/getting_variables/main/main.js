@@ -1,5 +1,6 @@
 const fs = require("fs");
 const path = require("path")
+const { bot } = require("../../../bot")
 
 module.exports = {
     run(hodnoty) {
@@ -9,6 +10,23 @@ module.exports = {
         let host_value = hodnoty.host_value
         const main_list_folder = __dirname
         let sites = []
+        let channel_list = []
+        let channels = bot.channels.cache.filter(ch => ch.type == "voice").filter(ch => ch.name.split(" ")[0] == "Free")
+        channels.sort(function (a, b) {
+            if (a.rawPosition < b.rawPosition) return -1;
+            if (a.rawPosition > b.rawPosition) return 1;
+            return 0;
+        })
+
+        channels.forEach(channel => {
+            let users_in_channel = []
+            channel.members.forEach(user => {
+                users_in_channel.push(user.user.username)
+            })
+            channel_list.push({ channel_name: channel.name, users: users_in_channel })
+        })
+
+        console.log(channel_list)
 
         let main_list = fs.readdirSync(path.join(main_list_folder, "..", "main_list"))
         main_list.forEach(f => {
@@ -38,6 +56,6 @@ module.exports = {
             return 0;
         })
 
-        res.render(view_hbs, { title: title, host_value: host_value, sites: sites });
+        res.render(view_hbs, { title: title, host_value: host_value, sites: sites, channel_list: channel_list });
     }
 }
