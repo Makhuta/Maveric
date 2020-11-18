@@ -166,7 +166,7 @@
         }
 
         .pozadi {
-            background-color: #7289DA;
+            background-color: #2f3136;
         }
 
         .main_placeholder {
@@ -208,6 +208,28 @@
             text-decoration: none;
             font-family: "Verdana";
         }
+
+        .placeholder_name {
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 70px;
+            text-align: center;
+            background: #7289DA;
+            border-top-left-radius: 6px;
+            border-top-right-radius: 6px;
+        }
+
+        .placeholder_name_text {
+            height: 100%;
+            display: flex;
+            margin: 0 5% 0 5%;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 24px;
+            font-family: "Verdana";
+        }
     </style>
 </head>
 
@@ -218,6 +240,9 @@
         </div>
     </div>
     <div class="parts">
+        <div class="placeholder_name">
+            <b class="placeholder_name_text">NSBR</b>
+        </div>
         <div class="column">
             <select class="user_stats_select" name="users" id="users" onchange="user_select()">
                 <option value="" selected disabled hidden>Username</option>
@@ -250,7 +275,7 @@
 
     <a href="{{{host_value}}}main" class="back">
         <div class="back_placeholder">
-            <h2>Back<br></h2>
+            <h2>Back to Main menu<br></h2>
         </div>
     </a>
 </body>
