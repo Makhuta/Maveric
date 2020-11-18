@@ -120,7 +120,17 @@
         {{/each}}
       </div>
     </div>
-    <div class="placeholder_father">
+    <div class="placeholder_father" style="float: right;">
+      <div class="placeholder_name">
+        <b class="placeholder_name_text">Members</b>
+      </div>
+      <div class="slider">
+        {{#each counter}}
+        <div class="slide"><b class="odkazy_format" id="members">{{this}}</b></div>
+        {{/each}}
+      </div>
+    </div>
+    <div class="placeholder_father" style="float: right;">
       <div class="placeholder_name">
         <b class="placeholder_name_text">Momentální Aktivita</b>
       </div>
@@ -131,16 +141,6 @@
         <div class="slide" style="margin-left: 5%; width: 94%;"><b class="odkazy_format" style="font-size: 16px;"
             id="members">- {{this}}</b></div>
         {{/each}}
-        {{/each}}
-      </div>
-    </div>
-    <div class="placeholder_father">
-      <div class="placeholder_name">
-        <b class="placeholder_name_text">Members</b>
-      </div>
-      <div class="slider">
-        {{#each counter}}
-        <div class="slide"><b class="odkazy_format" id="members">{{this}}</b></div>
         {{/each}}
       </div>
     </div>
