@@ -52,14 +52,13 @@ app.get("/", async function (req, res) {
     var hbs_list = []
     var js_exist = []
     var hbs_exist = []
-    var ip = RequestIp.getClientIp(req).split(":")
-    console.log("PRED")
-    console.log(ip)
-    ip = ip[ip.length - 1]
-    console.log("PO")
-    console.log(ip)
+    var ip = RequestIp.getClientIp(req)
 
-    let hbs_folders = fs.readdirSync(hbs_webout)
+    if (!module.exports.web.visitors.includes(ip)) {
+        module.exports.web.visitors.push(ip)
+    }
+
+        let hbs_folders = fs.readdirSync(hbs_webout)
     let hbs_files
 
     let js_folders = fs.readdirSync(js_webout)
