@@ -121,5 +121,6 @@ app.listen(port, function () {
 
 module.exports.web = {
     ip: process.env.PING_WEBSITE || "No website IP.",
-    visitors: []
+    visitors: [],
+    start: Date.now()
 }

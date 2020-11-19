@@ -4,6 +4,29 @@
 <head>
   <meta charset="utf-8">
   <title></title>
+  <script>
+    function start(start) {
+      setdate(start)
+
+      setInterval(() => {
+        setdate(start)
+      }, 1000)
+    }
+    function setdate(start) {
+      let cas_rozdil = Date.now() - start
+
+      let hodiny = Math.floor((cas_rozdil / 1000 / 60 / 60) % 24);
+      let minuty = Math.floor((cas_rozdil / 1000 / 60) % 60);
+      let sekundy = Math.floor(cas_rozdil / 1000 % 60);
+
+      if (hodiny < 10) hodiny = "0" + hodiny
+      if (minuty < 10) minuty = "0" + minuty
+      if (sekundy < 10) sekundy = "0" + sekundy
+
+      var datum = hodiny + ":" + minuty + ":" + sekundy
+      document.getElementById("time").value = datum
+    }
+  </script>
   <style type="text/css">
     .nadpis {
       margin: 0;
@@ -110,7 +133,6 @@
       margin: 1%;
       width: fit-content background:;
       position: fixed;
-      right: 0;
       bottom: 0;
     }
 
@@ -123,7 +145,7 @@
   </style>
 </head>
 
-<body style="margin: 0; background:#2f3136">
+<body style="margin: 0; background:#2f3136" onload="start({{start_time}})">
   <div class="nadpis"> <b class="nadpis_text_format">🎮 🎮 🎮 NSBR 🎮 🎮 🎮</b> </div>
   <div class="placeholder_main">
     <div class="placeholder_father">
@@ -162,8 +184,12 @@
       </div>
     </div>
   </div>
-  <div class="counter_placeholder">
-    <div class="counter"><b>Dnes navštívilo: {{visitors.length}}</b></div>
+  <div class="counter_placeholder" style="left: 0;">
+    <div class="counter"><b>Restart proběhl před: </b><input class="counter" type="text" id="time" disabled
+        style="background: none; border: none; width: 115px;" value="00:00:00"></div>
+  </div>
+  <div class="counter_placeholder" style="right: 0;">
+    <div class="counter"><b>Od posledního restartu navštívilo: {{visitors.length}}</b></div>
   </div>
 </body>
 

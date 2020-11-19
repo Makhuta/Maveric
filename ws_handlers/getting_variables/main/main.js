@@ -33,7 +33,7 @@ module.exports = {
             if (a.rawPosition > b.rawPosition) return 1;
             return 0;
         })
-        
+
         let counter = ({ all: member_count, online: online_count, idle: idle_count, dnd: dnd_count, offline: offline_count })
 
         channels.forEach(channel => {
@@ -72,6 +72,6 @@ module.exports = {
             return 0;
         })
 
-        res.render(view_hbs, { title: title, host_value: host_value, sites: sites, channel_list: channel_list, counter: counter, visitors: web.visitors });
+        res.render(view_hbs, { title: title, host_value: host_value, sites: sites, channel_list: channel_list, counter: counter, visitors: web.visitors, start_time: web.start });
     }
 }
