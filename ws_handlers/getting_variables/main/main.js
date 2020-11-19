@@ -33,12 +33,7 @@ module.exports = {
             if (a.rawPosition > b.rawPosition) return 1;
             return 0;
         })
-
-        /*fetch("https://api.ipify.org/?format=json").then(result => result.json()).then(data => {
-            if (!web.visitors.includes(data.ip)) {
-                web.visitors.push(data.ip)
-            }
-        })*/
+        
         let counter = ({ all: member_count, online: online_count, idle: idle_count, dnd: dnd_count, offline: offline_count })
 
         channels.forEach(channel => {
