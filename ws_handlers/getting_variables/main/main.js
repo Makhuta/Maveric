@@ -2,8 +2,8 @@ const fs = require("fs");
 const path = require("path")
 const { bot } = require("../../../bot")
 const web = require("../../../website").web
-const fetch = require('node-fetch');
-let test = 0
+const fetch = require("node-fetch")
+
 module.exports = {
     run(hodnoty) {
         let res = hodnoty.res
@@ -13,14 +13,8 @@ module.exports = {
         const main_list_folder = __dirname
         let member_count = bot.guilds.cache.first().members.cache.filter(user => !user.user.bot)
         let users_activity = []
-        console.log(view_hbs)
 
-        if (test < 1) {
-            fetch(process.env.PING_WEBSITE || "http://localhost:8080/?site=main").then(function (data) {
-                console.log(JSON.stringify(data, null, 2));
-            });
-        }
-        test++
+
 
         member_count.forEach(user => {
             users_activity.push(user.user.presence.status)
@@ -40,8 +34,11 @@ module.exports = {
             return 0;
         })
 
-        web.visitors.push("Connected")
-
+        fetch("https://api.ipify.org/?format=json").then(result => result.json()).then(data => {
+            if (!web.visitors.includes(data.ip)) {
+                web.visitors.push(data.ip)
+            }
+        })
         let counter = ({ all: member_count, online: online_count, idle: idle_count, dnd: dnd_count, offline: offline_count })
 
         channels.forEach(channel => {
