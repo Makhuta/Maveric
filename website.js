@@ -5,6 +5,7 @@ const path = require("path")
 const bodyParser = require("body-parser")
 const fs = require("fs");
 const { registerFont } = require("canvas");
+const RequestIp = require('@supercharge/request-ip')
 
 const hbs_webout = __dirname + "/ws_handlers/views/"
 const js_webout = __dirname + "/ws_handlers/getting_variables/"
@@ -51,6 +52,12 @@ app.get("/", async function (req, res) {
     var hbs_list = []
     var js_exist = []
     var hbs_exist = []
+    var ip = RequestIp.getClientIp(req).split(":")
+    console.log("PRED")
+    console.log(ip)
+    ip = ip[ip.length - 1]
+    console.log("PO")
+    console.log(ip)
 
     let hbs_folders = fs.readdirSync(hbs_webout)
     let hbs_files

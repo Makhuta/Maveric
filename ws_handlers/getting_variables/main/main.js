@@ -34,11 +34,11 @@ module.exports = {
             return 0;
         })
 
-        fetch("https://api.ipify.org/?format=json").then(result => result.json()).then(data => {
+        /*fetch("https://api.ipify.org/?format=json").then(result => result.json()).then(data => {
             if (!web.visitors.includes(data.ip)) {
                 web.visitors.push(data.ip)
             }
-        })
+        })*/
         let counter = ({ all: member_count, online: online_count, idle: idle_count, dnd: dnd_count, offline: offline_count })
 
         channels.forEach(channel => {
@@ -77,6 +77,6 @@ module.exports = {
             return 0;
         })
 
-        res.render(view_hbs, { title: title, host_value: host_value, sites: sites, channel_list: channel_list, counter: counter, visitors: web.visitors.length });
+        res.render(view_hbs, { title: title, host_value: host_value, sites: sites, channel_list: channel_list, counter: counter, visitors: web.visitors });
     }
 }
