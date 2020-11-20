@@ -72,6 +72,6 @@ module.exports = {
             return 0;
         })
 
-        res.render(view_hbs, { title: title, host_value: host_value, sites: sites, channel_list: channel_list, counter: counter, visitors: web.visitors, start_time: web.start });
+        res.render(view_hbs, { title: title, host_value: host_value, sites: sites, channel_list: channel_list, counter: counter, visitors: web.visitors.length - 1, start_time: web.start });
     }
 }

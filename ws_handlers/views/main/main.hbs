@@ -15,16 +15,20 @@
     function setdate(start) {
       let cas_rozdil = Date.now() - start
 
+      let roky = Math.floor(cas_rozdil / 1000 / 60 / 60 / 24 / 365);
+      let dny = Math.floor((cas_rozdil / 1000 / 60 / 60 / 24) % 365);
       let hodiny = Math.floor((cas_rozdil / 1000 / 60 / 60) % 24);
       let minuty = Math.floor((cas_rozdil / 1000 / 60) % 60);
       let sekundy = Math.floor(cas_rozdil / 1000 % 60);
 
+      if (dny < 10) dny = "00" + dny
       if (hodiny < 10) hodiny = "0" + hodiny
       if (minuty < 10) minuty = "0" + minuty
       if (sekundy < 10) sekundy = "0" + sekundy
 
-      var datum = hodiny + ":" + minuty + ":" + sekundy
-      document.getElementById("time").value = datum
+      var datum = [roky, dny, hodiny, minuty, sekundy]
+      datum = datum.join(":")
+      document.getElementById("time").innerHTML = datum
     }
   </script>
   <style type="text/css">
@@ -185,11 +189,13 @@
     </div>
   </div>
   <div class="counter_placeholder" style="left: 0;">
-    <div class="counter"><b>Restart proběhl před: </b><input class="counter" type="text" id="time" disabled
-        style="background: none; border: none; width: 115px;" value="00:00:00"></div>
+    <div class="counter"><b>Restart proběhl před: </b><b class="counter" type="text" id="time" disabled
+        style="background: none; border: none; text-align:left; width: fit-content; height: 24px"
+        value="0:000:00:00:00"></b>
+    </div>
   </div>
   <div class="counter_placeholder" style="right: 0;">
-    <div class="counter"><b>Od posledního restartu navštívilo: {{visitors.length}}</b></div>
+    <div class="counter"><b>Od posledního restartu navštívilo: {{visitors}}</b></div>
   </div>
 </body>
 
