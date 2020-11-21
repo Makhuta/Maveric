@@ -5,9 +5,8 @@ const emojinames = require("../botconfig/emojinames.json")
 const color = require("../colorpaletes/colors.json")
 const verifymessage = require("../handlers/verification/verifymessage")
 const examplereaction = require("../handlers/verification/reaction")
-const { token } = require("../botconfig/token.json")
 
-bot.login(token);
+bot.login(process.env.BOT_TOKEN);
 bot.on("ready", () => {
   console.log(`${bot.user.username} is Ready!`);
   let hodnoty = ({ bot: bot, verifyroomname: roomnames.verifyroom, color: color, discord: Discord, verifyemojiname: emojinames.verifyemojiname })
