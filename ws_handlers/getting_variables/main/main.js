@@ -63,7 +63,9 @@ module.exports = {
         sites.push(
             { site: "https://www.facebook.com/groups/vlciherniskupina/", name: "Facebook" },
             { site: "https://discord.gg/N7fxaAC", name: "Discord" },
-            { site: "https://steamcommunity.com/groups/Vlcata", name: "Steam Group" }
+            { site: "https://steamcommunity.com/groups/Vlcata", name: "Steam Group" },
+            { site: "https://www.instagram.com/nsbr___/", name: "Instagram" },
+            { site: "https://twitter.com/NSBR85992423", name: "Twitter" }
         )
 
         sites.sort(function (a, b) {
