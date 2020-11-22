@@ -8,15 +8,11 @@
         function select_command(id) {
             var u = document.getElementById(id)
             var name = u.id
-            var description = u.getAttribute("command_description")
-            var usage = u.getAttribute("command_usage")
-            var accessableby = u.getAttribute("command_accessableby")
-            var aliases = u.getAttribute("command_aliases") 
+            var evidence = u.getAttribute("evidence")
+            var popis = u.getAttribute("popis")
             document.getElementById("name").innerHTML = name
-            document.getElementById("description").innerHTML = description
-            document.getElementById("usage").innerHTML = usage
-            document.getElementById("accessableby").innerHTML = accessableby
-            document.getElementById("aliases").innerHTML = aliases
+            document.getElementById("evidence").innerHTML = evidence
+            document.getElementById("popis").innerHTML = popis
         }
     </script>
     <style type="text/css">
@@ -189,17 +185,16 @@
 
 <body style="margin: 0;" class="body_main">
     <div class="main">
-        <div class="nadpis"> <b class="nadpis_text_format">Příkazy</b> </div>
+        <div class="nadpis"> <b class="nadpis_text_format">PHASMAPHOBIA</b> </div>
         <div class="placeholder_main">
             <div class="placeholder_father">
                 <div class="placeholder_name">
-                    <b class="placeholder_name_text">List příkazů</b>
+                    <b class="placeholder_name_text">Seznam duchů</b>
                 </div>
                 <div class="prikaz_placeholder">
-                    {{#each commands}}
+                    {{#each duchove}}
                     <div class="prikaz" id="{{this.name}}" onclick="select_command(id)" style="cursor: pointer;"
-                        command_description="{{this.command_description}}" command_usage="{{this.command_usage}}"
-                        command_accessableby="{{this.command_accessableby}}" command_aliases="{{this.command_aliases}}">
+                        name="{{this.name}}" evidence="{{this.evidence}}" popis="{{this.popis}}">
                         <b class="prikaz_format" id="command name container">{{this.name}}</b>
                     </div>
                     {{/each}}
@@ -208,47 +203,34 @@
             </div>
             <div class="placeholder_father">
                 <div class="placeholder_name">
-                    <b class="placeholder_name_text">Popis</b>
+                    <b class="placeholder_name_text">Popis Ducha</b>
                 </div>
                 <div class="prikaz_placeholder">
                     <div class="popis_type">
                         <div class="popis_name_type">
                             <b class="popis_name_type_text">Name</b>
-                            <b class="popis_text" type="text" id="name" value="" disabled></b>
+                            <b class="popis_text" type="text" id="name" value="name" disabled></b>
                         </div>
                     </div>
                     <div class="popis_type">
                         <div class="popis_name_type">
-                            <b class="popis_name_type_text">Description</b>
-                            <b class="popis_text" type="text" id="description" value="description" disabled></b>
+                            <b class="popis_name_type_text">Evidence</b>
+                            <b class="popis_text" type="text" id="evidence" value="evidence" disabled></b>
                         </div>
                     </div>
                     <div class="popis_type">
                         <div class="popis_name_type">
-                            <b class="popis_name_type_text">Usage</b>
-                            <b class="popis_text" type="text" id="usage" value="usage" disabled></b>
+                            <b class="popis_name_type_text">Popis</b>
+                            <b class="popis_text" type="text" id="popis" value="popis" disabled></b>
                         </div>
                     </div>
-                    <div class="popis_type">
-                        <div class="popis_name_type">
-                            <b class="popis_name_type_text">Accessableby</b>
-                            <b class="popis_text" type="text" id="accessableby" value="accessableby" disabled></b>
-                        </div>
-                    </div>
-                    <div class="popis_type">
-                        <div class="popis_name_type">
-                            <b class="popis_name_type_text">Aliases</b>
-                            <b class="popis_text" type="text" id="aliases" value="aliases" disabled></b>
-                        </div>
-                    </div>
-
                 </div>
             </div>
         </div>
 
-        <a href="{{{host_value}}}main" class="back">
+        <a href="{{{host_value}}}games" class="back">
             <div class="back_placeholder">
-                <h2>Back to Main menu<br></h2>
+                <h2>Back to Games<br></h2>
             </div>
         </a>
     </div>
