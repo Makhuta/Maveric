@@ -42,15 +42,12 @@ module.exports = {
                 let activity_array = user.presence.activities.filter(activity => activity.type != "CUSTOM_STATUS")[0]
                 let activity_name
                 let activity_type
+                let user_activity
                 if (activity_array != undefined) {
                     activity_name = activity_array.name
                     activity_type = activity_array.type.slice(0, 1) + activity_array.type.slice(1).toLowerCase()
+                    user_activity = activity_type + ": " + activity_name
                 }
-                else {
-                    activity_name = ""
-                    activity_type = ""
-                }
-                let user_activity = activity_type + ": " + activity_name
                 users_in_channel.push({ user_username: user.user.username, user_activity: user_activity })
             })
             channel_list.push({ channel_name: channel.name, users: users_in_channel })
