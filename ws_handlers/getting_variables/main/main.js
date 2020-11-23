@@ -46,6 +46,10 @@ module.exports = {
                     activity_name = activity_array.name
                     activity_type = activity_array.type.slice(0, 1) + activity_array.type.slice(1).toLowerCase()
                 }
+                else {
+                    activity_name = ""
+                    activity_type = ""
+                }
                 let user_activity = activity_type + ": " + activity_name
                 users_in_channel.push({ user_username: user.user.username, user_activity: user_activity })
             })
