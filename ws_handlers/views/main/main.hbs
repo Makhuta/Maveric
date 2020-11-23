@@ -182,7 +182,9 @@
         <div class="slide"><b class="odkazy_format" id="members">{{this.channel_name}}</b></div>
         {{#each this.users}}
         <div class="slide" style="margin-left: 5%; width: 94%;"><b class="odkazy_format" style="font-size: 16px;"
-            id="members">- {{this}}</b></div>
+            id="members">- {{this.user_username}}</b><b class="odkazy_format" style="font-size: 12px; float: right;"
+            id="members_activity">
+            {{this.user_activity}}</b></div>
         {{/each}}
         {{/each}}
       </div>
