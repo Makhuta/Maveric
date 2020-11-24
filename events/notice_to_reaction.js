@@ -2,24 +2,31 @@ const { bot, con } = require('../bot');
 const time_delays = require("../botconfig/time_delays.json")
 const botconfig = require("../botconfig.json")
 
-const time = parseInt(time_delays.notice_to_reaction_time)
+const time = parseInt(time_delays.notice_to_reaction_time);
+const zprava =
+    "Vidím že ses připojil na náš server NSBR a stále sis nepřečetl nebo nepotvrdil že sis přečetl pravidla.\n" +
+    "Můžeš tak učinit ve 🔐verify-room🔐.\n" +
+    "Těšíme se na tebe.";
 
 const notice_message = () => {
-    const guild = bot.guilds.cache.get(botconfig.guildid);
-    guild.roles.cache.forEach(role => {
-        if (role.name === "Member") {
-            let list = bot.guilds.cache.get(botconfig.guildid)
-            list.members.cache.forEach(member => {
-                let member_roles = member.roles
-                if (!member_roles.cache.has(role.id) && !member.user.bot) {
-                    member.send("Vidím že ses připojil na náš server NSBR a stále sis nepřečetl nebo nepotvrdil že sis přečetl pravidla.\n" +
-                        "Můžeš tak učinit ve 🔐verify-room🔐.\n" +
-                        "Těšíme se na tebe.")
-                }
+    let guild = bot.guilds.cache.get(botconfig.guildid)
+    let member_role = guild.roles.cache.filter(role => role.name == "Member")
+    let member_role_id
+    member_role.forEach(role => {
+        member_role_id = role.id
+    })
+    let members = guild.members.cache
+    let users_array = []
 
-            });
-        }
-    });
+    members.forEach(member => {
+        if (member.roles.cache.has(member_role_id)) return
+        if (member.user.bot) return
+        users_array.push(member.user)
+    })
+
+    users_array.forEach(user => {
+        user.send(zprava)
+    })
 }
 
 

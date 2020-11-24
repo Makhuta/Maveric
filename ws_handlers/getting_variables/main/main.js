@@ -2,7 +2,7 @@ const fs = require("fs");
 const path = require("path")
 const { bot } = require("../../../bot")
 const web = require("../../../website").web
-const fetch = require("node-fetch")
+const game_shorcuts = require("../../../botconfig/game_shorcuts.json")
 
 module.exports = {
     run(hodnoty) {
@@ -45,6 +45,14 @@ module.exports = {
                 let user_activity
                 if (activity_array != undefined) {
                     activity_name = activity_array.name
+                    game_shorcuts.forEach(game => {
+                        if(activity_name == game.name) {
+                            activity_name = game.shortcut
+                        }
+                        else {
+                            activity_name = activity_name
+                        }
+                    })
                     activity_type = activity_array.type.slice(0, 1) + activity_array.type.slice(1).toLowerCase()
                     user_activity = activity_type + ": " + activity_name
                 }
