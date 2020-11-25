@@ -3,7 +3,7 @@ const path = require("path")
 const { bot } = require("../../../bot")
 const web = require("../../../website").web
 const game_shorcuts = require("../../../botconfig/game_shorcuts.json")
-const find_channel_by_name = require("../handlers/channelfinder/find_channel_by_name");
+const find_channel_by_name = require("../../../handlers/channelfinder/find_channel_by_name");
 
 module.exports = {
     run(hodnoty) {
