@@ -3,6 +3,7 @@ const path = require("path")
 const { bot } = require("../../../bot")
 const web = require("../../../website").web
 const game_shorcuts = require("../../../botconfig/game_shorcuts.json")
+const find_channel_by_name = require("../handlers/channelfinder/find_channel_by_name");
 
 module.exports = {
     run(hodnoty) {
@@ -46,7 +47,7 @@ module.exports = {
                 if (activity_array != undefined) {
                     activity_name = activity_array.name
                     game_shorcuts.forEach(game => {
-                        if(activity_name == game.name) {
+                        if (activity_name == game.name) {
                             activity_name = game.shortcut
                         }
                         else {
@@ -54,6 +55,11 @@ module.exports = {
                         }
                     })
                     activity_type = activity_array.type.slice(0, 1) + activity_array.type.slice(1).toLowerCase()
+                    if (activity_name.length > 20) {
+                        let error_message = "Aktivita " + activity_type + " je delší než 20 znaků."
+                        let hodnotyout = ({ zprava: error_message, roomname: require("../botconfig/roomnames.json").bot_errors_info })
+                        find_channel_by_name.run(hodnotyout)
+                    }
                     user_activity = activity_type + ": " + activity_name
                 }
                 users_in_channel.push({ user_username: user.user.username, user_activity: user_activity })
