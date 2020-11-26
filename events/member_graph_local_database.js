@@ -19,7 +19,7 @@ function get_data() {
             con.query(sql)
         }
 
-        else if (date_last + day_miliseconds <= Date.now()){
+        else if (date_last <= Date.now()){
             sql = `INSERT INTO member_graph (date, num_of_members) VALUES ('${date_last + day_miliseconds}', '${member_count}')`
             con.query(sql)
         }
