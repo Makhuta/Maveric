@@ -40,14 +40,16 @@ async function graf(data_edited) {
         chartCallback
     )
     const configuration = {
-        type: "bar",
+        type: "line",
         data: {
             labels: datumy,
             datasets: [
                 {
                     label: "Discord Members",
                     data: hodnoty_uzivatelu,
-                    backgroundColor: colors.light_blue,
+                    backgroundColor: "transparent",
+                    borderColor: colors.light_blue,
+                    lineTension: 0,
                 },
             ],
         },
