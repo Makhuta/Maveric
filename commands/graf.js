@@ -5,6 +5,7 @@ const colors = require("../colorpaletes/colors.json")
 const find_channel_by_name = require("../handlers/channelfinder/find_channel_by_name")
 const { CanvasRenderService } = require("chartjs-node-canvas")
 
+const day_miliseconds = 86400000;
 var sirka = 1000;
 var vyska = 333;
 
@@ -66,7 +67,7 @@ module.exports.run = async (message, args) => {
         dates = dates.slice(dates_length - 29, dates_length - 1)
     }
     dates.forEach(datum => {
-        let DATE = new Date(datum.date)
+        let DATE = new Date(datum.date * 1 - day_miliseconds)
         let datum_formatovane = DATE.getMonth() + 1 + "." + DATE.getDate() + "."
         data_edited.push({ date: datum_formatovane, num_of_members: datum.num_of_members })
     });
