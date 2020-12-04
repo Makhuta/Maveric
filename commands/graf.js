@@ -53,6 +53,14 @@ async function graf(data_edited) {
                 },
             ],
         },
+        scales: {
+            yAxes: [{
+                ticks: {
+                    stepSize: 1,
+                    beginAtZero: true,
+                },
+            }],
+        }
     }
     const image = await canvas.renderToBuffer(configuration)
 
