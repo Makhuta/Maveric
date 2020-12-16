@@ -50,7 +50,7 @@ fs.readdir("./fonts/", (err, files) => {
 
 app.get("/", async function(req, res) {
     var _token = req.query.site || default_token
-    let host_value = process.env.SECURITY || "http://" + req.headers.host + "/?site="
+    let host_value = (process.env.SECURITY || "http://") + req.headers.host + "/?site="
     var js_list = []
     var hbs_list = []
     var js_exist = []
