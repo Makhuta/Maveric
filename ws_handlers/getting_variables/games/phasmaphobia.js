@@ -12,7 +12,7 @@ module.exports = {
         ghosts.forEach(ghost => {
             duchove.push({ name: ghost.name, evidence: [evidences[ghost.evidences[0]], evidences[ghost.evidences[1]], evidences[ghost.evidences[2]]], popis: ghost.popis })
         })
-        
-        res.render(view_hbs, { title: title, host_value: host_value, duchove: duchove });
+
+        res.render(view_hbs, { title: title, host_value: host_value, duchove: duchove, public_list: hodnoty.public_list });
     }
 }

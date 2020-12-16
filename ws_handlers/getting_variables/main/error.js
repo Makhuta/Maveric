@@ -6,6 +6,6 @@ module.exports = {
         let host_value = hodnoty.host_value
 
 
-        res.render(view_hbs, { title: title, host_value: host_value });
+        res.render(view_hbs, { title: title, host_value: host_value, public_list: hodnoty.public_list });
     }
 }

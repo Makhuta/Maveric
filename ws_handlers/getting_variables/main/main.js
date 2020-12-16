@@ -29,7 +29,7 @@ module.exports = {
         let sites = []
         let channel_list = []
         let channels = bot.channels.cache.filter(ch => ch.type == "voice").filter(ch => ch.name.split(" ")[0] == "Free")
-        channels.sort(function (a, b) {
+        channels.sort(function(a, b) {
             if (a.rawPosition < b.rawPosition) return -1;
             if (a.rawPosition > b.rawPosition) return 1;
             return 0;
@@ -49,8 +49,7 @@ module.exports = {
                     game_shorcuts.forEach(game => {
                         if (activity_name == game.name) {
                             activity_name = game.shortcut
-                        }
-                        else {
+                        } else {
                             activity_name = activity_name
                         }
                     })
@@ -84,20 +83,14 @@ module.exports = {
         })
 
         //Custom Websites
-        sites.push(
-            { site: "https://www.facebook.com/groups/vlciherniskupina/", name: "Facebook" },
-            { site: "https://discord.gg/N7fxaAC", name: "Discord" },
-            { site: "https://steamcommunity.com/groups/Vlcata", name: "Steam Group" },
-            { site: "https://www.instagram.com/nsbr___/", name: "Instagram" },
-            { site: "https://twitter.com/NSBR85992423", name: "Twitter" }
-        )
+        sites.push({ site: "https://www.facebook.com/groups/vlciherniskupina/", name: "Facebook" }, { site: "https://discord.gg/N7fxaAC", name: "Discord" }, { site: "https://steamcommunity.com/groups/Vlcata", name: "Steam Group" }, { site: "https://www.instagram.com/nsbr___/", name: "Instagram" }, { site: "https://twitter.com/NSBR85992423", name: "Twitter" })
 
-        sites.sort(function (a, b) {
+        sites.sort(function(a, b) {
             if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
             if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
             return 0;
         })
 
-        res.render(view_hbs, { title: title, host_value: host_value, sites: sites, channel_list: channel_list, counter: counter, visitors: web.visitors.length - 1, start_time: web.start });
+        res.render(view_hbs, { title: title, host_value: host_value, sites: sites, channel_list: channel_list, counter: counter, visitors: web.visitors.length - 1, start_time: web.start, public_list: hodnoty.public_list });
     }
 }

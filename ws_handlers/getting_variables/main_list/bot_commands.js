@@ -18,11 +18,11 @@ module.exports = {
             let command_accessableby = require(file_to_require).help.accessableby
             let command_aliases = require(file_to_require).help.aliases
             command_name = command_name[0].toUpperCase() + command_name.slice(1)
-            if(command_description.length == 0) command_description = "Tento příkaz nemá žádný popis."
-            if(command_aliases.length == 0) command_aliases = "Tento příkaz nemá žádný alias."
+            if (command_description.length == 0) command_description = "Tento příkaz nemá žádný popis."
+            if (command_aliases.length == 0) command_aliases = "Tento příkaz nemá žádný alias."
             commands.push({ name: command_name, command_description: command_description, command_usage: command_usage, command_accessableby: command_accessableby, command_aliases: command_aliases })
         })
 
-        res.render(view_hbs, { title: title, host_value: host_value, commands: commands });
+        res.render(view_hbs, { title: title, host_value: host_value, commands: commands, public_list: hodnoty.public_list });
     }
 }

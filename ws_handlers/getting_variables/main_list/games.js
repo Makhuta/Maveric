@@ -24,12 +24,12 @@ module.exports = {
             game_site.site = host_value + game_site.site
         })
 
-        games.sort(function (a, b) {
+        games.sort(function(a, b) {
             if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
             if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
             return 0;
         })
 
-        res.render(view_hbs, { title: title, host_value: host_value, games: games });
+        res.render(view_hbs, { title: title, host_value: host_value, games: games, public_list: hodnoty.public_list });
     }
 }

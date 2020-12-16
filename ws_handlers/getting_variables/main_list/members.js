@@ -23,20 +23,19 @@ module.exports = {
         var users = new Array()
         var rows = local_database.rows
 
-        bot.users.cache.filter(u => !u.bot).forEach(async (user) => {
+        bot.users.cache.filter(u => !u.bot).forEach(async(user) => {
             users.push({ id: user.id, username: user.username, discriminator: user.discriminator, xp: 0, level: 0, xpToNextLevel: 0, allxp: 0, xp_color: "", avatar: user.displayAvatarURL({ format: "jpg", size: 512 }) })
         })
 
 
-        rows.forEach(async (user) => {
+        rows.forEach(async(user) => {
             xp = user.xp
             level = user.level
             xpToNextLevel = 5 * Math.pow(level, 2) + 50 * level + 100
             let get_user = users.find(u => u.id == user.id)
             if (!get_user) {
 
-            }
-            else {
+            } else {
                 get_user.xp = xp
                 get_user.level = level
                 get_user.xpToNextLevel = xpToNextLevel
@@ -48,12 +47,12 @@ module.exports = {
         })
 
 
-        users.sort(function (a, b) {
+        users.sort(function(a, b) {
             if (a.username.toLowerCase() < b.username.toLowerCase()) return -1;
             if (a.username.toLowerCase() > b.username.toLowerCase()) return 1;
             return 0;
         })
-        res.render(view_hbs, { title: title, host_value: host_value, user: users });
+        res.render(view_hbs, { title: title, host_value: host_value, user: users, public_list: hodnoty.public_list });
 
 
 

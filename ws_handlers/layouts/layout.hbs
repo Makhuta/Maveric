@@ -1,13 +1,19 @@
 <!DOCTYPE html>
 
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{{title}}</title>
-        <link rel="stylesheet" type="text/css" href="css/main.css">
-    </head>
+<html lang="cs">
 
-    <body>
-        {{{body}}}
-    </body>
+<head>
+    <meta charset="UTF-8">
+    <title>{{title}}</title>
+    {{#each public_list.styles}}
+    <link rel="stylesheet" type="text/css" href="../public/styles/{{this.name}}">
+    {{/each}}
+    {{#each public_list.scripts}}
+    <script src="../public/scripts/{{this.name}}"></script>
+    {{/each}}
+</head>
+
+
+{{{body}}}
+
 </html>

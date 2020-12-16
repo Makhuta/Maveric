@@ -1,0 +1,127 @@
+.placeholder_main {
+    position: absolute;
+    margin: 0.5% 1% 1% 1%;
+    width: 98%;
+    height: fit-content;
+    border-radius: 6px;
+}
+
+.placeholder_name {
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 70px;
+    text-align: center;
+    background: #7289DA;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+}
+
+.placeholder_name_text {
+    height: 100%;
+    display: flex;
+    margin: 0 5% 0 5%;
+    justify-content: left;
+    align-items: center;
+    color: white;
+    font-size: 24px;
+    font-family: "Verdana";
+}
+
+.placeholder_father {
+    margin: 10px;
+    float: left;
+    width: fit-content;
+    height: 500px;
+    background: #202225;
+    border: 2px solid #202225;
+    border-radius: 6px;
+}
+
+.placeholder_child {
+    border: 1px solid black;
+}
+
+.counter_placeholder {
+    border-radius: 5px;
+    background-color: #202225;
+    margin: 1%;
+    width: fit-content;
+    position: fixed;
+    bottom: 0;
+}
+
+.counter {
+    margin: 5px;
+    font-size: 24px;
+    color: #99AAB5;
+    font-family: Verdana;
+}
+
+.prikaz {
+    float: none;
+    margin: 2% 1% 1% 1%;
+    width: 98%;
+    height: fit-content;
+    border-radius: 5px;
+    background-color: #2f3136;
+    word-wrap: break-word;
+}
+
+.prikaz_format {
+    text-overflow: initial;
+    max-width: 400px;
+    margin: 5px;
+    border-radius: inherit;
+    font-size: 22px;
+    color: #99AAB5;
+    font-family: Verdana;
+}
+
+.prikaz_placeholder {
+    float: left;
+    width: 350px;
+    height: 85%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    border-top: 0px;
+}
+
+.popis_type {
+    display: flex;
+    justify-content: center;
+}
+
+.popis_name_type {
+    margin: 1%;
+    text-align: left;
+    width: 100%;
+    background: #2f3136;
+    border-radius: 6px;
+}
+
+.popis_name_type_text {
+    font-family: "Verdana";
+    color: #99AAB5;
+    font-size: 24px;
+    display: flex;
+    justify-content: center;
+    width: 98%;
+}
+
+.popis_text {
+    min-height: 25px;
+    font-family: "Verdana";
+    display: inline-flex;
+    float: left;
+    color: #99AAB5;
+    font-size: 20px;
+    text-align: left;
+    background: none;
+    border: none;
+    width: 98%;
+    height: fit-content;
+    overflow: auto;
+    overflow-wrap: break-word;
+    white-space: initial;
+}
