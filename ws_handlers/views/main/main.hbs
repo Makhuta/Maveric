@@ -7,7 +7,7 @@
       </div>
       <div class="slider">
         {{#each sites}}<a href="{{{this.site}}}" class="remove_decor">
-          <div class="slide"><b class="odkazy_format" id="members">{{this.name}}</b></div>
+          <div class="slide"><b class="odkazy_format">{{this.name}}</b></div>
         </a>
         {{/each}}
       </div>
@@ -18,7 +18,7 @@
       </div>
       <div class="slider">
         {{#each counter}}
-        <div class="slide"><b class="odkazy_format" id="members">{{this}}</b></div>
+        <div class="slide"><b class="odkazy_format">{{this}}</b></div>
         {{/each}}
       </div>
     </div>
@@ -28,11 +28,10 @@
       </div>
       <div class="slider">
         {{#each channel_list}}
-        <div class="slide"><b class="odkazy_format" id="members">{{this.channel_name}}</b></div>
+        <div class="slide"><b class="odkazy_format">{{this.channel_name}}</b></div>
         {{#each this.users}}
-        <div class="slide" style="margin-left: 5%; width: 94%;"><b class="odkazy_format" style="font-size: 16px;"
-            id="members">- {{this.user_username}}</b><b class="odkazy_format" style="font-size: 12px; float: right;"
-            id="members_activity">
+        <div class="slide" style="margin-left: 5%; width: 94%;"><b class="odkazy_format" style="font-size: 16px;">-
+            {{this.user_username}}</b><b class="odkazy_format" style="font-size: 12px; float: right;">
             {{this.user_activity}}</b></div>
         {{/each}}
         {{/each}}
@@ -40,7 +39,7 @@
     </div>
   </div>
   <div class="counter_placeholder" style="left: 0;">
-    <div class="counter"><b>Restart proběhl před: </b><b class="counter" type="text" id="time" disabled
+    <div class="counter"><b>Restart proběhl před: </b><b class="counter" type="text" id="time"
         style="background: none; border: none; text-align:left; width: fit-content; height: 24px"
         value="0:000:00:00:00"></b>
     </div>
