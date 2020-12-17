@@ -9,7 +9,7 @@
                 {{#each duchove}}
                 <div class="prikaz" id="{{this.name}}" onclick="select_from_list(id)"
                     style="cursor: pointer;">
-                    <b class="prikaz_format" id="{{this.name}}_container" name="{{this.name}}" evidence="{{this.evidence}}" popis="{{this.popis}}">{{this.name}}</b>
+                    <b class="prikaz_format" id="{{this.name}}_container" data-name="{{this.name}}" data-evidence="{{this.evidence}}" data-popis="{{this.popis}}">{{this.name}}</b>
                 </div>
                 {{/each}}
             </div>
