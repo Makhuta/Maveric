@@ -8,8 +8,8 @@
                 <div class="prikaz_placeholder">
                     {{#each commands}}
                     <div class="prikaz" id="{{this.name}}" onclick="select_command(id)" style="cursor: pointer;"
-                        command_description="{{this.command_description}}" command_usage="{{this.command_usage}}"
-                        command_accessableby="{{this.command_accessableby}}" command_aliases="{{this.command_aliases}}">
+                        data-command_description="{{this.command_description}}" data-command_usage="{{this.command_usage}}"
+                        data-command_accessableby="{{this.command_accessableby}}" data-command_aliases="{{this.command_aliases}}">
                         <b class="prikaz_format" id="command name container">{{this.name}}</b>
                     </div>
                     {{/each}}
@@ -24,31 +24,31 @@
                     <div class="popis_type">
                         <div class="popis_name_type">
                             <b class="popis_name_type_text">Name</b>
-                            <b class="popis_text" type="text" id="name" value="" disabled></b>
+                            <b class="popis_text" type="text" id="name" value=""></b>
                         </div>
                     </div>
                     <div class="popis_type">
                         <div class="popis_name_type">
                             <b class="popis_name_type_text">Description</b>
-                            <b class="popis_text" type="text" id="description" value="description" disabled></b>
+                            <b class="popis_text" type="text" id="description" value="description"></b>
                         </div>
                     </div>
                     <div class="popis_type">
                         <div class="popis_name_type">
                             <b class="popis_name_type_text">Usage</b>
-                            <b class="popis_text" type="text" id="usage" value="usage" disabled></b>
+                            <b class="popis_text" type="text" id="usage" value="usage"></b>
                         </div>
                     </div>
                     <div class="popis_type">
                         <div class="popis_name_type">
                             <b class="popis_name_type_text">Accessableby</b>
-                            <b class="popis_text" type="text" id="accessableby" value="accessableby" disabled></b>
+                            <b class="popis_text" type="text" id="accessableby" value="accessableby"></b>
                         </div>
                     </div>
                     <div class="popis_type">
                         <div class="popis_name_type">
                             <b class="popis_name_type_text">Aliases</b>
-                            <b class="popis_text" type="text" id="aliases" value="aliases" disabled></b>
+                            <b class="popis_text" type="text" id="aliases" value="aliases"></b>
                         </div>
                     </div>
 
