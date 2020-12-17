@@ -1,53 +1,50 @@
 <body style="margin: 0;" class="body_main">
-    <div class="main">
-        <div class="nadpis"> <b class="nadpis_text_format">PHASMAPHOBIA</b> </div>
-        <div class="placeholder_main"
-            style="display: inline-flex; justify-content: center; align-items: center;width: 100%; height: 100%;">
-            <div class="placeholder_father">
-                <div class="placeholder_name">
-                    <b class="placeholder_name_text">Seznam duchů</b>
-                </div>
-                <div class="prikaz_placeholder">
-                    {{#each duchove}}
-                    <div class="prikaz" id="{{this.name}}" onclick="select_from_list(id)" style="cursor: pointer;"
-                        name="{{this.name}}" evidence="{{this.evidence}}" popis="{{this.popis}}">
-                        <b class="prikaz_format" id="command name container">{{this.name}}</b>
-                    </div>
-                    {{/each}}
-                </div>
-
+    <div class="nadpis" style="position: fixed;"> <b class="nadpis_text_format">PHASMAPHOBIA</b> </div>
+    <div class="phasmaphobia_placeholder_main">
+        <div class="placeholder_father">
+            <div class="slider_name">
+                <b class="slider_name_text">Seznam duchů</b>
             </div>
-            <div class="placeholder_father">
-                <div class="placeholder_name">
-                    <b class="placeholder_name_text">Popis Ducha</b>
+            <div class="prikaz_placeholder">
+                {{#each duchove}}
+                <div class="prikaz" id="{{this.name}}" onclick="select_from_list(id)" style="cursor: pointer;"
+                    name="{{this.name}}" evidence="{{this.evidence}}" popis="{{this.popis}}">
+                    <b class="prikaz_format" id="command name container">{{this.name}}</b>
                 </div>
-                <div class="prikaz_placeholder">
-                    <div class="popis_type">
-                        <div class="popis_name_type">
-                            <b class="popis_name_type_text">Name</b>
-                            <b class="popis_text" type="text" id="name" value="name" disabled></b>
-                        </div>
+                {{/each}}
+            </div>
+
+        </div>
+        <div class="placeholder_father">
+            <div class="slider_name">
+                <b class="slider_name_text">Popis Ducha</b>
+            </div>
+            <div class="prikaz_placeholder">
+                <div class="popis_type">
+                    <div class="popis_name_type">
+                        <b class="popis_name_type_text">Name</b>
+                        <b class="popis_text" type="text" id="name" value="name" disabled></b>
                     </div>
-                    <div class="popis_type">
-                        <div class="popis_name_type">
-                            <b class="popis_name_type_text">Evidence</b>
-                            <b class="popis_text" type="text" id="evidence" value="evidence" disabled></b>
-                        </div>
+                </div>
+                <div class="popis_type">
+                    <div class="popis_name_type">
+                        <b class="popis_name_type_text">Evidence</b>
+                        <b class="popis_text" type="text" id="evidence" value="evidence" disabled></b>
                     </div>
-                    <div class="popis_type">
-                        <div class="popis_name_type">
-                            <b class="popis_name_type_text">Popis</b>
-                            <b class="popis_text" type="text" id="popis" value="popis" disabled></b>
-                        </div>
+                </div>
+                <div class="popis_type">
+                    <div class="popis_name_type">
+                        <b class="popis_name_type_text">Popis</b>
+                        <b class="popis_text" type="text" id="popis" value="popis" disabled></b>
                     </div>
                 </div>
             </div>
         </div>
-
-        <a href="{{{host_value}}}games" class="back">
-            <div class="back_placeholder">
-                <h2>Back to Games<br></h2>
-            </div>
-        </a>
     </div>
+
+    <a href="{{{host_value}}}games" class="back">
+        <div class="back_placeholder">
+            <h2>Back to Games<br></h2>
+        </div>
+    </a>
 </body>

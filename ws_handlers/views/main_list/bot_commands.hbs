@@ -1,199 +1,9 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-    <meta charset="utf-8">
-    <title></title>
-    <script>
-        function select_command(id) {
-            var u = document.getElementById(id)
-            var name = u.id
-            var description = u.getAttribute("command_description")
-            var usage = u.getAttribute("command_usage")
-            var accessableby = u.getAttribute("command_accessableby")
-            var aliases = u.getAttribute("command_aliases") 
-            document.getElementById("name").innerHTML = name
-            document.getElementById("description").innerHTML = description
-            document.getElementById("usage").innerHTML = usage
-            document.getElementById("accessableby").innerHTML = accessableby
-            document.getElementById("aliases").innerHTML = aliases
-        }
-    </script>
-    <style type="text/css">
-        .main {
-            width: 100%;
-            height: 100%;
-        }
-
-        .nadpis {
-            position: fixed;
-            left: 0;
-            top: 0;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            margin: 0 auto;
-            background-color: #202225;
-
-        }
-
-        .nadpis_text_format {
-            font-size: 48px;
-            font-family: "Verdana";
-            color: white;
-        }
-
-        .placeholder_main {
-            display: inline-flex;
-            justify-content: center;
-            align-items: center;
-            position: absolute;
-            margin: 0;
-            width: 100%;
-            height: 100%;
-        }
-
-        .placeholder_name {
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 15%;
-            text-align: center;
-            background: #7289DA;
-            border-top-left-radius: 6px;
-            border-top-right-radius: 6px;
-        }
-
-        .placeholder_name_text {
-            height: 100%;
-            display: flex;
-            margin: 0 5% 0 5%;
-            justify-content: left;
-            align-items: center;
-            color: white;
-            font-size: 24px;
-            font-family: "Verdana";
-        }
-
-        .placeholder_father {
-            margin: 10px;
-            float: left;
-            width: fit-content;
-            height: 500px;
-            background: #202225;
-            border: 2px solid #202225;
-            border-radius: 6px;
-        }
-
-        .prikaz_placeholder {
-            float: left;
-            width: 350px;
-            height: 85%;
-            overflow-y: auto;
-            overflow-x: hidden;
-            border-top: 0px;
-        }
-
-        .prikaz {
-            float: none;
-            margin: 2% 1% 1% 1%;
-            width: 98%;
-            height: fit-content;
-            border-radius: 5px;
-            background-color: #2f3136;
-            word-wrap: break-word;
-        }
-
-        ::-webkit-scrollbar {
-            width: 5px;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: #37393b;
-            border-radius: 10px;
-        }
-
-        .prikaz_format {
-            text-overflow: initial;
-            max-width: 400px;
-            margin: 5px;
-            border-radius: inherit;
-            font-size: 22px;
-            color: #99AAB5;
-            font-family: Verdana;
-        }
-
-        .back_placeholder {
-            position: fixed;
-            left: 0;
-            bottom: 0;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            margin: 0 auto;
-            background-color: #202225;
-        }
-
-        .back {
-            text-align: center;
-            font-size: 18px;
-            color: #99AAB5;
-            text-decoration: none;
-            font-family: "Verdana";
-        }
-
-        .body_main {
-            background: #2f3136;
-        }
-
-        .popis_type {
-            display: flex;
-            justify-content: center;
-        }
-
-        .popis_name_type {
-            margin: 1%;
-            text-align: left;
-            width: 100%;
-            background: #2f3136;
-            border-radius: 6px;
-        }
-
-        .popis_name_type_text {
-            font-family: "Verdana";
-            color: #99AAB5;
-            font-size: 24px;
-            display: flex;
-            justify-content: center;
-            width: 98%;
-        }
-
-        .popis_text {
-            min-height: 25px;
-            font-family: "Verdana";
-            display: inline-flex;
-            float: left;
-            color: #99AAB5;
-            font-size: 20px;
-            text-align: left;
-            background: none;
-            border: none;
-            width: 98%;
-            height: fit-content;
-            overflow: auto;
-            overflow-wrap: break-word;
-            white-space: initial;
-        }
-    </style>
-</head>
-
-<body style="margin: 0;" class="body_main">
-    <div class="main">
-        <div class="nadpis"> <b class="nadpis_text_format">Příkazy</b> </div>
-        <div class="placeholder_main">
+<body>
+        <div class="nadpis" style="position: fixed;"> <b class="nadpis_text_format">Příkazy</b> </div>
+        <div class="bot_commands_placeholder_main">
             <div class="placeholder_father">
-                <div class="placeholder_name">
-                    <b class="placeholder_name_text">List příkazů</b>
+                <div class="slider_name">
+                    <b class="slider_name_text">List příkazů</b>
                 </div>
                 <div class="prikaz_placeholder">
                     {{#each commands}}
@@ -207,8 +17,8 @@
 
             </div>
             <div class="placeholder_father">
-                <div class="placeholder_name">
-                    <b class="placeholder_name_text">Popis</b>
+                <div class="slider_name">
+                    <b class="slider_name_text">Popis</b>
                 </div>
                 <div class="prikaz_placeholder">
                     <div class="popis_type">
@@ -251,8 +61,5 @@
                 <h2>Back to Main menu<br></h2>
             </div>
         </a>
-    </div>
 
 </body>
-
-</html>

@@ -30,6 +30,6 @@ module.exports = {
             return 0;
         })
 
-        res.render(view_hbs, { title: title, host_value: host_value, games: games, public_list: hodnoty.public_list });
+        res.render(view_hbs, { title: title, host_value: host_value, games: games, public_list: hodnoty.public_list, token: hodnoty.token });
     }
 }

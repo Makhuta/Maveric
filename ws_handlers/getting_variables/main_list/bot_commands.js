@@ -23,6 +23,6 @@ module.exports = {
             commands.push({ name: command_name, command_description: command_description, command_usage: command_usage, command_accessableby: command_accessableby, command_aliases: command_aliases })
         })
 
-        res.render(view_hbs, { title: title, host_value: host_value, commands: commands, public_list: hodnoty.public_list });
+        res.render(view_hbs, { title: title, host_value: host_value, commands: commands, public_list: hodnoty.public_list, token: hodnoty.token });
     }
 }
