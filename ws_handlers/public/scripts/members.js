@@ -30,12 +30,12 @@ window.onload = function() {
 
 function user_select() {
     var u = document.getElementById("users")
-    var avatar = u.options[u.selectedIndex].getAttribute("avatar")
-    var u_xp = u.options[u.selectedIndex].getAttribute("xp")
-    var u_xpToNextLevel = u.options[u.selectedIndex].getAttribute("xpToNextLevel")
-    var u_level = u.options[u.selectedIndex].getAttribute("level")
-    var u_allxp = u.options[u.selectedIndex].getAttribute("allxp")
-    var u_xp_color = u.options[u.selectedIndex].getAttribute("xp_color")
+    var avatar = u.options[u.selectedIndex].getAttribute("data-avatar")
+    var u_xp = u.options[u.selectedIndex].getAttribute("data-xp")
+    var u_xpToNextLevel = u.options[u.selectedIndex].getAttribute("data-xpToNextLevel")
+    var u_level = u.options[u.selectedIndex].getAttribute("data-level")
+    var u_allxp = u.options[u.selectedIndex].getAttribute("data-allxp")
+    var u_xp_color = u.options[u.selectedIndex].getAttribute("data-xp_color")
 
     document.getElementById("level").value = u_level
     document.getElementById("allxp").value = u_allxp
