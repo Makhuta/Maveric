@@ -16,7 +16,7 @@ module.exports = {
             let command_description = require(file_to_require).help.description
             let command_usage = require(file_to_require).help.usage
             let command_accessableby = require(file_to_require).help.accessableby.join(", ")
-            let command_aliases = require(file_to_require).help.aliases
+            let command_aliases = require(file_to_require).help.aliases.join(", ")
             command_name = command_name[0].toUpperCase() + command_name.slice(1)
             if (command_description.length == 0) command_description = "Tento příkaz nemá žádný popis."
             if (command_aliases.length == 0) command_aliases = "Tento příkaz nemá žádný alias."
