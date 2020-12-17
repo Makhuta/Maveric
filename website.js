@@ -56,6 +56,8 @@ app.get("/", async function(req, res) {
     var js_exist = []
     var hbs_exist = []
 
+
+
     var ip = RequestIp.getClientIp(req)
 
     if (!module.exports.web.visitors.includes(ip)) {
@@ -128,7 +130,6 @@ app.get("/", async function(req, res) {
         let hodnoty = ({ res: res, view_hbs: hbs_webout + js_folders[slozka] + "/" + _token, title: title, host_value: host_value, token: _token, app: app, folder: js_folders[slozka], layoutsDir: layoutslozka, public_list: public_list })
         await require("./ws_handlers/getting_variables/signpost").run(hodnoty)
     }
-
 })
 
 app.listen(port, function() {
