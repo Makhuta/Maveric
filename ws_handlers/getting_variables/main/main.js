@@ -4,6 +4,7 @@ const { bot } = require("../../../bot")
 const web = require("../../../website").web
 const game_shorcuts = require("../../../botconfig/game_shorcuts.json")
 const find_channel_by_name = require("../../../handlers/channelfinder/find_channel_by_name");
+const custom_websites = require("../../../botconfig/custom_websites.json");
 
 module.exports = {
     run(hodnoty) {
@@ -83,7 +84,10 @@ module.exports = {
         })
 
         //Custom Websites
-        sites.push({ site: "https://www.facebook.com/groups/vlciherniskupina/", name: "Facebook" }, { site: "https://discord.gg/N7fxaAC", name: "Discord" }, { site: "https://steamcommunity.com/groups/Vlcata", name: "Steam Group" }, { site: "https://www.instagram.com/nsbr___/", name: "Instagram" }, { site: "https://twitter.com/NSBR85992423", name: "Twitter" })
+        custom_websites.forEach(website => {
+            sites.push(website)
+        })
+
 
         sites.sort(function(a, b) {
             if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
