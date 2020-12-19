@@ -12,21 +12,21 @@ module.exports = {
         var roomname_id = hodnoty.req.body.channel
         var roomname = bot.channels.cache.get(roomname_id).name
         var rows = passwords.rows
-        var id_list = []
+        var usernames_list = []
         var password_list = []
         var tier_list = []
         var rows_list = []
 
         rows.forEach(row => {
-            id_list.push(row.user_id)
+            usernames_list.push(row.username)
             password_list.push(row.password)
             tier_list.push(row.tier)
             rows_list.push({ id: row.user_id, password: row.password, username: row.username, tier: row.tier })
         });
 
-        if (!id_list.includes(ID)) return
+        if (!usernames_list.includes(ID)) return
 
-        let selected_user = rows_list.find(user => user.id == ID)
+        let selected_user = rows_list.find(user => user.username == ID)
 
         if (selected_user.password != password) return
 
