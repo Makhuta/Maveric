@@ -9,23 +9,35 @@ const usage = prefix + name + " [user] [tier]"
 const accessableby = ["Bulgy", "Admins"]
 const aliases = ["ap"]
 
-function reload_passwords() {
+async function reload_passwords() {
     con.query(`SELECT * FROM passwords`, async(err, rows) => {
         if (err) throw err
-
 
 
         passwords.rows = rows
     })
 }
 
-async function add_to_passwords(target_id, target_username, heslo, tier) {
+async function add_to_passwords(target_id, target_username, heslo, tier, target, message) {
     con.query(`SELECT * FROM passwords`, async(err, rows) => {
         if (err) throw err
         let sql
 
+        let id_list = []
+        rows.forEach(row => {
+            id_list.push(row.user_id)
+        })
+
+        let target_exist = id_list.includes(target_id)
+
+        if (target_exist) return
+
         sql = `INSERT INTO passwords (user_id, username, password, tier) VALUES ('${target_id}', '${target_username}', '${heslo}', '${tier}')`
         con.query(sql)
+
+        target.send("Tvé heslo bylo úspěšně vygenerováno.\nTvé heslo je: " + heslo)
+
+        message.author.send(`Heslo pro uživatele ${target_username} bylo vygenerováno.\nTier pro tohoto uživatele je: ${tier}`)
 
     })
 }
@@ -63,12 +75,10 @@ module.exports.run = async(message, args) => {
         numbers: false
     });
 
-    await add_to_passwords(target_id, target_username, heslo, tier)
+    await add_to_passwords(target_id, target_username, heslo, tier, target, message)
 
 
-    reload_passwords()
-
-    target.send("Tvé heslo bylo úspěšně vygenerováno.\nTvé heslo je: " + heslo)
+    await reload_passwords()
 }
 
 module.exports.help = {
