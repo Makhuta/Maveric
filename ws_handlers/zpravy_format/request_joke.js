@@ -5,7 +5,6 @@ module.exports = {
     async run(hodnoty) {
         let zanr = hodnoty.zanr
         let vtip = hodnoty.vtip
-        console.log(zanr)
 
         var embed = new Discord.MessageEmbed()
             .setAuthor(zanr)

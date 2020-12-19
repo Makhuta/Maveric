@@ -148,9 +148,6 @@ app.post("/sendMessage", async(req, res) => {
 
     let zprava = await require("./ws_handlers/zpravy_format/" + _token + ".js").run(generate_message)
 
-    console.log(zprava)
-        //zanr + "\n" + vtip
-
     if (zanr.length == 0) return
     if (vtip.length == 0) return
 
