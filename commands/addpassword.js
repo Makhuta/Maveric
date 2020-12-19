@@ -3,7 +3,7 @@ const passwords = require("../events/local_database").passwords
 const { bot, con } = require('../bot');
 const generator = require("generate-password")
 
-const name = "addpassword"
+const name = "add_password"
 const description = "Přidělí heslo členovi."
 const usage = prefix + name + " [user] [tier]"
 const accessableby = ["Bulgy", "Admins"]
