@@ -2,11 +2,19 @@ const { bot, con } = require('../bot');
 
 
 function get_data() {
-    con.query(`SELECT * FROM userstats`, async (err, rows) => {
+    con.query(`SELECT * FROM userstats`, async(err, rows) => {
         if (err) throw err
 
 
         module.exports.database.rows = rows
+    })
+
+    con.query(`SELECT * FROM passwords`, async(err, rows) => {
+        if (err) throw err
+
+
+
+        module.exports.passwords.rows = rows
     })
 }
 
@@ -20,6 +28,11 @@ bot.on("ready", () => {
 })
 
 
-module.exports.database = {
-    rows: ""
+module.exports = {
+    database: {
+        rows: ""
+    },
+    passwords: {
+        rows: ""
+    }
 }
