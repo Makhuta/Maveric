@@ -138,17 +138,22 @@ app.listen(port, function() {
     console.log(`Website running on port ${port}`)
 })
 
-app.post("/sendMessage", (req, res) => {
+app.post("/sendMessage", async(req, res) => {
+    var _token = req.body.token
     var roomname = req.body.channel
     var zanr = req.body.zanr
     var vtip = req.body.vtip
 
-    let zprava = zanr + "\n" + vtip
+    let generate_message = ({ zanr: zanr, vtip: vtip })
+
+    let zprava = await require("./ws_handlers/zpravy_format/" + _token + ".js").run(generate_message)
+
+    console.log(zprava)
+        //zanr + "\n" + vtip
 
     if (zanr.length == 0) return
     if (vtip.length == 0) return
 
-    console.log(zprava)
 
     let hodnoty = ({ roomname: roomname, zprava: zprava })
     find_channel_by_name.run(hodnoty)
