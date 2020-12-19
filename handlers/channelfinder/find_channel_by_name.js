@@ -2,10 +2,11 @@ const { bot } = require("../../bot")
 const msgzprava = require("../../events/message")
 
 module.exports = {
-    run: async (hodnoty) => {
+    run: async(hodnoty) => {
         let zprava = hodnoty.zprava
-        let guild = msgzprava.msgzprava.channel.guild
+        let guild = bot.guilds.cache.first()
         let message
+
 
         if (bot.channels.cache.find(c => c.name === hodnoty.roomname) == undefined) {
             await guild.channels.create(hodnoty.roomname, {
@@ -17,7 +18,6 @@ module.exports = {
             .then(async channel => {
 
                 const msg = bot.channels.cache.get(channel.id)
-
 
 
                 message = await msg.send(zprava)

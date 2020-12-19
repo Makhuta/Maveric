@@ -6,6 +6,8 @@ const bodyParser = require("body-parser")
 const fs = require("fs");
 const { registerFont } = require("canvas");
 const RequestIp = require('@supercharge/request-ip')
+const find_channel_by_name = require("./handlers/channelfinder/find_channel_by_name")
+const { request } = require("http")
 
 const hbs_webout = __dirname + "/ws_handlers/views/"
 const js_webout = __dirname + "/ws_handlers/getting_variables/"
@@ -134,6 +136,22 @@ app.get("/", async function(req, res) {
 
 app.listen(port, function() {
     console.log(`Website running on port ${port}`)
+})
+
+app.post("/sendMessage", (req, res) => {
+    var roomname = req.body.channel
+    var zanr = req.body.zanr
+    var vtip = req.body.vtip
+
+    let zprava = zanr + "\n" + vtip
+
+    if (zanr.length == 0) return
+    if (vtip.length == 0) return
+
+    console.log(zprava)
+
+    let hodnoty = ({ roomname: roomname, zprava: zprava })
+    find_channel_by_name.run(hodnoty)
 })
 
 module.exports.web = {

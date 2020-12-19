@@ -1,4 +1,4 @@
-window.onload = function redirecting_http() {
+/*window.onload = function redirecting_http() {
     let https_address = process.env.SECURITY
 
     var httpURL = window.location.hostname + ":" + window.location.port + window.location.pathname;
@@ -7,4 +7,4 @@ window.onload = function redirecting_http() {
 
     window.location = httpsURL
 
-}
+}*/
