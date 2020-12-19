@@ -6,7 +6,6 @@ const bodyParser = require("body-parser")
 const fs = require("fs");
 const { registerFont } = require("canvas");
 const RequestIp = require('@supercharge/request-ip')
-const find_channel_by_name = require("./handlers/channelfinder/find_channel_by_name")
 const { request } = require("http")
 
 const hbs_webout = __dirname + "/ws_handlers/views/"
@@ -140,20 +139,9 @@ app.listen(port, function() {
 
 app.post("/sendMessage", async(req, res) => {
     var _token = req.body.token
-    var roomname = req.body.channel
-    var zanr = req.body.zanr
-    var vtip = req.body.vtip
 
-    let generate_message = ({ zanr: zanr, vtip: vtip })
-
-    let zprava = await require("./ws_handlers/zpravy_format/" + _token + ".js").run(generate_message)
-
-    if (zanr.length == 0) return
-    if (vtip.length == 0) return
-
-
-    let hodnoty = ({ roomname: roomname, zprava: zprava })
-    find_channel_by_name.run(hodnoty)
+    let hodnoty = ({ req: req, res: res })
+    await require("./ws_handlers/zpravy_format/" + _token + ".js").run(hodnoty)
 })
 
 module.exports.web = {
