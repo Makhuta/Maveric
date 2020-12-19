@@ -15,8 +15,6 @@ module.exports = {
             .setDescription(vtip)
             .setColor(color.red)
 
-
-
         let hodnoty_out = ({ roomname: roomname, zprava: embed })
         find_channel_by_name.run(hodnoty_out)
     }
