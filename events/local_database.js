@@ -16,6 +16,14 @@ function get_data() {
 
         module.exports.passwords.rows = rows
     })
+
+    con.query(`SELECT * FROM youtubers`, async(err, rows) => {
+        if (err) throw err
+
+
+
+        module.exports.youtubers.rows = rows
+    })
 }
 
 
@@ -33,6 +41,9 @@ module.exports = {
         rows: ""
     },
     passwords: {
+        rows: ""
+    },
+    youtubers: {
         rows: ""
     }
 }
