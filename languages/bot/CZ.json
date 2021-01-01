@@ -1,0 +1,133 @@
+{
+    "HELP": {
+        "noargs": {
+            "AUTHOR": "Seznam použitelných příkazů:",
+            "FIELDS": [{
+                    "NAME": "Prefix",
+                    "VALUE": "$PREFIX"
+                },
+                {
+                    "NAME": "Konkrétní příkazy",
+                    "VALUE": "Pro info ke konkrétním příkazům použijte příkaz $PREFIXhelp [název příkazu]"
+                },
+                {
+                    "NAME": "Dotazy",
+                    "VALUE": "Pro konkrétnější dotazy se obraťte na Admin team.\nPro seznam Admin teamu použijte příkaz $PREFIXadmins"
+                }
+            ]
+        },
+        "withargs": {
+            "AUTHOR": "Příkaz $COMMAND_NAME",
+            "FIELDS": [{
+                    "NAME": "**Popis příkazu**",
+                    "VALUE": "$COMMAND_DESCRIPTION"
+                },
+                {
+                    "NAME": "**Použití příkazu**",
+                    "VALUE": "$COMMAND_USAGE"
+                },
+                {
+                    "NAME": "**Permise pro příkaz**",
+                    "VALUE": "$COMMAND_PERMISSIONS"
+                },
+                {
+                    "NAME": "**Alias příkazu**",
+                    "VALUE": "$COMMAND_ALIAS"
+                }
+            ]
+        },
+        "descriptions": [{
+                "NAME": "addpassword",
+                "VALUE": "Přidělí heslo členovi."
+            },
+            {
+                "NAME": "admins",
+                "VALUE": "Vypíše seznam členů Admin teamu."
+            },
+            {
+                "NAME": "botinfo",
+                "VALUE": "Vypíše informace o NSBR Botovi."
+            },
+            {
+                "NAME": "clean",
+                "VALUE": "Smaže [X] zpráv."
+            },
+            {
+                "NAME": "coinflip",
+                "VALUE": "Vsadíte vámi zvolené množství XP (max 5000) na procentualní šanci (čím menší šance tím vyšší výhra)."
+            },
+            {
+                "NAME": "createroom",
+                "VALUE": "Vytvoří vlastní soukromou room."
+            },
+            {
+                "NAME": "dailyfree",
+                "VALUE": "Přidá denní odměnu XP."
+            },
+            {
+                "NAME": "eventxp",
+                "VALUE": "Přídá členovi počet XP (určeno pro eventy)."
+            },
+            {
+                "NAME": "graf",
+                "VALUE": "Pošle graf memberů za poslední měsíc."
+            },
+            {
+                "NAME": "help",
+                "VALUE": "Pro příkaz není žádný popis."
+            },
+            {
+                "NAME": "holiday",
+                "VALUE": "V případě že v den použití příkazu je nějaký svátek tak vám připíše přednastavený počet XP pro každý svátek."
+            },
+            {
+                "NAME": "joke",
+                "VALUE": "Pošle náhodný vtip."
+            },
+            {
+                "NAME": "lowerorhigher",
+                "VALUE": "Spustí hru pro 2 hráče založenou na tom že zakladatel vybere číslo a protihráč tipuje zda-li losované číslo bude vyšší nebo nižší než zvolené číslo."
+            },
+            {
+                "NAME": "membergoal",
+                "VALUE": "Ukáže kolik zbývá do dalšího member goalu."
+            },
+            {
+                "NAME": "online",
+                "VALUE": "Slouží pro ověření zda-li bot běží."
+            },
+            {
+                "NAME": "random",
+                "VALUE": "Příkaz pošle zprávu s náhodným číslem/čísly na základě zadaných parametrů."
+            },
+            {
+                "NAME": "report",
+                "VALUE": "Umožní vám nahlásit uživatele."
+            },
+            {
+                "NAME": "teamselector",
+                "VALUE": "Náhodně rozhodí zadané uživatele nebo v případě že nejsou žádní zadaní tak uživatele z autorovy room do 2 teamů."
+            },
+            {
+                "NAME": "test",
+                "VALUE": "Pro příkaz není žádný popis."
+            },
+            {
+                "NAME": "topxp",
+                "VALUE": "Vypíše XP top 10ti členů od uživatele s nejvyžším počtem XP."
+            },
+            {
+                "NAME": "website",
+                "VALUE": "Pošle adresu webové stránky serveru."
+            },
+            {
+                "NAME": "xp",
+                "VALUE": "Vypíše počet XP"
+            },
+            {
+                "NAME": "youtubers",
+                "VALUE": "Vypíše seznam Youtuberů na serveru."
+            }
+        ]
+    }
+}
