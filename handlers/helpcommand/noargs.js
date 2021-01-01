@@ -13,7 +13,6 @@ module.exports = {
         let hodnoty_lang = ({ message: message })
         let user_lang_role = check_user_for_role_language.run(hodnoty_lang)
         let user_language = require("../../events/language_load").languages.find(l => l.NAME == user_lang_role).ARRAY.HELP.noargs
-        console.log(user_language)
         fs.readdir("./commands/", (err, files) => {
 
             var embed = new Discord.MessageEmbed()

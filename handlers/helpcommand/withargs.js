@@ -14,7 +14,6 @@ module.exports = {
         let user_lang_role = check_user_for_role_language.run(hodnoty_lang)
         let user_language = require("../../events/language_load").languages.find(l => l.NAME == user_lang_role).ARRAY.HELP.withargs
         let user_language_descriptions = require("../../events/language_load").languages.find(l => l.NAME == user_lang_role).ARRAY.HELP.descriptions
-        console.log(user_language_descriptions)
 
         if (bot.commands.has(command)) {
 
