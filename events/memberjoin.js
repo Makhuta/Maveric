@@ -8,6 +8,7 @@ const { join } = require("path");
 const welcome_canvas = require("../handlers/welcome/welcome_canvas")
 const memberjoinxp = 40
 const invites = {};
+const moment = require("moment")
 
 function zprava(level, typek, message, Discord) {
     let embed = new Discord.MessageEmbed()
@@ -19,8 +20,9 @@ function zprava(level, typek, message, Discord) {
 function uvitani(member) {
     bot.channels.fetch(bot.channels.cache.find(c => c.name === roomnames.gateroom).id)
         .then(channel => {
-            var d = new Date(member.guild.joinedTimestamp).toLocaleDateString('en').split("/")
-            var datum = [d[1], d[0], d[2]].join(". ")
+            var datum = moment(member.user.createdAt).format('l').split("/")
+            datum = [datum[1], datum[0], datum[2]].join(". ")
+            console.log(datum)
             const msg = bot.channels.cache.get(channel.id)
             let hodnoty = ({ createCanvas: createCanvas, message: msg, join: join, MessageAttachment: MessageAttachment, loadImage: loadImage, color: color, target: member.user, stav: "Welcome", datum: datum })
             welcome_canvas.run(hodnoty)
@@ -51,8 +53,7 @@ function joinxp(member) {
                 con.query(sql)
                 sql = `UPDATE userstats SET level = ${level} WHERE id = '${inviter.id}'`;
                 con.query(sql)
-            }
-            else {
+            } else {
                 sql = `UPDATE userstats SET xp = ${xp + memberjoinxp} WHERE id = '${inviter.id}'`;
                 con.query(sql)
             }
