@@ -6,9 +6,9 @@ const name = "website"
 const description = "Pošle adresu webové stránky serveru."
 const usage = prefix + name
 const accessableby = ["Member"]
-const aliases = ["w"]
+const aliases = ["w", "web", "ws"]
 
-module.exports.run = async (message, args) => {
+module.exports.run = async(message, args) => {
 
 
     let hodnotyout = ({ zprava: ip, roomname: require("../botconfig/roomnames.json").botcommand })
