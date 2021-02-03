@@ -6,7 +6,6 @@ const array_move = require("../handlers/rulet/array_move")
 const random = require("random")
 const { bot, con } = require("../bot")
 const message = require("../events/message")
-const { all } = require("async")
 const signpost = require("../handlers/ranks/signpost")
 const delay = require("delay")
 
