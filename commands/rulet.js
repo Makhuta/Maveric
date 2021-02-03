@@ -131,14 +131,16 @@ module.exports.run = async(message, args) => {
 
 
 
-        module.exports.rulet.pending = false;
+
         module.exports.rulet.message = "";
         module.exports.rulet.users = [];
 
 
-
-        let hodnoty_channel_out = ({ zprava: "Odměny vyplaceny.", roomname: require("../botconfig/roomnames.json").botcommand })
-        find_channel_by_name.run(hodnoty_channel_out)
+        setTimeout(() => {
+            module.exports.rulet.pending = false;
+            let hodnoty_channel_out = ({ zprava: "Odměny vyplaceny.", roomname: require("../botconfig/roomnames.json").botcommand })
+            find_channel_by_name.run(hodnoty_channel_out)
+        }, 10000 * users.length + 1000)
     }, 300000);
 }
 
