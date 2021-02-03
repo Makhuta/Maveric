@@ -67,6 +67,12 @@ function add_user(member) {
     console.log(`ADDED ${member.user.username}!`)
 }
 
+async function member_role(member) {
+    let role = member.guild.roles.cache.find(role => role.name === "Member");
+    console.log(role)
+    member.roles.add(role) //.catch(console.error);
+}
+
 bot.on('ready', () => {
     bot.guilds.cache.forEach(g => {
         g.fetchInvites().then(guildInvites => {
@@ -79,6 +85,10 @@ bot.on('guildMemberAdd', member => {
     uvitani(member);
     add_user(member);
     joinxp(member);
+    member_role(member);
+
+
+
 
 
 });
