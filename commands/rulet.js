@@ -134,7 +134,7 @@ module.exports.run = async(message, args) => {
         module.exports.rulet.pending = false;
         module.exports.rulet.message = "";
         module.exports.rulet.users = [];
-    }, 6000);
+    }, 300000);
 }
 
 module.exports.help = {
