@@ -5,7 +5,7 @@ const ruleta_cisla = require("../botconfig/ruleta_cisla.json")
 const array_move = require("../handlers/rulet/array_move")
 const random = require("random")
 const { bot, con } = require("../bot")
-const message = require("../events/message")
+const find_channel_by_name = require("../handlers/channelfinder/find_channel_by_name")
 const signpost = require("../handlers/ranks/signpost")
 const delay = require("delay")
 
@@ -127,13 +127,18 @@ module.exports.run = async(message, args) => {
 
         module.exports.rulet.message.delete();
         hodnotyout = ({ info: "result", pocet_cisel: ruleta_cisla.length, ruleta_cisla: ruleta_cisla })
-        rulet_canvas.run(hodnotyout)
+        await rulet_canvas.run(hodnotyout)
 
 
 
         module.exports.rulet.pending = false;
         module.exports.rulet.message = "";
         module.exports.rulet.users = [];
+
+
+
+        let hodnoty_channel_out = ({ zprava: "Odměny vyplaceny.", roomname: require("../botconfig/roomnames.json").botcommand })
+        find_channel_by_name.run(hodnoty_channel_out)
     }, 300000);
 }
 
