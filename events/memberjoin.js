@@ -69,8 +69,7 @@ function add_user(member) {
 
 async function member_role(member) {
     let role = member.guild.roles.cache.find(role => role.name === "Member");
-    console.log(role)
-    member.roles.add(role) //.catch(console.error);
+    member.roles.add(role).catch(console.error);
 }
 
 bot.on('ready', () => {
