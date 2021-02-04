@@ -14,7 +14,6 @@ bot.on("ready", () => {
     let role_id = role.id;
     let all_users = guild.members.cache.filter(user => !user.user.bot).filter(roles => !roles._roles.includes(role_id))
     console.log(`${bot.user.username} is Ready!`);
-    console.log(all_users)
     all_users.forEach(user => {
         user.roles.add(role).catch(console.error);
     })
