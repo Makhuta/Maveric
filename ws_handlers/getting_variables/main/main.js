@@ -56,7 +56,7 @@ module.exports = {
                     })
                     activity_type = activity_array.type.slice(0, 1) + activity_array.type.slice(1).toLowerCase()
                     if (activity_name.length > 20) {
-                        let error_message = "Aktivita " + activity_type + " je delší než 20 znaků."
+                        let error_message = "Aktivita " + activity_name + " je delší než 20 znaků."
                         let hodnotyout = ({ zprava: error_message, roomname: require("../../../botconfig/roomnames.json").bot_errors_info })
                         find_channel_by_name.run(hodnotyout)
                     }
