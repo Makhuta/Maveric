@@ -8,6 +8,7 @@ const verifymessage = require("../handlers/verification/verifymessage")
 const examplereaction = require("../handlers/verification/reaction")
 
 bot.login(process.env.BOT_TOKEN);
+bot.setMaxListeners(0);
 bot.on("ready", () => {
     let guild = bot.guilds.cache.first();
     let role = guild.roles.cache.find(r => r.name == "Member");
