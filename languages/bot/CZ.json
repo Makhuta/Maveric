@@ -129,5 +129,16 @@
                 "VALUE": "Vypíše seznam Youtuberů na serveru."
             }
         ]
+    },
+    "BLACKJACK": {
+        "NOT_NUMBER": "Sázka není číslo nebo je špatně zadaná.",
+        "TOO_LOW": "Sázka musí být minimálně 100.",
+        "TOO_HIGH": "Sázka může být maximálně 5000.",
+        "LOW_CARD_VALUE": "Minimální hodnota karet pro stání je 15.",
+        "YOUR_HAND": "Tvé karty",
+        "DEALER_HAND": "Dealerovy karty",
+        "BET": "Sázka",
+        "PROFIT": "Profit",
+        "NOT_ENOUGH_XP": "Nemáš dostatek XP."
     }
 }
