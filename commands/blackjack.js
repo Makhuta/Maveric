@@ -106,7 +106,7 @@ function winner_decider(user_language, player_game, is_over_max) {
     let bot_is_over = is_over_max.bot;
     let hodnota_player = player_game.cards.values.reduce(reducer);
     let hodnota_bot = player_game.bot_cards.values.reduce(reducer);
-    console.log(is_over_max)
+    //console.log(is_over_max)
 
     if (!player_is_over && !bot_is_over) {
         if (hodnota_player == 21 && hodnota_bot == 21) {
@@ -243,7 +243,7 @@ module.exports.run = async(message, args) => {
 
                 let hodnoty_out = ({ type: "rankup", level: level, xp: win_xp, sql: sql, user: message.author, con: con })
                 signpost.run(hodnoty_out)
-                console.log(hodnoty_out)
+                //console.log(hodnoty_out)
 
             } else if (result == "TIE") {
 
@@ -253,12 +253,12 @@ module.exports.run = async(message, args) => {
 
                 let hodnoty_out = ({ type: "rankdown", level: level, xp: lose_xp, sql: sql, user: message.author, con: con })
                 signpost.run(hodnoty_out)
-                console.log(hodnoty_out)
+                //console.log(hodnoty_out)
             } else {
-                console.log("BLACKJACK RESULT ERROR");
-                console.log(result)
+                //console.log("BLACKJACK RESULT ERROR");
+                //console.log(result)
             }
-            console.log(result)
+            //console.log(result)
             guild_map.delete(player_id);
         }
         //console.log(guild_map);
