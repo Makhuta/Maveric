@@ -70,7 +70,7 @@ function bot_play(player_game) {
         bot_play(player_game);
     }
 
-    if (card_values.reduce(reducer) < 15) bot_play(player_game);
+    if (card_values.reduce(reducer) <= 15) bot_play(player_game);
     else if (card_values.reduce(reducer) < 20 && decide_to_play == 1) bot_play(player_game);
 
     //console.log(karta_out)
@@ -216,7 +216,7 @@ module.exports.run = async(message, args) => {
             embed_message_game(embed, user_language, player_game);
             player_game.message.edit(embed);
         } else if (triggerer == "stand" && player_game.pending) {
-            if (player_game.cards.values.reduce(reducer) >= 15) {
+            if (player_game.cards.values.reduce(reducer) > 15) {
                 let is_over_max = { player: false, bot: false };
                 //console.log("Stand")
 
