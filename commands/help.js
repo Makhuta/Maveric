@@ -58,7 +58,7 @@ function withargs(hodnoty) {
         //console.log(user_command_language_description_and_usage)
         var embed = new Discord.MessageEmbed()
             .setAuthor(user_language.AUTHOR.replace("&COMMAND_NAME", command.help.name))
-            .addFields({ name: user_language.FIELDS[0].NAME, value: user_command_language_description_and_usage.DESCRIPTION.replace("&PREFIX", hodnoty.prefix).replace("&BOTUSERNAME", bot.user.username) }, { name: user_language.FIELDS[1].NAME, value: user_command_language_description_and_usage.USAGE.replace("&PREFIX", hodnoty.prefix) }, { name: user_language.FIELDS[2].NAME, value: command.help.accessableby.join(", ") }, { name: user_language.FIELDS[3].NAME, value: command.help.aliases })
+            .addFields({ name: user_language.FIELDS[0].NAME, value: user_command_language_description_and_usage.DESCRIPTION.replace("&PREFIX", hodnoty.prefix).replace("&BOTUSERNAME", bot.user.username) || user_language.NO_DESCRIPTION }, { name: user_language.FIELDS[1].NAME, value: user_command_language_description_and_usage.USAGE.replace("&PREFIX", hodnoty.prefix) || user_language.NO_USAGE }, { name: user_language.FIELDS[2].NAME, value: command.help.accessableby.join(", ") }, { name: user_language.FIELDS[3].NAME, value: command.help.aliases })
             .setColor(color.lime)
 
         let hodnotyout = ({ zprava: embed, roomname: hodnoty.botconfig.find(config => config.name == response).value, message: message })

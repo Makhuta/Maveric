@@ -35,7 +35,9 @@
                 "NAME": "**Alias příkazu**",
                 "VALUE": "&COMMAND_ALIAS"
             }
-        ]
+        ],
+        "NO_ALIAS":"Příkaz nemá žádný alias.",
+        "NO_DESCRIPTION": "Příkaz nemá žádny popis."
     },
     "USAGE": "&PREFIXhelp [příkaz]",
     "DESCRIPTION": "Vypíše všechny potřebné informace."
