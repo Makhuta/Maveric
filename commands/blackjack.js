@@ -165,6 +165,7 @@ module.exports.run = async(message, args, botconfig, user_lang_role) => {
             let sql
             var xp = rows[0].xp
             var level = rows[0].level
+            var tier = rows[0].tier
             var lastmsg = rows[0].last_coinflip
             var resallxp = allxp(level, xp)
 
@@ -240,7 +241,7 @@ module.exports.run = async(message, args, botconfig, user_lang_role) => {
 
             if (result != undefined) {
                 if (result == "WIN") {
-                    let win_xp = xp + Math.ceil(player_game.sazka / 10)
+                    let win_xp = xp + Math.ceil(((player_game.sazka / 100) * 50) * (1 + (tier / 10)))
 
                     let hodnoty_out = ({ type: "rankup", level: level, xp: win_xp, sql: sql, user: message.author, con: con })
                     signpost.run(hodnoty_out)

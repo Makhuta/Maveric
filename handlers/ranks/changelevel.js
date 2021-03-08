@@ -32,7 +32,7 @@ module.exports = {
                     hodnoty.level--;
                     hodnoty.xpToNextLevel = 5 * Math.pow(hodnoty.level, 2) + 50 * hodnoty.level + 100
                     hodnoty.xp = hodnoty.xp + hodnoty.xpToNextLevel
-                } else if (hodnoty.level = 0 && hodnoty.xp < -100) {
+                } else if (hodnoty.level = 0 && hodnoty.xp <= -100) {
                     hodnoty.xp = 0;
                     hodnoty.sql = `UPDATE userstats SET xp = ${hodnoty.xp} WHERE id = '${hodnoty.user.id}'`;
                     hodnoty.con.query(hodnoty.sql)
