@@ -15,7 +15,8 @@ function addxp(targetid, targetusername, numofxp, message, target, user_language
             let sql
             var xp = rows[0].xp
             var level = rows[0].level
-            xp += numofxp
+            var tier = rows[0].tier
+            xp += (numofxp * (1 + (tier / 10)))
             var xpToNextLevel = 5 * Math.pow(level, 2) + 50 * level + 100
             let hodnoty = ({ type: "rankup", sql: sql, con: con, user: target, level: level, xpToNextLevel: xpToNextLevel, xp: xp, message: message })
             signpost.run(hodnoty)
