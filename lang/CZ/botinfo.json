@@ -1,0 +1,9 @@
+{
+    "INFO": "Informace",
+    "BOT_USERNAME": "**Jméno bota**",
+    "BOT_CREATOR": "**Bota vytvořil**",
+    "BOT_FUNC": "**Účel bota**",
+    "BOT_FUNC_TEXT": "&BOTUSERNAME byl vytvořen na základě snížení náročnosti na správu &SERVERNAME serveru a zajistit snazší interakci uživatelů se serverem.",
+    "USAGE": "&PREFIXbotinfo",
+    "DESCRIPTION": "Vypíše informace o &BOTUSERNAMEovi."
+}

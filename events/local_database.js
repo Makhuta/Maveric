@@ -1,28 +1,27 @@
-const { bot, con } = require('../bot');
+require("module-alias/register");
+require("dotenv").config();
+const { bot, pool } = require('@src/bot');
 
 
 function get_data() {
-    con.query(`SELECT * FROM userstats`, async(err, rows) => {
-        if (err) throw err
+    pool.getConnection(async function(err, con) {
+        if (err) throw err;
+        con.query(`SELECT * FROM userstats`, async(err, rows) => {
+            if (err) throw err
+            require("@handlers/userstats_to_map")(rows)
+
+            //module.exports.database.rows = rows
+        })
+
+        con.query(`SELECT * FROM youtubers`, async(err, rows) => {
+            if (err) throw err
+            rows.forEach(row => {
+                module.exports.youtubers.set(row.name, { name: row.name, channel_name: row.channel_name, channel_url: row.channel_url })
+            });
 
 
-        module.exports.database.rows = rows
-    })
-
-    con.query(`SELECT * FROM passwords`, async(err, rows) => {
-        if (err) throw err
-
-
-
-        module.exports.passwords.rows = rows
-    })
-
-    con.query(`SELECT * FROM youtubers`, async(err, rows) => {
-        if (err) throw err
-
-
-
-        module.exports.youtubers.rows = rows
+            //module.exports.youtubers.rows = rows
+        })
     })
 }
 
@@ -37,13 +36,6 @@ bot.on("ready", () => {
 
 
 module.exports = {
-    database: {
-        rows: ""
-    },
-    passwords: {
-        rows: ""
-    },
-    youtubers: {
-        rows: ""
-    }
+    database: new Map(),
+    youtubers: new Map()
 }

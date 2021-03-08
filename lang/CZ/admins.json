@@ -1,0 +1,6 @@
+{
+    "NO_ROLE": "Žádná role s názvem &ROLENAME",
+    "NO_MEMBER": "Žádný člen role",
+    "USAGE": "&PREFIXadmins",
+    "DESCRIPTION": "Vypíše seznam členů Admin teamu."
+}

@@ -1,2 +1,0 @@
-# NSBR-BOT
-NSBR BOT

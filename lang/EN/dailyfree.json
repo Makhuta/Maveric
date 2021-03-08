@@ -1,0 +1,6 @@
+{
+    "ALREADY_WITHDRAWED": "Dnešní free XP sis již vybral.\nDalší odměnu si můžeš vybrat za &HODINYh a &MINUTYm.",
+    "WITHDRAW": "Právě sis vybral svou denní odměnu o hodnotě &REWARD XP",
+    "USAGE": "&PREFIXdailyfree",
+    "DESCRIPTION": "Přidá denní odměnu XP."
+}

@@ -1,0 +1,6 @@
+{
+    "HAS_BEEN_CREATED": "Tvá Room byla vytvořena pod názvem: &NAME_OF_CHANNEL EN",
+    "ALREADY_HAVE_ROOM": "&USERNAME již máš svou Room. EN",
+    "USAGE": "&PREFIXcreateroom",
+    "DESCRIPTION": "Vytvoří vlastní soukromou room. EN"
+}

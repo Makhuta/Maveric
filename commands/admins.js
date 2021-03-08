@@ -1,46 +1,39 @@
+require("module-alias/register");
+require("dotenv").config();
 const Discord = require("discord.js");
-const bot = require("../bot");
-const { prefix } = require("../botconfig.json")
-const adminroles = require("../botconfig/adminroles.json")
-const color = require("../colorpaletes/colors.json")
-const adminsoutput = require("../handlers/admins/adminsoutput")
+const adminroles = require("@configs/adminroles.json")
+const color = require("@colorpaletes/colors.json")
 
 const name = "admins"
-const description = `Vypíše seznam členů Admin teamu.`
-const usage = `${prefix}admins`
 const accessableby = ["Member"]
 const aliases = ["at"]
+const response = "COMMAND_ROOM_NAME"
 
-module.exports.run = async (message) => {
-    let hodnoty = ({ discord: Discord, adminlist: adminroles, color: color, message: message })
-    adminsoutput.run(hodnoty)
-
-    /*const numofroles = botconfig.admins_roles.length
+module.exports.run = async(message, args, botconfig, user_lang_role) => {
+    let user_language = require("@events/language_load").languages.get(user_lang_role).get("ADMINS")
     const rolesid = []
-    for (r = 0; r < numofroles; r++) {
-        rolesid.push(message.guild.roles.cache.find(rla => rla.name === botconfig.admins_roles[r]).id)
-    }
-    const rolesname = botconfig.admins_roles
+
+    adminroles.forEach(role => {
+        rolesid.push(message.guild.roles.cache.find(rla => rla.name === role).id)
+    });
 
     function listofat(embed) {
-        for (var i = 0; i < numofroles; i++) {
-            const role = rolesname[i].toString()
+        adminroles.forEach((role, i) => {
             const usernames = message.guild.roles.cache.get(rolesid[i]).members.map(m => m.user.tag).join('\n').toString()
-            embed.addFields({ name: role || `Žádná role s názvem ${rolesname[i]}`, value: usernames || 'Žádný člen role', inline: true })
-        }
+            embed.addFields({ name: role || user_language.NO_ROLE.replace("&ROLENAME", role), value: usernames || user_language.NO_MEMBER, inline: true })
+        })
     }
 
     var embed = new Discord.MessageEmbed()
         .setColor(color.red)
     listofat(embed)
-    message.channel.send(embed)
-*/
+    let hodnotyout = ({ zprava: embed, roomname: botconfig.find(config => config.name == response).value, message: message })
+    require("@handlers/find_channel_by_name").run(hodnotyout)
+
 }
 
 module.exports.help = {
     name: name,
-    description: description,
-    usage: usage,
     accessableby: accessableby,
     aliases: aliases
 }

@@ -1,10 +1,14 @@
-const { bot } = require('../bot');
-const botconfig = require("../botconfig.json");
-const roomids = require("../botconfig/roomids.json")
+//Must be on the top of every code for accessing folders more easilly
+require("module-alias/register");
+require("dotenv").config();
+
+
+
+const { bot } = require('@src/bot');
 
 
 const updateMembers = guild => {
-    const channel = guild.channels.cache.get(roomids.membercountid)
+    const channel = guild.channels.cache.filter(chan => chan.name.split(" ")[0] == "Members:").first()
     const numofallmemb = guild.memberCount.toLocaleString()
     const numofallbots = guild.members.cache.filter(m => m.user.bot).size
     const numofallmembnobots = (numofallmemb - numofallbots).toLocaleString()
@@ -12,7 +16,7 @@ const updateMembers = guild => {
 }
 
 bot.on('ready', () => {
-    const guild = bot.guilds.cache.get(botconfig.guildid)
+    let guild = bot.guilds.cache.first();
     updateMembers(guild)
 
     setInterval(() => {

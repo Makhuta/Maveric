@@ -1,0 +1,13 @@
+{
+    "NOT_NUMBER": "The bet is not a number or is entered incorrectly.",
+    "TOO_LOW": "The bet must be at least 100.",
+    "TOO_HIGH": "The bet can be a maximum of 5000.",
+    "LOW_CARD_VALUE": "The minimum value of cards for stand is 15.",
+    "YOUR_HAND": "Your hand",
+    "DEALER_HAND": "Dealers hand",
+    "BET": "Bet",
+    "PROFIT": "Profit",
+    "NOT_ENOUGH_XP": "You don't have enough XP.",
+    "USAGE": "&PREFIXblackjack [sázka (100 - 5000) xp] EN",
+    "DESCRIPTION": "Spustí BlackJack. EN"
+}

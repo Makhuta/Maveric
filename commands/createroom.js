@@ -1,37 +1,31 @@
-const { prefix } = require("../botconfig.json")
-const find_channel_by_name = require("../handlers/channelfinder/find_channel_by_name")
-
 const name = "createroom"
-const description = "Vytvoří vlastní soukromou room."
-const usage = `${prefix}createroom`
 const accessableby = ["Extra V.I.P."]
 const aliases = ["cr"]
 
-function zprava(user, type, nameofchannel) {
-    let zprava = [`Tvá Room byla vytvořena pod názvem: ${nameofchannel}`, `${user.username} již máš svou Room.`]
+function zprava(user, type, nameofchannel, user_language, botconfig) {
+    let zprava = [user_language.HAS_BEEN_CREATED.replace("&NAME_OF_CHANNEL", nameofchannel), user_language.ALREADY_HAVE_ROOM.replace("&USERNAME", user.username)]
     user.send(zprava[type])
 }
 
-module.exports.run = async (message) => {
+module.exports.run = async(message, args, botconfig, user_lang_role) => {
     const guild = message.guild
     const name = `VIP ${message.author.username}`
+    let user_language = require("@events/language_load").languages.get(user_lang_role).get("CREATEROOM")
 
     const channel = guild.channels.cache.find(n => n.name === name)
 
     if (channel == undefined) {
         guild.channels.create(name, {
-            type: "voice"
-        })
+                type: "voice"
+            })
             .then(async channel => {
                 let category = guild.channels.cache.find(c => c.name == "VIP Rooms" && c.type == "category").id;
                 await channel.setParent(category)
                 await channel.updateOverwrite(message.author, { VIEW_CHANNEL: true })
             })
-        zprava(message.author, 0, name)
-    }
-
-    else {
-        zprava(message.author, 1)
+        zprava(message.author, 0, name, user_language, botconfig)
+    } else {
+        zprava(message.author, 1, "", user_language, botconfig)
         return
     }
 
@@ -39,8 +33,6 @@ module.exports.run = async (message) => {
 
 module.exports.help = {
     name: name,
-    description: description,
-    usage: usage,
     accessableby: accessableby,
     aliases: aliases
 }

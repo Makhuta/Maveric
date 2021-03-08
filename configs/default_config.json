@@ -1,0 +1,26 @@
+[
+    {
+        "name": "PREFIX",
+        "value": "!"
+    },
+    {
+        "name": "GAME_ROOM_NAME",
+        "value": "minigames"
+    },
+    {
+        "name": "COMMAND_ROOM_NAME",
+        "value": "bot-command"
+    },
+    {
+        "name": "GATEROOM",
+        "value": "nsbr-gate"
+    },
+    {
+        "name": "CREATOR_USERNAME",
+        "value": "Makhuta"
+    },
+    {
+        "name": "CREATOR_YT_CHANNEL",
+        "value": "https://www.youtube.com/channel/UCWCvP0wzCg9hXmcyDiTmT2Q"
+    }
+]

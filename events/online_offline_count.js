@@ -1,28 +1,32 @@
-const { bot } = require('../bot');
-const botconfig = require("../botconfig.json");
-const roomids = require("../botconfig/roomids.json");
+//Must be on the top of every code for accessing folders more easilly
+require("module-alias/register");
+require("dotenv").config();
+
+
+
+const { bot } = require('@src/bot');
 
 
 async function updateMembers (guild) {
-    const onlinechannel = guild.channels.cache.get(roomids.onlinecountid)
-    const offlinechannel = guild.channels.cache.get(roomids.offlinecountid)
+    const onlinechannel = guild.channels.cache.filter(chan => chan.name.split(" ")[0] == "Online:").first()
+    const offlinechannel = guild.channels.cache.filter(chan => chan.name.split(" ")[0] == "Offline:").first()
 
-    const onlinebots = guild.members.cache.filter(m => m.presence.status != 'offline' && m.user.bot).size
-    const offlinebots = guild.members.cache.filter(m => m.presence.status == 'offline' && m.user.bot).size
-    const allbots = onlinebots + offlinebots
+    const online = guild.members.cache.filter(m => m.presence.status != 'offline' && !m.user.bot).size
+    const offline = guild.members.cache.filter(m => m.presence.status == 'offline' && !m.user.bot).size
+    /*const allbots = onlinebots + offlinebots
     const online = guild.members.cache.filter(m => m.presence.status != 'offline').size
     const offline = guild.members.cache.filter(m => m.presence.status == 'offline').size
     const member_count = guild.memberCount - allbots
 
     const offlinecount = member_count - online
-    const onlinecount = member_count - offline
+    const onlinecount = member_count - offline*/
 
-    onlinechannel.setName('Online: ' + onlinecount)
-    offlinechannel.setName('Offline: ' + offlinecount)
+    onlinechannel.setName('Online: ' + online)
+    offlinechannel.setName('Offline: ' + offline)
 }
 
 bot.on('ready', () => {
-    const guild = bot.guilds.cache.get(botconfig.guildid)
+    const guild = bot.guilds.cache.first();
     updateMembers(guild)
 
     setInterval(() => {

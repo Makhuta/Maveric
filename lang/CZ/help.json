@@ -1,0 +1,42 @@
+{
+    "noargs": {
+        "AUTHOR": "Seznam použitelných příkazů:",
+        "FIELDS": [
+            {
+                "NAME": "Prefix",
+                "VALUE": "&PREFIX"
+            },
+            {
+                "NAME": "Konkrétní příkazy",
+                "VALUE": "Pro info ke konkrétním příkazům použijte příkaz &PREFIXhelp [název příkazu]"
+            },
+            {
+                "NAME": "Dotazy",
+                "VALUE": "Pro konkrétnější dotazy se obraťte na Admin team.\nPro seznam Admin teamu použijte příkaz &PREFIXadmins"
+            }
+        ]
+    },
+    "withargs": {
+        "AUTHOR": "Příkaz &COMMAND_NAME",
+        "FIELDS": [
+            {
+                "NAME": "**Popis příkazu**",
+                "VALUE": "&COMMAND_DESCRIPTION"
+            },
+            {
+                "NAME": "**Použití příkazu**",
+                "VALUE": "&COMMAND_USAGE"
+            },
+            {
+                "NAME": "**Permise pro příkaz**",
+                "VALUE": "&COMMAND_PERMISSIONS"
+            },
+            {
+                "NAME": "**Alias příkazu**",
+                "VALUE": "&COMMAND_ALIAS"
+            }
+        ]
+    },
+    "USAGE": "&PREFIXhelp [příkaz]",
+    "DESCRIPTION": "Vypíše všechny potřebné informace."
+}

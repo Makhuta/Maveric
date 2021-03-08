@@ -1,21 +1,18 @@
+require("module-alias/register");
+require("dotenv").config();
 const moment = require("moment")
-const { con } = require("../bot")
-const { prefix } = require("../botconfig.json")
-const svatky = require("../botconfig/svatky.json")
-const time_words = require("../botconfig/time_words.json")
-const signpost = require("../handlers/ranks/signpost")
-const find_channel_by_name = require("../handlers/channelfinder/find_channel_by_name")
+const { con } = require("@src/bot")
+const svatky = require("@configs/svatky.json")
+const signpost = require("@handlers/ranks/signpost")
 
 const name = "holiday"
-const description = "V případě že v den použití příkazu je nějaký svátek tak vám připíše přednastavený počet XP pro každý svátek."
-const usage = prefix + name
 const accessableby = ["Member"]
 const aliases = ["hl"]
 
-function zprava(typ, svatek_nazev, zpusob, target, reward) {
+function zprava(typ, svatek_nazev, zpusob, target, reward, user_language) {
     let vystup_zprava = [
-        ["Dnes není žádný svátek."],
-        [`Dnes jsou Velikonoce.`, `Dnes je ${svatek_nazev}, bylo ti přičteno ${reward} XP`, `Dnes jsou ${svatek_nazev}, bylo ti přičteno ${reward} XP`]
+        [user_language.NOT_HOLIDAY],
+        [user_language.EASTER, user_language.DNES_JE.replace("&SVATEK_NAZEV", svatek_nazev).replace("&REVARD", reward), user_language.DNES_JSOU.replace("&SVATEK_NAZEV", svatek_nazev).replace("&REVARD", reward)]
     ]
     target.send(vystup_zprava[typ][zpusob])
 }
@@ -39,7 +36,8 @@ function getEaster(year) {
     return [month, day];
 }
 
-module.exports.run = async (message, args) => {
+module.exports.run = async(message, args, botconfig, user_lang_role) => {
+    let user_language = require("@events/language_load").languages.get(user_lang_role).get("HOLIDAY")
     let message_author = message.author
     let datum = new Date
     let datum_moment = moment()
@@ -88,14 +86,14 @@ module.exports.run = async (message, args) => {
                     reward = hodnota_svatku
 
                     //console.log(`${hodiny}:${minuty}`)
-                    if (Date.now() < last_claim) return (target.send(`Dnešní svátkové XP sis již vybral.\nDalší odměnu si můžeš vybrat za ${za_x_hodin} ${time_words.hodiny[za_x_hodin]} a ${za_x_minut} ${time_words.minuty[za_x_minut]}.`))
+                    if (Date.now() < last_claim) return (target.send(user_language.ALREADY_WITHDRAWED.replace("&ZA_XP_HODIN", za_x_hodin).replace("&ZA_XP_MINUT", za_x_minut)))
                     xp += reward
                     let hodnoty = ({ type: "rankup", sql: sql, con: con, user: target, level: level, xpToNextLevel: xpToNextLevel, xp: xp, message: message })
                     signpost.run(hodnoty)
                     sql = `UPDATE userstats SET last_hl = ${cas} WHERE id = '${message_author.id}'`;
                     con.query(sql)
 
-                    zprava(typ, svatek_nazev, zpusob, message_author, reward)
+                    zprava(typ, svatek_nazev, zpusob, message_author, reward, user_language)
                     return
                 })
             }
@@ -106,15 +104,13 @@ module.exports.run = async (message, args) => {
     if (!is_holliday) {
         let typ = 0
         let zpusob = 0
-        zprava(typ, "", zpusob, message_author)
+        zprava(typ, "", zpusob, message_author, "", user_language)
         return
     }
 }
 
 module.exports.help = {
     name: name,
-    description: description,
-    usage: usage,
     accessableby: accessableby,
     aliases: aliases
 }

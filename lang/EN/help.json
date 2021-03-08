@@ -1,0 +1,42 @@
+{
+    "noargs": {
+        "AUTHOR": "List of usable commands:",
+        "FIELDS": [
+            {
+                "NAME": "Prefix",
+                "VALUE": "&PREFIX"
+            },
+            {
+                "NAME": "Specific commands",
+                "VALUE": "For info on specific commands use the command &PREFIXhelp [command name]"
+            },
+            {
+                "NAME": "Questions",
+                "VALUE": "For more specific questions, contact the Admin team.\nUse the &PREFIXadmins command for the Admin team list"
+            }
+        ]
+    },
+    "withargs": {
+        "AUTHOR": "Příkaz &COMMAND_NAME",
+        "FIELDS": [
+            {
+                "NAME": "**Popis příkazu**",
+                "VALUE": "&COMMAND_DESCRIPTION"
+            },
+            {
+                "NAME": "**Použití příkazu**",
+                "VALUE": "&COMMAND_USAGE"
+            },
+            {
+                "NAME": "**Permise pro příkaz**",
+                "VALUE": "&COMMAND_PERMISSIONS"
+            },
+            {
+                "NAME": "**Alias příkazu**",
+                "VALUE": "&COMMAND_ALIAS"
+            }
+        ]
+    },
+    "USAGE": "&PREFIXhelp [command]",
+    "DESCRIPTION": "Vypíše všechny potřebné informace. EN"
+}

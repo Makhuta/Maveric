@@ -1,35 +1,34 @@
-const { prefix } = require("../botconfig.json")
+require("module-alias/register");
+require("dotenv").config();
 const random = require('random')
-const find_channel_by_name = require("../handlers/channelfinder/find_channel_by_name")
 
 const name = "random"
-const description = "Příkaz pošle zprávu s náhodným číslem/čísly na základě zadaných parametrů."
-const usage = `${prefix}random [minimum] [maximum] [počet čísel (výchozí počet = 1)]`
 const accessableby = ["Member"]
 const aliases = ["r"]
+const response = "COMMAND_ROOM_NAME";
 
 
-
-function zprava(typ, random_numbers, minimum, maximum) {
+function zprava(botconfig, message, user_language, typ, random_numbers, minimum, maximum) {
     let error_messages = [
-        "Zadej hodnoty potřebné pro příkaz.",
-        "Nemáš zadané minimum.",
-        "Nemáš zadané maximum.",
-        "Zadané minimum není číslo.",
-        "Zadané maximum není číslo.",
-        "Minimum nesmí být stejné jako maximum.",
-        "Maximum musí být větší než minimum.",
-        `Náhodné číslo z ${minimum} až ${maximum} je: ${random_numbers}`,
-        `Náhodné čísla z ${minimum} až ${maximum} jsou: ${random_numbers}`
+        user_language.NO_ARGS,
+        user_language.NO_MIN,
+        user_language.NO_MAX,
+        user_language.MIN_IN_NOT_NUMBER,
+        user_language.MAX_IN_NOT_NUMBER,
+        user_language.MIN_CANT_EQUAL_MAX,
+        user_language.MAX_HUGHER_THAN_MIN,
+        user_language.ONE_RANDOM.replace("&MINIMUM", minimum).replace("&MAXIMUM", maximum).replace("&RANDOM_NUMBERS", random_numbers),
+        user_language.MULTIPLE_RANDOM.replace("&MINIMUM", minimum).replace("&MAXIMUM", maximum).replace("&RANDOM_NUMBERS", random_numbers)
     ]
-
-    let hodnotyout = ({ zprava: error_messages[typ], roomname: require("../botconfig/roomnames.json").botcommand })
-    find_channel_by_name.run(hodnotyout)
+    
+    let hodnotyout = ({ zprava: error_messages[typ], roomname: botconfig.find(config => config.name == response).value, message: message })
+    require("@handlers/find_channel_by_name").run(hodnotyout)
 }
 
 function isNumber(n) { return /^-?[\d.]+(?:e-?\d+)?$/.test(n); }
 
-module.exports.run = async (message, args) => {
+module.exports.run = async(message, args, botconfig, user_lang_role) => {
+    let user_language = require("@events/language_load").languages.get(user_lang_role).get("RANDOM")
     let args_length = args.length
     let minimum = parseInt(args[0])
     let maximum = parseInt(args[1])
@@ -39,43 +38,43 @@ module.exports.run = async (message, args) => {
 
     if (args_length == 0) {
         let typ = 0
-        zprava(typ)
+        zprava(botconfig, message, user_language, typ)
         return
     }
 
     if (minimum == NaN) {
         let typ = 1
-        zprava(typ)
+        zprava(botconfig, message, user_language, typ)
         return
     }
 
     if (maximum == NaN) {
         let typ = 2
-        zprava(typ)
+        zprava(botconfig, message, user_language, typ)
         return
     }
 
     if (!isNumber(minimum)) {
         let typ = 3
-        zprava(typ)
+        zprava(botconfig, message, user_language, typ)
         return
     }
 
     if (!isNumber(maximum)) {
         let typ = 4
-        zprava(typ)
+        zprava(botconfig, message, user_language, typ)
         return
     }
 
     if (minimum == maximum) {
         let typ = 5
-        zprava(typ)
+        zprava(botconfig, message, user_language, typ)
         return
     }
 
     if (minimum > maximum) {
         let typ = 6
-        zprava(typ)
+        zprava(botconfig, message, user_language, typ)
         return
     }
 
@@ -87,10 +86,8 @@ module.exports.run = async (message, args) => {
         let cisla_string = random_numbers.join(", ")
 
         let typ = 7
-        zprava(typ, cisla_string, minimum, maximum)
-    }
-
-    else {
+        zprava(botconfig, message, user_language, typ, cisla_string, minimum, maximum)
+    } else {
         for (cisla = 0; cisla < počet; cisla++) {
             random_numbers.push(random.int(minimum, maximum))
         }
@@ -98,14 +95,12 @@ module.exports.run = async (message, args) => {
         let cisla_string = random_numbers.join(", ")
 
         let typ = 8
-        zprava(typ, cisla_string, minimum, maximum)
+        zprava(botconfig, message, user_language, typ, cisla_string, minimum, maximum)
     }
 }
 
 module.exports.help = {
     name: name,
-    description: description,
-    usage: usage,
     accessableby: accessableby,
     aliases: aliases
 }

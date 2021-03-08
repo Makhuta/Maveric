@@ -1,9 +1,10 @@
-const { prefix } = require("../botconfig.json")
-const all_karts = require("../botconfig/blackjack.json")
+require("module-alias/register");
+require("dotenv").config();
+const all_karts = require("@configs/blackjack.json")
 const random = require("random")
 const Discord = require("discord.js")
-const { con } = require("../bot")
-const signpost = require("../handlers/ranks/signpost")
+const { pool } = require("@src/bot")
+const signpost = require("@handlers/ranks/signpost")
 
 const reducer = (accumulator, currentValue) => accumulator + currentValue;
 
@@ -11,10 +12,9 @@ const blackjack_guild_map = new Map();
 const blackjack_game_map = new Map();
 
 const name = "blackjack"
-const description = "Spustí BlackJack."
-const usage = prefix + name
 const accessableby = ["Member"]
 const aliases = ["bj", "hit", "stand"]
+const response = "GAME_ROOM_NAME";
 
 function isNumber(n) { return /^-?[\d.]+(?:e-?\d+)?$/.test(n); }
 
@@ -158,120 +158,120 @@ function winner_decider(user_language, player_game, is_over_max) {
     return result
 }
 
-module.exports.run = async(message, args) => {
-    con.query(`SELECT * FROM userstats WHERE id = '${message.author.id}'`, async function(err, rows) {
-        let sql
-        var xp = rows[0].xp
-        var level = rows[0].level
-        var lastmsg = rows[0].last_coinflip
-        var resallxp = allxp(level, xp)
+module.exports.run = async(message, args, botconfig, user_lang_role) => {
+    pool.getConnection(async function(err, con) {
+        if (err) throw err;
+        con.query(`SELECT * FROM userstats WHERE id = '${message.author.id}'`, async function(err, rows) {
+            let sql
+            var xp = rows[0].xp
+            var level = rows[0].level
+            var lastmsg = rows[0].last_coinflip
+            var resallxp = allxp(level, xp)
 
-        let triggerer = message.content.split(" ")[0].toLowerCase().slice(require("../botconfig.json").prefix.length);
-        let sazka = args[0];
-        let result;
-        let user_lang_role = await require("../handlers/check_user_role/check_user_for_role_language").run({ message: message })
-        let user_language = await require("../events/language_load").languages.find(l => l.NAME == user_lang_role).ARRAY.BLACKJACK
+            let triggerer = message.content.split(" ")[0].toLowerCase().slice(botconfig.filter(config => config.name == "PREFIX")[0].value.length);
+            let sazka = args[0];
+            let result;
+            let user_language = await require("@events/language_load").languages.get(user_lang_role).get("BLACKJACK")
 
-        if (!isNumber(sazka) && (triggerer == "blackjack" || triggerer == "bj")) return await require("../handlers/channelfinder/find_channel_by_name").run({ zprava: user_language.NOT_NUMBER, roomname: require("../botconfig/roomnames.json").botcommand });
+            if (!isNumber(sazka) && (triggerer == "blackjack" || triggerer == "bj")) return await require("@handlers/find_channel_by_name").run({ zprava: user_language.NOT_NUMBER, roomname: botconfig.find(config => config.name == response).value, message: message });
 
-        if (resallxp < sazka) return require("../handlers/channelfinder/find_channel_by_name").run({ zprava: user_language.NOT_ENOUGH_XP, roomname: require("../botconfig/roomnames.json").botcommand });
+            if (resallxp < sazka) return require("@handlers/find_channel_by_name").run({ zprava: user_language.NOT_ENOUGH_XP, roomname: botconfig.find(config => config.name == response).value, message: message });
 
-        if (sazka < 100) return require("../handlers/channelfinder/find_channel_by_name").run({ zprava: user_language.TOO_LOW, roomname: require("../botconfig/roomnames.json").botcommand });
+            if (sazka < 100) return require("@handlers/find_channel_by_name").run({ zprava: user_language.TOO_LOW, roomname: botconfig.find(config => config.name == response).value, message: message });
 
-        if (sazka > 5000) return require("../handlers/channelfinder/find_channel_by_name").run({ zprava: user_language.TOO_HIGH, roomname: require("../botconfig/roomnames.json").botcommand });
+            if (sazka > 5000) return require("@handlers/find_channel_by_name").run({ zprava: user_language.TOO_HIGH, roomname: botconfig.find(config => config.name == response).value, message: message });
 
-        let guild_id = message.channel.guild.id;
-        let author = message.author;
-        let player_id = author.id;
+            let guild_id = message.channel.guild.id;
+            let author = message.author;
+            let player_id = author.id;
 
-        let game_variables = { username: author.username + "#" + author.discriminator, cards: { card: [], values: [] }, bot_cards: { card: [], values: [] }, sazka: args[0], pending: false, message: "" };
+            let game_variables = { username: author.username + "#" + author.discriminator, cards: { card: [], values: [] }, bot_cards: { card: [], values: [] }, sazka: args[0], pending: false, message: "" };
 
-        let guild_map = blackjack_guild_map.get(guild_id);
+            let guild_map = blackjack_guild_map.get(guild_id);
 
-        if (!guild_map) {
-            blackjack_guild_map.set(guild_id, blackjack_game_map)
-            guild_map = blackjack_guild_map.get(guild_id);
-        }
+            if (!guild_map) {
+                blackjack_guild_map.set(guild_id, blackjack_game_map)
+                guild_map = blackjack_guild_map.get(guild_id);
+            }
 
-        let player_game = guild_map.get(player_id);
+            let player_game = guild_map.get(player_id);
 
-        if (!player_game) {
-            guild_map.set(player_id, game_variables)
-            player_game = guild_map.get(player_id);
-        }
+            if (!player_game) {
+                guild_map.set(player_id, game_variables)
+                player_game = guild_map.get(player_id);
+            }
 
-        if ((triggerer == "blackjack" || triggerer == "bj") && !player_game.pending) {
-            generate_cards_to_player(player_game.cards);
-            generate_cards_to_player(player_game.cards);
-            player_game.pending = true;
+            if ((triggerer == "blackjack" || triggerer == "bj") && !player_game.pending) {
+                generate_cards_to_player(player_game.cards);
+                generate_cards_to_player(player_game.cards);
+                player_game.pending = true;
 
-            var embed = new Discord.MessageEmbed()
-            embed_message_game(embed, user_language, player_game)
-            let zprava = await require("../handlers/channelfinder/find_channel_by_name").run({ zprava: embed, roomname: require("../botconfig/roomnames.json").botcommand });
-            player_game.message = zprava;
-            //console.log(zprava)
-        } else if (triggerer == "hit" && player_game.pending) {
-            generate_cards_to_player(player_game.cards);
-            var embed = new Discord.MessageEmbed();
-            embed_message_game(embed, user_language, player_game);
-            player_game.message.edit(embed);
-        } else if (triggerer == "stand" && player_game.pending) {
-            if (player_game.cards.values.reduce(reducer) > 15) {
+                var embed = new Discord.MessageEmbed()
+                embed_message_game(embed, user_language, player_game)
+                let zprava = await require("@handlers/find_channel_by_name").run({ zprava: embed, roomname: botconfig.find(config => config.name == response).value, message: message });
+                player_game.message = zprava;
+                //console.log(zprava)
+            } else if (triggerer == "hit" && player_game.pending) {
+                generate_cards_to_player(player_game.cards);
+                var embed = new Discord.MessageEmbed();
+                embed_message_game(embed, user_language, player_game);
+                player_game.message.edit(embed);
+            } else if (triggerer == "stand" && player_game.pending) {
+                if (player_game.cards.values.reduce(reducer) > 15) {
+                    let is_over_max = { player: false, bot: false };
+                    //console.log("Stand")
+
+                    bot_play(player_game);
+                    if (player_game.bot_cards.values.reduce(reducer) > 21 && player_game.bot_cards.values != [11, 11]) is_over_max.bot = true;
+
+                    result = winner_decider(user_language, player_game, is_over_max)
+                } else return require("@handlers/find_channel_by_name").run({ zprava: user_language.LOW_CARD_VALUE, roomname: botconfig.find(config => config.name == response).value, message: message });
+            }
+
+            if (player_game.cards.values.reduce(reducer) >= 21 || player_game.cards.values == [11, 11]) {
                 let is_over_max = { player: false, bot: false };
-                //console.log("Stand")
-
                 bot_play(player_game);
+                if (player_game.cards.values.reduce(reducer) > 21 && player_game.cards.values != [11, 11]) is_over_max.player = true;
                 if (player_game.bot_cards.values.reduce(reducer) > 21 && player_game.bot_cards.values != [11, 11]) is_over_max.bot = true;
+                //console.log(is_over_max)
 
                 result = winner_decider(user_language, player_game, is_over_max)
-            } else return require("../handlers/channelfinder/find_channel_by_name").run({ zprava: user_language.LOW_CARD_VALUE, roomname: require("../botconfig/roomnames.json").botcommand });
-        }
-
-        if (player_game.cards.values.reduce(reducer) >= 21 || player_game.cards.values == [11, 11]) {
-            let is_over_max = { player: false, bot: false };
-            bot_play(player_game);
-            if (player_game.cards.values.reduce(reducer) > 21 && player_game.cards.values != [11, 11]) is_over_max.player = true;
-            if (player_game.bot_cards.values.reduce(reducer) > 21 && player_game.bot_cards.values != [11, 11]) is_over_max.bot = true;
-            //console.log(is_over_max)
-
-            result = winner_decider(user_language, player_game, is_over_max)
-        }
-
-        if (result != undefined) {
-            if (result == "WIN") {
-                let win_xp = xp + Math.ceil(player_game.sazka / 10)
-
-                let hodnoty_out = ({ type: "rankup", level: level, xp: win_xp, sql: sql, user: message.author, con: con })
-                signpost.run(hodnoty_out)
-                //console.log(hodnoty_out)
-
-            } else if (result == "TIE") {
-
-            } else if (result == "LOSE") {
-                let lose_xp = xp + player_game.sazka //Sazku jsem drive změnil na opačnou
-
-
-                let hodnoty_out = ({ type: "rankdown", level: level, xp: lose_xp, sql: sql, user: message.author, con: con })
-                signpost.run(hodnoty_out)
-                //console.log(hodnoty_out)
-            } else {
-                //console.log("BLACKJACK RESULT ERROR");
-                //console.log(result)
             }
-            //console.log(result)
-            guild_map.delete(player_id);
-        }
-        //console.log(guild_map);
-        //console.log(author)
 
-        //message.channel.send("BlackJack Test");
+            if (result != undefined) {
+                if (result == "WIN") {
+                    let win_xp = xp + Math.ceil(player_game.sazka / 10)
+
+                    let hodnoty_out = ({ type: "rankup", level: level, xp: win_xp, sql: sql, user: message.author, con: con })
+                    signpost.run(hodnoty_out)
+                        //console.log(hodnoty_out)
+
+                } else if (result == "TIE") {
+
+                } else if (result == "LOSE") {
+                    let lose_xp = xp + player_game.sazka //Sazku jsem drive změnil na opačnou
+
+
+                    let hodnoty_out = ({ type: "rankdown", level: level, xp: lose_xp, sql: sql, user: message.author, con: con })
+                    signpost.run(hodnoty_out)
+                        //console.log(hodnoty_out)
+                } else {
+                    //console.log("BLACKJACK RESULT ERROR");
+                    //console.log(result)
+                }
+                //console.log(result)
+                guild_map.delete(player_id);
+            }
+            //console.log(guild_map);
+            //console.log(author)
+
+            //message.channel.send("BlackJack Test");
+        })
     })
 }
 
 module.exports.help = {
     name: name,
-    description: description,
-    usage: usage,
     accessableby: accessableby,
     aliases: aliases
 }

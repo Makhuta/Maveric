@@ -1,15 +1,21 @@
-const { bot } = require('../bot');
+require("module-alias/register");
+require("dotenv").config();
+const { bot } = require('@src/bot');
 const fs = require("fs")
 
 function get_data() {
-    let languages = "./languages/bot/"
-    fs.readdir(languages, (err, language) => {
-        language.forEach(jazyk => {
-            let language_array = module.exports.languages
-            let jazyk_content = require("." + languages + jazyk)
-            let jazyk_name = jazyk.split(".")[0]
-            language_array.push({ NAME: jazyk_name, FILE_NAME: jazyk, ARRAY: jazyk_content })
-            module.exports.languages = language_array
+    let languages = "./lang/"
+    fs.readdir(languages, (err, langs) => {
+        langs.forEach(lang => {
+            let per_cmd_map = new Map();
+            fs.readdir(languages + lang + "/", (err, lang_files) => {
+                lang_files.forEach(file => {
+                    let file_name = file.split(".")[0].toUpperCase()
+                    let file_content = require("." + languages + lang + "/" + file)
+                    per_cmd_map.set(file_name, file_content)
+                })
+                module.exports.languages.set(lang, per_cmd_map)
+            })
         })
     })
 
@@ -22,5 +28,5 @@ bot.on("ready", () => {
 
 
 module.exports = {
-    languages: []
+    languages: new Map()
 }

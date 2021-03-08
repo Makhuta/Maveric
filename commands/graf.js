@@ -1,8 +1,8 @@
-const { prefix } = require("../botconfig.json")
-const predates = require("../events/member_graph_local_database").database
+require("module-alias/register");
+require("dotenv").config();
+const predates = require("@events/member_graph_local_database").database
 const { MessageAttachment } = require("discord.js");
-const colors = require("../colorpaletes/colors.json")
-const find_channel_by_name = require("../handlers/channelfinder/find_channel_by_name")
+const colors = require("@colorpaletes/colors.json")
 const { CanvasRenderService } = require("chartjs-node-canvas")
 
 const day_miliseconds = 86400000;
@@ -20,12 +20,11 @@ const chartCallback = (ChartJS) => {
 }
 
 const name = "graf"
-const description = "Pošle graf memberů za poslední měsíc."
-const usage = prefix + name
 const accessableby = ["Member"]
 const aliases = ["g"]
+const response = "COMMAND_ROOM_NAME";
 
-async function graf(data_edited) {
+async function graf(data_edited, botconfig, message) {
     let datumy = []
     let hodnoty_uzivatelu = []
 
@@ -56,20 +55,24 @@ async function graf(data_edited) {
         scales: {
             yAxes: [{
                 ticks: {
-                    stepSize: 1,
-                    beginAtZero: true,
-                },
-            }],
-        }
+                    userCallback(label, index, labels) {
+                        // only show if whole number
+                        if (Math.floor(label) === label) {
+                            return label;
+                        }
+                    },
+                }
+            }]
+        },
     }
     const image = await canvas.renderToBuffer(configuration)
 
     const attachment = new MessageAttachment(image)
-    let hodnoty = ({ zprava: attachment, roomname: require("../botconfig/roomnames.json").botcommand })
-    find_channel_by_name.run(hodnoty)
+    let hodnoty = ({ zprava: attachment, roomname: botconfig.find(config => config.name == response).value, message: message })
+    require("@handlers/find_channel_by_name").run(hodnoty)
 }
 
-module.exports.run = async (message, args) => {
+module.exports.run = async (message, args, botconfig, user_lang_role) => {
     let dates = predates.dates
     let dates_length = dates.length
     let data_edited = []
@@ -82,14 +85,12 @@ module.exports.run = async (message, args) => {
         data_edited.push({ date: datum_formatovane, num_of_members: datum.num_of_members })
     });
 
-    graf(data_edited)
+    graf(data_edited, botconfig, message)
 
 }
 
 module.exports.help = {
     name: name,
-    description: description,
-    usage: usage,
     accessableby: accessableby,
     aliases: aliases
 }

@@ -1,5 +1,7 @@
-const { bot } = require('../bot');
-const typ_aktivity = require("../botconfig/bot_activity_types.json")
+require("module-alias/register");
+require("dotenv").config();
+const { bot } = require('@src/bot');
+const typ_aktivity = require("@configs/bot_activity_types.json")
 var typ = 0;
 
 

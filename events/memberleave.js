@@ -1,19 +1,28 @@
-const { bot, con } = require('../bot');
+//Must be on the top of every code for accessing folders more easilly
+require("module-alias/register");
+require("dotenv").config();
+
+
+
+const { bot, pool } = require('@src/bot');
 const { createCanvas, loadImage } = require("canvas");
-const welcome_canvas = require("../handlers/welcome/welcome_canvas")
+const welcome_canvas = require("@canvases/welcome_canvas")
 const { join } = require("path");
 const { MessageAttachment } = require("discord.js");
-const roomnames = require("../botconfig/roomnames.json");
-const color = require("../colorpaletes/colors.json")
+const color = require("@colorpaletes/colors.json")
+const botconfig = require("@events/load_config_from_database");
 
 function remove_user(member) {
-    sql = `DELETE FROM userstats WHERE id='${member.id}'`
-    con.query(sql)
-    console.log(`REMOVED ${member.user.username}!`)
+    pool.getConnection(async function(err, con) {
+        if (err) throw err;
+        sql = `DELETE FROM userstats WHERE id='${member.id}'`
+        con.query(sql)
+        console.log(`REMOVED ${member.user.username}!`)
+    })
 }
 
 bot.on("guildMemberRemove", (member) => {
-    bot.channels.fetch(bot.channels.cache.find(c => c.name === roomnames.gateroom).id)
+    bot.channels.fetch(botconfig.filter(config => config.name == "GATEROOM")[0].value)
         .then(channel => {
             var d = new Date(member.joinedTimestamp).toLocaleDateString('en').split("/")
             var datum = [d[1], d[0], d[2]].join(". ")
