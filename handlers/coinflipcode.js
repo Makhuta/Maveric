@@ -6,6 +6,7 @@ const color = require("@colorpaletes/colors.json")
 const signpost = require("@handlers/ranks/signpost")
 const random = require('random')
 const coinflipcanvas = require("@canvases/coinflipcanvas")
+const { database } = require("@events/local_database")
 
 function randomnumber() {
     return random.int(1, 100)
@@ -20,19 +21,22 @@ module.exports = {
         var prohraxp = sazkaxp
         var nahodnecislo = randomnumber()
         var xpToNextLevel = 5 * Math.pow(level, 2) + 50 * level + 100
+        let user_data = database.get(target.id);
 
         if (nahodnecislo <= sazkapravdepodobnost) {
             xp += (vyhernixp * (1 + tier / 10))
-            let hodnoty = ({ type: "rankup", sql: sql, con: con, user: target, level: level, xpToNextLevel: xpToNextLevel, xp: xp, message: message })
+            database.get(target.id).xp = xp;
+            //let hodnoty = ({ type: "rankup", sql: sql, con: con, user: target, level: level, xpToNextLevel: xpToNextLevel, xp: xp, message: message })
                 //await rankup.run(message, xp, level, sql, con, target, tier, userxp)
             await coinflipcanvas.run(message, color.lime, color.green, "Win", nahodnecislo, response)
-            signpost.run(hodnoty)
+            signpost.run(target.id, message, target)
         } else if (nahodnecislo > sazkapravdepodobnost) {
             xp -= prohraxp
-            let hodnoty = ({ type: "rankdown", sql: sql, con: con, user: target, level: level, xpToNextLevel: xpToNextLevel, xp: xp, message: message })
+            database.get(target.id).xp = xp;
+            //let hodnoty = ({ type: "rankdown", sql: sql, con: con, user: target, level: level, xpToNextLevel: xpToNextLevel, xp: xp, message: message })
                 //await rankdown.run(message, xp, level, sql, con, target, tier, userxp)
             await coinflipcanvas.run(message, color.red, color.maroon, "Lose", nahodnecislo, response)
-            signpost.run(hodnoty)
+            signpost.run(target.id, message, target)
         }
     }
 }

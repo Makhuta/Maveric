@@ -12,7 +12,7 @@ const response = "COMMAND_ROOM_NAME";
 module.exports.run = async(message, args, botconfig) => {
     message.channel.send("Tohle je test.")
 
-    console.log(test_load.database)
+    console.log(test_load.database.get(message.author.id))
 }
 
 module.exports.help = {

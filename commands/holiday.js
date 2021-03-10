@@ -1,9 +1,9 @@
 require("module-alias/register");
 require("dotenv").config();
 const moment = require("moment")
-const { con } = require("@src/bot")
 const svatky = require("@configs/svatky.json")
 const signpost = require("@handlers/ranks/signpost")
+const { database } = require("@events/local_database")
 
 const name = "holiday"
 const accessableby = ["Member"]
@@ -75,27 +75,32 @@ module.exports.run = async(message, args, botconfig, user_lang_role) => {
                     zpusob = 0
                 }
 
-                con.query(`SELECT * FROM userstats WHERE id = '${message_author.id}'`, (err, rows) => {
-                    let sql
-                    let target = message_author
-                    var cas = Date.now() + za_cas
-                    var xp = rows[0].xp
-                    var level = rows[0].level
-                    var last_claim = rows[0].last_hl
-                    var xpToNextLevel = 5 * Math.pow(level, 2) + 50 * level + 100
-                    reward = hodnota_svatku
+                //con.query(`SELECT * FROM userstats WHERE id = '${message_author.id}'`, (err, rows) => {
+                let user_data = database.get(message_author.id)
+                let sql
+                let target = message_author
+                var cas = Date.now() + za_cas
+                var xp = user_data.xp
+                var level = user_data.level
+                var tier = user_data.tier
+                var last_claim = user_data.last_hl
+                var xpToNextLevel = 5 * Math.pow(level, 2) + 50 * level + 100
+                reward = hodnota_svatku
 
-                    //console.log(`${hodiny}:${minuty}`)
-                    if (Date.now() < last_claim) return (target.send(user_language.ALREADY_WITHDRAWED.replace("&ZA_XP_HODIN", za_x_hodin).replace("&ZA_XP_MINUT", za_x_minut)))
-                    xp += reward
-                    let hodnoty = ({ type: "rankup", sql: sql, con: con, user: target, level: level, xpToNextLevel: xpToNextLevel, xp: xp, message: message })
-                    signpost.run(hodnoty)
-                    sql = `UPDATE userstats SET last_hl = ${cas} WHERE id = '${message_author.id}'`;
-                    con.query(sql)
+                //console.log(`${hodiny}:${minuty}`)
+                if (Date.now() < last_claim) return (target.send(user_language.ALREADY_WITHDRAWED.replace("&ZA_XP_HODIN", za_x_hodin).replace("&ZA_XP_MINUT", za_x_minut)))
+                xp += (reward * (1 + (tier / 10)))
+                database.get(message_author.id).xp = xp
+                database.get(message_author.id).last_hl = cas
+                    //let hodnoty = ({ type: "rankup", sql: sql, con: con, user: target, level: level, xpToNextLevel: xpToNextLevel, xp: xp, message: message })
+                    //signpost.run(hodnoty)
+                signpost.run(target.id, message, target)
+                    //sql = `UPDATE userstats SET last_hl = ${cas} WHERE id = '${message_author.id}'`;
+                    //con.query(sql)
 
-                    zprava(typ, svatek_nazev, zpusob, message_author, reward, user_language)
-                    return
-                })
+                zprava(typ, svatek_nazev, zpusob, message_author, reward, user_language)
+                return
+                //})
             }
             return
         }

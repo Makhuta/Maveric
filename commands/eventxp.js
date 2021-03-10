@@ -1,7 +1,7 @@
 require("module-alias/register");
 require("dotenv").config();
-const { pool } = require('@src/bot');
 const signpost = require("@handlers/ranks/signpost")
+const { database } = require("@events/local_database")
 
 const name = "eventxp"
 const accessableby = ["Bulgy", "Admins", "Moderátor", "Eventer"]
@@ -9,19 +9,17 @@ const aliases = ["exp"]
 const response = "COMMAND_ROOM_NAME"
 
 function addxp(targetid, targetusername, numofxp, message, target, user_language, botconfig) {
-    pool.getConnection(async function(err, con) {
-        if (err) throw err;
-        con.query(`SELECT * FROM userstats WHERE id = '${targetid}'`, (err, rows) => {
-            let sql
-            var xp = rows[0].xp
-            var level = rows[0].level
-            var tier = rows[0].tier
-            xp += (numofxp * (1 + (tier / 10)))
-            var xpToNextLevel = 5 * Math.pow(level, 2) + 50 * level + 100
-            let hodnoty = ({ type: "rankup", sql: sql, con: con, user: target, level: level, xpToNextLevel: xpToNextLevel, xp: xp, message: message })
-            signpost.run(hodnoty)
-        })
-    })
+
+    let user_data = database.get(targetid)
+    var xp = user_data.xp
+    var level = user_data.level
+    var tier = user_data.tier
+    xp += (numofxp * (1 + (tier / 10)))
+    var xpToNextLevel = 5 * Math.pow(level, 2) + 50 * level + 100
+    database.get(target.id).xp = xp
+    //let hodnoty = ({ type: "rankup", sql: sql, con: con, user: target, level: level, xpToNextLevel: xpToNextLevel, xp: xp, message: message })
+    signpost.run(targetid, message, target)
+
     let hodnotyout = ({ zprava: user_language.XP_ADDED.replace("&NUM_OF_XP", numofxp).replace("&TARGET_USERNAME", targetusername), roomname: botconfig.find(config => config.name == response).value, message: message })
     require("@handlers/find_channel_by_name").run(hodnotyout)
 }
@@ -53,7 +51,7 @@ module.exports.run = async(message, args, botconfig, user_lang_role) => {
         require("@handlers/find_channel_by_name").run(hodnotyout)
         return
     } else if (args[1] < 0) {
-                        
+
         let hodnotyout = ({ zprava: user_language.NEGATIVE_VALUES, roomname: botconfig.find(config => config.name == response).value, message: message })
         require("@handlers/find_channel_by_name").run(hodnotyout)
         return
