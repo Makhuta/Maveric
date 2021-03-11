@@ -3,6 +3,7 @@ require("module-alias/register");
 require("dotenv").config();
 
 
+const nodemailer = require('nodemailer');
 const Discord = require("discord.js");
 const bot = new Discord.Client({ disableMentions: "everyone", ws: { intents: Discord.Intents.ALL } });
 const mysql = require('mysql')
@@ -21,7 +22,24 @@ var pool = mysql.createPool({
     database: process.env.MYSQL_DATABASE
 });
 
+var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: process.env.BOT_MAIL,
+        pass: process.env.BOT_MAIL_PASS
+    }
+});
+
+var mailOptions = {
+    from: process.env.BOT_MAIL,
+    to: process.env.MY_MAIL,
+    subject: "BOT ERROR",
+    text: '&ERROR_OUT'
+};
+
 module.exports = {
     bot: bot,
-    pool: pool
+    pool: pool,
+    mail: transporter,
+    mailOptions: mailOptions
 }
