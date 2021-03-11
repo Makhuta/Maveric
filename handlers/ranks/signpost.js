@@ -25,20 +25,24 @@ async function xp_too_high(xp, level, id, message, target) {
 }
 
 async function xp_too_low(xp, level, id, message, target, level_before) {
-    let xpToNextLevel = xp_stats[level].xpToNextLevel
-    //console.log("XP: " + xp + " XP to next Level: " + xpToNextLevel + " Level: " + level)
+    console.log(level)
+    let xp_info = xp_stats[level]
+    let xpToNextLevel
+    if (xp_info == undefined) xpToNextLevel = 0
+    else xpToNextLevel = xp_info.xpToNextLevel
+        //console.log("XP: " + xp + " XP to next Level: " + xpToNextLevel + " Level: " + level)
     if (xp < 0 && level_before > 0) {
         //console.log("if")
 
         level--;
         level_before--;
         xp = xp + xpToNextLevel;
-        xp_too_low(xp, level, id, message, target,level_before)
+        xp_too_low(xp, level, id, message, target, level_before)
     } else if (xp < 0 && level_before <= 0) {
         //console.log("else if")
 
         database.get(id).xp = xp = 0
-        xp_too_low(xp, level, id, message, target,level_before)
+        xp_too_low(xp, level, id, message, target, level_before)
     } else {
         //console.log("else")
 
@@ -50,7 +54,7 @@ async function xp_too_low(xp, level, id, message, target, level_before) {
 }
 
 module.exports = {
-    run: async (id, message, target) => {
+    run: async(id, message, target) => {
         let level = database.get(id).level
 
         //console.log(xp_stats)
@@ -58,16 +62,17 @@ module.exports = {
             if (database.get(id).xp >= xp_stats[level].xpToNextLevel) {
                 await xp_too_high(database.get(id).xp, level, id, message, target)
             }
-            
+
 
         } else {
             let level_before = level
-            if (level == 0) {
-                level = level
-            } else {
-                level = level - 1
-            }
-            if (database.get(id).xp < xp_stats[level].xpToNextLevel) {
+                /*if (level <= 0) {
+                    level = 0
+                } else {
+                    level = level - 1
+                }*/
+            if (database.get(id).xp < xp_stats[level].xpToNextLevel || 0) {
+                level--
                 await xp_too_low(database.get(id).xp, level, id, message, target, level_before)
             }
         }
