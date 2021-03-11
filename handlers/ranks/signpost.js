@@ -27,14 +27,14 @@ async function xp_too_high(xp, level, id, message, target) {
 async function xp_too_low(xp, level, id, message, target, level_before) {
     let xpToNextLevel = xp_stats[level].xpToNextLevel
     //console.log("XP: " + xp + " XP to next Level: " + xpToNextLevel + " Level: " + level)
-    if (xp < 0 && level > 0) {
+    if (xp < 0 && level_before > 0) {
         //console.log("if")
 
         level--;
         level_before--;
         xp = xp + xpToNextLevel;
         xp_too_low(xp, level, id, message, target,level_before)
-    } else if (xp < 0 && level <= 0) {
+    } else if (xp < 0 && level_before <= 0) {
         //console.log("else if")
 
         database.get(id).xp = xp = 0
