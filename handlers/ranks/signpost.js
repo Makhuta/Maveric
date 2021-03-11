@@ -25,7 +25,6 @@ async function xp_too_high(xp, level, id, message, target) {
 }
 
 async function xp_too_low(xp, level, id, message, target, level_before) {
-    console.log(level)
     let xp_info = xp_stats[level]
     let xpToNextLevel
     if (xp_info == undefined) xpToNextLevel = 0
