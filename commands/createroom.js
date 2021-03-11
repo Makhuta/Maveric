@@ -9,10 +9,13 @@ function zprava(user, type, nameofchannel, user_language, botconfig) {
 
 module.exports.run = async(message, args, botconfig, user_lang_role) => {
     const guild = message.guild
-    const name = `VIP ${message.author.username}`
+    const name = `VIP ${message.author.username} ${message.author.id}`
     let user_language = require("@events/language_load").languages.get(user_lang_role).get("CREATEROOM")
 
-    const channel = guild.channels.cache.find(n => n.name === name)
+    const channel = guild.channels.cache.find(n => {
+        let channel_name_array = n.name.split(" ")
+        if (channel_name_array[channel_name_array.length - 1] == message.author.id) return true
+    })
 
     if (channel == undefined) {
         guild.channels.create(name, {
