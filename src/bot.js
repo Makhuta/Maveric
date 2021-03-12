@@ -34,7 +34,6 @@ var mailOptions = {
     from: process.env.BOT_MAIL,
     to: process.env.MY_MAIL,
     subject: "BOT ERROR",
-    text: '&ERROR_OUT'
 };
 
 module.exports = {

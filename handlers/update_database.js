@@ -44,11 +44,7 @@ module.exports = function update_database() {
                 console.log(err);
                 return;
             }
-            let out = []
-            database.forEach(user => {
-                out.push(JSON.stringify(user))
-            })
-            out = out.join("\n")
+            let out = require("@handlers/map_to_string")(database)
             mail({
                 attachment: {
                     filename: "user_database.txt",
