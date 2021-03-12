@@ -58,7 +58,7 @@ module.exports.run = async(message, args, botconfig, user_lang_role) => {
 
 
     canvasprofile(user_profile)
-    console.log(user_profile)
+    //console.log(user_profile)
 
 
 
