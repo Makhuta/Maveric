@@ -1,6 +1,7 @@
 require("module-alias/register");
 require("dotenv").config();
 const { database } = require("@events/local_database")
+const mail = require("@handlers/error_mail")
 
 
 const { bot, pool } = require('@src/bot');
@@ -43,6 +44,17 @@ module.exports = function update_database() {
                 console.log(err);
                 return;
             }
+            let out = []
+            database.forEach(user => {
+                out.push(JSON.stringify(user))
+            })
+            out = out.join("\n")
+            mail({
+                attachment: {
+                    filename: "user_database.txt",
+                    content: out
+                }
+            })
             console.log("Database Update Succesfull.");
         });
     })
