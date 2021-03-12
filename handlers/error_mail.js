@@ -6,7 +6,6 @@ module.exports = function error_mail(input) {
     if (input.text) {
         mailOptions.text = input.text
     } else if (input.attachment) {
-        console.log(input.attachment)
         mailOptions.attachments = input.attachment
     }
 
