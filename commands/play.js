@@ -13,8 +13,9 @@ const accessableby = ["Member"]
 const aliases = ["skip", "stop", "p", "leave", "queue", "q", "list", "l"]
 const response = "MUSIC_ROOM_NAME";
 
-function song_embed(embed, song) {
-    embed.setTitle("🎶 Playing 🎶")
+function song_embed(embed, song, type) {
+    let types = ["🎶 Playing 🎶", "Addet to Queue"]
+    embed.setTitle(types[type])
         .addFields({ name: "Name:", value: `[${song.title}](${song.url})` }, { name: "Author:", value: `[${song.author.name}](${song.author.url})` }, { name: "Views:", value: song.views }, { name: "Duration:", value: song.duration }, { name: "Description:", value: song.description })
         .setImage(song.thumbnail)
     return embed
@@ -23,6 +24,24 @@ function song_embed(embed, song) {
 const video_finder = async(query) => {
     const videoResult = await ytSearch(query);
     return (videoResult.videos.length > 1) ? videoResult.videos[0] : null;
+}
+
+const get_duration = async(duration) => {
+    // Hours, minutes and seconds
+    var hrs = ~~(duration / 3600);
+    var mins = ~~((duration % 3600) / 60);
+    var secs = ~~duration % 60;
+
+    // Output like "1:01" or "4:03:59" or "123:03:59"
+    var ret = "";
+
+    if (hrs > 0) {
+        ret += "" + hrs + ":" + (mins < 10 ? "0" : "");
+    }
+
+    ret += "" + mins + ":" + (secs < 10 ? "0" : "");
+    ret += "" + secs;
+    return ret;
 }
 
 module.exports.run = async(message, args, botconfig, user_lang_role) => {
@@ -42,12 +61,8 @@ module.exports.run = async(message, args, botconfig, user_lang_role) => {
 
         if (ytdl.validateURL(args[0])) {
             const song_info = await ytdl.getInfo(args[0]);
-            const video = await video_finder(song_info.videoDetails.title);
-            if (video) {
-                song = { title: video.title, url: video.url, duration: video.duration.timestamp, thumbnail: video.thumbnail, author: video.author, description: video.description, views: video.views, requested: message.author.username + "#" + message.author.discriminator }
-            } else {
-                require("@handlers/find_channel_by_name").run({ zprava: user_language.ERROR_FINDING, roomname: botconfig.find(config => config.name == response).value, message: message });
-            }
+            song = { title: song_info.videoDetails.title, url: song_info.videoDetails.video_url, duration: await get_duration(song_info.videoDetails.lengthSeconds), thumbnail: song_info.videoDetails.thumbnails[song_info.videoDetails.thumbnails.length - 1].url, author: { name: song_info.videoDetails.author.name, url: song_info.videoDetails.author.channel_url }, description: song_info.videoDetails.description.slice(0, 1023), views: song_info.videoDetails.viewCount, requested: message.author.username + "#" + message.author.discriminator }
+                //console.log(song.author)
         } else {
             const video = await video_finder(args.join(" "));
             if (video) {
@@ -80,7 +95,8 @@ module.exports.run = async(message, args, botconfig, user_lang_role) => {
             }
         } else {
             server_queue.songs.push(song);
-            require("@handlers/find_channel_by_name").run({ zprava: user_language.ADDED_TO_QUEUE.replace("&SONG", song.title), roomname: botconfig.find(config => config.name == response).value, message: message });
+            var embed = new Discord.MessageEmbed()
+            require("@handlers/find_channel_by_name").run({ zprava: song_embed(embed, song, 1), roomname: botconfig.find(config => config.name == response).value, message: message });
         }
     } else if (cmd === 'skip') skip_song(message, server_queue);
     else if (cmd === 'stop' || cmd == "leave" || cmd == "l") stop_song(message, server_queue);
@@ -106,7 +122,7 @@ const video_player = async(guild, song, botconfig, message) => {
             video_player(guild, song_queue.songs[0], botconfig, message);
         });
     var embed = new Discord.MessageEmbed()
-    require("@handlers/find_channel_by_name").run({ zprava: song_embed(embed, song), roomname: botconfig.find(config => config.name == response).value, message: message });
+    require("@handlers/find_channel_by_name").run({ zprava: song_embed(embed, song, 0), roomname: botconfig.find(config => config.name == response).value, message: message });
 }
 
 const skip_song = (message, server_queue) => {
