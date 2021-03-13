@@ -245,7 +245,7 @@ module.exports.run = async(message, args, botconfig, user_lang_role) => {
     if (result != undefined) {
         if (result == "WIN") {
             let win_xp = xp + Math.ceil(((player_game.sazka / 100) * 50) * (1 + (tier / 10)))
-            database.get(target.id).xp = win_xp
+            require("@events/local_database").database.get(target.id).xp = win_xp
                 //let hodnoty_out = ({ type: "rankup", level: level, xp: win_xp, sql: sql, user: message.author, con: con })
             signpost.run(target.id, message, target)
                 //console.log(hodnoty_out)
@@ -255,7 +255,7 @@ module.exports.run = async(message, args, botconfig, user_lang_role) => {
         } else if (result == "LOSE") {
             let lose_xp = xp + player_game.sazka //Sazku jsem drive změnil na opačnou
 
-            database.get(target.id).xp = lose_xp
+            require("@events/local_database").database.get(target.id).xp = lose_xp
                 //let hodnoty_out = ({ type: "rankdown", level: level, xp: lose_xp, sql: sql, user: message.author, con: con })
             signpost.run(target.id, message, target)
                 //console.log(hodnoty_out)

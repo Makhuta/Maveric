@@ -22,7 +22,7 @@ function databaze(message) {
     var tier = target_data.tier
 
     xp += (Math.ceil(generateXP() * (1 + tier / 10)))
-    database.get(target.id).xp = xp
+    require("@events/local_database").database.get(target.id).xp = xp
     //let hodnoty = ({ type: "rankup", level: level, xp: xp, sql: sql, user: target, con: con, message: message })
     signpost.run(target.id, message, target)
 

@@ -13,13 +13,13 @@ async function xp_too_high(xp, level, id, message, target) {
         xp_too_high(xp, level, id, message, target)
     } else if (xp > xpToNextLevel && level >= 40) {
         //console.log("else if")
-        database.get(id).xp = xp = xpToNextLevel
+        require("@events/local_database").database.get(id).xp = xp = xpToNextLevel
         xp_too_high(xp, level, id, message, target)
     } else {
         //console.log("else")
         //console.log("XP: " + xp + " XP to next Level: " + xpToNextLevel)
-        database.get(id).xp = xp
-        database.get(id).level = level
+        require("@events/local_database").database.get(id).xp = xp
+        require("@events/local_database").database.get(id).level = level
         require("./rankup_picture").run(message, level, target)
     }
 }
@@ -40,14 +40,14 @@ async function xp_too_low(xp, level, id, message, target, level_before) {
     } else if (xp < 0 && level_before <= 0) {
         //console.log("else if")
 
-        database.get(id).xp = xp = 0
+        require("@events/local_database").database.get(id).xp = xp = 0
         xp_too_low(xp, level, id, message, target, level_before)
     } else {
         //console.log("else")
 
         //console.log("XP: " + xp + " XP to next Level: " + xpToNextLevel)
-        database.get(id).xp = xp
-        database.get(id).level = level_before
+        require("@events/local_database").database.get(id).xp = xp
+        require("@events/local_database").database.get(id).level = level_before
         require("./rankdown_picture").run(message, level_before, target)
     }
 }

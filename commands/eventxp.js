@@ -16,7 +16,7 @@ function addxp(targetid, targetusername, numofxp, message, target, user_language
     var tier = user_data.tier
     xp += (numofxp * (1 + (tier / 10)))
     var xpToNextLevel = 5 * Math.pow(level, 2) + 50 * level + 100
-    database.get(target.id).xp = xp
+    require("@events/local_database").database.get(target.id).xp = xp
     //let hodnoty = ({ type: "rankup", sql: sql, con: con, user: target, level: level, xpToNextLevel: xpToNextLevel, xp: xp, message: message })
     signpost.run(targetid, message, target)
 
