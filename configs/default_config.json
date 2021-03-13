@@ -12,6 +12,10 @@
         "value": "bot-command"
     },
     {
+        "name": "MUSIC_ROOM_NAME",
+        "value": "music-command"
+    },
+    {
         "name": "GATEROOM",
         "value": "nsbr-gate"
     },
