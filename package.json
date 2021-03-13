@@ -9,19 +9,26 @@
   "author": "Makhuta",
   "license": "ISC",
   "dependencies": {
+    "@discordjs/opus": "github:discordjs/opus",
     "canvas": "^2.7.0",
     "chart.js": "^2.9.4",
     "chartjs-node-canvas": "^3.0.6",
     "delay": "^5.0.0",
     "discord.js": "^12.5.1",
     "dotenv": "^8.2.0",
+    "ffmpeg": "0.0.4",
+    "ffmpeg-static": "^4.2.7",
     "fs": "0.0.1-security",
+    "libsodium": "^0.7.9",
     "module-alias": "^2.2.2",
     "moment": "^2.29.1",
     "mysql": "^2.18.1",
     "nodemailer": "^6.5.0",
+    "opusscript": "0.0.8",
     "path": "^0.12.7",
-    "random": "^3.0.3"
+    "random": "^3.0.3",
+    "yt-search": "^2.7.3",
+    "ytdl-core": "^4.5.0"
   },
   "_moduleAliases": {
     "@root": ".",

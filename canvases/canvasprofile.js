@@ -98,6 +98,8 @@ module.exports = async function canvasprofile(user) {
     text_y += 80;
     textset(ctx, text_x, text_y, user.language.ID + user.id)
     text_y += 80;
+    textset(ctx, text_x, text_y, user.language.RANK + user.user_rank)
+    text_y += 80;
     textset(ctx, text_x, text_y, user.language.TIER + user.tier)
     text_y += 80;
     textset(ctx, text_x, text_y, user.language.LEVEL + user.level)
