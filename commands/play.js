@@ -100,11 +100,11 @@ const video_player = async(guild, song, botconfig, message) => {
     }
 
     const stream = ytdl(song.url, { filter: "audioonly" });
-    const dispatcher = await song_queue.connection.play(stream, { seek: 0, volume: 0.5 })
-    dispatcher.on("end", () => {
-        song_queue.songs.shift();
-        video_player(guild, song_queue.songs[0], botconfig, message);
-    });
+    await song_queue.connection.play(stream, { seek: 0, volume: 0.5 })
+        .on("end", () => {
+            song_queue.songs.shift();
+            video_player(guild, song_queue.songs[0], botconfig, message);
+        });
     var embed = new Discord.MessageEmbed()
     require("@handlers/find_channel_by_name").run({ zprava: song_embed(embed, song), roomname: botconfig.find(config => config.name == response).value, message: message });
 }
