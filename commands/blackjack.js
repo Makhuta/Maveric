@@ -28,8 +28,10 @@ function allxp(level, xp) {
     return (xpecka)
 }
 
-function generate_cards_to_player(player_cards) {
+function generate_cards_to_player(player_game) {
+    let player_cards = player_game.cards
     let cards = player_cards.card;
+    let all_game_carts = player_game.all_game_carts;
     let card_values = player_cards.values;
 
     let znak = random.int(0, 3);
@@ -39,8 +41,9 @@ function generate_cards_to_player(player_cards) {
     let karta_out = druh_karet.karty_znaku[karta];
     let karta_value = druh_karet.hodnoty[karta];
 
-    if (!cards.includes(karta_out)) {
+    if (!all_game_carts.includes(karta_out)) {
         player_cards.card.push(karta_out);
+        player_game.all_game_carts.push(karta_out);
         player_cards.values.push(karta_value);
     } else {
         generate_cards_to_player(player_cards);
@@ -54,25 +57,46 @@ function generate_cards_to_player(player_cards) {
 
 function bot_play(player_game) {
     let cards = player_game.bot_cards.card;
+    let all_cards_with_values = [];
+    let all_in_game_carts = player_game.all_game_carts;
+    let num_of_used_cards = 52 - all_in_game_carts.length;
     let card_values = player_game.bot_cards.values;
+
+    all_karts.forEach(znak => {
+        znak.karty_znaku.forEach((card, i) => {
+            all_cards_with_values.push({ znak: card, value: znak.hodnoty[i] })
+        })
+    });
+
+
+
+
 
     let znak = random.int(0, 3);
     let karta = random.int(0, 12);
-    let decide_to_play = random.int(0, 1)
+    let decide_to_play = random.int(1, num_of_used_cards)
 
     let druh_karet = all_karts[znak];
     let karta_out = druh_karet.karty_znaku[karta];
     let karta_value = druh_karet.hodnoty[karta];
 
-    if (!cards.includes(karta_out)) {
+    if (!all_in_game_carts.includes(karta_out)) {
         player_game.bot_cards.card.push(karta_out);
+        player_game.all_game_carts.push(karta_out);
         player_game.bot_cards.values.push(karta_value);
     } else {
         bot_play(player_game);
     }
 
+    all_cards_with_values = all_cards_with_values.filter(card => card.value <= (21 - card_values.reduce(reducer))).filter(card => !all_in_game_carts.includes(card.znak))
+
+    let vyherni_pomer = all_cards_with_values.length
+
+    //console.log(all_cards_with_values)
+    //console.log(decide_to_play + "---" + vyherni_pomer)
+
     if (card_values.reduce(reducer) <= 15) bot_play(player_game);
-    else if (card_values.reduce(reducer) < 20 && decide_to_play == 1) bot_play(player_game);
+    else if (card_values.reduce(reducer) < 20 && decide_to_play <= vyherni_pomer) bot_play(player_game);
 
     //console.log(karta_out)
     //console.log(cards);
@@ -187,7 +211,7 @@ module.exports.run = async(message, args, botconfig, user_lang_role) => {
     let author = message.author;
     let player_id = author.id;
 
-    let game_variables = { username: author.username + "#" + author.discriminator, cards: { card: [], values: [] }, bot_cards: { card: [], values: [] }, sazka: args[0], pending: false, message: "" };
+    let game_variables = { username: author.username + "#" + author.discriminator, cards: { card: [], values: [] }, bot_cards: { card: [], values: [] }, all_game_carts: [], sazka: args[0], pending: false, message: "" };
 
     let guild_map = blackjack_guild_map.get(guild_id);
 
@@ -206,8 +230,8 @@ module.exports.run = async(message, args, botconfig, user_lang_role) => {
     if (player_game == undefined) return
 
     if ((triggerer == "blackjack" || triggerer == "bj") && !player_game.pending) {
-        generate_cards_to_player(player_game.cards);
-        generate_cards_to_player(player_game.cards);
+        generate_cards_to_player(player_game);
+        generate_cards_to_player(player_game);
         player_game.pending = true;
 
         var embed = new Discord.MessageEmbed()
@@ -216,7 +240,7 @@ module.exports.run = async(message, args, botconfig, user_lang_role) => {
         player_game.message = zprava;
         //console.log(zprava)
     } else if (triggerer == "hit" && player_game.pending) {
-        generate_cards_to_player(player_game.cards);
+        generate_cards_to_player(player_game);
         var embed = new Discord.MessageEmbed();
         embed_message_game(embed, user_language, player_game);
         player_game.message.edit(embed);
@@ -266,6 +290,7 @@ module.exports.run = async(message, args, botconfig, user_lang_role) => {
         //console.log(result)
         guild_map.delete(player_id);
     }
+    //console.log(player_game)
     //console.log(guild_map);
     //console.log(author)
 
