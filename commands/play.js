@@ -10,7 +10,7 @@ const queue = new Map();
 
 const name = "play"
 const accessableby = ["Member"]
-const aliases = ["skip", "stop", "p", "leave", "queue", "q", "list"]
+const aliases = ["skip", "stop", "p", "leave", "queue", "q", "list", "l"]
 const response = "MUSIC_ROOM_NAME";
 
 function song_embed(embed, song) {
@@ -18,6 +18,11 @@ function song_embed(embed, song) {
         .addFields({ name: "Name:", value: `[${song.title}](${song.url})` }, { name: "Author:", value: `[${song.author.name}](${song.author.url})` }, { name: "Views:", value: song.views }, { name: "Duration:", value: song.duration }, { name: "Description:", value: song.description })
         .setImage(song.thumbnail)
     return embed
+}
+
+const video_finder = async(query) => {
+    const videoResult = await ytSearch(query);
+    return (videoResult.videos.length > 1) ? videoResult.videos[0] : null;
 }
 
 module.exports.run = async(message, args, botconfig, user_lang_role) => {
@@ -37,13 +42,13 @@ module.exports.run = async(message, args, botconfig, user_lang_role) => {
 
         if (ytdl.validateURL(args[0])) {
             const song_info = await ytdl.getInfo(args[0]);
-            song = { title: song_info.videoDetails.title, url: song_info.videoDetails.video_url }
-        } else {
-            const video_finder = async(query) => {
-                const videoResult = await ytSearch(query);
-                return (videoResult.videos.length > 1) ? videoResult.videos[0] : null;
+            const video = await video_finder(song_info.videoDetails.title);
+            if (video) {
+                song = { title: video.title, url: video.url, duration: video.duration.timestamp, thumbnail: video.thumbnail, author: video.author, description: video.description, views: video.views, requested: message.author.username + "#" + message.author.discriminator }
+            } else {
+                require("@handlers/find_channel_by_name").run({ zprava: user_language.ERROR_FINDING, roomname: botconfig.find(config => config.name == response).value, message: message });
             }
-
+        } else {
             const video = await video_finder(args.join(" "));
             if (video) {
                 song = { title: video.title, url: video.url, duration: video.duration.timestamp, thumbnail: video.thumbnail, author: video.author, description: video.description, views: video.views, requested: message.author.username + "#" + message.author.discriminator }
@@ -78,7 +83,7 @@ module.exports.run = async(message, args, botconfig, user_lang_role) => {
             require("@handlers/find_channel_by_name").run({ zprava: user_language.ADDED_TO_QUEUE.replace("&SONG", song.title), roomname: botconfig.find(config => config.name == response).value, message: message });
         }
     } else if (cmd === 'skip') skip_song(message, server_queue);
-    else if (cmd === 'stop' || cmd == "leave") stop_song(message, server_queue);
+    else if (cmd === 'stop' || cmd == "leave" || cmd == "l") stop_song(message, server_queue);
     else if (cmd === 'queue' || cmd == "q" || cmd == "list") show_queue(message, server_queue, botconfig);
 
 }
@@ -96,7 +101,7 @@ const video_player = async(guild, song, botconfig, message) => {
 
     const stream = ytdl(song.url, { filter: "audioonly" });
     const dispatcher = await song_queue.connection.play(stream, { seek: 0, volume: 0.5 })
-    dispatcher.on("finish", () => {
+    dispatcher.on("end", () => {
         song_queue.songs.shift();
         video_player(guild, song_queue.songs[0], botconfig, message);
     });
@@ -122,7 +127,7 @@ const show_queue = (message, server_queue, botconfig) => {
     if (!server_queue) return
     let songs = server_queue.songs
     let song_list_queue = []
-    //console.log(server_queue)
+        //console.log(server_queue)
     var embed = new Discord.MessageEmbed()
     embed.setTitle("**Queue**")
     embed.setColor(color.blue)
