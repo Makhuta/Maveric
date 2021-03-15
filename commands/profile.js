@@ -1,6 +1,7 @@
 require("module-alias/register");
 require("dotenv").config();
 const { database } = require("@events/local_database")
+const { bot } = require("@src/bot")
 const canvasprofile = require("@canvases/canvasprofile")
 const xp_stats = require("@configs/xp_stats.json")
 const moment = require("moment")
@@ -11,7 +12,7 @@ const aliases = ["xp", "pr", "info"]
 const response = "COMMAND_ROOM_NAME";
 
 function getrank(usraray, user_rank, target) {
-    database.forEach(user => {
+    bot.userstats.forEach(user => {
         resid = user.id;
         let reslevel = user.level;
         let resxp = user.xp;
@@ -35,7 +36,7 @@ function getrank(usraray, user_rank, target) {
 module.exports.run = async(message, args, botconfig, user_lang_role) => {
     let target = message.mentions.users.first() || message.author
     let more_about_target = message.guild.members.cache.get(target.id)
-    let user_data = database.get(target.id)
+    let user_data = bot.userstats.get(target.id)
     let xp = user_data.xp
     let level = user_data.level
     let tier = user_data.tier

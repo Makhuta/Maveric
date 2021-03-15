@@ -2,6 +2,7 @@ require("module-alias/register");
 require("dotenv").config();
 const signpost = require("@handlers/ranks/signpost")
 const { database } = require("@events/local_database")
+const { bot } = require("@src/bot")
 
 const name = "eventxp"
 const accessableby = ["Bulgy", "Admins", "Moderátor", "Eventer"]
@@ -10,14 +11,14 @@ const response = "COMMAND_ROOM_NAME"
 
 function addxp(targetid, targetusername, numofxp, message, target, user_language, botconfig) {
 
-    let user_data = database.get(targetid)
+    let user_data = bot.userstats.get(targetid)
     var xp = user_data.xp
     var level = user_data.level
     var tier = user_data.tier
     xp += (numofxp * (1 + (tier / 10)))
     var xpToNextLevel = 5 * Math.pow(level, 2) + 50 * level + 100
-    require("@events/local_database").database.get(target.id).xp = xp
-    //let hodnoty = ({ type: "rankup", sql: sql, con: con, user: target, level: level, xpToNextLevel: xpToNextLevel, xp: xp, message: message })
+    require("@src/bot").bot.userstats.get(target.id).xp = xp
+        //let hodnoty = ({ type: "rankup", sql: sql, con: con, user: target, level: level, xpToNextLevel: xpToNextLevel, xp: xp, message: message })
     signpost.run(targetid, message, target)
 
     let hodnotyout = ({ zprava: user_language.XP_ADDED.replace("&NUM_OF_XP", numofxp).replace("&TARGET_USERNAME", targetusername), roomname: botconfig.find(config => config.name == response).value, message: message })

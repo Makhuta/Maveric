@@ -5,6 +5,7 @@ const random = require("random")
 const Discord = require("discord.js")
 const signpost = require("@handlers/ranks/signpost")
 const { database } = require("@events/local_database")
+const { bot } = require("@src/bot")
 const xp_stats = require("@configs/xp_stats.json")
 
 const reducer = (accumulator, currentValue) => accumulator + currentValue;
@@ -188,7 +189,7 @@ module.exports.run = async(message, args, botconfig, user_lang_role) => {
          if (err) throw err;
          con.query(`SELECT * FROM userstats WHERE id = '${message.author.id}'`, async function(err, rows) {*/
     let target = message.author
-    let user_data = database.get(target.id);
+    let user_data = bot.userstats.get(target.id);
     var xp = user_data.xp
     var level = user_data.level
     var tier = user_data.tier
@@ -269,7 +270,7 @@ module.exports.run = async(message, args, botconfig, user_lang_role) => {
     if (result != undefined) {
         if (result == "WIN") {
             let win_xp = xp + Math.ceil(((player_game.sazka / 100) * 50) * (1 + (tier / 10)))
-            require("@events/local_database").database.get(target.id).xp = win_xp
+            require("@src/bot").bot.userstats.get(target.id).xp = win_xp
                 //let hodnoty_out = ({ type: "rankup", level: level, xp: win_xp, sql: sql, user: message.author, con: con })
             signpost.run(target.id, message, target)
                 //console.log(hodnoty_out)
@@ -279,7 +280,7 @@ module.exports.run = async(message, args, botconfig, user_lang_role) => {
         } else if (result == "LOSE") {
             let lose_xp = xp + player_game.sazka //Sazku jsem drive změnil na opačnou
 
-            require("@events/local_database").database.get(target.id).xp = lose_xp
+            require("@src/bot").bot.userstats.get(target.id).xp = lose_xp
                 //let hodnoty_out = ({ type: "rankdown", level: level, xp: lose_xp, sql: sql, user: message.author, con: con })
             signpost.run(target.id, message, target)
                 //console.log(hodnoty_out)

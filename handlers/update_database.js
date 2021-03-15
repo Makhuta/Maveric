@@ -14,7 +14,7 @@ module.exports = function update_database() {
     (1,6,1),(2,2,3),(3,9,5),(4,16,8);
     */
     all_sql.push("INSERT INTO userstats (id,xp,level,tier,last_daily_xp,last_hl) VALUES ")
-    database.forEach(user => {
+    bot.userstats.forEach(user => {
         if (all_sql.length == 1) {
             all_sql.push(`('${user.id}',${user.xp},${user.level},${user.tier},'${user.last_daily_xp}','${user.last_hl}')`)
         }
@@ -44,7 +44,7 @@ module.exports = function update_database() {
                 console.log(err);
                 return;
             }
-            let out = require("@handlers/map_to_string")(database)
+            let out = require("@handlers/map_to_string")(bot.userstats)
             mail({
                 attachment: {
                     filename: "user_database.txt",

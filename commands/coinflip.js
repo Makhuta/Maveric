@@ -3,6 +3,7 @@ require("dotenv").config();
 const coinflip = require("@handlers/coinflipcode")
 const find_channel_by_name = require("@handlers/find_channel_by_name")
 const { database } = require("@events/local_database")
+const { bot } = require("@src/bot")
 const xp_stats = require("@configs/xp_stats.json")
 
 const name = "coinflip"
@@ -53,7 +54,7 @@ module.exports.run = async(message, args, botconfig, user_lang_role) => {
         return
 
     }
-    var lastmsg = database.get(message.author.id).last_coinflip
+    var lastmsg = bot.userstats.get(message.author.id).last_coinflip
     var milisekundy = (parseInt(lastmsg) + 600000) - cas
     var minuty = Math.round(milisekundy / 60000);
 
@@ -70,7 +71,7 @@ module.exports.run = async(message, args, botconfig, user_lang_role) => {
     var tier
     var target = message.author
 
-    let user_data = database.get(target.id)
+    let user_data = bot.userstats.get(target.id)
     xp = user_data.xp
     level = user_data.level
     tier = user_data.tier
@@ -103,7 +104,7 @@ module.exports.run = async(message, args, botconfig, user_lang_role) => {
     }
 
 
-    database.get(message.author.id).last_coinflip = cas
+    bot.userstats.get(message.author.id).last_coinflip = cas
     var sazka = ({ xp: args[0], pravdepodobnost: args[1] })
     await coinflip.run(sazka, sql, "con", xp, level, message, target, tier, xp, response)
 

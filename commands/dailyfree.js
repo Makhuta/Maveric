@@ -2,6 +2,7 @@ require("module-alias/register");
 require("dotenv").config();
 const signpost = require("@handlers/ranks/signpost")
 const { database } = require("@events/local_database")
+const { bot } = require("@src/bot")
 
 const name = "dailyfree"
 const accessableby = ["Member"]
@@ -9,7 +10,7 @@ const aliases = ["df"]
 
 module.exports.run = async(message, args, botconfig, user_lang_role) => {
     let user_language = require("@events/language_load").languages.get(user_lang_role).get("DAILYFREE")
-    let user_data = database.get(message.author.id)
+    let user_data = bot.userstats.get(message.author.id)
     let sql
     let target = message.author
     var cas = Date.now()
@@ -28,8 +29,8 @@ module.exports.run = async(message, args, botconfig, user_lang_role) => {
     if (Date.now() - last_claim < 86400000) return (target.send(user_language.ALREADY_WITHDRAWED.replace("&HODINY", hodiny).replace("&MINUTY", minuty)))
     xp += Math.ceil(reward * (1 + (tier / 10)))
         //let hodnoty = ({ type: "rankup", sql: sql, con: con, user: target, level: level, xpToNextLevel: xpToNextLevel, xp: xp, message: message })
-    require("@events/local_database").database.get(target.id).xp = xp
-    require("@events/local_database").database.get(target.id).last_daily_xp = cas
+    require("@src/bot").bot.userstats.get(target.id).xp = xp
+    require("@src/bot").bot.userstats.get(target.id).last_daily_xp = cas
     signpost.run(target.id, message, target)
         //sql = `UPDATE userstats SET last_daily_xp = ${cas} WHERE id = '${message.author.id}'`;
         //con.query(sql)

@@ -12,6 +12,7 @@ const mysql = require('mysql')
 bot.commands = new Discord.Collection();
 bot.aliases = new Discord.Collection();
 bot.accessable = new Discord.Collection();
+bot.userstats = new Discord.Collection();
 
 require("@src/functions")(bot);
 
