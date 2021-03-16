@@ -35,8 +35,8 @@ bot.on("message", message => {
     let prefix = botconfig.filter(config => config.name == "PREFIX")[0]
     if (prefix == undefined) return
     if (message.author.bot || message.channel.type === "dm" || message.content.startsWith(prefix.value) || message.channel.name == "joins") return
-    if (Date.now() - database.get(message.author.id).last_message < 60000) return
-    database.get(message.author.id).last_message = Date.now()
+    if (Date.now() - bot.userstats.get(message.author.id).last_message < 60000) return
+    bot.userstats.get(message.author.id).last_message = Date.now()
     databaze(message);
 
 })

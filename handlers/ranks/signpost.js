@@ -2,6 +2,7 @@ require("module-alias/register");
 require("dotenv").config();
 const xp_stats = require("@configs/xp_stats.json")
 const { database } = require("@events/local_database")
+const { bot } = require('@src/bot');
 
 async function xp_too_high(xp, level, id, message, target) {
     let xpToNextLevel = xp_stats[level].xpToNextLevel
@@ -13,13 +14,13 @@ async function xp_too_high(xp, level, id, message, target) {
         xp_too_high(xp, level, id, message, target)
     } else if (xp > xpToNextLevel && level >= 40) {
         //console.log("else if")
-        require("@events/local_database").database.get(id).xp = xp = xpToNextLevel
+        require("@src/bot").bot.userstats.get(id).xp = xp = xpToNextLevel
         xp_too_high(xp, level, id, message, target)
     } else {
         //console.log("else")
         //console.log("XP: " + xp + " XP to next Level: " + xpToNextLevel)
-        require("@events/local_database").database.get(id).xp = xp
-        require("@events/local_database").database.get(id).level = level
+        require("@src/bot").bot.userstats.get(id).xp = xp
+        require("@src/bot").bot.userstats.get(id).level = level
         require("./rankup_picture").run(message, level, target)
     }
 }
@@ -40,26 +41,26 @@ async function xp_too_low(xp, level, id, message, target, level_before) {
     } else if (xp < 0 && level_before <= 0) {
         //console.log("else if")
 
-        require("@events/local_database").database.get(id).xp = xp = 0
+        require("@src/bot").bot.userstats.get(id).xp = xp = 0
         xp_too_low(xp, level, id, message, target, level_before)
     } else {
         //console.log("else")
 
         //console.log("XP: " + xp + " XP to next Level: " + xpToNextLevel)
-        require("@events/local_database").database.get(id).xp = xp
-        require("@events/local_database").database.get(id).level = level_before
+        require("@src/bot").bot.userstats.get(id).xp = xp
+        require("@src/bot").bot.userstats.get(id).level = level_before
         require("./rankdown_picture").run(message, level_before, target)
     }
 }
 
 module.exports = {
     run: async(id, message, target) => {
-        let level = database.get(id).level
+        let level = bot.userstats.get(id).level
 
         //console.log(xp_stats)
-        if (database.get(id).xp >= 0) {
-            if (database.get(id).xp >= xp_stats[level].xpToNextLevel) {
-                await xp_too_high(database.get(id).xp, level, id, message, target)
+        if (bot.userstats.get(id).xp >= 0) {
+            if (bot.userstats.get(id).xp >= xp_stats[level].xpToNextLevel) {
+                await xp_too_high(bot.userstats.get(id).xp, level, id, message, target)
             }
 
 
@@ -70,9 +71,9 @@ module.exports = {
                 } else {
                     level = level - 1
                 }*/
-            if (database.get(id).xp < xp_stats[level].xpToNextLevel || 0) {
+            if (bot.userstats.get(id).xp < xp_stats[level].xpToNextLevel || 0) {
                 level--
-                await xp_too_low(database.get(id).xp, level, id, message, target, level_before)
+                await xp_too_low(bot.userstats.get(id).xp, level, id, message, target, level_before)
             }
         }
 
