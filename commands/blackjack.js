@@ -33,7 +33,7 @@ function generate_cards_to_player(player_game) {
     let player_cards = player_game.cards
     //let cards = player_cards.card;
     let all_game_carts = player_game.all_game_carts;
-    let card_values = player_cards.values;
+    //let card_values = player_cards.values;
 
     let znak = random.int(0, 3);
     let karta = random.int(0, 12);
@@ -129,7 +129,7 @@ function embed_message_game(embed, user_language, player_game) {
 function winner_decider(user_language, player_game, is_over_max) {
     let user_stats = bot.userstats.get(player_game.id)
     let tier = user_stats.tier
-    console.log(player_game)
+    //console.log(player_game)
     let result = "test result";
     let player_is_over = is_over_max.player;
     let bot_is_over = is_over_max.bot;
@@ -277,7 +277,7 @@ module.exports.run = async(message, args, botconfig, user_lang_role) => {
             let xp_before = user_data.xp
             user_data.xp = win_xp
             let xp_after = user_data.xp
-            let debug_msg = `${target.username}#${target.discriminator} have Level: ${user_data.level} with ${xp_before}XP now have ${xp_after}XP, XP to next level is: ${xp_stats[level].xpToNextLevel}, difference is ${Math.abs(xp_before - xp_after)}`
+            let debug_msg = `${target.username}#${target.discriminator} have Level: ${user_data.level} with ${xp_before}XP now have ${xp_after}XP, XP to next level is: ${xp_stats[level].xpToNextLevel}, difference is ${Math.abs(player_game.sazka)}`
             require("@src/bot").bot.userstats.set(target.id, user_data)
             require("@handlers/find_channel_by_name").run({ zprava: debug_msg, roomname: botconfig.find(config => config.name == "DEBUG_ROOM").value, message: message });
             //let hodnoty_out = ({ type: "rankup", level: level, xp: win_xp, sql: sql, user: message.author, con: con })
