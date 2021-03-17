@@ -91,8 +91,9 @@ module.exports.run = async(message, args, botconfig, user_lang_role) => {
                 //console.log(`${hodiny}:${minuty}`)
                 if (Date.now() < last_claim) return (target.send(user_language.ALREADY_WITHDRAWED.replace("&ZA_XP_HODIN", za_x_hodin).replace("&ZA_XP_MINUT", za_x_minut)))
                 xp += (reward * (1 + (tier / 10)))
-                require("@src/bot").bot.userstats.get(message_author.id).xp = xp
-                require("@src/bot").bot.userstats.get(message_author.id).last_hl = cas
+                user_data.xp = xp;
+                user_data.last_hl = cas;
+                require("@src/bot").bot.userstats.set(message_author.id, user_data)
                     //let hodnoty = ({ type: "rankup", sql: sql, con: con, user: target, level: level, xpToNextLevel: xpToNextLevel, xp: xp, message: message })
                     //signpost.run(hodnoty)
                 signpost.run(target.id, message, target)

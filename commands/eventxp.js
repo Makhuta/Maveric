@@ -15,9 +15,9 @@ function addxp(targetid, targetusername, numofxp, message, target, user_language
     var xp = user_data.xp
     var level = user_data.level
     var tier = user_data.tier
-    xp += (numofxp * (1 + (tier / 10)))
+    user_data.xp += (numofxp * (1 + (tier / 10)))
     var xpToNextLevel = 5 * Math.pow(level, 2) + 50 * level + 100
-    require("@src/bot").bot.userstats.get(target.id).xp = xp
+    require("@src/bot").bot.userstats.set(target.id, user_data)
         //let hodnoty = ({ type: "rankup", sql: sql, con: con, user: target, level: level, xpToNextLevel: xpToNextLevel, xp: xp, message: message })
     signpost.run(targetid, message, target)
 

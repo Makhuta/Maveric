@@ -29,8 +29,9 @@ module.exports.run = async(message, args, botconfig, user_lang_role) => {
     if (Date.now() - last_claim < 86400000) return (target.send(user_language.ALREADY_WITHDRAWED.replace("&HODINY", hodiny).replace("&MINUTY", minuty)))
     xp += Math.ceil(reward * (1 + (tier / 10)))
         //let hodnoty = ({ type: "rankup", sql: sql, con: con, user: target, level: level, xpToNextLevel: xpToNextLevel, xp: xp, message: message })
-    require("@src/bot").bot.userstats.get(target.id).xp = xp
-    require("@src/bot").bot.userstats.get(target.id).last_daily_xp = cas
+    user_data.xp = xp;
+    user_data.last_daily_xp = cas
+    require("@src/bot").bot.userstats.set(target.id, user_data)
     signpost.run(target.id, message, target)
         //sql = `UPDATE userstats SET last_daily_xp = ${cas} WHERE id = '${message.author.id}'`;
         //con.query(sql)

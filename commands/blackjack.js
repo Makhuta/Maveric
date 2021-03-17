@@ -270,7 +270,8 @@ module.exports.run = async(message, args, botconfig, user_lang_role) => {
     if (result != undefined) {
         if (result == "WIN") {
             let win_xp = xp + Math.ceil(((player_game.sazka / 100) * 50) * (1 + (tier / 10)))
-            require("@src/bot").bot.userstats.get(target.id).xp = win_xp
+            user_data.xp = win_xp
+            require("@src/bot").bot.userstats.set(target.id, user_data)
                 //let hodnoty_out = ({ type: "rankup", level: level, xp: win_xp, sql: sql, user: message.author, con: con })
             signpost.run(target.id, message, target)
                 //console.log(hodnoty_out)
@@ -279,8 +280,9 @@ module.exports.run = async(message, args, botconfig, user_lang_role) => {
 
         } else if (result == "LOSE") {
             let lose_xp = xp + player_game.sazka //Sazku jsem drive změnil na opačnou
-
-            require("@src/bot").bot.userstats.get(target.id).xp = lose_xp
+            
+            user_data.xp = lose_xp
+            require("@src/bot").bot.userstats.set(target.id, user_data)
                 //let hodnoty_out = ({ type: "rankdown", level: level, xp: lose_xp, sql: sql, user: message.author, con: con })
             signpost.run(target.id, message, target)
                 //console.log(hodnoty_out)

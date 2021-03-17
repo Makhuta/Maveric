@@ -21,8 +21,8 @@ function databaze(message) {
     var xp = target_data.xp
     var tier = target_data.tier
 
-    xp += (Math.ceil(generateXP() * (1 + tier / 10)))
-    require("@src/bot").bot.userstats.get(target.id).xp = xp
+    target_data.xp += (Math.ceil(generateXP() * (1 + tier / 10)))
+    require("@src/bot").bot.userstats.get(target.id, target_data)
     //let hodnoty = ({ type: "rankup", level: level, xp: xp, sql: sql, user: target, con: con, message: message })
     signpost.run(target.id, message, target)
 

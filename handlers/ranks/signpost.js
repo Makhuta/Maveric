@@ -5,6 +5,7 @@ const { database } = require("@events/local_database")
 const { bot } = require('@src/bot');
 
 async function xp_too_high(xp, level, id, message, target) {
+    let user_data = bot.userstats.get(id)
     let xpToNextLevel = xp_stats[level].xpToNextLevel
         //console.log("XP: " + xp + " XP to next Level: " + xpToNextLevel)
     if (xp >= xpToNextLevel && level < 40) {
@@ -14,18 +15,20 @@ async function xp_too_high(xp, level, id, message, target) {
         xp_too_high(xp, level, id, message, target)
     } else if (xp > xpToNextLevel && level >= 40) {
         //console.log("else if")
-        require("@src/bot").bot.userstats.get(id).xp = xp = xpToNextLevel
+        user_data.xp = xp = xpToNextLevel
         xp_too_high(xp, level, id, message, target)
     } else {
         //console.log("else")
         //console.log("XP: " + xp + " XP to next Level: " + xpToNextLevel)
-        require("@src/bot").bot.userstats.get(id).xp = xp
-        require("@src/bot").bot.userstats.get(id).level = level
+        user_data.xp = xp;
+        user_data.level = level;
+        require("@src/bot").bot.userstats.set(id, user_data)
         require("./rankup_picture").run(message, level, target)
     }
 }
 
 async function xp_too_low(xp, level, id, message, target, level_before) {
+    let user_data = bot.userstats.get(id)
     let xp_info = xp_stats[level]
     let xpToNextLevel
     if (xp_info == undefined) xpToNextLevel = 0
@@ -41,14 +44,15 @@ async function xp_too_low(xp, level, id, message, target, level_before) {
     } else if (xp < 0 && level_before <= 0) {
         //console.log("else if")
 
-        require("@src/bot").bot.userstats.get(id).xp = xp = 0
+        user_data.xp = xp = 0
         xp_too_low(xp, level, id, message, target, level_before)
     } else {
         //console.log("else")
 
         //console.log("XP: " + xp + " XP to next Level: " + xpToNextLevel)
-        require("@src/bot").bot.userstats.get(id).xp = xp
-        require("@src/bot").bot.userstats.get(id).level = level_before
+        user_data.xp = xp;
+        user_data.level = level_before;
+        require("@src/bot").bot.userstats.set(id, user_data)
         require("./rankdown_picture").run(message, level_before, target)
     }
 }
