@@ -12,7 +12,7 @@ const response = "COMMAND_ROOM_NAME";
 
 
 module.exports.run = async(message, args, botconfig) => {
-    let target = message.author
+    let target = message.mentions.users.first() || message.author
     let user_stats = bot.userstats.get(target.id)
     let debug_msg = `${target.username}#${target.discriminator} have statistics => Level: ${user_stats.level} XP: ${user_stats.xp} XP to next Level: ${xp_stats[user_stats.level].xpToNextLevel}`
 
