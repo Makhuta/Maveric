@@ -16,6 +16,10 @@
         "value": "music-command"
     },
     {
+        "name": "DEBUG_ROOM",
+        "value": "bot-logs"
+    },
+    {
         "name": "GATEROOM",
         "value": "nsbr-gate"
     },

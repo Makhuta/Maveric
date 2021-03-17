@@ -31,7 +31,7 @@ function allxp(level, xp) {
 
 function generate_cards_to_player(player_game) {
     let player_cards = player_game.cards
-    let cards = player_cards.card;
+    //let cards = player_cards.card;
     let all_game_carts = player_game.all_game_carts;
     let card_values = player_cards.values;
 
@@ -127,6 +127,9 @@ function embed_message_game(embed, user_language, player_game) {
 }
 
 function winner_decider(user_language, player_game, is_over_max) {
+    let user_stats = bot.userstats.get(player_game.id)
+    let tier = user_stats.tier
+    console.log(player_game)
     let result = "test result";
     let player_is_over = is_over_max.player;
     let bot_is_over = is_over_max.bot;
@@ -174,6 +177,7 @@ function winner_decider(user_language, player_game, is_over_max) {
 
     if (result == "LOSE") player_game.sazka = -player_game.sazka;
     else if (result == "TIE") player_game.sazka = 0;
+    else if (result == "WIN") player_game.sazka = Math.ceil((player_game.sazka * 0.5) * (1 + (tier / 10)))
 
 
 
@@ -212,7 +216,7 @@ module.exports.run = async(message, args, botconfig, user_lang_role) => {
     let author = message.author;
     let player_id = author.id;
 
-    let game_variables = { username: author.username + "#" + author.discriminator, cards: { card: [], values: [] }, bot_cards: { card: [], values: [] }, all_game_carts: [], sazka: args[0], pending: false, message: "" };
+    let game_variables = { id: author.id, username: author.username + "#" + author.discriminator, cards: { card: [], values: [] }, bot_cards: { card: [], values: [] }, all_game_carts: [], sazka: args[0], pending: false, message: "" };
 
     let guild_map = blackjack_guild_map.get(guild_id);
 
@@ -269,10 +273,14 @@ module.exports.run = async(message, args, botconfig, user_lang_role) => {
 
     if (result != undefined) {
         if (result == "WIN") {
-            let win_xp = xp + Math.ceil(((player_game.sazka / 100) * 50) * (1 + (tier / 10)))
+            let win_xp = xp + player_game.sazka
+            let xp_before = user_data.xp
             user_data.xp = win_xp
+            let xp_after = user_data.xp
+            let debug_msg = `${target.username}#${target.discriminator} have Level: ${user_data.level} with ${xp_before}XP now have ${xp_after}XP, XP to next level is: ${xp_stats[level].xpToNextLevel}, difference is ${Math.abs(xp_before - xp_after)}`
             require("@src/bot").bot.userstats.set(target.id, user_data)
-                //let hodnoty_out = ({ type: "rankup", level: level, xp: win_xp, sql: sql, user: message.author, con: con })
+            require("@handlers/find_channel_by_name").run({ zprava: debug_msg, roomname: botconfig.find(config => config.name == "DEBUG_ROOM").value, message: message });
+            //let hodnoty_out = ({ type: "rankup", level: level, xp: win_xp, sql: sql, user: message.author, con: con })
             signpost.run(target.id, message, target)
                 //console.log(hodnoty_out)
 
@@ -280,10 +288,14 @@ module.exports.run = async(message, args, botconfig, user_lang_role) => {
 
         } else if (result == "LOSE") {
             let lose_xp = xp + player_game.sazka //Sazku jsem drive změnil na opačnou
-            
+
+            let xp_before = user_data.xp
             user_data.xp = lose_xp
+            let xp_after = user_data.xp
+            let debug_msg = `${target.username}#${target.discriminator} have Level: ${user_data.level} with ${xp_before}XP now have ${xp_after}XP, XP to next level is: ${xp_stats[level].xpToNextLevel}, difference is ${Math.abs(xp_before - xp_after)}`
             require("@src/bot").bot.userstats.set(target.id, user_data)
-                //let hodnoty_out = ({ type: "rankdown", level: level, xp: lose_xp, sql: sql, user: message.author, con: con })
+            require("@handlers/find_channel_by_name").run({ zprava: debug_msg, roomname: botconfig.find(config => config.name == "DEBUG_ROOM").value, message: message });
+            //let hodnoty_out = ({ type: "rankdown", level: level, xp: lose_xp, sql: sql, user: message.author, con: con })
             signpost.run(target.id, message, target)
                 //console.log(hodnoty_out)
         } else {
