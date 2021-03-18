@@ -278,10 +278,10 @@ module.exports.run = async(message, args, botconfig, user_lang_role) => {
             user_data.xp = win_xp
             let xp_after = user_data.xp
             let debug_msg = `${target.username}#${target.discriminator} have Level: ${user_data.level} with ${xp_before}XP now have ${xp_after}XP, XP to next level is: ${xp_stats[level].xpToNextLevel}, difference is ${Math.abs(player_game.sazka)}`
-            require("@src/bot").bot.userstats.set(target.id, user_data)
+            await require("@src/bot").bot.userstats.set(target.id, user_data)
             require("@handlers/find_channel_by_name").run({ zprava: debug_msg, roomname: botconfig.find(config => config.name == "DEBUG_ROOM").value, message: message });
             //let hodnoty_out = ({ type: "rankup", level: level, xp: win_xp, sql: sql, user: message.author, con: con })
-            signpost.run(target.id, message, target)
+            await signpost.run(target.id, message, target)
                 //console.log(hodnoty_out)
 
         } else if (result == "TIE") {
@@ -293,10 +293,10 @@ module.exports.run = async(message, args, botconfig, user_lang_role) => {
             user_data.xp = lose_xp
             let xp_after = user_data.xp
             let debug_msg = `${target.username}#${target.discriminator} have Level: ${user_data.level} with ${xp_before}XP now have ${xp_after}XP, XP to next level is: ${xp_stats[level].xpToNextLevel}, difference is ${Math.abs(xp_before - xp_after)}`
-            require("@src/bot").bot.userstats.set(target.id, user_data)
+            await require("@src/bot").bot.userstats.set(target.id, user_data)
             require("@handlers/find_channel_by_name").run({ zprava: debug_msg, roomname: botconfig.find(config => config.name == "DEBUG_ROOM").value, message: message });
             //let hodnoty_out = ({ type: "rankdown", level: level, xp: lose_xp, sql: sql, user: message.author, con: con })
-            signpost.run(target.id, message, target)
+            await signpost.run(target.id, message, target)
                 //console.log(hodnoty_out)
         } else {
             //console.log("BLACKJACK RESULT ERROR");
