@@ -10,7 +10,7 @@ const queue = new Map();
 
 const name = "play"
 const accessableby = ["Member"]
-const aliases = ["skip", "stop", "p", "leave", "queue", "q", "list", "l"]
+const aliases = ["skip", "stop", "p", "leave", "queue", "q", "list", "l", "loop", "lp"]
 const response = "MUSIC_ROOM_NAME";
 
 function song_embed(embed, song, type) {
@@ -78,7 +78,8 @@ module.exports.run = async(message, args, botconfig, user_lang_role) => {
                 voice_channel: voice_channel,
                 text_channel: message.channel,
                 connection: null,
-                songs: []
+                songs: [],
+                loop: false
             }
 
             queue.set(message.guild.id, queue_constructor);
@@ -101,13 +102,14 @@ module.exports.run = async(message, args, botconfig, user_lang_role) => {
     } else if (cmd === 'skip') skip_song(message, server_queue);
     else if (cmd === 'stop' || cmd == "leave" || cmd == "l") stop_song(message, server_queue);
     else if (cmd === 'queue' || cmd == "q" || cmd == "list") show_queue(message, server_queue, botconfig);
+    else if (cmd === 'loop' || cmd == "lp") toggle_loop(message, server_queue, botconfig);
 
 }
 
 const video_player = async(guild, song, botconfig, message) => {
     const song_queue = queue.get(guild.id);
     //console.log("Video player")
-    //console.log(song)
+    //console.log(song_queue)
     if (!song) {
         song_queue.voice_channel.leave();
         song_queue.connection.disconnect();
@@ -118,7 +120,8 @@ const video_player = async(guild, song, botconfig, message) => {
     const stream = ytdl(song.url, { filter: "audioonly" });
     await song_queue.connection.play(stream, { seek: 0, volume: 0.5 })
         .on("finish", () => {
-            song_queue.songs.shift();
+            let shifted_song = song_queue.songs.shift();
+            if(song_queue.loop) song_queue.songs.push(shifted_song)
             video_player(guild, song_queue.songs[0], botconfig, message);
         });
     var embed = new Discord.MessageEmbed()
@@ -165,6 +168,15 @@ const show_queue = (message, server_queue, botconfig) => {
     embed.setDescription(song_list_queue.join("\n"))
 
     require("@handlers/find_channel_by_name").run({ zprava: embed, roomname: botconfig.find(config => config.name == response).value, message: message });
+}
+
+const toggle_loop = (message, server_queue, botconfig) => {
+    if (!server_queue) return
+    let loop = server_queue.loop;
+    
+    if(!loop) server_queue.loop = true;
+    else server_queue.loop = false;
+
 }
 
 module.exports.help = {
