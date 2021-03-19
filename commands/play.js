@@ -165,8 +165,8 @@ const show_queue = (message, server_queue, botconfig) => {
         }
     });
     let last_row = `**${songs.length - 1} songs in queue**          Loop: &STATE`;
-    if(server_queue.loop) last_row.replace("&STATE", "enabled"),
-    else last_row.replace("&STATE", "disabled")
+    if(server_queue.loop) last_row.replace("&STATE", "enabled");
+    else last_row.replace("&STATE", "disabled");
     song_list_queue.push(last_row)
     embed.setDescription(song_list_queue.join("\n"))
 
