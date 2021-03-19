@@ -16,7 +16,7 @@ const response = "MUSIC_ROOM_NAME";
 function song_embed(embed, song, type) {
     let types = ["🎶 Playing 🎶", "Addet to Queue"]
     embed.setTitle(types[type])
-        .addFields({ name: "Name:", value: `[${song.title}](${song.url})` }, { name: "Author:", value: `[${song.author.name}](${song.author.url})` }, { name: "Views:", value: song.views }, { name: "Duration:", value: song.duration }, { name: "Description:", value: song.description })
+        .addFields({ name: "Name:", value: `[${song.title}](${song.url})` }, { name: "Author:", value: `[${song.author.name}](${song.author.url})` }, { name: "Views:", value: song.views }, { name: "Duration:", value: song.duration }, { name: "Description:", value: song.description.slice(0, 1023) })
         .setImage(song.thumbnail)
     return embed
 }
@@ -61,7 +61,7 @@ module.exports.run = async(message, args, botconfig, user_lang_role) => {
 
         if (ytdl.validateURL(args[0])) {
             const song_info = await ytdl.getInfo(args[0]);
-            song = { title: song_info.videoDetails.title, url: song_info.videoDetails.video_url, duration: await get_duration(song_info.videoDetails.lengthSeconds), thumbnail: song_info.videoDetails.thumbnails[song_info.videoDetails.thumbnails.length - 1].url, author: { name: song_info.videoDetails.author.name, url: song_info.videoDetails.author.channel_url }, description: song_info.videoDetails.description.slice(0, 1023), views: song_info.videoDetails.viewCount, requested: message.author.username + "#" + message.author.discriminator }
+            song = { title: song_info.videoDetails.title, url: song_info.videoDetails.video_url, duration: await get_duration(song_info.videoDetails.lengthSeconds), thumbnail: song_info.videoDetails.thumbnails[song_info.videoDetails.thumbnails.length - 1].url, author: { name: song_info.videoDetails.author.name, url: song_info.videoDetails.author.channel_url }, description: song_info.videoDetails.description, views: song_info.videoDetails.viewCount, requested: message.author.username + "#" + message.author.discriminator }
                 //console.log(song.author)
         } else {
             const video = await video_finder(args.join(" "));
@@ -164,7 +164,10 @@ const show_queue = (message, server_queue, botconfig) => {
             song_list_queue.push(``)
         }
     });
-    song_list_queue.push(`**${songs.length - 1} songs in queue**`)
+    let last_row = `**${songs.length - 1} songs in queue**          Loop: &STATE`;
+    if(server_queue.loop) last_row.replace("&STATE", "enabled"),
+    else last_row.replace("&STATE", "disabled")
+    song_list_queue.push(last_row)
     embed.setDescription(song_list_queue.join("\n"))
 
     require("@handlers/find_channel_by_name").run({ zprava: embed, roomname: botconfig.find(config => config.name == response).value, message: message });
