@@ -121,7 +121,7 @@ const video_player = async(guild, song, botconfig, message) => {
     await song_queue.connection.play(stream, { seek: 0, volume: 0.5 })
         .on("finish", () => {
             let shifted_song = song_queue.songs.shift();
-            if(song_queue.loop) song_queue.songs.push(shifted_song)
+            if (song_queue.loop) song_queue.songs.push(shifted_song)
             video_player(guild, song_queue.songs[0], botconfig, message);
         });
     var embed = new Discord.MessageEmbed()
@@ -164,9 +164,12 @@ const show_queue = (message, server_queue, botconfig) => {
             song_list_queue.push(``)
         }
     });
-    let last_row = `**${songs.length - 1} songs in queue**          Loop: &STATE`;
-    if(server_queue.loop) last_row.replace("&STATE", "enabled");
-    else last_row.replace("&STATE", "disabled");
+    let state
+    if (server_queue.loop) state = ":white_check_mark:";
+    else state = ":negative_squared_cross_mark:";
+    let last_row = `**${songs.length - 1} songs in queue‎‎‎‎⠀⠀⠀⠀⠀Loop: ${state}**`;
+    //console.log(server_queue.loop)
+    //console.log(last_row)
     song_list_queue.push(last_row)
     embed.setDescription(song_list_queue.join("\n"))
 
@@ -176,8 +179,8 @@ const show_queue = (message, server_queue, botconfig) => {
 const toggle_loop = (message, server_queue, botconfig) => {
     if (!server_queue) return
     let loop = server_queue.loop;
-    
-    if(!loop) server_queue.loop = true;
+
+    if (!loop) server_queue.loop = true;
     else server_queue.loop = false;
 
 }
