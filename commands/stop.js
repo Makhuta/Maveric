@@ -2,9 +2,9 @@ require("module-alias/register");
 require("dotenv").config();
 const music = require("@handlers/music")
 
-const name = "leave"
+const name = "stop"
 const accessableby = ["Member"]
-const aliases = ["l"]
+const aliases = ["l", "leave"]
 const response = "MUSIC_ROOM_NAME";
 
 module.exports.run = async(message, args, botconfig, user_lang_role) => {
