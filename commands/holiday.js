@@ -58,7 +58,7 @@ module.exports.run = async(message, args, botconfig, user_lang_role) => {
     var reward
 
 
-    svatky.forEach(element => {
+    svatky.forEach(async element => {
         svatek_mesice = element.mesice
         hodnota_svatku = parseInt(element.hodnota)
 
