@@ -9,7 +9,7 @@ const accessableby = ["Bulgy", "Admins", "Moderátor", "Eventer"]
 const aliases = ["exp"]
 const response = "COMMAND_ROOM_NAME"
 
-function addxp(targetid, targetusername, numofxp, message, target, user_language, botconfig) {
+async function addxp(targetid, targetusername, numofxp, message, target, user_language, botconfig) {
 
     let user_data = bot.userstats.get(targetid)
     var xp = user_data.xp
