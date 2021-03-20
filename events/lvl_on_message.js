@@ -11,7 +11,7 @@ function generateXP() {
 }
 
 
-function databaze(message) {
+async function databaze(message) {
     var target = message.author
     //console.log(err + "\n")
 
@@ -22,21 +22,21 @@ function databaze(message) {
     var tier = target_data.tier
 
     target_data.xp += (Math.ceil(generateXP() * (1 + tier / 10)))
-    require("@src/bot").bot.userstats.get(target.id, target_data)
+    await require("@src/bot").bot.userstats.get(target.id, target_data)
     //let hodnoty = ({ type: "rankup", level: level, xp: xp, sql: sql, user: target, con: con, message: message })
-    signpost.run(target.id, message, target)
+    await signpost.run(target.id, message, target)
 
 
 
 
 }
 
-bot.on("message", message => {
+bot.on("message", async message => {
     let prefix = botconfig.filter(config => config.name == "PREFIX")[0]
     if (prefix == undefined) return
     if (message.author.bot || message.channel.type === "dm" || message.content.startsWith(prefix.value) || message.channel.name == "joins") return
     if (Date.now() - bot.userstats.get(message.author.id).last_message < 60000) return
     bot.userstats.get(message.author.id).last_message = Date.now()
-    databaze(message);
+    await databaze(message);
 
 })

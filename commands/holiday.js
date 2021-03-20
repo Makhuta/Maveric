@@ -93,10 +93,10 @@ module.exports.run = async(message, args, botconfig, user_lang_role) => {
                 xp += (reward * (1 + (tier / 10)))
                 user_data.xp = xp;
                 user_data.last_hl = cas;
-                require("@src/bot").bot.userstats.set(message_author.id, user_data)
+                await require("@src/bot").bot.userstats.set(message_author.id, user_data)
                     //let hodnoty = ({ type: "rankup", sql: sql, con: con, user: target, level: level, xpToNextLevel: xpToNextLevel, xp: xp, message: message })
                     //signpost.run(hodnoty)
-                signpost.run(target.id, message, target)
+                await signpost.run(target.id, message, target)
                     //sql = `UPDATE userstats SET last_hl = ${cas} WHERE id = '${message_author.id}'`;
                     //con.query(sql)
 

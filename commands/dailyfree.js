@@ -31,8 +31,8 @@ module.exports.run = async(message, args, botconfig, user_lang_role) => {
         //let hodnoty = ({ type: "rankup", sql: sql, con: con, user: target, level: level, xpToNextLevel: xpToNextLevel, xp: xp, message: message })
     user_data.xp = xp;
     user_data.last_daily_xp = cas
-    require("@src/bot").bot.userstats.set(target.id, user_data)
-    signpost.run(target.id, message, target)
+    await require("@src/bot").bot.userstats.set(target.id, user_data)
+    await signpost.run(target.id, message, target)
         //sql = `UPDATE userstats SET last_daily_xp = ${cas} WHERE id = '${message.author.id}'`;
         //con.query(sql)
     target.send(user_language.WITHDRAW.replace("&REWARD", reward))

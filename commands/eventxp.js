@@ -17,9 +17,9 @@ function addxp(targetid, targetusername, numofxp, message, target, user_language
     var tier = user_data.tier
     user_data.xp += (numofxp * (1 + (tier / 10)))
     var xpToNextLevel = 5 * Math.pow(level, 2) + 50 * level + 100
-    require("@src/bot").bot.userstats.set(target.id, user_data)
+    await require("@src/bot").bot.userstats.set(target.id, user_data)
         //let hodnoty = ({ type: "rankup", sql: sql, con: con, user: target, level: level, xpToNextLevel: xpToNextLevel, xp: xp, message: message })
-    signpost.run(targetid, message, target)
+    await signpost.run(targetid, message, target)
 
     let hodnotyout = ({ zprava: user_language.XP_ADDED.replace("&NUM_OF_XP", numofxp).replace("&TARGET_USERNAME", targetusername), roomname: botconfig.find(config => config.name == response).value, message: message })
     require("@handlers/find_channel_by_name").run(hodnotyout)

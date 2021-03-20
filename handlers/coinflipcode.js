@@ -26,18 +26,18 @@ module.exports = {
 
         if (nahodnecislo <= sazkapravdepodobnost) {
             user_data.xp += (vyhernixp * (1 + tier / 10))
-            require("@src/bot").bot.userstats.set(target.id, user_data);
+            await require("@src/bot").bot.userstats.set(target.id, user_data);
             //let hodnoty = ({ type: "rankup", sql: sql, con: con, user: target, level: level, xpToNextLevel: xpToNextLevel, xp: xp, message: message })
                 //await rankup.run(message, xp, level, sql, con, target, tier, userxp)
             await coinflipcanvas.run(message, color.lime, color.green, "Win", nahodnecislo, response)
-            signpost.run(target.id, message, target)
+            await signpost.run(target.id, message, target)
         } else if (nahodnecislo > sazkapravdepodobnost) {
             user_data.xp -= prohraxp
-            require("@src/bot").bot.userstats.set(target.id, user_data);
+            await require("@src/bot").bot.userstats.set(target.id, user_data);
             //let hodnoty = ({ type: "rankdown", sql: sql, con: con, user: target, level: level, xpToNextLevel: xpToNextLevel, xp: xp, message: message })
                 //await rankdown.run(message, xp, level, sql, con, target, tier, userxp)
             await coinflipcanvas.run(message, color.red, color.maroon, "Lose", nahodnecislo, response)
-            signpost.run(target.id, message, target)
+            await signpost.run(target.id, message, target)
         }
     }
 }
