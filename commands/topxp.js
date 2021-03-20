@@ -9,6 +9,8 @@ const accessableby = ["Member"]
 const aliases = ["txp"]
 const response = "COMMAND_ROOM_NAME";
 
+function isNumber(n) { return /^-?[\d.]+(?:e-?\d+)?$/.test(n); }
+
 function allxp(level, xp) {
     var xpecka = xp
     for (let l = 0; l < level; l++) {
@@ -21,6 +23,10 @@ function allxp(level, xp) {
 }
 
 module.exports.run = async(message, args, botconfig, user_lang_role) => {
+
+    let strana = args[0] ? args[0] : 0
+
+    if (strana != 0) --strana
 
     let result = bot.userstats
     var usraray = []
@@ -51,7 +57,7 @@ module.exports.run = async(message, args, botconfig, user_lang_role) => {
         }*/
     usraray.sort((a, b) => (a.allxps < b.allxps) ? 1 : (a.allxps === b.allxps) ? ((a.id < b.id) ? 1 : -1) : -1)
 
-    for (let d = 0; d < 10; d++) {
+    for (let d = (10 * strana); d < (10 * strana + 10); d++) {
         let topid = (usraray[d] || undefinedaray[0]).id
         let topxp = (usraray[d] || undefinedaray[0]).xp
         let toplevel = (usraray[d] || undefinedaray[0]).level
