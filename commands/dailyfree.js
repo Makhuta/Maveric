@@ -3,6 +3,7 @@ require("dotenv").config();
 const signpost = require("@handlers/ranks/signpost")
 const { database } = require("@events/local_database")
 const { bot } = require("@src/bot")
+const database_access = require("@handlers/database_access")
 
 const name = "dailyfree"
 const accessableby = ["Member"]
@@ -10,7 +11,7 @@ const aliases = ["df"]
 
 module.exports.run = async(message, args, botconfig, user_lang_role) => {
     let user_language = require("@events/language_load").languages.get(user_lang_role).get("DAILYFREE")
-    let user_data = bot.userstats.get(message.author.id)
+    let user_data = await database_access.get(message, message.author)
     let sql
     let target = message.author
     var cas = Date.now()
@@ -31,7 +32,7 @@ module.exports.run = async(message, args, botconfig, user_lang_role) => {
         //let hodnoty = ({ type: "rankup", sql: sql, con: con, user: target, level: level, xpToNextLevel: xpToNextLevel, xp: xp, message: message })
     user_data.xp = xp;
     user_data.last_daily_xp = cas
-    await require("@src/bot").bot.userstats.set(target.id, user_data)
+    await database_access.set(message, target, user_data)
     await signpost.run(target.id, message, target)
         //sql = `UPDATE userstats SET last_daily_xp = ${cas} WHERE id = '${message.author.id}'`;
         //con.query(sql)

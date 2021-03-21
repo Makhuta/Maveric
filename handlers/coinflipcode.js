@@ -8,6 +8,7 @@ const random = require('random')
 const coinflipcanvas = require("@canvases/coinflipcanvas")
 const { database } = require("@events/local_database")
 const { bot } = require("@src/bot")
+const database_access = require("@handlers/database_access")
 
 function randomnumber() {
     return random.int(1, 100)
@@ -22,18 +23,18 @@ module.exports = {
         var prohraxp = sazkaxp
         var nahodnecislo = randomnumber()
         var xpToNextLevel = 5 * Math.pow(level, 2) + 50 * level + 100
-        let user_data = bot.userstats.get(target.id);
+        let user_data = await database_access.get(message, target);
 
         if (nahodnecislo <= sazkapravdepodobnost) {
             user_data.xp += (vyhernixp * (1 + tier / 10))
-            await require("@src/bot").bot.userstats.set(target.id, user_data);
+            await database_access.set(message, target, user_data);
             //let hodnoty = ({ type: "rankup", sql: sql, con: con, user: target, level: level, xpToNextLevel: xpToNextLevel, xp: xp, message: message })
                 //await rankup.run(message, xp, level, sql, con, target, tier, userxp)
             await coinflipcanvas.run(message, color.lime, color.green, "Win", nahodnecislo, response)
             await signpost.run(target.id, message, target)
         } else if (nahodnecislo > sazkapravdepodobnost) {
             user_data.xp -= prohraxp
-            await require("@src/bot").bot.userstats.set(target.id, user_data);
+            await database_access.set(message, target, user_data);
             //let hodnoty = ({ type: "rankdown", sql: sql, con: con, user: target, level: level, xpToNextLevel: xpToNextLevel, xp: xp, message: message })
                 //await rankdown.run(message, xp, level, sql, con, target, tier, userxp)
             await coinflipcanvas.run(message, color.red, color.maroon, "Lose", nahodnecislo, response)

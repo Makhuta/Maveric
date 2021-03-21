@@ -3,6 +3,7 @@ require("dotenv").config();
 const signpost = require("@handlers/ranks/signpost")
 const { database } = require("@events/local_database")
 const { bot } = require("@src/bot")
+const database_access = require("@handlers/database_access")
 
 const name = "eventxp"
 const accessableby = ["Bulgy", "Admins", "Moderátor", "Eventer"]
@@ -11,13 +12,13 @@ const response = "COMMAND_ROOM_NAME"
 
 async function addxp(targetid, targetusername, numofxp, message, target, user_language, botconfig) {
 
-    let user_data = bot.userstats.get(targetid)
+    let user_data = await database_access.get(message, target)
     var xp = user_data.xp
     var level = user_data.level
     var tier = user_data.tier
     user_data.xp += (numofxp * (1 + (tier / 10)))
     var xpToNextLevel = 5 * Math.pow(level, 2) + 50 * level + 100
-    await require("@src/bot").bot.userstats.set(target.id, user_data)
+    await database_access.set(message, target, user_data)
         //let hodnoty = ({ type: "rankup", sql: sql, con: con, user: target, level: level, xpToNextLevel: xpToNextLevel, xp: xp, message: message })
     await signpost.run(targetid, message, target)
 

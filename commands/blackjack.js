@@ -7,6 +7,7 @@ const signpost = require("@handlers/ranks/signpost")
 const { database } = require("@events/local_database")
 const { bot } = require("@src/bot")
 const xp_stats = require("@configs/xp_stats.json")
+const database_access = require("@handlers/database_access")
 
 const reducer = (accumulator, currentValue) => accumulator + currentValue;
 
@@ -126,8 +127,8 @@ function embed_message_game(embed, user_language, player_game) {
     embed.addFields({ name: user_language.YOUR_HAND, value: player_karty + "\nTotal: **" + player_karty_value + "**", inline: true }, { name: user_language.DEALER_HAND, value: bot_karty + "\nTotal: **" + bot_karty_value + "**", inline: true }, { name: user_language.BET, value: `**${player_game.sazka}** XP` })
 }
 
-function winner_decider(user_language, player_game, is_over_max) {
-    let user_stats = bot.userstats.get(player_game.id)
+async function winner_decider(user_language, player_game, is_over_max, message) {
+    let user_stats = await database_access.get(message, player_game)
     let tier = user_stats.tier
     //console.log(player_game)
     let result = "test result";
@@ -193,7 +194,7 @@ module.exports.run = async(message, args, botconfig, user_lang_role) => {
          if (err) throw err;
          con.query(`SELECT * FROM userstats WHERE id = '${message.author.id}'`, async function(err, rows) {*/
     let target = message.author
-    let user_data = bot.userstats.get(target.id);
+    let user_data = await database_access.get(message, target);
     var xp = user_data.xp
     var level = user_data.level
     var tier = user_data.tier
@@ -257,7 +258,7 @@ module.exports.run = async(message, args, botconfig, user_lang_role) => {
             bot_play(player_game);
             if (player_game.bot_cards.values.reduce(reducer) > 21 && player_game.bot_cards.values != [11, 11]) is_over_max.bot = true;
 
-            result = winner_decider(user_language, player_game, is_over_max)
+            result = await winner_decider(user_language, player_game, is_over_max, message)
         } else return require("@handlers/find_channel_by_name").run({ zprava: user_language.LOW_CARD_VALUE, roomname: botconfig.find(config => config.name == response).value, message: message });
     }
 
@@ -268,7 +269,7 @@ module.exports.run = async(message, args, botconfig, user_lang_role) => {
         if (player_game.bot_cards.values.reduce(reducer) > 21 && player_game.bot_cards.values != [11, 11]) is_over_max.bot = true;
         //console.log(is_over_max)
 
-        result = winner_decider(user_language, player_game, is_over_max)
+        result = await winner_decider(user_language, player_game, is_over_max, message)
     }
 
     if (result != undefined) {
@@ -278,7 +279,7 @@ module.exports.run = async(message, args, botconfig, user_lang_role) => {
             user_data.xp = win_xp
             let xp_after = user_data.xp
             let debug_msg = `${target.username}#${target.discriminator} have Level: ${user_data.level} with ${xp_before}XP now have ${xp_after}XP, XP to next level is: ${xp_stats[level].xpToNextLevel}, difference is ${Math.abs(player_game.sazka)}`
-            await require("@src/bot").bot.userstats.set(target.id, user_data)
+            await database_access.set(message, target, user_data)
             require("@handlers/find_channel_by_name").run({ zprava: debug_msg, roomname: botconfig.find(config => config.name == "DEBUG_ROOM").value, message: message });
             //let hodnoty_out = ({ type: "rankup", level: level, xp: win_xp, sql: sql, user: message.author, con: con })
             await signpost.run(target.id, message, target)
@@ -293,7 +294,7 @@ module.exports.run = async(message, args, botconfig, user_lang_role) => {
             user_data.xp = lose_xp
             let xp_after = user_data.xp
             let debug_msg = `${target.username}#${target.discriminator} have Level: ${user_data.level} with ${xp_before}XP now have ${xp_after}XP, XP to next level is: ${xp_stats[level].xpToNextLevel}, difference is ${Math.abs(xp_before - xp_after)}`
-            await require("@src/bot").bot.userstats.set(target.id, user_data)
+            await database_access.set(message, target, user_data)
             require("@handlers/find_channel_by_name").run({ zprava: debug_msg, roomname: botconfig.find(config => config.name == "DEBUG_ROOM").value, message: message });
             //let hodnoty_out = ({ type: "rankdown", level: level, xp: lose_xp, sql: sql, user: message.author, con: con })
             await signpost.run(target.id, message, target)

@@ -5,6 +5,7 @@ const svatky = require("@configs/svatky.json")
 const signpost = require("@handlers/ranks/signpost")
 const { database } = require("@events/local_database")
 const { bot } = require("@src/bot")
+const database_access = require("@handlers/database_access")
 
 const name = "holiday"
 const accessableby = ["Member"]
@@ -77,7 +78,7 @@ module.exports.run = async(message, args, botconfig, user_lang_role) => {
                 }
 
                 //con.query(`SELECT * FROM userstats WHERE id = '${message_author.id}'`, (err, rows) => {
-                let user_data = bot.userstats.get(message_author.id)
+                let user_data = await database_access.get(message, message_author)
                 let sql
                 let target = message_author
                 var cas = Date.now() + za_cas
@@ -93,7 +94,7 @@ module.exports.run = async(message, args, botconfig, user_lang_role) => {
                 xp += (reward * (1 + (tier / 10)))
                 user_data.xp = xp;
                 user_data.last_hl = cas;
-                await require("@src/bot").bot.userstats.set(message_author.id, user_data)
+                await database_access.set(message, message_author, user_data)
                     //let hodnoty = ({ type: "rankup", sql: sql, con: con, user: target, level: level, xpToNextLevel: xpToNextLevel, xp: xp, message: message })
                     //signpost.run(hodnoty)
                 await signpost.run(target.id, message, target)

@@ -5,14 +5,16 @@ const { bot } = require("@src/bot")
 const canvasprofile = require("@canvases/canvasprofile")
 const xp_stats = require("@configs/xp_stats.json")
 const moment = require("moment")
+const database_access = require("@handlers/database_access")
 
 const name = "profile"
 const accessableby = ["Member"]
 const aliases = ["xp", "pr", "info"]
 const response = "COMMAND_ROOM_NAME";
 
-function getrank(usraray, user_rank, target) {
-    bot.userstats.forEach(user => {
+async function getrank(usraray, user_rank, target, message) {
+    let all_users = await database_access.get(message)
+    all_users.forEach(user => {
         resid = user.id;
         let reslevel = user.level;
         let resxp = user.xp;
@@ -36,7 +38,7 @@ function getrank(usraray, user_rank, target) {
 module.exports.run = async(message, args, botconfig, user_lang_role) => {
     let target = message.mentions.users.first() || message.author
     let more_about_target = message.guild.members.cache.get(target.id)
-    let user_data = bot.userstats.get(target.id)
+    let user_data = await database_access.get(message, target)
     let xp = user_data.xp
     let level = user_data.level
     let tier = user_data.tier
@@ -52,7 +54,7 @@ module.exports.run = async(message, args, botconfig, user_lang_role) => {
         })
         roles = roles.join(", ")*/
     var user_rank
-    user_rank = getrank([], user_rank, target)
+    user_rank = await getrank([], user_rank, target, message)
 
     var user_profile = { message: message, response: response, id: target.id, target: target, username: target.username, discriminator: "#" + target.discriminator, xp: xp, level: level, tier: tier, xpToNextLevel: xpToNextLevel, allxp: allxp, createdate: createdate, joindate: joindate, roles: roles, language: user_language, language_name: user_lang_role, user_rank: user_rank }
 

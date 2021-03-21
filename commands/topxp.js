@@ -3,6 +3,7 @@ require("dotenv").config();
 const { bot } = require('@src/bot');
 const top10canvasxp = require("@canvases/top10canvasxp")
 const xp_stats = require("@configs/xp_stats.json")
+const database_access = require("@handlers/database_access")
 
 const name = "topxp"
 const accessableby = ["Member"]
@@ -28,7 +29,7 @@ module.exports.run = async(message, args, botconfig, user_lang_role) => {
 
     if (strana != 0) --strana
 
-    let result = bot.userstats
+    let result = await database_access.get(message)
     var usraray = []
     var top10 = []
     var undefinedaray = [{ id: "No user", xp: "undefined", level: "No user", username: "No username", discriminator: "0000" }]
