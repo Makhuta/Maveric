@@ -5,12 +5,13 @@ const ytdl = require("ytdl-core");
 const ytSearch = require("yt-search");
 const Discord = require("discord.js");
 const color = require("@colorpaletes/colors.json")
+const { getData, getPreview } = require("spotify-url-info");
 
 const queue = new Map();
 
 const response = "MUSIC_ROOM_NAME";
 
-
+const SPOTIFYregEx = /^(?:spotify:|(?:https?:\/\/(?:open|play)\.spotify\.com\/))(?:embed)?\/?(album|track)(?::|\/)((?:[0-9a-zA-Z]){22})/;
 
 function song_embed(embed, song, type) {
     let types = ["🎶 Playing 🎶", "Addet to Queue"]
@@ -43,6 +44,17 @@ const get_duration = async(duration) => {
     return ret;
 }
 
+const finding_by_string = async(message, nazev) => {
+    let songa
+    const video = await video_finder(nazev);
+    if (video) {
+        songa = { title: video.title, url: video.url, duration: video.duration.timestamp, thumbnail: video.thumbnail, author: video.author, description: video.description, views: video.views, requested: message.author.username + "#" + message.author.discriminator }
+    } else {
+        require("@handlers/find_channel_by_name").run({ zprava: user_language.ERROR_FINDING, roomname: botconfig.find(config => config.name == response).value, message: message });
+    }
+    return songa
+}
+
 module.exports = async(message, args, botconfig, user_lang_role, cmd) => {
     let user_language = await require("@events/language_load").languages.get(user_lang_role).get("PLAY")
     const voice_channel = message.member.voice.channel;
@@ -56,17 +68,24 @@ module.exports = async(message, args, botconfig, user_lang_role, cmd) => {
     if (cmd == "play") {
         if (!args.length) return require("@handlers/find_channel_by_name").run({ zprava: user_language.NO_ARGS, roomname: botconfig.find(config => config.name == response).value, message: message });
         let song = {};
+        let url_to_check = args[0]
+        let IS_SPOTIFY = url_to_check.match(SPOTIFYregEx)
 
-        if (ytdl.validateURL(args[0])) {
-            const song_info = await ytdl.getInfo(args[0]);
-            song = { title: song_info.videoDetails.title, url: song_info.videoDetails.video_url, duration: await get_duration(song_info.videoDetails.lengthSeconds), thumbnail: song_info.videoDetails.thumbnails[song_info.videoDetails.thumbnails.length - 1].url, author: { name: song_info.videoDetails.author.name, url: song_info.videoDetails.author.channel_url }, description: song_info.videoDetails.description, views: song_info.videoDetails.viewCount, requested: message.author.username + "#" + message.author.discriminator }
-                //console.log(song.author)
+        if (args.length <= 1 && IS_SPOTIFY) {
+            let album_or_track = IS_SPOTIFY[1];
+            let spotify_id = IS_SPOTIFY[2]
+            if (album_or_track == "track") {
+                let SPOTIFY_title = await getPreview(url_to_check)
+                SPOTIFY_title = [SPOTIFY_title.artist, SPOTIFY_title.title].join(" ")
+                song = await finding_by_string(message, SPOTIFY_title)
+            }
         } else {
-            const video = await video_finder(args.join(" "));
-            if (video) {
-                song = { title: video.title, url: video.url, duration: video.duration.timestamp, thumbnail: video.thumbnail, author: video.author, description: video.description, views: video.views, requested: message.author.username + "#" + message.author.discriminator }
+            if (ytdl.validateURL(args[0])) {
+                const song_info = await ytdl.getInfo(args[0]);
+                song = { title: song_info.videoDetails.title, url: song_info.videoDetails.video_url, duration: await get_duration(song_info.videoDetails.lengthSeconds), thumbnail: song_info.videoDetails.thumbnails[song_info.videoDetails.thumbnails.length - 1].url, author: { name: song_info.videoDetails.author.name, url: song_info.videoDetails.author.channel_url }, description: song_info.videoDetails.description, views: song_info.videoDetails.viewCount, requested: message.author.username + "#" + message.author.discriminator }
+                    //console.log(song.author)
             } else {
-                require("@handlers/find_channel_by_name").run({ zprava: user_language.ERROR_FINDING, roomname: botconfig.find(config => config.name == response).value, message: message });
+                song = await finding_by_string(message, args.join(" "))
             }
         }
 
