@@ -30,10 +30,10 @@ function allxp(level, xp) {
     return (xpecka)
 }
 
-function generate_cards_to_player(player_game) {
+async function generate_cards_to_player(player_game) {
     let player_cards = player_game.cards
     //let cards = player_cards.card;
-    let all_game_carts = player_game.all_game_carts;
+    let all_game_carts = await player_game.all_game_carts;
     //let card_values = player_cards.values;
 
     let znak = random.int(0, 3);
@@ -105,9 +105,9 @@ function bot_play(player_game) {
     //console.log(card_values.reduce(reducer));
 }
 
-function embed_message_final(embed, user_language, player_game) {
+async function embed_message_final(embed, user_language, player_game) {
     let player_karty = player_game.cards.card.join(", ");
-    let player_karty_value = player_game.cards.values.reduce(reducer);
+    let player_karty_value = await player_game.cards.values.reduce(reducer);
     let bot_karty = player_game.bot_cards.card.join(", ") || ["?", "?"].join(", ");
     let bot_karty_value = player_game.bot_cards.values;
     if (bot_karty_value.length == 0) bot_karty_value = "?";
@@ -116,9 +116,9 @@ function embed_message_final(embed, user_language, player_game) {
     embed.addFields({ name: user_language.YOUR_HAND, value: player_karty + "\nTotal: **" + player_karty_value + "**", inline: true }, { name: user_language.DEALER_HAND, value: bot_karty + "\nTotal: **" + bot_karty_value + "**", inline: true }, { name: user_language.PROFIT, value: `**${player_game.sazka}** XP` })
 }
 
-function embed_message_game(embed, user_language, player_game) {
+async function embed_message_game(embed, user_language, player_game) {
     let player_karty = player_game.cards.card.join(", ");
-    let player_karty_value = player_game.cards.values.reduce(reducer);
+    let player_karty_value = await player_game.cards.values.reduce(reducer);
     let bot_karty = player_game.bot_cards.card.join(", ") || ["?", "?"].join(", ");
     let bot_karty_value = player_game.bot_cards.values;
     if (bot_karty_value.length == 0) bot_karty_value = "?";
@@ -184,7 +184,7 @@ async function winner_decider(user_language, player_game, is_over_max, message) 
 
 
     var embed = new Discord.MessageEmbed()
-    embed_message_final(embed, user_language, player_game)
+    await embed_message_final(embed, user_language, player_game)
     player_game.message.edit(embed);
     return result
 }
@@ -236,19 +236,19 @@ module.exports.run = async(message, args, botconfig, user_lang_role) => {
     if (player_game == undefined) return
 
     if ((triggerer == "blackjack" || triggerer == "bj") && !player_game.pending) {
-        generate_cards_to_player(player_game);
-        generate_cards_to_player(player_game);
+        await generate_cards_to_player(player_game);
+        await generate_cards_to_player(player_game);
         player_game.pending = true;
 
         var embed = new Discord.MessageEmbed()
-        embed_message_game(embed, user_language, player_game)
+        await embed_message_game(embed, user_language, player_game)
         let zprava = await require("@handlers/find_channel_by_name").run({ zprava: embed, roomname: botconfig.find(config => config.name == response).value, message: message });
         player_game.message = zprava;
         //console.log(zprava)
     } else if (triggerer == "hit" && player_game.pending) {
-        generate_cards_to_player(player_game);
+        await generate_cards_to_player(player_game);
         var embed = new Discord.MessageEmbed();
-        embed_message_game(embed, user_language, player_game);
+        await embed_message_game(embed, user_language, player_game);
         player_game.message.edit(embed);
     } else if (triggerer == "stand" && player_game.pending) {
         if (player_game.cards.values.reduce(reducer) > 15) {
