@@ -41,7 +41,7 @@ function noargs(hodnoty) {
             }
         })
         let commands_categories_length = commands_categories_list.length
-        console.log(`Number of categories: ${commands_categories_length}\nCategories list: ${commands_categories_list.join(", ")}`)
+        //console.log(`Number of categories: ${commands_categories_length}\nCategories list: ${commands_categories_list.join(", ")}`)
 
         categories.forEach(con_category => {
             let filtered_category_cmd = list_of_commands.filter(cmd => cmd.category == con_category)
@@ -53,7 +53,7 @@ function noargs(hodnoty) {
         });
 
         let seznamjs = separated_list_of_commands.join('\n\n')
-        console.log(list_of_commands)
+        //console.log(list_of_commands)
 
         separated_list_of_commands.forEach(cmd => {
             embed.addFields({ name: cmd.category, value: cmd.names, inline: true })
