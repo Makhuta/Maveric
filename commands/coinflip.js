@@ -10,7 +10,7 @@ const name = "coinflip"
 const accessableby = ["Member"]
 const aliases = ["cf"]
 const response = "GAME_ROOM_NAME";
-const category = "Minigames"
+const category = ["Minigames", "All"]
 
 function isNumber(n) { return /^-?[\d.]+(?:e-?\d+)?$/.test(n); }
 

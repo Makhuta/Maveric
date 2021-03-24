@@ -8,7 +8,7 @@ const name = "admins"
 const accessableby = ["Member"]
 const aliases = ["at"]
 const response = "COMMAND_ROOM_NAME"
-const category = "Info"
+const category = ["Info", "All"]
 
 module.exports.run = async(message, args, botconfig, user_lang_role) => {
     let user_language = require("@events/language_load").languages.get(user_lang_role).get("ADMINS")

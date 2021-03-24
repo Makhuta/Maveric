@@ -9,7 +9,7 @@ const name = "botinfo"
 const accessableby = ["Member"]
 const aliases = ["bi"]
 const response = "COMMAND_ROOM_NAME"
-const category = "Info"
+const category = ["Info", "All"]
 
 module.exports.run = async(message, args, botconfig, user_lang_role) => {
     var boturl = bot.user.displayAvatarURL({ format: "png", size: 512 })

@@ -9,9 +9,9 @@ const database_access = require("@handlers/database_access")
 
 const name = "profile"
 const accessableby = ["Member"]
-const aliases = ["xp", "pr", "info"]
+const aliases = ["xp", "pr"]
 const response = "COMMAND_ROOM_NAME";
-const category = "Statistics"
+const category = ["Statistics", "All"]
 
 async function getrank(usraray, user_rank, target, message) {
     let all_users = await database_access.get(message)

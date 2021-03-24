@@ -23,7 +23,7 @@ const name = "graf"
 const accessableby = ["Member"]
 const aliases = ["g"]
 const response = "COMMAND_ROOM_NAME";
-const category = "Statistics"
+const category = ["Statistics", "All"]
 
 async function graf(data_edited, botconfig, message) {
     let datumy = []

@@ -9,7 +9,7 @@ const name = "topxp"
 const accessableby = ["Member"]
 const aliases = ["txp"]
 const response = "COMMAND_ROOM_NAME";
-const category = "Statistics"
+const category = ["Statistics", "All"]
 
 function isNumber(n) { return /^-?[\d.]+(?:e-?\d+)?$/.test(n); }
 

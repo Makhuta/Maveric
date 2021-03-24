@@ -6,7 +6,7 @@ const name = "random"
 const accessableby = ["Member"]
 const aliases = ["r"]
 const response = "COMMAND_ROOM_NAME";
-const category = "Music"
+const category = ["Music", "All"]
 
 
 function zprava(botconfig, message, user_language, typ, random_numbers, minimum, maximum) {

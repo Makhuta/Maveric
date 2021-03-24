@@ -9,7 +9,7 @@ const name = "eventxp"
 const accessableby = ["Bulgy", "Admins", "Moderátor", "Eventer"]
 const aliases = ["exp"]
 const response = "COMMAND_ROOM_NAME"
-const category = "Events"
+const category = ["Events", "All"]
 
 async function addxp(targetid, targetusername, numofxp, message, target, user_language, botconfig) {
 

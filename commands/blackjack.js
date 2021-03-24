@@ -18,7 +18,7 @@ const name = "blackjack"
 const accessableby = ["Member"]
 const aliases = ["bj", "hit", "stand"]
 const response = "GAME_ROOM_NAME";
-const category = "Minigames"
+const category = ["Minigames", "All"]
 
 function isNumber(n) { return /^-?[\d.]+(?:e-?\d+)?$/.test(n); }
 

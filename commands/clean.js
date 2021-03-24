@@ -6,7 +6,7 @@ const { bot } = require("@src/bot")
 const name = "clean"
 const accessableby = ["Bulgy", "Admins", "Moderátor"]
 const aliases = ["c"]
-const category = "Management"
+const category = ["Management", "All"]
 
 module.exports.run = async (message, args) => {
     var numbertodelete = args[0]

@@ -6,7 +6,7 @@ const update_database = require("@handlers/update_database")
 const name = "sync"
 const accessableby = ["Bulgy", "Admins", "Moderátor", "Eventer"]
 const aliases = ["sc"]
-const category = "Management"
+const category = ["Management", "All"]
 
 module.exports.run = async (message, args) => {
     update_database();

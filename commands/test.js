@@ -10,7 +10,7 @@ const name = "test"
 const accessableby = ["Bulgy", "Admins", "NSBR Bot Creators"]
 const aliases = ["t"]
 const response = "COMMAND_ROOM_NAME";
-const category = "Test"
+const category = ["Hidden", "All"]
 
 
 module.exports.run = async(message, args, botconfig) => {

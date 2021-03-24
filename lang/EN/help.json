@@ -1,18 +1,18 @@
 {
-    "noargs": {
-        "AUTHOR": "List of usable commands:",
+    "categoryargs": {
+        "AUTHOR": "Seznam použitelných příkazů:",
         "FIELDS": [
             {
                 "NAME": "Prefix",
                 "VALUE": "&PREFIX"
             },
             {
-                "NAME": "Specific commands",
-                "VALUE": "For info on specific commands use the command &PREFIXhelp [command name]"
+                "NAME": "Konkrétní příkazy",
+                "VALUE": "Pro info ke konkrétním příkazům použijte příkaz &PREFIXhelp [název příkazu]"
             },
             {
-                "NAME": "Questions",
-                "VALUE": "For more specific questions, contact the Admin team.\nUse the &PREFIXadmins command for the Admin team list"
+                "NAME": "Dotazy",
+                "VALUE": "Pro konkrétnější dotazy se obraťte na Admin team.\nPro seznam Admin teamu použijte příkaz &PREFIXadmins"
             }
         ]
     },
@@ -36,9 +36,26 @@
                 "VALUE": "&COMMAND_ALIAS"
             }
         ],
-        "NO_ALIAS":"Příkaz nemá žádný alias. EN",
-        "NO_DESCRIPTION": "Příkaz nemá žádny popis. EN"
+        "NO_ALIAS": "Příkaz nemá žádný alias.",
+        "NO_DESCRIPTION": "Příkaz nemá žádny popis."
     },
-    "USAGE": "&PREFIXhelp [command]",
-    "DESCRIPTION": "Vypíše všechny potřebné informace. EN"
+    "noargs": {
+        "AUTHOR": "Seznam použitelných kategorií:",
+        "FIELDS": [
+            {
+                "NAME": "Prefix",
+                "VALUE": "&PREFIX"
+            },
+            {
+                "NAME": "Konkrétní kategorie",
+                "VALUE": "Pro info ke konkrétním kategoriím použijte příkaz &PREFIXhelp [název kategorie]"
+            },
+            {
+                "NAME": "Dotazy",
+                "VALUE": "Pro konkrétnější dotazy se obraťte na Admin team.\nPro seznam Admin teamu použijte příkaz &PREFIXadmins"
+            }
+        ]
+    },
+    "USAGE": "&PREFIXhelp [příkaz]",
+    "DESCRIPTION": "Vypíše všechny potřebné informace."
 }

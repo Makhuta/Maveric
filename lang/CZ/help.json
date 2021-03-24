@@ -1,5 +1,5 @@
 {
-    "noargs": {
+    "categoryargs": {
         "AUTHOR": "Seznam použitelných příkazů:",
         "FIELDS": [
             {
@@ -36,8 +36,25 @@
                 "VALUE": "&COMMAND_ALIAS"
             }
         ],
-        "NO_ALIAS":"Příkaz nemá žádný alias.",
+        "NO_ALIAS": "Příkaz nemá žádný alias.",
         "NO_DESCRIPTION": "Příkaz nemá žádny popis."
+    },
+    "noargs": {
+        "AUTHOR": "Seznam použitelných kategorií:",
+        "FIELDS": [
+            {
+                "NAME": "Prefix",
+                "VALUE": "&PREFIX"
+            },
+            {
+                "NAME": "Konkrétní kategorie",
+                "VALUE": "Pro info ke konkrétním kategoriím použijte příkaz &PREFIXhelp [název kategorie]"
+            },
+            {
+                "NAME": "Dotazy",
+                "VALUE": "Pro konkrétnější dotazy se obraťte na Admin team.\nPro seznam Admin teamu použijte příkaz &PREFIXadmins"
+            }
+        ]
     },
     "USAGE": "&PREFIXhelp [příkaz]",
     "DESCRIPTION": "Vypíše všechny potřebné informace."

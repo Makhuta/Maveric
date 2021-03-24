@@ -6,7 +6,7 @@ const name = "play"
 const accessableby = ["Member"]
 const aliases = ["p"]
 const response = "MUSIC_ROOM_NAME";
-const category = "Music"
+const category = ["Music", "All"]
 
 const guild_music_cooldown = new Map();
 const COOLDOWN = 2000;

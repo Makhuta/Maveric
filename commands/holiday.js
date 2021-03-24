@@ -10,7 +10,7 @@ const database_access = require("@handlers/database_access")
 const name = "holiday"
 const accessableby = ["Member"]
 const aliases = ["hl"]
-const category = "Events"
+const category = ["Events", "All"]
 
 function zprava(typ, svatek_nazev, zpusob, target, reward, user_language) {
     let vystup_zprava = [
