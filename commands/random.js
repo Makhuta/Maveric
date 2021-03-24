@@ -6,6 +6,7 @@ const name = "random"
 const accessableby = ["Member"]
 const aliases = ["r"]
 const response = "COMMAND_ROOM_NAME";
+const category = "Music"
 
 
 function zprava(botconfig, message, user_language, typ, random_numbers, minimum, maximum) {
@@ -102,5 +103,6 @@ module.exports.run = async(message, args, botconfig, user_lang_role) => {
 module.exports.help = {
     name: name,
     accessableby: accessableby,
-    aliases: aliases
+    aliases: aliases,
+    category: category
 }

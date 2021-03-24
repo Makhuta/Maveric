@@ -8,6 +8,7 @@ const database_access = require("@handlers/database_access")
 const name = "dailyfree"
 const accessableby = ["Member"]
 const aliases = ["df"]
+const category = "Events"
 
 module.exports.run = async(message, args, botconfig, user_lang_role) => {
     let user_language = require("@events/language_load").languages.get(user_lang_role).get("DAILYFREE")
@@ -43,5 +44,6 @@ module.exports.run = async(message, args, botconfig, user_lang_role) => {
 module.exports.help = {
     name: name,
     accessableby: accessableby,
-    aliases: aliases
+    aliases: aliases,
+    category: category
 }

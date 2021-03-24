@@ -9,6 +9,7 @@ const name = "eventxp"
 const accessableby = ["Bulgy", "Admins", "Moderátor", "Eventer"]
 const aliases = ["exp"]
 const response = "COMMAND_ROOM_NAME"
+const category = "Events"
 
 async function addxp(targetid, targetusername, numofxp, message, target, user_language, botconfig) {
 
@@ -65,5 +66,6 @@ module.exports.run = async(message, args, botconfig, user_lang_role) => {
 module.exports.help = {
     name: name,
     accessableby: accessableby,
-    aliases: aliases
+    aliases: aliases,
+    category: category
 }

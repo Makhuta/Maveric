@@ -11,6 +11,7 @@ const name = "profile"
 const accessableby = ["Member"]
 const aliases = ["xp", "pr", "info"]
 const response = "COMMAND_ROOM_NAME";
+const category = "Statistics"
 
 async function getrank(usraray, user_rank, target, message) {
     let all_users = await database_access.get(message)
@@ -70,5 +71,6 @@ module.exports.run = async(message, args, botconfig, user_lang_role) => {
 module.exports.help = {
     name: name,
     accessableby: accessableby,
-    aliases: aliases
+    aliases: aliases,
+    category: category
 }

@@ -9,6 +9,7 @@ const name = "topxp"
 const accessableby = ["Member"]
 const aliases = ["txp"]
 const response = "COMMAND_ROOM_NAME";
+const category = "Statistics"
 
 function isNumber(n) { return /^-?[\d.]+(?:e-?\d+)?$/.test(n); }
 
@@ -80,5 +81,6 @@ module.exports.run = async(message, args, botconfig, user_lang_role) => {
 module.exports.help = {
     name: name,
     accessableby: accessableby,
-    aliases: aliases
+    aliases: aliases,
+    category: category
 }

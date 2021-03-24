@@ -23,6 +23,7 @@ const name = "graf"
 const accessableby = ["Member"]
 const aliases = ["g"]
 const response = "COMMAND_ROOM_NAME";
+const category = "Statistics"
 
 async function graf(data_edited, botconfig, message) {
     let datumy = []
@@ -92,5 +93,6 @@ module.exports.run = async (message, args, botconfig, user_lang_role) => {
 module.exports.help = {
     name: name,
     accessableby: accessableby,
-    aliases: aliases
+    aliases: aliases,
+    category: category
 }

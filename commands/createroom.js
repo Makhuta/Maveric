@@ -1,6 +1,7 @@
 const name = "createroom"
 const accessableby = ["Extra V.I.P."]
 const aliases = ["cr"]
+const category = "Basic"
 
 function zprava(user, type, nameofchannel, user_language, botconfig) {
     let zprava = [user_language.HAS_BEEN_CREATED.replace("&NAME_OF_CHANNEL", nameofchannel), user_language.ALREADY_HAVE_ROOM.replace("&USERNAME", user.username)]
@@ -37,5 +38,6 @@ module.exports.run = async(message, args, botconfig, user_lang_role) => {
 module.exports.help = {
     name: name,
     accessableby: accessableby,
-    aliases: aliases
+    aliases: aliases,
+    category: category
 }

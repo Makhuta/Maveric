@@ -10,6 +10,7 @@ const database_access = require("@handlers/database_access")
 const name = "holiday"
 const accessableby = ["Member"]
 const aliases = ["hl"]
+const category = "Events"
 
 function zprava(typ, svatek_nazev, zpusob, target, reward, user_language) {
     let vystup_zprava = [
@@ -120,5 +121,6 @@ module.exports.run = async(message, args, botconfig, user_lang_role) => {
 module.exports.help = {
     name: name,
     accessableby: accessableby,
-    aliases: aliases
+    aliases: aliases,
+    category: category
 }

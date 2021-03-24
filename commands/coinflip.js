@@ -10,6 +10,7 @@ const name = "coinflip"
 const accessableby = ["Member"]
 const aliases = ["cf"]
 const response = "GAME_ROOM_NAME";
+const category = "Minigames"
 
 function isNumber(n) { return /^-?[\d.]+(?:e-?\d+)?$/.test(n); }
 
@@ -116,5 +117,6 @@ module.exports.run = async(message, args, botconfig, user_lang_role) => {
 module.exports.help = {
     name: name,
     accessableby: accessableby,
-    aliases: aliases
+    aliases: aliases,
+    category: category
 }

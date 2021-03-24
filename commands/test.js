@@ -10,6 +10,7 @@ const name = "test"
 const accessableby = ["Bulgy", "Admins", "NSBR Bot Creators"]
 const aliases = ["t"]
 const response = "COMMAND_ROOM_NAME";
+const category = "Test"
 
 
 module.exports.run = async(message, args, botconfig) => {
@@ -34,5 +35,6 @@ module.exports.run = async(message, args, botconfig) => {
 module.exports.help = {
     name: name,
     accessableby: accessableby,
-    aliases: aliases
+    aliases: aliases,
+    category: category
 }

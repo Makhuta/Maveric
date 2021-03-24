@@ -9,6 +9,7 @@ const name = "botinfo"
 const accessableby = ["Member"]
 const aliases = ["bi"]
 const response = "COMMAND_ROOM_NAME"
+const category = "Info"
 
 module.exports.run = async(message, args, botconfig, user_lang_role) => {
     var boturl = bot.user.displayAvatarURL({ format: "png", size: 512 })
@@ -30,5 +31,6 @@ module.exports.run = async(message, args, botconfig, user_lang_role) => {
 module.exports.help = {
     name: name,
     accessableby: accessableby,
-    aliases: aliases
+    aliases: aliases,
+    category: category
 }
