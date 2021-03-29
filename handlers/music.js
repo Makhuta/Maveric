@@ -138,7 +138,9 @@ const video_player = async(guild, song, botconfig, message) => {
     await song_queue.connection.play(stream, { seek: 0, volume: 0.5 })
         .on("finish", () => {
             let shifted_song = song_queue.songs.shift();
-            if (song_queue.loop) song_queue.songs.push(shifted_song)
+            let number_of_users_in_channel = song_queue.voice_channel.members.filter(user => !user.user.bot).size
+            if (song_queue.loop) song_queue.songs.push(shifted_song);
+            if (number_of_users_in_channel < 1) ong_queue.songs = [];
             video_player(guild, song_queue.songs[0], botconfig, message);
         });
     var embed = new Discord.MessageEmbed()
