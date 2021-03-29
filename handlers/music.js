@@ -78,17 +78,20 @@ module.exports = async(message, args, botconfig, user_lang_role, cmd) => {
         let url_to_check = args[0]
         let IS_SPOTIFY = url_to_check.match(SPOTIFYregEx)
         let IS_YOUTUBE_PLAYLIST = url_to_check.match(YOUTUBE_PLAYLISTregex)
-        //console.log("Before Check:")
-        //console.log(IS_SPOTIFY)
-        //console.log("Afore Check:")
+            //console.log("Before Check:")
+            //console.log(IS_SPOTIFY)
+            //console.log("Afore Check:")
 
         if (args.length <= 1 && IS_SPOTIFY) {
             let album_or_track = IS_SPOTIFY[1];
             let spotify_id = IS_SPOTIFY[2]
             if (album_or_track == "track") {
                 let SPOTIFY_title = await getPreview(url_to_check)
+                console.log(SPOTIFY_title)
                 SPOTIFY_title = [SPOTIFY_title.artist, SPOTIFY_title.title].join(" ")
                 song = await finding_by_string(message, SPOTIFY_title, user_language, botconfig)
+            } else {
+
             }
         } else {
             if (ytdl.validateURL(args[0])) {
@@ -100,7 +103,7 @@ module.exports = async(message, args, botconfig, user_lang_role, cmd) => {
                     let song_array = [];
                     playlist_info.forEach(s => {
                         song_array.push({ title: s.title, url: s.url, duration: s.duration, thumbnail: s.thumbnails[s.thumbnails.length - 1].url, author: s.author, description: undefined, views: undefined, requested: message.author.username + "#" + message.author.discriminator })
-                        //console.log(s)
+                            //console.log(s)
                     })
                     song = song_array
                         //{ title: video.title, url: video.url, duration: video.duration.timestamp, thumbnail: video.thumbnail, author: video.author, description: video.description, views: video.views, requested: message.author.username + "#" + message.author.discriminator }
@@ -146,6 +149,7 @@ module.exports = async(message, args, botconfig, user_lang_role, cmd) => {
     else if (cmd === 'stop') stop_song(message, server_queue);
     else if (cmd === 'queue') show_queue(message, server_queue, botconfig);
     else if (cmd === 'loop') toggle_loop(message, server_queue, botconfig);
+    else if (cmd === 'shuffle') shuffle_playlist(message, server_queue, botconfig);
 
 }
 
@@ -236,4 +240,11 @@ const toggle_loop = (message, server_queue, botconfig) => {
     if (!loop) server_queue.loop = true;
     else server_queue.loop = false;
 
+}
+
+const shuffle_playlist = (message, server_queue, botconfig) => {
+    if (!server_queue) return
+    let shifted_song = server_queue.songs.shift();
+    server_queue.songs = server_queue.songs.sort( () => .5 - Math.random() )
+    server_queue.songs.unshift(shifted_song)
 }
