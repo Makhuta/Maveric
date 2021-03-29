@@ -2,6 +2,7 @@ require("module-alias/register");
 require("dotenv").config();
 
 const ytdl = require("ytdl-core");
+const ytpl = require("ytpl")
 const ytSearch = require("yt-search");
 const Discord = require("discord.js");
 const color = require("@colorpaletes/colors.json")
@@ -12,11 +13,14 @@ const queue = new Map();
 const response = "MUSIC_ROOM_NAME";
 
 const SPOTIFYregEx = /^(?:spotify:|(?:https?:\/\/(?:open|play)\.spotify\.com\/))(?:embed)?\/?(album|track)(?::|\/)((?:[0-9a-zA-Z]){22})/;
+const YOUTUBE_PLAYLISTregex = /.*(youtu.be\/|list=)([^#\&\?]*)./;
+const MAX_QUEUE_EMBED_NUMBER = 10;
 
-function song_embed(embed, song, type) {
+async function song_embed(embed, song, type) {
     let types = ["🎶 Playing 🎶", "Addet to Queue"]
+    let video = await video_finder(song.title)
     embed.setTitle(types[type])
-        .addFields({ name: "Name:", value: `[${song.title}](${song.url})` }, { name: "Author:", value: `[${song.author.name}](${song.author.url})` }, { name: "Views:", value: song.views }, { name: "Duration:", value: song.duration }, { name: "Description:", value: song.description.slice(0, 1023) })
+        .addFields({ name: "Name:", value: `[${song.title}](${song.url})` }, { name: "Author:", value: `[${song.author.name}](${song.author.url})` }, { name: "Views:", value: song.views ? song.views.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ') : video.views.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ') }, { name: "Duration:", value: song.duration }, { name: "Description:", value: song.description ? song.description.slice(0, 1023) : video.description.slice(0, 1023) })
         .setImage(song.thumbnail)
     return embed
 }
@@ -44,11 +48,14 @@ const get_duration = async(duration) => {
     return ret;
 }
 
-const finding_by_string = async(message, nazev) => {
-    let songa
-    const video = await video_finder(nazev);
+const finding_by_string = async(message, nazev, user_language, botconfig, playlist_array) => {
+    let songa = []
+    var video = undefined;
+    if (nazev) {
+        video = await video_finder(nazev);
+    }
     if (video) {
-        songa = { title: video.title, url: video.url, duration: video.duration.timestamp, thumbnail: video.thumbnail, author: video.author, description: video.description, views: video.views, requested: message.author.username + "#" + message.author.discriminator }
+        songa.push({ title: video.title, url: video.url, duration: video.duration.timestamp, thumbnail: video.thumbnail, author: video.author, description: video.description, views: video.views, requested: message.author.username + "#" + message.author.discriminator })
     } else {
         require("@handlers/find_channel_by_name").run({ zprava: user_language.ERROR_FINDING, roomname: botconfig.find(config => config.name == response).value, message: message });
     }
@@ -70,6 +77,10 @@ module.exports = async(message, args, botconfig, user_lang_role, cmd) => {
         let song = {};
         let url_to_check = args[0]
         let IS_SPOTIFY = url_to_check.match(SPOTIFYregEx)
+        let IS_YOUTUBE_PLAYLIST = url_to_check.match(YOUTUBE_PLAYLISTregex)
+        //console.log("Before Check:")
+        //console.log(IS_SPOTIFY)
+        //console.log("Afore Check:")
 
         if (args.length <= 1 && IS_SPOTIFY) {
             let album_or_track = IS_SPOTIFY[1];
@@ -77,15 +88,25 @@ module.exports = async(message, args, botconfig, user_lang_role, cmd) => {
             if (album_or_track == "track") {
                 let SPOTIFY_title = await getPreview(url_to_check)
                 SPOTIFY_title = [SPOTIFY_title.artist, SPOTIFY_title.title].join(" ")
-                song = await finding_by_string(message, SPOTIFY_title)
+                song = await finding_by_string(message, SPOTIFY_title, user_language, botconfig)
             }
         } else {
             if (ytdl.validateURL(args[0])) {
-                const song_info = await ytdl.getInfo(args[0]);
-                song = { title: song_info.videoDetails.title, url: song_info.videoDetails.video_url, duration: await get_duration(song_info.videoDetails.lengthSeconds), thumbnail: song_info.videoDetails.thumbnails[song_info.videoDetails.thumbnails.length - 1].url, author: { name: song_info.videoDetails.author.name, url: song_info.videoDetails.author.channel_url }, description: song_info.videoDetails.description, views: song_info.videoDetails.viewCount, requested: message.author.username + "#" + message.author.discriminator }
-                    //console.log(song.author)
+                if (!IS_YOUTUBE_PLAYLIST) {
+                    const song_info = await ytdl.getInfo(args[0]);
+                    song = [{ title: song_info.videoDetails.title, url: song_info.videoDetails.video_url, duration: await get_duration(song_info.videoDetails.lengthSeconds), thumbnail: song_info.videoDetails.thumbnails[song_info.videoDetails.thumbnails.length - 1].url, author: { name: song_info.videoDetails.author.name, url: song_info.videoDetails.author.channel_url }, description: song_info.videoDetails.description, views: song_info.videoDetails.viewCount, requested: message.author.username + "#" + message.author.discriminator }]
+                } else {
+                    const playlist_info = (await ytpl(args[0])).items
+                    let song_array = [];
+                    playlist_info.forEach(s => {
+                        song_array.push({ title: s.title, url: s.url, duration: s.duration, thumbnail: s.thumbnails[s.thumbnails.length - 1].url, author: s.author, description: undefined, views: undefined, requested: message.author.username + "#" + message.author.discriminator })
+                        //console.log(s)
+                    })
+                    song = song_array
+                        //{ title: video.title, url: video.url, duration: video.duration.timestamp, thumbnail: video.thumbnail, author: video.author, description: video.description, views: video.views, requested: message.author.username + "#" + message.author.discriminator }
+                } //console.log(song.author)
             } else {
-                song = await finding_by_string(message, args.join(" "))
+                song = await finding_by_string(message, args.join(" "), user_language, botconfig)
             }
         }
 
@@ -100,7 +121,10 @@ module.exports = async(message, args, botconfig, user_lang_role, cmd) => {
             }
 
             queue.set(message.guild.id, queue_constructor);
-            queue_constructor.songs.push(song);
+            //console.log(song)
+            song.forEach(s => {
+                queue_constructor.songs.push(s);
+            })
 
             try {
                 const connection = await voice_channel.join();
@@ -112,9 +136,11 @@ module.exports = async(message, args, botconfig, user_lang_role, cmd) => {
                 throw err;
             }
         } else {
-            server_queue.songs.push(song);
+            song.forEach(s => {
+                server_queue.songs.push(s);
+            })
             var embed = new Discord.MessageEmbed()
-            require("@handlers/find_channel_by_name").run({ zprava: song_embed(embed, song, 1), roomname: botconfig.find(config => config.name == response).value, message: message });
+            require("@handlers/find_channel_by_name").run({ zprava: await song_embed(embed, song, 1), roomname: botconfig.find(config => config.name == response).value, message: message });
         }
     } else if (cmd === 'skip') skip_song(message, server_queue);
     else if (cmd === 'stop') stop_song(message, server_queue);
@@ -144,7 +170,7 @@ const video_player = async(guild, song, botconfig, message) => {
             video_player(guild, song_queue.songs[0], botconfig, message);
         });
     var embed = new Discord.MessageEmbed()
-    require("@handlers/find_channel_by_name").run({ zprava: song_embed(embed, song, 0), roomname: botconfig.find(config => config.name == response).value, message: message });
+    require("@handlers/find_channel_by_name").run({ zprava: await song_embed(embed, song, 0), roomname: botconfig.find(config => config.name == response).value, message: message });
 }
 
 const skip_song = (message, server_queue) => {
@@ -170,6 +196,7 @@ const show_queue = (message, server_queue, botconfig) => {
     embed.setTitle("**Queue**")
     embed.setColor(color.blue)
     songs.forEach((song, i) => {
+        //console.log(i)
         if (i == 0) {
             song_list_queue.push(`__Now Playing:__`)
             song_list_queue.push(`[${song.title}](${song.url}) | ` + '`' + `${song.duration} Requested by: ${song.requested}` + '`')
@@ -178,6 +205,13 @@ const show_queue = (message, server_queue, botconfig) => {
             song_list_queue.push(`__Up Next:__`)
             song_list_queue.push('`' + i + '.`' + ` [${song.title}](${song.url}) | ` + '`' + `${song.duration} Requested by: ${song.requested}` + '`')
             song_list_queue.push(``)
+        } else if (i >= MAX_QUEUE_EMBED_NUMBER) {
+            let num_of_q_songs = songs.length
+            if (num_of_q_songs > MAX_QUEUE_EMBED_NUMBER) {
+                if (i == MAX_QUEUE_EMBED_NUMBER) {
+                    song_list_queue.push(`${num_of_q_songs - 10} more songs are in Queue.`)
+                }
+            }
         } else {
             song_list_queue.push('`' + i + '.`' + ` [${song.title}](${song.url}) | ` + '`' + `${song.duration} Requested by: ${song.requested}` + '`')
             song_list_queue.push(``)
