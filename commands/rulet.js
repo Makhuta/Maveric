@@ -20,8 +20,8 @@ const category = ["Minigames", "All"]
 const rulets_map = new Map();
 const SAZKA = 1000;
 const DELITEL = 10;
-//const RULET_TIMEOUT = 300000;
-const RULET_TIMEOUT = 10000;
+const RULET_TIMEOUT = 300000;
+//const RULET_TIMEOUT = 10000;
 const emoji_list = ["⚫", "🟢", "🔴"]
 
 const rulet_result = async(message, args, botconfig, user_lang_role) => {
