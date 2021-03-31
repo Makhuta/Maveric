@@ -38,6 +38,9 @@ const rulet_result = async(message, args, botconfig, user_lang_role) => {
     let nahodne_cislo = random.int(0, ruleta_cisla.length - 1)
     let moved_array = await array_move.run({ array: ruleta_cisla, number_to_shift: nahodne_cislo })
     let guild_rulet = rulets_map.get(guild.id)
+    let rulet_message = guild_rulet.rulet_message
+
+    console.log(rulet_message)
 
     let winner_number = moved_array[0].number
     let winner_number_to_color
@@ -81,6 +84,11 @@ const rulet_result = async(message, args, botconfig, user_lang_role) => {
         current_player.xp += (+(win_xp * per_player_result.win_bet.length) - (SAZKA * per_player_result.lose_bets.length))
         database_access.set(message, target, current_player)
     })
+    hodnotyout = ({ info: "result", pocet_cisel: ruleta_cisla.length, ruleta_cisla: moved_array })
+    let rulet_edited_canvas = await rulet_canvas.run(hodnotyout)
+    rulet_message.delete()
+    await require("@handlers/find_channel_by_name").run({ zprava: rulet_edited_canvas, roomname: botconfig.find(config => config.name == response).value, message: message });
+
     rulets_map.delete(guild.id)
 }
 
