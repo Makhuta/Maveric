@@ -40,8 +40,6 @@ const rulet_result = async(message, args, botconfig, user_lang_role) => {
     let guild_rulet = rulets_map.get(guild.id)
     let rulet_message = guild_rulet.rulet_message
 
-    console.log(rulet_message)
-
     let winner_number = moved_array[0].number
     let winner_number_to_color
     let win_xp
