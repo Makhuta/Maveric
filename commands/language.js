@@ -15,7 +15,7 @@ const category = ["Basic", "All"]
 const LANG_PREFIX = "Language:"
 const emojis_list = ['0️⃣', '1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣', '🔟']
 
-const user_setup = new Map();
+const guild_languages = new Map();
 
 const all_languages_with_prefix = new Promise((resolve, reject) => {
     let languages = "./lang/"
@@ -65,6 +65,11 @@ const get_emoji_from_number = (number) => {
 }
 
 module.exports.run = async(message, args, botconfig, user_lang_role) => {
+    let guild = message.guild
+    const guild_constructor = {
+        user_setup: new Map(),
+        type: "LANGUAGE"
+    }
     const constructor = {
         target: message.member,
         lang_message: null,
@@ -75,11 +80,18 @@ module.exports.run = async(message, args, botconfig, user_lang_role) => {
     let user_language = require("@events/language_load").languages.get(user_lang_role).get("LANGUAGE")
     let language_roles_names = await all_languages_with_prefix
 
-    let per_user_setup = user_setup.get(target.id)
+    let per_guild_setup = guild_languages.get(guild.id)
+
+    if (!per_guild_setup) {
+        guild_languages.set(guild.id, guild_constructor)
+        per_guild_setup = guild_languages.get(guild.id)
+    }
+
+    let per_user_setup = per_guild_setup.user_setup.get(target.id)
 
     if (!per_user_setup) {
-        user_setup.set(target.id, constructor)
-        per_user_setup = user_setup.get(target.id)
+        per_guild_setup.user_setup.set(target.id, constructor)
+        per_user_setup = per_guild_setup.user_setup.get(target.id)
     } else {
         if (!per_user_setup.lang_message.deleted) {
             per_user_setup.lang_message.delete();
@@ -109,7 +121,12 @@ bot.on("messageReactionAdd", async(reaction, user) => {
     if (!user) return;
     if (user.bot) return;
     if (!reaction.message.channel.guild) return;
-    let per_user_setup = user_setup.get(user.id)
+    let guild = reaction.message.channel.guild
+    let per_guild_setup = guild_languages.get(guild.id)
+    if (!per_guild_setup) return
+    if (per_guild_setup.type != "LANGUAGE") return
+    let per_user_setup = per_guild_setup.user_setup.get(user.id)
+
     if (!per_user_setup) return reaction.users.remove(user.id)
     if (reaction.message.id != per_user_setup.lang_message.id) return;
     let used_emojis_json = per_user_setup.used_emojis
@@ -122,7 +139,7 @@ bot.on("messageReactionAdd", async(reaction, user) => {
         await remove_all_roles_from_user(per_user_setup.ROLE_FROM_BOT, per_user_setup.target);
         per_user_setup.target.roles.add(requested_role.id)
         per_user_setup.lang_message.delete();
-        user_setup.delete(user.id)
+        per_guild_setup.user_setup.delete(user.id)
     }
 
 })

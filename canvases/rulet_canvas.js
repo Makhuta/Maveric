@@ -2,10 +2,7 @@ require("module-alias/register");
 require("dotenv").config();
 const { MessageAttachment } = require("discord.js");
 const { createCanvas, loadImage, Canvas } = require("canvas");
-const { join } = require("path");
 const colors = require("@colorpaletes/colors.json")
-const find_channel_by_name = require("@handlers/find_channel_by_name")
-const rulet = require("@commands/rulet")
 
 function drawTextAlongArc(context, str, centerX, centerY, radius, angle) {
     context.save();
@@ -49,9 +46,6 @@ module.exports = {
         var angle = Math.PI * 2;
         var radius = 180;
 
-        const background = await loadImage(join(__dirname, "..", "pictures", "xp_background.jpg"));
-        ctx.globalAlpha = 0;
-        ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
         let rozdeleni = (Math.PI * 2) / pocet_cisel
         let posun = rozdeleni / 2
 
@@ -106,6 +100,8 @@ module.exports = {
 
         const attachment = new MessageAttachment(canvas.toBuffer(), `rulet_${info}.png`);
 
+        return attachment
+            /*
         let hodnotyout = ({ zprava: attachment, roomname: require("../../botconfig/roomnames.json").botcommand })
         let message = await find_channel_by_name.run(hodnotyout)
 
@@ -116,6 +112,6 @@ module.exports = {
             })
             rulet.rulet.message = message
         }
-
+*/
     }
 }
