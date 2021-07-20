@@ -26,7 +26,6 @@
     "nodemailer": "^6.5.0",
     "opusscript": "0.0.8",
     "path": "^0.12.7",
-    "perspective-api-client": "^3.1.0",
     "random": "^3.0.3",
     "spotify-url-info": "^2.2.0",
     "yt-search": "^2.7.6",
