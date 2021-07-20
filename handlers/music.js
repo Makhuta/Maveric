@@ -20,6 +20,7 @@ async function song_embed(embed, song, type) {
     let types = ["🎶 Playing 🎶", "Addet to Queue"]
     let video = await video_finder(song.title)
     embed.setTitle(types[type])
+    console.log(song)
         .addFields({ name: "Name:", value: `[${song.title}](${song.url})` }, { name: "Author:", value: `[${song.author.name}](${song.author.url})` }, { name: "Views:", value: song.views ? song.views.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ') : video.views.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ') }, { name: "Duration:", value: song.duration }, { name: "Description:", value: song.description ? song.description.slice(0, 1023) : video.description.slice(0, 1023) })
         .setImage(song.thumbnail)
     return embed
