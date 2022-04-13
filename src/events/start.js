@@ -6,7 +6,7 @@ function loadcommands() {
   fs.readdir(commands, (err, files) => {
     if (err) console.log(err);
 
-    let jsfile = files.filter((f) => f.split(".").pop() === "js");
+    let jsfile = files?.filter((f) => f.split(".").pop() === "js");
     if (jsfile.length <= 0) {
       console.log("There isn't any commands to load!");
       return;
@@ -23,7 +23,7 @@ function loadevents() {
   fs.readdir(events, (err, files) => {
     if (err) console.log(err);
 
-    let jsfile = files.filter((f) => f.split(".").pop() === "js");
+    let jsfile = files?.filter((f) => f.split(".").pop() === "js");
     if (jsfile.length <= 0) {
       console.log("There isn't any events to load!");
       return;
@@ -41,7 +41,7 @@ function loadfonts() {
   fs.readdir(fonts, (err, files) => {
     if (err) console.log(err);
 
-    let tfffile = files.filter((f) => f.split(".").pop() === "ttf");
+    let tfffile = files?.filter((f) => f.split(".").pop() === "ttf");
     if (tfffile.length <= 0) {
       console.log("There isn't any fonts to load!");
       return;
