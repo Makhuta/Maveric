@@ -3,7 +3,7 @@ const { join } = require("path");
 const { registerFont } = require("canvas");
 
 function loadcommands() {
-  console.log(commands)
+  console.log(commands + "\n\n\n\n\n\n\n\n")
   fs.readdir(commands, (err, files) => {
     if (err) console.log(err);
 
