@@ -58,7 +58,7 @@ function loadfonts() {
 
 module.exports = {
   run() {
-    //loadcommands();
+    loadcommands();
     loadevents();
     loadfonts();
   }
