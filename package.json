@@ -4,45 +4,19 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "nodemon ./index.js"
   },
   "author": "Makhuta",
   "license": "ISC",
-  "dependencies": {
-    "@discordjs/opus": "^0.5.3",
-    "chart.js": "^2.9.4",
-    "chartjs-node-canvas": "^3.1.0",
-    "delay": "^5.0.0",
-    "discord.js": "^12.5.1",
-    "dotenv": "^8.2.0",
-    "ffmpeg": "0.0.4",
-    "ffmpeg-static": "^4.2.8",
-    "fs": "0.0.1-security",
-    "imageapi.js": "^1.6.1",
-    "libsodium": "^0.7.9",
-    "module-alias": "^2.2.2",
-    "moment": "^2.29.1",
-    "mysql": "^2.18.1",
-    "node-pre-gyp": "^0.17.0",
-    "nodemailer": "^6.5.0",
-    "opusscript": "0.0.8",
-    "path": "^0.12.7",
-    "random": "^3.0.3",
-    "spotify-url-info": "^2.2.0",
-    "ws": "^7.5.3",
-    "yt-search": "^2.7.6",
-    "ytdl-core": "^4.8.3",
-    "ytpl": "^2.0.5"
+  "devDependencies": {
+    "nodemon": "^2.0.15"
   },
-  "_moduleAliases": {
-    "@root": ".",
-    "@src": "src",
-    "@handlers": "handlers",
-    "@configs": "configs",
-    "@colorpaletes": "colorpaletes",
-    "@events": "events",
-    "@commands": "commands",
-    "@fonts": "fonts",
-    "@canvases": "canvases"
+  "dependencies": {
+    "canvas": "^2.9.1",
+    "discord.js": "^13.6.0",
+    "dotenv": "^16.0.0",
+    "fs": "^0.0.1-security",
+    "moment": "^2.29.2"
   }
 }

@@ -1,8 +1,0 @@
-{
-    "XP_ADDED": "&NUM_OF_XP XP bylo přičteno uživateli &TARGET_USERNAME.",
-    "WRONG_USER": "Prosím specifukujte uživatele.",
-    "WRONG_FORMAT": "Prosím překontrolujte si hodnotu nebo formát XP.",
-    "NEGATIVE_VALUES": "Prosím nepoužívejte záporné hodnoty XP s tímto příkazem.",
-    "USAGE": "&PREFIXeventxp [@user] [počet XP]",
-    "DESCRIPTION": "Přídá členovi počet XP (určeno pro eventy)."
-}

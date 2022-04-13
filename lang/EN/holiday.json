@@ -1,9 +1,0 @@
-{
-    "NOT_HOLIDAY": "Dnes není žádný svátek. EN",
-    "EASTER": "Dnes jsou Velikonoce. EN",
-    "DNES_JE": "Dnes je &SVATEK_NAZEV, bylo ti přičteno &REVARD XP EN",
-    "DNES_JSOU": "Dnes jsou &SVATEK_NAZEV, bylo ti přičteno &REVARD XP EN",
-    "ALREADY_WITHDRAWED": "Dnešní svátkové XP sis již vybral.\nDalší odměnu si můžeš vybrat za &ZA_XP_HODINh a &ZA_XP_MINUTm. EN",
-    "USAGE": "&PREFIXholiday EN",
-    "DESCRIPTION": "V případě že v den použití příkazu je nějaký svátek tak vám připíše přednastavený počet XP pro každý svátek. EN"
-}
