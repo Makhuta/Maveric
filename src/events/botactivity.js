@@ -12,7 +12,7 @@ async function aktivita() {
   typ_aktivity.push(aktivita);
 }
 
-client.on("ready", () => {
+client.on("NSBREventsLoad", () => {
   aktivita();
 
   setInterval(() => {
