@@ -8,5 +8,7 @@ global.canvases = join(src, "canvases");
 global.pictures = join(src, "pictures");
 global.colorpaletes = join(src, "colorpaletes");
 global.fonts = join(src, "fonts");
+//CommandList
+//DClientLoc
 
-require("./src/events/start").run();
+require(join(events, "start.js"));

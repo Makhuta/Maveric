@@ -72,11 +72,6 @@ const updateMembers = (guild) => {
                 allow: [],
                 deny: ["VIEW_CHANNEL"]
               },
-              {
-                id: role.id,
-                allow: ["VIEW_CHANNEL"],
-                deny: []
-              }
             ],
             topic: "MemberCountRoom"
           });
@@ -91,11 +86,6 @@ const updateMembers = (guild) => {
                 allow: [],
                 deny: ["VIEW_CHANNEL"]
               },
-              {
-                id: role.id,
-                allow: ["VIEW_CHANNEL"],
-                deny: []
-              }
             ],
             topic: "OnlineCountRoom"
           });
@@ -110,11 +100,6 @@ const updateMembers = (guild) => {
                 allow: [],
                 deny: ["VIEW_CHANNEL"]
               },
-              {
-                id: role.id,
-                allow: ["VIEW_CHANNEL"],
-                deny: []
-              }
             ],
             topic: "OfflineCountRoom"
           });
@@ -167,5 +152,6 @@ client.on("guildMemberAdd", (member) => {
 });
 
 client.on("guildMemberRemove", (member) => {
+  if(member.user.bot) return
   updateMembers(member.guild);
 });

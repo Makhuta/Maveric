@@ -71,6 +71,8 @@ function rozlouceni(member) {
 }
 
 client.on("guildMemberRemove", (member) => {
+  if(member.user.bot) return console.info(`${member.user.username} was bot skipping.`)
   console.info(`${member.user.username} left server.`);
+  //console.info(member.user.bot)
   rozlouceni(member);
 });

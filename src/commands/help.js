@@ -1,11 +1,10 @@
 module.exports = {
-  name: "Test",
-  description: "This is the test command.",
+  name: "Help",
+  description: "Show description for commands.",
   run(interaction) {
     interaction.reply({
-      content: "This is test."
+      content: "Test help."
     });
-    console.info(CheckList);
   },
   create({ commands }) {
     commands?.create({
