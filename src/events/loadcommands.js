@@ -4,20 +4,27 @@ const { client } = require(DClientLoc);
 
 var cmdsnameslistbot = [];
 
+function TableConvertor(name, state) {
+  this.Name = name;
+  this.State = state;
+}
+
 function loadcommands() {
   return new Promise((resolve, reject) => {
     fs.readdir(commands, (err, files) => {
       let CommandsArray = {};
       if (err) console.log(err);
 
-      console.info("\n--------------------------------------------------");
+      let CommandsTable = {};
+
+      //console.info("\n--------------------------------------------------");
       let jsfile = files?.filter((f) => f.split(".").pop() === "js");
       if (jsfile.length <= 0) {
         console.log("There isn't any commands to load!");
         return;
       }
 
-      console.log(`Loading ${jsfile.length} commands...`);
+      //console.log(`Loading ${jsfile.length} commands...`);
       let i = 0;
       for (f of jsfile) {
         let name = f.toLocaleString().split(".");
@@ -38,11 +45,13 @@ function loadcommands() {
           })
         );
         //console.info(cmd);
-        console.log(`${i + 1}: ${name[0]} loaded!`);
+        CommandsTable[i + 1] = new TableConvertor(name[0], "Loaded");
+        //console.log(`${i + 1}: ${name[0]} loaded!`);
         i++;
       }
+      console.table(CommandsTable);
       //console.info(CommandsArray)
-      console.info("--------------------------------------------------");
+      //console.info("--------------------------------------------------");
       console.info("\n");
       resolve(CommandsArray);
     });
@@ -78,9 +87,11 @@ async function RegisterCommand({ guild, CommandList }) {
         continue;
       }
     }
-
+    let RegisterTable = {};
+    let i = 0
     //console.info(cmdsnameslistdiscord);
     for (CommandKey in CommandList) {
+      i++
       let c = CommandList[CommandKey];
       let check = JSON.stringify({
         name: c.name.toLowerCase(),
@@ -93,12 +104,15 @@ async function RegisterCommand({ guild, CommandList }) {
       }
 
       if (cmdsnameslistdiscord.includes(check)) {
-        console.info(`Command "${c.name}" is already registered.`);
+        RegisterTable[i] = new TableConvertor(c.name, "Already registered");
+        //console.info(`Command "${c.name}" is already registered.`);
         continue;
       }
       require(join(commands, c.filename)).create({ commands: cmds });
-      console.info(`Command "${c.name}" has been registered succesfully.`);
+      RegisterTable[i] = new TableConvertor(c.name, "Registered");
+      //console.info(`Command "${c.name}" has been registered succesfully.`);
     }
+    console.table(RegisterTable);
   });
 }
 
@@ -108,9 +122,9 @@ client.on("NSBRFontsLoad", async () => {
 
   for (guild of guilds) {
     guild = guild[1];
-    console.info("\n--------------------------------------------------");
+    console.info("\n");
     console.info(`Loading for ${guild.name} started.`);
     await RegisterCommand({ guild, CommandList });
-    console.info("--------------------------------------------------");
+    //console.info("--------------------------------------------------");
   }
 });
