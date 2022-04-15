@@ -135,13 +135,19 @@ async function RegisterCommand({ guild, CommandList }) {
           let allowedRoleCreate = await guild.roles.create({
             name: allowedRole
           });
-          commandPermissions.push(allowedRoleCreate.id);
+          commandPermissions.push({
+            id: allowedRoleCreate.id,
+            type: "ROLE",
+            permission: true
+          });
         }
 
         if (cmdsnameslistdiscord.includes(check)) {
           RegisterTable[i] = new TableConvertor(c.name, "Already registered");
           //console.info(`Command "${c.name}" is already registered.`);
-          registeredCMD = cmdslist.filter(c => c.name == JSON.parse(check).name).first()
+          registeredCMD = cmdslist
+            .filter((c) => c.name == JSON.parse(check).name)
+            .first();
         } else {
           registeredCMD = await require(join(commands, c.filename)).create({
             commands: cmds
