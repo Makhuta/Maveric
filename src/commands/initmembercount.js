@@ -1,10 +1,15 @@
+const { NSBR } = require(DClientLoc);
+
 module.exports = {
-  name: "Help",
-  description: "Show description for commands.",
+  name: "InitMC",
+  description: "Initiate member count.",
+  allowedRoles: ["Admin", "Moderator"],
   run(interaction) {
     interaction.reply({
-      content: "Test help."
+      content: "Done.",
+      ephemeral: true
     });
+    NSBR.emit("InitMemberCounter")
   },
   create({ commands }) {
     let command = commands?.create({

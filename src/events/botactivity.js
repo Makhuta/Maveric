@@ -1,4 +1,4 @@
-const { client } = require(DClientLoc);
+const { client, NSBR } = require(DClientLoc);
 
 var typ_aktivity = [`Managing $NumberOfGuilds servers.`, "discord.gg/N7fxaAC"];
 
@@ -12,7 +12,7 @@ async function aktivita() {
   typ_aktivity.push(aktivita);
 }
 
-client.on("NSBREventsLoad", () => {
+NSBR.on("EventsLoad", () => {
   aktivita();
 
   setInterval(() => {

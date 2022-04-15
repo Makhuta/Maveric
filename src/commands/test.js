@@ -8,10 +8,11 @@ module.exports = {
     console.info(CheckList);
   },
   create({ commands }) {
-    commands?.create({
+    let command = commands?.create({
       name: this.name.toLowerCase(),
       description: this.description,
       code: this.run
     });
+    return command
   }
 };

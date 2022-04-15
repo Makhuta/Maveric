@@ -1,6 +1,6 @@
 const fs = require("fs");
 const { join } = require("path");
-const { client } = require(DClientLoc);
+const { client, NSBR } = require(DClientLoc);
 
 var cmdsnameslistbot = [];
 
@@ -86,12 +86,13 @@ async function RegisterCommand({ guild, CommandList }) {
         cmds?.delete(individualcmd[0]);
         continue;
       }
+      //console.info(individualcmd[1]);
     }
     let RegisterTable = {};
-    let i = 0
+    let i = 0;
     //console.info(cmdsnameslistdiscord);
     for (CommandKey in CommandList) {
-      i++
+      i++;
       let c = CommandList[CommandKey];
       let check = JSON.stringify({
         name: c.name.toLowerCase(),
@@ -102,13 +103,58 @@ async function RegisterCommand({ guild, CommandList }) {
         console.info(`${c.filename} has no name.`);
         continue;
       }
+      let registeredCMD;
 
-      if (cmdsnameslistdiscord.includes(check)) {
-        RegisterTable[i] = new TableConvertor(c.name, "Already registered");
-        //console.info(`Command "${c.name}" is already registered.`);
-        continue;
-      }
-      require(join(commands, c.filename)).create({ commands: cmds });
+      await guild.roles.fetch().then(async (roles) => {
+        let commandPermissions = [];
+        let { allowedRoles } = require(join(commands, c.filename));
+        if (allowedRoles == undefined) allowedRoles = ["Member"];
+        if (!allowedRoles.includes("@everyone")) allowedRoles.push("@everyone");
+        for (allowedRole of allowedRoles) {
+          let RoleFound = false;
+          for (role of roles) {
+            if (role[1].name != allowedRole) continue;
+            if (allowedRole != "@everyone") {
+              commandPermissions.push({
+                id: role[0],
+                type: "ROLE",
+                permission: true
+              });
+            } else {
+              commandPermissions.push({
+                id: role[0],
+                type: "ROLE",
+                permission: false
+              });
+            }
+            RoleFound = true;
+          }
+
+          if (RoleFound) continue;
+          console.info(`Role ${allowedRole} was not found. Creating...`);
+          let allowedRoleCreate = await guild.roles.create({
+            name: allowedRole
+          });
+          commandPermissions.push(allowedRoleCreate.id);
+        }
+
+        if (cmdsnameslistdiscord.includes(check)) {
+          RegisterTable[i] = new TableConvertor(c.name, "Already registered");
+          //console.info(`Command "${c.name}" is already registered.`);
+          registeredCMD = cmdslist.filter(c => c.name == JSON.parse(check).name).first()
+        } else {
+          registeredCMD = await require(join(commands, c.filename)).create({
+            commands: cmds
+          });
+        }
+        //console.info(registeredCMD);
+        await registeredCMD.permissions.add({
+          permissions: commandPermissions
+        });
+
+        //registeredCMD.permissions.add({commandPermissions})
+        //console.info(commandPermissions);
+      });
       RegisterTable[i] = new TableConvertor(c.name, "Registered");
       //console.info(`Command "${c.name}" has been registered succesfully.`);
     }
@@ -116,7 +162,7 @@ async function RegisterCommand({ guild, CommandList }) {
   });
 }
 
-client.on("NSBRFontsLoad", async () => {
+NSBR.on("FontsLoad", async () => {
   global.CommandList = await loadcommands();
   let guilds = client.guilds.cache;
 
@@ -127,4 +173,5 @@ client.on("NSBRFontsLoad", async () => {
     await RegisterCommand({ guild, CommandList });
     //console.info("--------------------------------------------------");
   }
+  NSBR.emit("ready");
 });

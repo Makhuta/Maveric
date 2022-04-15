@@ -1,4 +1,4 @@
-const client = require(DClientLoc).client;
+const { client, NSBR } = require(DClientLoc);
 
 const updateMembers = (guild) => {
   let CategoryCreated = false;
@@ -71,7 +71,7 @@ const updateMembers = (guild) => {
                 id: everyone.id,
                 allow: [],
                 deny: ["VIEW_CHANNEL"]
-              },
+              }
             ],
             topic: "MemberCountRoom"
           });
@@ -85,7 +85,7 @@ const updateMembers = (guild) => {
                 id: everyone.id,
                 allow: [],
                 deny: ["VIEW_CHANNEL"]
-              },
+              }
             ],
             topic: "OnlineCountRoom"
           });
@@ -99,7 +99,7 @@ const updateMembers = (guild) => {
                 id: everyone.id,
                 allow: [],
                 deny: ["VIEW_CHANNEL"]
-              },
+              }
             ],
             topic: "OfflineCountRoom"
           });
@@ -130,8 +130,12 @@ const updateMembers = (guild) => {
       );*/
 
       MemberCountChannel.setName("Members: " + AllMembers).catch(console.error);
-      OnlineCountChannel.setName("Online: " + OnlineMembers).catch(console.error);
-      OfflineCountChannel.setName("Offline: " + OfflineMembers).catch(console.error);
+      OnlineCountChannel.setName("Online: " + OnlineMembers).catch(
+        console.error
+      );
+      OfflineCountChannel.setName("Offline: " + OfflineMembers).catch(
+        console.error
+      );
     });
   });
 };
@@ -152,6 +156,14 @@ client.on("guildMemberAdd", (member) => {
 });
 
 client.on("guildMemberRemove", (member) => {
-  if(member.user.bot) return
+  if (member.user.bot) return;
   updateMembers(member.guild);
+});
+
+NSBR.on("InitMemberCounter", () => {
+  console.info("Member counter initiated.")
+  let guilds = client.guilds.cache;
+  guilds.forEach((guild) => {
+    updateMembers(guild);
+  });
 });

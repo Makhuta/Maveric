@@ -11,4 +11,5 @@ global.fonts = join(src, "fonts");
 //CommandList
 //DClientLoc
 
+require(join(events, "botinit.js"));
 require(join(events, "start.js"));

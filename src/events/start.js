@@ -1,15 +1,14 @@
 const fs = require("fs");
 const { join } = require("path");
 const { registerFont } = require("canvas");
-require(join(events, "botinit.js"));
-const { client } = require(DClientLoc);
+const { client, NSBR } = require(DClientLoc);
 
 function TableConvertor(name, state) {
   this.Name = name;
   this.State = state;
 }
 
-client.on("NSBRLoad", async () => {
+NSBR.on("botinit", async () => {
   fs.readdir(events, (err, files) => {
     if (err) console.log(err);
 
@@ -31,11 +30,11 @@ client.on("NSBRLoad", async () => {
     });
     //console.info("--------------------------------------------------");
     console.table(EventsTable);
-    client.emit("NSBREventsLoad", client);
+    NSBR.emit("EventsLoad", client);
   });
 });
 
-client.on("NSBREventsLoad", async () => {
+NSBR.on("EventsLoad", async () => {
   fs.readdir(fonts, (err, files) => {
     if (err) console.log(err);
 
@@ -56,6 +55,10 @@ client.on("NSBREventsLoad", async () => {
     });
     //console.info("--------------------------------------------------");
     console.table(FontsTable);
-    client.emit("NSBRFontsLoad", client);
+    NSBR.emit("FontsLoad", client);
   });
 });
+
+NSBR.on("ready", () => {
+  console.info(`\n${client.user.tag} loaded succesfully.`)
+})
