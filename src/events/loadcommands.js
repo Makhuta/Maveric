@@ -165,7 +165,7 @@ async function RegisterCommand({ guild, CommandList }) {
             }
             //console.info(registeredCMD);
 
-            if (guild == undefined) return console.info("Register canceled.");
+            //if (guild == undefined) return console.info("Register canceled.");
 
             //console.log(guild)
             await registeredCMD.permissions

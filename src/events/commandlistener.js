@@ -8,7 +8,7 @@ client.on("interactionCreate", async (interaction) => {
   if (!(commandName in CommandList)) {
     interaction.reply({
       content: "I don´t know how to response to this."
-    });
+    }).catch(error => console.error(error));
 
     return console.info(`"${commandName}" is not my command. Universal reply.`);
   }

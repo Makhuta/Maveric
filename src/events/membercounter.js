@@ -2,142 +2,157 @@ const { client, NSBR } = require(DClientLoc);
 
 const updateMembers = (guild) => {
   let CategoryCreated = false;
-  guild.channels.fetch().then(async (channels) => {
-    let MemberCountChannel = channels
-      .filter((chnl) => {
-        let chnlarray = chnl.name.split(":");
-        if (chnlarray[0] == `Members`) return true;
-      })
-      .first();
-    let OnlineCountChannel = channels
-      .filter((chnl) => {
-        let chnlarray = chnl.name.split(":");
-        if (chnlarray[0] == `Online`) return true;
-      })
-      .first();
-    let OfflineCountChannel = channels
-      .filter((chnl) => {
-        let chnlarray = chnl.name.split(":");
-        if (chnlarray[0] == `Offline`) return true;
-      })
-      .first();
-    let StatsChannel = channels
-      .filter((chnl) => chnl.name == `📊 Server Stats 📊`)
-      .first();
+  guild.channels
+    .fetch()
+    .then(async (channels) => {
+      let MemberCountChannel = channels
+        .filter((chnl) => {
+          let chnlarray = chnl.name.split(":");
+          if (chnlarray[0] == `Members`) return true;
+        })
+        .first();
+      let OnlineCountChannel = channels
+        .filter((chnl) => {
+          let chnlarray = chnl.name.split(":");
+          if (chnlarray[0] == `Online`) return true;
+        })
+        .first();
+      let OfflineCountChannel = channels
+        .filter((chnl) => {
+          let chnlarray = chnl.name.split(":");
+          if (chnlarray[0] == `Offline`) return true;
+        })
+        .first();
+      let StatsChannel = channels
+        .filter((chnl) => chnl.name == `📊 Server Stats 📊`)
+        .first();
 
-    if (StatsChannel == undefined) {
-      await guild.roles.fetch().then(async (roles) => {
-        let role = roles.filter((rle) => rle.name == "Member").first();
-        let everyone = roles.filter((rle) => rle.name == "@everyone").first();
-        if (role == undefined) {
-          role = await guild.roles.create("Member");
-        }
-        StatsChannel = await guild.channels.create(`📊 Server Stats 📊`, {
-          type: "GUILD_CATEGORY",
-          permissionOverwrites: [
-            {
-              id: everyone.id,
-              allow: [],
-              deny: ["VIEW_CHANNEL"]
-            },
-            {
-              id: role.id,
-              allow: ["VIEW_CHANNEL"],
-              deny: []
+      if (StatsChannel == undefined) {
+        await guild.roles
+          .fetch()
+          .then(async (roles) => {
+            let role = roles.filter((rle) => rle.name == "Member").first();
+            let everyone = roles
+              .filter((rle) => rle.name == "@everyone")
+              .first();
+            if (role == undefined) {
+              role = await guild.roles.create("Member");
             }
-          ],
-          topic: "StatsCategory"
-        });
-      });
-      CategoryCreated = true;
-    }
+            StatsChannel = await guild.channels.create(`📊 Server Stats 📊`, {
+              type: "GUILD_CATEGORY",
+              permissionOverwrites: [
+                {
+                  id: everyone.id,
+                  allow: [],
+                  deny: ["VIEW_CHANNEL"]
+                },
+                {
+                  id: role.id,
+                  allow: ["VIEW_CHANNEL"],
+                  deny: []
+                }
+              ],
+              topic: "StatsCategory"
+            });
+          })
+          .catch((error) => console.error(error));
+        CategoryCreated = true;
+      }
 
-    if (
-      MemberCountChannel == undefined ||
-      OnlineCountChannel == undefined ||
-      OfflineCountChannel == undefined
-    ) {
-      await guild.roles.fetch().then(async (roles) => {
-        let role = roles.filter((rle) => rle.name == "Member").first();
-        let everyone = roles.filter((rle) => rle.name == "@everyone").first();
-        if (role == undefined) {
-          role = await guild.roles.create("Member");
-        }
-        if (MemberCountChannel == undefined) {
-          MemberCountChannel = await guild.channels.create(`Members: `, {
-            type: "GUILD_VOICE",
-            permissionOverwrites: [
-              {
-                id: everyone.id,
-                allow: [],
-                deny: ["VIEW_CHANNEL"]
-              }
-            ],
-            topic: "MemberCountRoom"
-          });
-          MemberCountChannel.setParent(StatsChannel);
-        }
-        if (OnlineCountChannel == undefined) {
-          OnlineCountChannel = await guild.channels.create(`Online: `, {
-            type: "GUILD_VOICE",
-            permissionOverwrites: [
-              {
-                id: everyone.id,
-                allow: [],
-                deny: ["VIEW_CHANNEL"]
-              }
-            ],
-            topic: "OnlineCountRoom"
-          });
-          OnlineCountChannel.setParent(StatsChannel);
-        }
-        if (OfflineCountChannel == undefined) {
-          OfflineCountChannel = await guild.channels.create(`Offline: `, {
-            type: "GUILD_VOICE",
-            permissionOverwrites: [
-              {
-                id: everyone.id,
-                allow: [],
-                deny: ["VIEW_CHANNEL"]
-              }
-            ],
-            topic: "OfflineCountRoom"
-          });
-          OfflineCountChannel.setParent(StatsChannel);
-        }
-      });
-    }
+      if (
+        MemberCountChannel == undefined ||
+        OnlineCountChannel == undefined ||
+        OfflineCountChannel == undefined
+      ) {
+        await guild.roles
+          .fetch()
+          .then(async (roles) => {
+            let role = roles.filter((rle) => rle.name == "Member").first();
+            let everyone = roles
+              .filter((rle) => rle.name == "@everyone")
+              .first();
+            if (role == undefined) {
+              role = await guild.roles.create("Member");
+            }
+            if (MemberCountChannel == undefined) {
+              MemberCountChannel = await guild.channels.create(`Members: `, {
+                type: "GUILD_VOICE",
+                permissionOverwrites: [
+                  {
+                    id: everyone.id,
+                    allow: [],
+                    deny: ["VIEW_CHANNEL"]
+                  }
+                ],
+                topic: "MemberCountRoom"
+              });
+              MemberCountChannel.setParent(StatsChannel);
+            }
+            if (OnlineCountChannel == undefined) {
+              OnlineCountChannel = await guild.channels.create(`Online: `, {
+                type: "GUILD_VOICE",
+                permissionOverwrites: [
+                  {
+                    id: everyone.id,
+                    allow: [],
+                    deny: ["VIEW_CHANNEL"]
+                  }
+                ],
+                topic: "OnlineCountRoom"
+              });
+              OnlineCountChannel.setParent(StatsChannel);
+            }
+            if (OfflineCountChannel == undefined) {
+              OfflineCountChannel = await guild.channels.create(`Offline: `, {
+                type: "GUILD_VOICE",
+                permissionOverwrites: [
+                  {
+                    id: everyone.id,
+                    allow: [],
+                    deny: ["VIEW_CHANNEL"]
+                  }
+                ],
+                topic: "OfflineCountRoom"
+              });
+              OfflineCountChannel.setParent(StatsChannel);
+            }
+          })
+          .catch((error) => console.error(error));
+      }
 
-    if (CategoryCreated) {
-      MemberCountChannel.setParent(StatsChannel);
-      OnlineCountChannel.setParent(StatsChannel);
-      OfflineCountChannel.setParent(StatsChannel);
-    }
+      if (CategoryCreated) {
+        MemberCountChannel.setParent(StatsChannel);
+        OnlineCountChannel.setParent(StatsChannel);
+        OfflineCountChannel.setParent(StatsChannel);
+      }
 
-    guild.members.fetch().then(async (members) => {
-      const AllMembers = members.filter((m) => !m.user?.bot).size;
-      const OnlineMembers = members.filter(
-        (m) =>
-          !m.user?.bot &&
-          (m.presence?.status == "online" ||
-            m.presence?.status == "idle" ||
-            m.presence?.status == "dnd")
-      ).size;
-      const OfflineMembers = AllMembers - OnlineMembers;
+      guild.members.fetch().then(async (members) => {
+        const AllMembers = members.filter((m) => !m.user?.bot).size;
+        const OnlineMembers = members.filter(
+          (m) =>
+            !m.user?.bot &&
+            (m.presence?.status == "online" ||
+              m.presence?.status == "idle" ||
+              m.presence?.status == "dnd")
+        ).size;
+        const OfflineMembers = AllMembers - OnlineMembers;
 
-      /*console.info(
+        /*console.info(
         `\nMembers: ${AllMembers}\nOnline: ${OnlineMembers}\nOffline: ${OfflineMembers}\n`
       );*/
 
-      MemberCountChannel.setName("Members: " + AllMembers).catch(console.error);
-      OnlineCountChannel.setName("Online: " + OnlineMembers).catch(
-        console.error
-      );
-      OfflineCountChannel.setName("Offline: " + OfflineMembers).catch(
-        console.error
-      );
-    });
-  });
+        MemberCountChannel.setName("Members: " + AllMembers).catch(
+          console.error
+        );
+        OnlineCountChannel.setName("Online: " + OnlineMembers).catch(
+          console.error
+        );
+        OfflineCountChannel.setName("Offline: " + OfflineMembers).catch(
+          console.error
+        );
+      });
+    })
+    .catch((error) => console.error(error));
 };
 
 client.on("ready", () => {
@@ -160,9 +175,11 @@ client.on("guildMemberRemove", (member) => {
   updateMembers(member.guild);
 });
 
-NSBR.on("InitMemberCounter", () => {
-  console.info("Member counter initiated.")
-  let guilds = client.guilds.cache;
+NSBR.on("InitMemberCounter", async () => {
+  console.info("Member counter initiated.");
+  let guilds = await client.guilds
+    .fetch()
+    .catch((error) => console.error(error));
   guilds.forEach((guild) => {
     updateMembers(guild);
   });
