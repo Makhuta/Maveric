@@ -1,4 +1,5 @@
 const { join } = require("path");
+const { Constants } = require("discord.js");
 
 global.root = __dirname;
 global.src = join(root, "src");
@@ -8,6 +9,7 @@ global.canvases = join(src, "canvases");
 global.pictures = join(src, "pictures");
 global.colorpaletes = join(src, "colorpaletes");
 global.fonts = join(src, "fonts");
+global.commandTypes = Constants.ApplicationCommandOptionTypes;
 //CommandList
 //DClientLoc
 

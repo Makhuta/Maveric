@@ -1,11 +1,15 @@
 module.exports = {
   name: "Test",
   description: "This is the test command.",
+  allowedRoles: ["Admin"],
+  helpdescription: "This is the test command.",
+  usage: "/test",
+  helpname: "Test",
   run(interaction) {
     interaction.reply({
       content: "This is test."
     });
-    console.info(CheckList);
+    //console.info(CheckList);
   },
   create({ commands }) {
     let command = commands?.create({
@@ -13,6 +17,6 @@ module.exports = {
       description: this.description,
       code: this.run
     });
-    return command
+    return command;
   }
 };

@@ -1,4 +1,4 @@
-const client = require(DClientLoc).client;
+const { client } = require(DClientLoc);
 
 client.on("messageCreate", (message) => {
   if (message.type == "GUILD_MEMBER_JOIN") return;

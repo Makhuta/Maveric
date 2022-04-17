@@ -31,8 +31,19 @@ function UserConstructor({ user, Antispam }) {
   }, CooldownTime);
 }
 
+function CheckOwnership(message) {
+  if (message.guild.ownerId == message.author.id) return true;
+  else return false;
+}
+
 client.on("messageCreate", (message) => {
   if (message.author.bot) return;
+  if (CheckOwnership(message)) return;
+  const MemberHighestRole = message.member.roles.highest.position;
+  const BotHighestRole = message.guild.me.roles.highest.position;
+
+  if (MemberHighestRole >= BotHighestRole) return;
+
   const guild = message.guild;
   var ThisGuildItems = BotGuilds.get(guild.id);
   if (ThisGuildItems == undefined) return;

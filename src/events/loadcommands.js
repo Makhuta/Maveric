@@ -1,6 +1,7 @@
 const fs = require("fs");
 const { join } = require("path");
 const { client, NSBR } = require(DClientLoc);
+require("dotenv").config();
 
 var cmdsnameslistbot = [];
 
@@ -38,6 +39,7 @@ function loadcommands() {
           code: cmd.run
         };
         CommandsArray[CommandInfo.name.toLowerCase()] = CommandInfo;
+        //console.info(cmd)
         cmdsnameslistbot.push(
           JSON.stringify({
             name: CommandInfo.name.toLowerCase(),
@@ -58,7 +60,8 @@ function loadcommands() {
   });
 }
 
-async function RegisterCommand({ guild, CommandList }) {
+async function RegisterCommand({ guild, CommandList, force }) {
+  if (force == undefined) force = false;
   let cmds;
   if (guild) {
     cmds = guild.commands;
@@ -76,6 +79,10 @@ async function RegisterCommand({ guild, CommandList }) {
           name: individualcmd[1].name,
           description: individualcmd[1].description
         });
+
+        //console.info(individualcmd[1]);
+        //console.info(commandTypes)
+
         cmdsnameslistdiscord.push(
           JSON.stringify({
             name: individualcmd[1].name,
@@ -115,41 +122,50 @@ async function RegisterCommand({ guild, CommandList }) {
             let commandPermissions = [];
             let { allowedRoles } = require(join(commands, c.filename));
             if (allowedRoles == undefined) allowedRoles = ["Member"];
-            if (!allowedRoles.includes("@everyone"))
-              allowedRoles.push("@everyone");
-            for (allowedRole of allowedRoles) {
-              let RoleFound = false;
-              for (role of roles) {
-                if (role[1].name != allowedRole) continue;
-                if (allowedRole != "@everyone") {
-                  commandPermissions.push({
-                    id: role[0],
-                    type: "ROLE",
-                    permission: true
-                  });
-                } else {
-                  commandPermissions.push({
-                    id: role[0],
-                    type: "ROLE",
-                    permission: false
-                  });
-                }
-                RoleFound = true;
-              }
+            if (allowedRoles != "BotOwner") {
+              if (!allowedRoles.includes("@everyone"))
+                allowedRoles.push("@everyone");
 
-              if (RoleFound) continue;
-              console.info(`Role ${allowedRole} was not found. Creating...`);
-              let allowedRoleCreate = await guild.roles.create({
-                name: allowedRole
-              });
+              for (allowedRole of allowedRoles) {
+                let RoleFound = false;
+                for (role of roles) {
+                  if (role[1].name != allowedRole) continue;
+                  if (allowedRole != "@everyone") {
+                    commandPermissions.push({
+                      id: role[0],
+                      type: "ROLE",
+                      permission: true
+                    });
+                  } else {
+                    commandPermissions.push({
+                      id: role[0],
+                      type: "ROLE",
+                      permission: false
+                    });
+                  }
+                  RoleFound = true;
+                }
+
+                if (RoleFound) continue;
+                console.info(`Role ${allowedRole} was not found. Creating...`);
+                let allowedRoleCreate = await guild.roles.create({
+                  name: allowedRole
+                });
+                commandPermissions.push({
+                  id: allowedRoleCreate.id,
+                  type: "ROLE",
+                  permission: true
+                });
+              }
+            } else {
               commandPermissions.push({
-                id: allowedRoleCreate.id,
-                type: "ROLE",
+                id: process.env.OWNER_ID,
+                type: "USER",
                 permission: true
               });
             }
 
-            if (cmdsnameslistdiscord.includes(check)) {
+            if (cmdsnameslistdiscord.includes(check) && !force) {
               RegisterTable[i] = new TableConvertor(
                 c.name,
                 "Already registered"
@@ -168,6 +184,10 @@ async function RegisterCommand({ guild, CommandList }) {
             //if (guild == undefined) return console.info("Register canceled.");
 
             //console.log(guild)
+            if (allowedRoles == "BotOwner") {
+              await registeredCMD.setDefaultPermission(false);
+            }
+
             await registeredCMD.permissions
               .add({
                 permissions: commandPermissions
@@ -197,6 +217,7 @@ NSBR.on("FontsLoad", async () => {
     await RegisterCommand({ guild, CommandList });
     //console.info("--------------------------------------------------");
   }
+  //console.info(CommandList);
   NSBR.emit("ready");
 });
 
@@ -205,4 +226,16 @@ client.on("guildCreate", async (guild) => {
     `\n\n${client.user.tag} joined ${guild.name}. Registering commands...`
   );
   await RegisterCommand({ guild, CommandList });
+});
+
+NSBR.on("initForceCommandLoad", async () => {
+  let guilds = client.guilds.cache;
+
+  for (guild of guilds) {
+    guild = guild[1];
+    console.info("\n");
+    console.info(`Force loading for ${guild.name} started.`);
+    await RegisterCommand({ guild, CommandList, force: true });
+  }
+  console.info("Done.")
 });
