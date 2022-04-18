@@ -215,6 +215,7 @@ NSBR.on("FontsLoad", async () => {
     console.info("\n");
     console.info(`Loading for ${guild.name} started.`);
     await RegisterCommand({ guild, CommandList });
+    NSBR.emit("UserstatInit", guild);
     //console.info("--------------------------------------------------");
   }
   //console.info(CommandList);

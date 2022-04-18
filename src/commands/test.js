@@ -5,11 +5,12 @@ module.exports = {
   helpdescription: "This is the test command.",
   usage: "/test",
   helpname: "Test",
-  run(interaction) {
+  async run(interaction) {
     interaction.reply({
       content: "This is test."
     });
-    //console.info(CheckList);
+    let test = await PoolAccess.GetUserFromDatabase({ user: interaction.user });
+    console.info(test);
   },
   create({ commands }) {
     let command = commands?.create({

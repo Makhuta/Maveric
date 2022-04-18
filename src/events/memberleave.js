@@ -84,4 +84,5 @@ client.on("guildMemberRemove", (member) => {
   console.info(`${member.user.username} left server.`);
   //console.info(member.user.bot)
   rozlouceni(member);
+  NSBR.emit("userleave", (member.user.id, member.guild.id));
 });

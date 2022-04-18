@@ -1,0 +1,22 @@
+[
+    {
+        "name": "GATEROOM",
+        "value": "gate"
+    },
+    {
+        "name": "MEMBERCOUNT",
+        "value": ""
+    },
+    {
+        "name": "ONLINECOUNT",
+        "value": ""
+    },
+    {
+        "name": "OFFLINECOUNT",
+        "value": ""
+    },
+    {
+        "name": "COUNTENABLE",
+        "value": "false"
+    }
+]

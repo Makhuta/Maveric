@@ -9,6 +9,7 @@ global.canvases = join(src, "canvases");
 global.pictures = join(src, "pictures");
 global.colorpaletes = join(src, "colorpaletes");
 global.fonts = join(src, "fonts");
+global.configs = join(src, "configs");
 global.commandTypes = Constants.ApplicationCommandOptionTypes;
 //CommandList
 //DClientLoc

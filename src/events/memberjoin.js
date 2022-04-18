@@ -1,6 +1,6 @@
 const moment = require("moment");
 const { join } = require("path");
-const client = require(DClientLoc).client;
+const { client, NSBR } = require(DClientLoc);
 
 async function uvitani(member) {
   member.guild.channels
@@ -86,4 +86,5 @@ client.on("guildMemberAdd", (member) => {
     return console.info(`${member.user.username} was bot skipping.`);
   console.info(`${member.user.username} joined server.`);
   uvitani(member);
+  NSBR.emit("userjoin", (member.user.id, member.guild.id));
 });
