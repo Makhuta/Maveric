@@ -5,7 +5,7 @@ function RoomExist(channel) {
   else return false;
 }
 
-async function CreateChannel({ name, type, guild, everyoneRole }) {
+async function CreateChannel({ name, type, guild, everyoneRole, botRole }) {
   return await guild.channels.create(name, {
     type: type,
     permissionOverwrites: [
@@ -13,6 +13,11 @@ async function CreateChannel({ name, type, guild, everyoneRole }) {
         id: everyoneRole.id,
         allow: ["VIEW_CHANNEL"],
         deny: ["CONNECT"]
+      },
+      {
+        id: botRole.id,
+        allow: ["MANAGE_CHANNELS", "VIEW_CHANNEL", "CONNECT"],
+        deny: []
       }
     ]
   });
@@ -29,6 +34,7 @@ const updateMembers = async ({ id }) => {
   let OfflineCountChannel;
 
   let everyoneRole;
+  let botRole = client.user;
 
   await guild.roles.fetch().then(async (roles) => {
     everyoneRole = roles.filter((rle) => rle.name == "@everyone").first();
@@ -44,14 +50,16 @@ const updateMembers = async ({ id }) => {
         name: "📊 Server Stats 📊",
         type: "GUILD_CATEGORY",
         guild,
-        everyoneRole
+        everyoneRole,
+        botRole
       });
   } else {
     ServerStatsCategory = await CreateChannel({
       name: "📊 Server Stats 📊",
       type: "GUILD_CATEGORY",
       guild,
-      everyoneRole
+      everyoneRole,
+      botRole
     });
   }
 
@@ -69,14 +77,16 @@ const updateMembers = async ({ id }) => {
         name: "Members:",
         type: "GUILD_VOICE",
         guild,
-        everyoneRole
+        everyoneRole,
+        botRole
       });
   } else {
     MemberCountChannel = await CreateChannel({
       name: "Members:",
       type: "GUILD_VOICE",
       guild,
-      everyoneRole
+      everyoneRole,
+      botRole
     });
   }
 
@@ -90,14 +100,16 @@ const updateMembers = async ({ id }) => {
         name: "Online:",
         type: "GUILD_VOICE",
         guild,
-        everyoneRole
+        everyoneRole,
+        botRole
       });
   } else {
     OnlineCountChannel = await CreateChannel({
       name: "Online:",
       type: "GUILD_VOICE",
       guild,
-      everyoneRole
+      everyoneRole,
+      botRole
     });
   }
 
@@ -111,27 +123,29 @@ const updateMembers = async ({ id }) => {
         name: "Offline:",
         type: "GUILD_VOICE",
         guild,
-        everyoneRole
+        everyoneRole,
+        botRole
       });
   } else {
     OfflineCountChannel = await CreateChannel({
       name: "Offline:",
       type: "GUILD_VOICE",
       guild,
-      everyoneRole
+      everyoneRole,
+      botRole
     });
   }
 
   if (!MCChannelExist || !ServerStatsCategory) {
-    MemberCountChannel.setParent(ServerStatsCategory);
+    MemberCountChannel?.setParent(ServerStatsCategory).catch(error => console.error(error));
   }
 
   if (!OnChannelExist || !ServerStatsCategory) {
-    OnlineCountChannel.setParent(ServerStatsCategory);
+    OnlineCountChannel?.setParent(ServerStatsCategory).catch(error => console.error(error));
   }
 
   if (!OffChannelExist || !ServerStatsCategory) {
-    OfflineCountChannel.setParent(ServerStatsCategory);
+    OfflineCountChannel?.setParent(ServerStatsCategory).catch(error => console.error(error));
   }
 
   guild.members

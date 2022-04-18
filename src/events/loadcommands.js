@@ -125,8 +125,13 @@ async function RegisterCommand({ guild, CommandList, force }) {
           .then(async (roles) => {
             let commandPermissions = [];
             let { allowedRoles } = require(join(commands, c.filename));
-            if (allowedRoles == undefined)
-              allowedRoles = DefaultRole ? [DefaultRole] : ["Member"];
+            if (allowedRoles == undefined) {
+              if (DefaultRole == null || DefaultRole == undefined) {
+                allowedRoles = ["Member"];
+              } else {
+                allowedRoles = [DefaultRole.name];
+              }
+            }
             if (allowedRoles != "BotOwner") {
               if (!allowedRoles.includes("@everyone"))
                 allowedRoles.push("@everyone");
@@ -152,6 +157,7 @@ async function RegisterCommand({ guild, CommandList, force }) {
                 }
 
                 if (RoleFound) continue;
+                if (allowedRole == undefined) continue;
                 console.info(`Role ${allowedRole} was not found. Creating...`);
                 let allowedRoleCreate = await guild.roles.create({
                   name: allowedRole
