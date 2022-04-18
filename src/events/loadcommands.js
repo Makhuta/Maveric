@@ -69,7 +69,7 @@ async function RegisterCommand({ guild, CommandList, force }) {
     cmds = client.application?.commands;
   }
 
-  let configs = await PoolAccess.GetConfig({ guildID: guild.id });
+  let configsJSON = await PoolAccess.GetConfig({ guildID: guild.id });
 
   await cmds
     .fetch()
@@ -118,7 +118,7 @@ async function RegisterCommand({ guild, CommandList, force }) {
         }
         let registeredCMD;
 
-        let DefaultRole = await guild.roles.fetch(configs.DEFAULTROLE);
+        let DefaultRole = await guild.roles.fetch(configsJSON.DEFAULTROLE);
 
         await guild.roles
           .fetch()
