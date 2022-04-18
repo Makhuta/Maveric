@@ -31,7 +31,7 @@ NSBR.on("EventsLoad", async () => {
         if (!GuildConfigIsInDB) {
           let sql = `CREATE TABLE ${guildID}_config (config_name VARCHAR(45) PRIMARY KEY, config_value VARCHAR(45))`;
           console.info(await PoolAccess.ExecuteQuery({ sql }));
-          NSBR.emit("UserstatInit", g[1]);
+          NSBR.emit("ConfigInit", g[1]);
         }
       }
 

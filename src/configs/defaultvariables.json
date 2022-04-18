@@ -1,7 +1,11 @@
 [
     {
         "name": "GATEROOM",
-        "value": "gate"
+        "value": ""
+    },
+    {
+        "name": "GATECATEGORY",
+        "value": ""
     },
     {
         "name": "MEMBERCOUNT",
@@ -16,7 +20,15 @@
         "value": ""
     },
     {
+        "name": "SERVERSTATS",
+        "value": ""
+    },
+    {
         "name": "COUNTENABLE",
         "value": "false"
+    },
+    {
+        "name": "DEFAULTROLE",
+        "value": ""
     }
 ]

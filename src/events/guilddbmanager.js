@@ -15,7 +15,8 @@ NSBR.on("UserstatInit", async ({ id }) => {
   }
   sql.push(" ON DUPLICATE KEY UPDATE id=VALUES(id);");
   sql = sql.join("");
-  console.info(await PoolAccess.ExecuteQuery({ sql }));
+  await PoolAccess.ExecuteQuery({ sql });
+  console.info("Inserted users.");
 });
 
 NSBR.on("ConfigInit", async ({ id }) => {
@@ -28,9 +29,10 @@ NSBR.on("ConfigInit", async ({ id }) => {
       sql.push(`,("${c.name}", "${c.value}")`);
     }
   }
-  sql.push(";");
+  sql.push(" ON DUPLICATE KEY UPDATE config_name=VALUES(config_name);");
   sql = sql.join("");
-  console.info(await PoolAccess.ExecuteQuery({ sql }));
+  await PoolAccess.ExecuteQuery({ sql });
+  console.info("Inserted configs.");
 });
 
 client.on("guildCreate", async (guild) => {

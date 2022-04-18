@@ -9,6 +9,7 @@ module.exports = {
       content: "Initiated.",
       ephemeral: true
     });
+    NSBR.emit("ConfigInit", interaction.guild);
     NSBR.emit("initForceCommandLoad")
   },
   create({ commands }) {

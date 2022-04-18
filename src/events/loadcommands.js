@@ -69,6 +69,8 @@ async function RegisterCommand({ guild, CommandList, force }) {
     cmds = client.application?.commands;
   }
 
+  let configs = await PoolAccess.GetConfig({ guildID: guild.id });
+
   await cmds
     .fetch()
     .then(async (cmdslist) => {
@@ -116,12 +118,15 @@ async function RegisterCommand({ guild, CommandList, force }) {
         }
         let registeredCMD;
 
+        let DefaultRole = await guild.roles.fetch(configs.DEFAULTROLE);
+
         await guild.roles
           .fetch()
           .then(async (roles) => {
             let commandPermissions = [];
             let { allowedRoles } = require(join(commands, c.filename));
-            if (allowedRoles == undefined) allowedRoles = ["Member"];
+            if (allowedRoles == undefined)
+              allowedRoles = DefaultRole ? [DefaultRole] : ["Member"];
             if (allowedRoles != "BotOwner") {
               if (!allowedRoles.includes("@everyone"))
                 allowedRoles.push("@everyone");
@@ -238,5 +243,5 @@ NSBR.on("initForceCommandLoad", async () => {
     console.info(`Force loading for ${guild.name} started.`);
     await RegisterCommand({ guild, CommandList, force: true });
   }
-  console.info("Done.")
+  console.info("Done.");
 });

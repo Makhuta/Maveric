@@ -2,83 +2,99 @@ const moment = require("moment");
 const { join } = require("path");
 const { client, NSBR } = require(DClientLoc);
 
+function RoomExist(channel) {
+  //console.info(channel)
+  if (channel != undefined) return true;
+  else return false;
+}
+
+async function CreateChannel({ name, type, guild, everyoneRole }) {
+  return await guild.channels.create(name, {
+    type: type,
+    permissionOverwrites: [
+      {
+        id: everyoneRole.id,
+        allow: ["VIEW_CHANNEL"],
+        deny: ["CONNECT"]
+      }
+    ]
+  });
+}
+
 async function uvitani(member) {
-  member.guild.channels
-    .fetch()
-    .then(async (channels) => {
-      let channel = channels.filter((chnl) => chnl.topic == `GateRoom`).first();
-      let GATE = channels
-        .filter((chnl) => chnl.topic == "GateCategory")
-        .first();
+  let guild = member.guild;
 
-      await member.guild.roles
-        .fetch()
-        .then(async (roles) => {
-          let role = roles.filter((rle) => rle.name == "Member").first();
-          member.roles.add(role);
+  let configsJSON = await PoolAccess.GetConfig({ guildID: guild.id });
+  let GChannelExist;
+  let GateCategory;
+  let GCategoryExist;
+  let GateChannel;
 
-          if (channel == undefined) {
-            let everyone = roles
-              .filter((rle) => rle.name == "@everyone")
-              .first();
-            if (role == undefined) {
-              role = await member.guild.roles.create("Member");
-            }
-            channel = await member.guild.channels.create(
-              `🚪${member.guild.name}-gate🚪`,
-              {
-                type: "GUILD_TEXT",
-                permissionOverwrites: [
-                  {
-                    id: everyone.id,
-                    allow: [],
-                    deny: ["VIEW_CHANNEL"]
-                  },
-                  {
-                    id: role.id,
-                    allow: ["VIEW_CHANNEL"],
-                    deny: []
-                  }
-                ],
-                topic: "GateRoom"
-              }
-            );
-            if (GATE == undefined) {
-              GATE = await member.guild.channels.create("Gate", {
-                type: "GUILD_CATEGORY",
-                permissionOverwrites: [
-                  {
-                    id: everyone.id,
-                    allow: [],
-                    deny: ["VIEW_CHANNEL"]
-                  },
-                  {
-                    id: role.id,
-                    allow: ["VIEW_CHANNEL"],
-                    deny: []
-                  }
-                ],
-                topic: "GateCategory"
-              });
-            }
-            channel.setParent(GATE);
-          }
-        })
-        .catch((error) => console.error(error));
+  await guild.roles.fetch().then(async (roles) => {
+    everyoneRole = roles.filter((rle) => rle.name == "@everyone").first();
+  });
 
-      if (channel == undefined) return console.error("Channel is Undefined.");
+  if (configsJSON.GATECATEGORY != "") {
+    GateCategory = await guild.channels
+      .fetch(configsJSON.GATECATEGORY)
+      .catch((error) => console.error("Category not found"));
+    GCategoryExist = RoomExist(GateCategory);
+    if (!GCategoryExist)
+      GateCategory = await CreateChannel({
+        name: "GATE",
+        type: "GUILD_CATEGORY",
+        guild,
+        everyoneRole
+      });
+  } else {
+    GateCategory = await CreateChannel({
+      name: "GATE",
+      type: "GUILD_CATEGORY",
+      guild,
+      everyoneRole
+    });
+  }
 
-      var datum = moment(member.user.createdAt).format("l").split("/");
-      datum = [datum[1], datum[0], datum[2]].join(". ");
-      let hodnoty = {
-        channel: channel,
-        target: member.user,
-        stav: "Welcome",
-        datum: datum
-      };
-      require(join(root, "src/canvases/WelcomeCanvas.js")).run(hodnoty);
-    })
-    .catch((error) => console.error(error));
+  if (configsJSON.GATEROOM != "") {
+    GateChannel = await guild.channels
+      .fetch(configsJSON.GATEROOM)
+      .catch((error) => console.error("Category not found"));
+    GChannelExist = RoomExist(GateChannel);
+    if (!GChannelExist)
+      GateChannel = await CreateChannel({
+        name: "🚪gate🚪",
+        type: "GUILD_TEXT",
+        guild,
+        everyoneRole
+      });
+  } else {
+    GateChannel = await CreateChannel({
+      name: "🚪gate🚪",
+      type: "GUILD_TEXT",
+      guild,
+      everyoneRole
+    });
+  }
+
+  if (!GChannelExist || !GCategoryExist) {
+    GateChannel.setParent(GateCategory);
+  }
+
+  await PoolAccess.UpdateGate({
+    GateCategory: GateCategory.id,
+    GateRoom: GateChannel.id,
+    guildID: guild.id
+  });
+
+  var datum = moment(member.user.createdAt).format("l").split("/");
+  datum = [datum[1], datum[0], datum[2]].join(". ");
+  let hodnoty = {
+    channel: GateChannel,
+    target: member.user,
+    stav: "Welcome",
+    datum: datum
+  };
+  require(join(root, "src/canvases/WelcomeCanvas.js")).run(hodnoty);
 }
 
 client.on("guildMemberAdd", (member) => {
@@ -86,5 +102,5 @@ client.on("guildMemberAdd", (member) => {
     return console.info(`${member.user.username} was bot skipping.`);
   console.info(`${member.user.username} joined server.`);
   uvitani(member);
-  NSBR.emit("userjoin", (member.user.id, member.guild.id));
+  NSBR.emit("userjoin", { userID: member.user.id, guildID: member.guild.id });
 });
