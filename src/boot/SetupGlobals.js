@@ -17,10 +17,11 @@ module.exports = {
       global.Functions = join(SRC, "functions");
       global.CommandTypes = Constants.ApplicationCommandOptionTypes;
       global.CommandList = [];
+      global.GuildsConfigs = {};
 
       console.info("Globals Loaded!");
       resolve();
     });
-    return promise
+    return promise;
   }
 };

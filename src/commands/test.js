@@ -12,6 +12,7 @@ module.exports = {
     message.reply({
       content: "This is test."
     });
+    //console.info(GuildsConfigs)
     let guildID = message.guildId;
     let authorID = message.author.id;
     let member = await (

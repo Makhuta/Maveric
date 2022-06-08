@@ -6,6 +6,7 @@ module.exports = {
     helpname: "Help",
     type: "Global",
     async run(interaction) {
+      console.info(GuildsConfigs)
       interaction.reply({
         content: "This is test help command."
       });

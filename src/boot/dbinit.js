@@ -1,4 +1,5 @@
 const mysql = require("mysql");
+let { join } = require("path");
 require("dotenv").config();
 
 global.MySQLPool = mysql.createPool({
@@ -7,3 +8,5 @@ global.MySQLPool = mysql.createPool({
   password: process.env.MYSQL_PASSWORD,
   database: process.env.MYSQL_DATABASE
 });
+
+require(join(Functions, "LoadGuildsConfigs.js"))();
