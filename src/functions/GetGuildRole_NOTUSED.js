@@ -1,7 +1,14 @@
-async function GetRole({ guild, permission }) {
+async function GetRole({ guild }) {
   return await new Promise((resolve, reject) => {
     if (!guild) resolve({});
     guild?.roles.fetch().then(async (roles) => {
+      let HighestRole;
+      let HighestRoleID;
+      for (role of roles) {
+        console.info(role)
+      }
+      
+      /*
       let RolesList = [];
       for (role of roles) {
         if (role[1].name === permission) {
@@ -16,7 +23,7 @@ async function GetRole({ guild, permission }) {
           name: permission
         });
         resolve(CreatedRole.id);
-      }
+      }*/
     });
   });
 }

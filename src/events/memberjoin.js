@@ -100,10 +100,9 @@ client.on("guildMemberAdd", async (member) => {
   if (member.user.bot)
     return console.info(`${member.user.username} was bot skipping.`);
   console.info(`${member.user.username} joined server.`);
-  configsJSON = GuildsConfigs[member.guild.id].config;
+  configsJSON = GuildsConfigs[member.guild.id]?.config;
 
-  let enabled = configsJSON.WELCOMER;
-  enabled = true;
+  let enabled = configsJSON?.WELCOMERENABLED;
   if (enabled) {
     uvitani(member);
   }

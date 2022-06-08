@@ -1,14 +1,14 @@
 [
     {
-        "name": "COUNTER",
+        "name": "COUNTERENABLED",
         "value": false
     },
     {
-        "name": "MONEY",
+        "name": "MONEYENABLED",
         "value": false
     },
     {
-        "name": "WELCOMER",
+        "name": "WELCOMERENABLED",
         "value": false
     }
 ]

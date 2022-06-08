@@ -14,7 +14,7 @@ function TableConvertor({ FileLocation, f }) {
       description: file.description
     }));
   this.FileName = f;
-  this.Permissions = file.allowedRoles ? file.allowedRoles : [];
+  this.Permissions = file.default ? file.default : false;
 }
 
 const CommandPromise = new Promise((resolve, reject) => {

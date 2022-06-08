@@ -1,14 +1,50 @@
 let { join } = require("path");
 let ExecuteQuery = require(join(Functions, "DBExecuter.js"));
 
-module.exports = async ({ guildID }) => {
-  let sql = `SELECT * FROM ${guildID}_config`;
-  let GuildConfig = await ExecuteQuery({ sql });
+async function GetRawDatas({ guildIDs }) {
+  let sqlSELECT = "SELECT ";
+  let sqlFROM = "FROM ";
 
-  let configs = {};
-  for (let c of GuildConfig) {
-    configs[c.config_name] = c.config_value;
+  for (g in guildIDs) {
+    let gID = guildIDs[g];
+    if (guildIDs.length - 1 > g) {
+      sqlSELECT =
+        sqlSELECT +
+        `Guild${g}.config_name AS ${gID}_NAME, Guild${g}.config_VALUE AS ${gID}_VALUE, `;
+      sqlFROM = sqlFROM + `${gID}_config AS Guild${g}, `;
+    } else {
+      sqlSELECT =
+        sqlSELECT +
+        `Guild${g}.config_name AS ${gID}_NAME, Guild${g}.config_VALUE AS ${gID}_VALUE `;
+      sqlFROM = sqlFROM + `${gID}_config AS Guild${g} `;
+    }
   }
 
-  return configs;
+  let sql = sqlSELECT + sqlFROM;
+
+  console.info(sql);
+  let GuildConfig = await require(join(Functions, "DBExecuter.js"))({ sql });
+  return GuildConfig;
+}
+
+async function CreateConfigJSON({ GuildConfig, guildIDs }) {
+  
+  for (g in guildIDs) {
+    let configs = {};
+    let guildID = guildIDs[g];
+    for (GCID in GuildConfig) {
+      let GC = JSON.parse(JSON.stringify(GuildConfig[GCID]));
+      let guildConfigName = GC[`${guildID}_NAME`];
+      let guildConfigValue = GC[`${guildID}_VALUE`];
+      
+      configs[guildConfigName] = guildConfigValue;
+    }
+    GuildsConfigs[guildID] = { config: configs };
+  }
+}
+
+module.exports = async ({ guildIDs }) => {
+  let GuildConfig = await GetRawDatas({ guildIDs });
+
+  await CreateConfigJSON({ GuildConfig, guildIDs });
 };

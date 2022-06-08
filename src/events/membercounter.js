@@ -12,6 +12,7 @@ const updateMembers = async ({ id }, configsJSON) => {
   let guild = await client.guilds.fetch(id);
 
   let ServerStatsCategory;
+  let SSCategoryExist
   let MemberCountChannel;
   let OnlineCountChannel;
   let OfflineCountChannel;
@@ -34,7 +35,8 @@ const updateMembers = async ({ id }, configsJSON) => {
         name: "📊 Server Stats 📊",
         type: "GUILD_CATEGORY",
         guild,
-        everyoneRole
+        everyoneRole,
+        BotID: botRole
       });
     }
   } else {
@@ -42,7 +44,8 @@ const updateMembers = async ({ id }, configsJSON) => {
       name: "📊 Server Stats 📊",
       type: "GUILD_CATEGORY",
       guild,
-      everyoneRole
+      everyoneRole,
+      BotID: botRole
     });
   }
 
@@ -69,7 +72,8 @@ const updateMembers = async ({ id }, configsJSON) => {
         name: "Members:",
         type: "GUILD_VOICE",
         guild,
-        everyoneRole
+        everyoneRole,
+        BotID: botRole
       });
     }
   } else {
@@ -77,7 +81,8 @@ const updateMembers = async ({ id }, configsJSON) => {
       name: "Members:",
       type: "GUILD_VOICE",
       guild,
-      everyoneRole
+      everyoneRole,
+      BotID: botRole
     });
   }
 
@@ -100,7 +105,8 @@ const updateMembers = async ({ id }, configsJSON) => {
         name: "Online:",
         type: "GUILD_VOICE",
         guild,
-        everyoneRole
+        everyoneRole,
+        BotID: botRole
       });
     }
   } else {
@@ -108,7 +114,8 @@ const updateMembers = async ({ id }, configsJSON) => {
       name: "Online:",
       type: "GUILD_VOICE",
       guild,
-      everyoneRole
+      everyoneRole,
+      BotID: botRole
     });
   }
 
@@ -131,7 +138,8 @@ const updateMembers = async ({ id }, configsJSON) => {
         name: "Offline:",
         type: "GUILD_VOICE",
         guild,
-        everyoneRole
+        everyoneRole,
+        BotID: botRole
       });
     }
   } else {
@@ -139,7 +147,8 @@ const updateMembers = async ({ id }, configsJSON) => {
       name: "Offline:",
       type: "GUILD_VOICE",
       guild,
-      everyoneRole
+      everyoneRole,
+      BotID: botRole
     });
   }
 
@@ -151,19 +160,19 @@ const updateMembers = async ({ id }, configsJSON) => {
     });
   }
 
-  if (!MCChannelExist || !ServerStatsCategory) {
+  if (!MCChannelExist || !SSCategoryExist) {
     MemberCountChannel?.setParent(ServerStatsCategory).catch((error) =>
       console.error(error)
     );
   }
 
-  if (!OnChannelExist || !ServerStatsCategory) {
+  if (!OnChannelExist || !SSCategoryExist) {
     OnlineCountChannel?.setParent(ServerStatsCategory).catch((error) =>
       console.error(error)
     );
   }
 
-  if (!OffChannelExist || !ServerStatsCategory) {
+  if (!OffChannelExist || !SSCategoryExist) {
     OfflineCountChannel?.setParent(ServerStatsCategory).catch((error) =>
       console.error(error)
     );
@@ -196,16 +205,15 @@ const updateMembers = async ({ id }, configsJSON) => {
 NSBR.on("ready", async () => {
   let guilds = client.guilds.cache;
   guilds.forEach(async (guild) => {
-    let configsJSON = GuildsConfigs[guild.id].config;
+    let configsJSON = GuildsConfigs[guild.id]?.config;
 
-    let enabled = configsJSON.WELCOMER;
-    enabled = true;
-    if (enabled) {
+    let enabled = Boolean(configsJSON?.COUNTERENABLED);
+    if (enabled == true) {
       updateMembers(guild, configsJSON);
     }
 
     setInterval(() => {
-      if (enabled) {
+      if (enabled == true) {
         updateMembers(guild, configsJSON);
       }
     }, 600000);
@@ -214,18 +222,20 @@ NSBR.on("ready", async () => {
 
 client.on("guildMemberAdd", async (member) => {
   if (member.user.bot) return;
-  let configsJSON = GuildsConfigs[member.guild.id].config;
+  let configsJSON = GuildsConfigs[member.guild.id]?.config;
 
-  if (enabled) {
+  let enabled = Boolean(configsJSON?.COUNTERENABLED);
+  if (enabled == true) {
     updateMembers(member.guild, configsJSON);
   }
 });
 
 client.on("guildMemberRemove", async (member) => {
   if (member.user.bot) return;
-  let configsJSON = GuildsConfigs[member.guild.id].config;
+  let configsJSON = GuildsConfigs[member.guild.id]?.config;
 
-  if (enabled) {
+  let enabled = Boolean(configsJSON?.COUNTERENABLED);
+  if (enabled == true) {
     updateMembers(member.guild, configsJSON);
   }
 });

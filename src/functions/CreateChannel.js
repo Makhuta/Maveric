@@ -1,4 +1,4 @@
-async function CreateChannel({ name, type, guild, everyoneRole }) {
+async function CreateChannel({ name, type, guild, everyoneRole, BotID }) {
   return await guild.channels.create(name, {
     type: type,
     permissionOverwrites: [
@@ -6,6 +6,11 @@ async function CreateChannel({ name, type, guild, everyoneRole }) {
         id: everyoneRole.id,
         allow: ["VIEW_CHANNEL"],
         deny: ["CONNECT"]
+      },
+      {
+        id: BotID.id,
+        allow: ["VIEW_CHANNEL", "MANAGE_CHANNELS", "CONNECT"],
+        deny: []
       }
     ]
   });

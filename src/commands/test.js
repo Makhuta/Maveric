@@ -3,7 +3,7 @@ const { client } = require(DClientLoc);
 module.exports = {
   name: "Test",
   description: "This is the test command.",
-  allowedRoles: "BotOwner",
+  default: "BotOwner",
   helpdescription: "This is the test command.",
   usage: "/test",
   helpname: "Test",

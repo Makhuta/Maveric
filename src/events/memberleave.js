@@ -100,10 +100,9 @@ client.on("guildMemberRemove", async (member) => {
   if (member.user.bot)
     return console.info(`${member.user.username} was bot skipping.`);
   console.info(`${member.user.username} left server.`);
-  configsJSON = GuildsConfigs[member.guild.id].config;
+  configsJSON = GuildsConfigs[member.guild.id]?.config;
 
-  let enabled = configsJSON.WELCOMER;
-  enabled = true;
+  let enabled = configsJSON?.WELCOMER;
   if (enabled) {
     rozlouceni(member);
   }

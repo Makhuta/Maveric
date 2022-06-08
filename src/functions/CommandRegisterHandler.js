@@ -1,6 +1,6 @@
 const { client } = require(DClientLoc);
 const { join } = require("path");
-const { isArray } = require("util");
+const { isString } = require("util");
 
 async function GetRegisteredCMDS(cmds) {
   //Getting commands that bot has registered
@@ -31,7 +31,7 @@ async function GuildHandler(data) {
   //Filter guild commands from CommandList
   let FilteredGuildCommands = CommandList.filter(
     (cmd) => cmd.Type === "Guild"
-  ).filter((cmd) => isArray(cmd.Permissions));
+  ).filter((cmd) => !isString(cmd.Permissions));
 
   //Getting (not)registered commands as arrays
   let { NotRegisteredCommands, RegisteredCommands } =
