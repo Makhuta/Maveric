@@ -1,7 +1,7 @@
 const { createCanvas, loadImage } = require("canvas");
 const { MessageAttachment } = require("discord.js");
 const { join } = require("path");
-const color = require(join(colorpaletes, "colors.json"));
+const color = require(join(ColorPaletes, "colors.json"));
 
 module.exports = {
   run: async (hodnoty) => {
@@ -29,7 +29,7 @@ module.exports = {
     let stav_font = "Square";
     let barvy = [color.light_blue, color.red];
     let obraz_jmeno = ["Join", "Leave"];
-    let verze_pro_datum = ["Účet si založil", "Členem od"];
+    let verze_pro_datum = ["Joined", "Member since"];
     let stav_barva;
 
     if (stav === "Welcome") stav_barva = 0;

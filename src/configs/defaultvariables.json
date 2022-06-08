@@ -22,13 +22,5 @@
     {
         "name": "SERVERSTATS",
         "value": ""
-    },
-    {
-        "name": "COUNTENABLE",
-        "value": "false"
-    },
-    {
-        "name": "DEFAULTROLE",
-        "value": ""
     }
 ]

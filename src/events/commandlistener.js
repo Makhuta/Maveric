@@ -1,16 +1,59 @@
 const { client } = require(DClientLoc);
 
+function GetCommandsNames() {
+  let CMDList = [];
+  for (cmdID in CommandList) {
+    let cmd = CommandList[cmdID];
+    CMDList.push(cmd.Name);
+  }
+  return CMDList;
+}
+
+function GetPrivateCommandsNames() {
+  let CMDList = [];
+  for (cmdID in CommandList) {
+    let cmd = CommandList[cmdID];
+    if (cmd.Type == "Testing" || cmd.Type == "Private") {
+      CMDList.push(cmd.Name);
+    }
+  }
+  return CMDList;
+}
+
+async function RunOwnerCommand({ prefix, command, message }) {
+  if (prefix != "!") return;
+
+  let CMDNamesList = GetPrivateCommandsNames();
+  if (!CMDNamesList.includes(command)) return;
+
+  let RequestedCommand = CommandList.find((CMD) => CMD.Name == command);
+
+  require(RequestedCommand.Location).run(message);
+}
+
 client.on("interactionCreate", async (interaction) => {
   if (!interaction.isCommand()) return;
 
   const { commandName, options } = interaction;
+  let CMDNamesList = GetCommandsNames();
 
-  if (!(commandName in CommandList)) {
-    interaction.reply({
-      content: "I don´t know how to response to this."
-    }).catch(error => console.error(error));
+  if (!CMDNamesList.some((CMDName) => CMDName == commandName)) {
+    interaction
+      .reply({
+        content: "I don´t know how to response to this."
+      })
+      .catch((error) => console.error(error));
 
     return console.info(`"${commandName}" is not my command. Universal reply.`);
   }
-  CommandList[commandName].code(interaction);
+
+  let RequestedCommand = CommandList.find((CMD) => CMD.Name == commandName);
+
+  await require(RequestedCommand.Location).run(interaction);
+});
+
+client.on("messageCreate", async (message) => {
+  let prefix = message.content.slice(0, 1);
+  let command = message.content.slice(1);
+  RunOwnerCommand({ prefix, command, message });
 });

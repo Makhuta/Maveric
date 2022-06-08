@@ -1,0 +1,14 @@
+[
+    {
+        "name": "COUNTER",
+        "value": false
+    },
+    {
+        "name": "MONEY",
+        "value": false
+    },
+    {
+        "name": "WELCOMER",
+        "value": false
+    }
+]

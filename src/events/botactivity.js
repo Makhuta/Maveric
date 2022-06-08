@@ -12,7 +12,7 @@ async function aktivita() {
   typ_aktivity.push(aktivita);
 }
 
-NSBR.on("EventsLoad", () => {
+NSBR.on("EventLoad", () => {
   aktivita();
 
   setInterval(() => {

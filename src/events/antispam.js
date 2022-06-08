@@ -43,7 +43,6 @@ client.on("messageCreate", (message) => {
   const BotHighestRole = message.guild.me.roles.highest.position;
 
   if (MemberHighestRole >= BotHighestRole) return;
-
   const guild = message.guild;
   var ThisGuildItems = BotGuilds.get(guild.id);
   if (ThisGuildItems == undefined) return;

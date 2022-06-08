@@ -6,18 +6,21 @@ require("dotenv").config();
 
 class MyEmitter extends EventEmitter {}
 
-const myEmitter = new MyEmitter();
+const NSBR = new MyEmitter();
 
-client.on("ready", () => {
-  //setTimeout(function () {
-  console.info(`\nLogged in as ${client.user.tag}.`);
-  myEmitter.emit("botinit");
-  //}, 2000);
+const promise = new Promise((resolve, reject) => {
+  client.on("ready", () => {
+    console.info(`\nLogged in as ${client.user.tag}.`);
+    resolve();
+  });
 });
 
 client.login(process.env.BOT_TOKEN);
 
 module.exports = {
   client: client,
-  NSBR: myEmitter
+  NSBR: NSBR,
+  run() {
+    return promise;
+  }
 };
