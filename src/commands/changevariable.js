@@ -15,9 +15,10 @@ module.exports = {
   type: "Global",
   async run(interaction) {
     const { options } = interaction;
-    let GuildID = interaction.guildId;
+    let guildID = interaction.guildId;
     let OptionName = options.getString("name");
     let OptionVariable = options.getBoolean("value");
+
     let GuildVariable = GuildsConfigs[guildID].config[OptionName] == "true";
     let IsSimilar = GuildVariable == OptionVariable;
     if (IsSimilar) {
@@ -27,7 +28,7 @@ module.exports = {
       });
     } else {
       await UpdateVariable({
-        guildID: GuildID,
+        guildID,
         variable: OptionName,
         value: OptionVariable
       });

@@ -207,7 +207,7 @@ NSBR.on("ready", async () => {
   guilds.forEach(async (guild) => {
     let configsJSON = GuildsConfigs[guild.id]?.config;
 
-    let enabled = Boolean(configsJSON?.COUNTERENABLED);
+    let enabled = configsJSON?.COUNTERENABLED == "true";
     if (enabled == true) {
       updateMembers(guild, configsJSON);
     }
@@ -224,7 +224,7 @@ client.on("guildMemberAdd", async (member) => {
   if (member.user.bot) return;
   let configsJSON = GuildsConfigs[member.guild.id]?.config;
 
-  let enabled = Boolean(configsJSON?.COUNTERENABLED);
+  let enabled = configsJSON?.COUNTERENABLED == "true";
   if (enabled == true) {
     updateMembers(member.guild, configsJSON);
   }
@@ -234,7 +234,7 @@ client.on("guildMemberRemove", async (member) => {
   if (member.user.bot) return;
   let configsJSON = GuildsConfigs[member.guild.id]?.config;
 
-  let enabled = Boolean(configsJSON?.COUNTERENABLED);
+  let enabled = configsJSON?.COUNTERENABLED == "true";
   if (enabled == true) {
     updateMembers(member.guild, configsJSON);
   }

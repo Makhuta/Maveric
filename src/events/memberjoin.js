@@ -102,7 +102,7 @@ client.on("guildMemberAdd", async (member) => {
   console.info(`${member.user.username} joined server.`);
   configsJSON = GuildsConfigs[member.guild.id]?.config;
 
-  let enabled = configsJSON?.WELCOMERENABLED;
+  let enabled = configsJSON?.WELCOMERENABLED == "true";
   if (enabled) {
     uvitani(member);
   }
