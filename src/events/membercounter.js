@@ -115,7 +115,7 @@ const updateMembers = async ({ id }, configsJSON) => {
   if (!OnChannelExist) {
     UpdateVariable({
       guildID: guild.id,
-      variable: "MEMBERCOUNT",
+      variable: "ONLINECOUNT",
       value: OnlineCountChannel.id
     });
   }
@@ -146,7 +146,7 @@ const updateMembers = async ({ id }, configsJSON) => {
   if (!OffChannelExist) {
     UpdateVariable({
       guildID: guild.id,
-      variable: "MEMBERCOUNT",
+      variable: "OFFLINECOUNT",
       value: OfflineCountChannel.id
     });
   }
@@ -205,7 +205,9 @@ NSBR.on("ready", async () => {
     }
 
     setInterval(() => {
-      updateMembers(guild, configsJSON);
+      if (enabled) {
+        updateMembers(guild, configsJSON);
+      }
     }, 600000);
   });
 });
@@ -214,12 +216,16 @@ client.on("guildMemberAdd", async (member) => {
   if (member.user.bot) return;
   let configsJSON = GuildsConfigs[member.guild.id].config;
 
-  updateMembers(member.guild, configsJSON);
+  if (enabled) {
+    updateMembers(member.guild, configsJSON);
+  }
 });
 
 client.on("guildMemberRemove", async (member) => {
   if (member.user.bot) return;
   let configsJSON = GuildsConfigs[member.guild.id].config;
 
-  updateMembers(member.guild, configsJSON);
+  if (enabled) {
+    updateMembers(member.guild, configsJSON);
+  }
 });
