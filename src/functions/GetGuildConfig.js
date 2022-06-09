@@ -1,5 +1,6 @@
 let { join } = require("path");
 let ExecuteQuery = require(join(Functions, "DBExecuter.js"));
+let CreateGuildDB = require(join(Functions, "CreateGuildDB.js"));
 
 async function GetRawDatas({ guildIDs }) {
   let sqlSELECT = "SELECT ";
@@ -22,8 +23,7 @@ async function GetRawDatas({ guildIDs }) {
 
   let sql = sqlSELECT + sqlFROM;
 
-  console.info(sql);
-  let GuildConfig = await require(join(Functions, "DBExecuter.js"))({ sql });
+  let GuildConfig = await ExecuteQuery({ sql });
   return GuildConfig;
 }
 
@@ -42,7 +42,50 @@ async function CreateConfigJSON({ GuildConfig, guildIDs }) {
   }
 }
 
+async function CheckIfTableExist({ guildIDs }) {
+  return new Promise(async (resolve, reject) => {
+    let RawTables = await ExecuteQuery({ sql: "SHOW TABLES" });
+    let TableIDs = [];
+    let ServersIDs = [];
+
+    for (g in guildIDs) {
+      let guildID = guildIDs[g];
+      for (RawTableID in RawTables) {
+        let Table = JSON.parse(JSON.stringify(RawTables[RawTableID]));
+        let TableIDArray = Table[Object.keys(Table)[0]].split("_");
+        let TableID = TableIDArray[0];
+        let TableType = TableIDArray[1];
+
+        if (TableType != "config" && TableType != "userstats") continue;
+
+        if (!TableIDs.includes(TableID) && guildIDs.includes(TableID)) {
+          TableIDs.push(TableID);
+        } else if (!guildIDs.includes(TableID)) {
+          console.info("Here")
+          let sqlDROP = `DROP TABLE IF EXISTS ${TableID}_${TableType}`;
+          await ExecuteQuery({
+            sql: sqlDROP
+          });
+        }
+      }
+      for (TableIDID in TableIDs) {
+        let TableID = TableIDs[TableIDID];
+        if (!TableIDs.includes(guildID) && TableID != guildID) {
+          ServersIDs.push(guildID);
+        }
+      }
+    }
+
+    for (ServerIDID in ServersIDs) {
+      let ServerID = ServersIDs[ServerIDID];
+      await CreateGuildDB({ guildID: ServerID });
+    }
+    resolve();
+  });
+}
+
 module.exports = async ({ guildIDs }) => {
+  await CheckIfTableExist({ guildIDs });
   let GuildConfig = await GetRawDatas({ guildIDs });
 
   await CreateConfigJSON({ GuildConfig, guildIDs });

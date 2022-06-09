@@ -12,13 +12,13 @@ module.exports = {
     message.reply({
       content: "This is test."
     });
-    //console.info(GuildsConfigs)
+    console.info(GuildsConfigs)
     let guildID = message.guildId;
     let authorID = message.author.id;
     let member = await (
       await client.guilds.fetch(guildID)
     ).members.fetch(authorID);
-    client.emit("guildMemberRemove", member);
+    client.emit("guildDelete", await client.guilds.fetch(guildID));
   },
   create({ commands }) {
     let command = commands?.create({
