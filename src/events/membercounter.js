@@ -12,7 +12,7 @@ const updateMembers = async ({ id }, configsJSON) => {
   let guild = await client.guilds.fetch(id);
 
   let ServerStatsCategory;
-  let SSCategoryExist
+  let SSCategoryExist;
   let MemberCountChannel;
   let OnlineCountChannel;
   let OfflineCountChannel;
@@ -213,6 +213,7 @@ NSBR.on("ready", async () => {
     }
 
     setInterval(() => {
+      enabled = configsJSON?.COUNTERENABLED == "true";
       if (enabled == true) {
         updateMembers(guild, configsJSON);
       }
