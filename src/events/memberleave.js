@@ -102,8 +102,9 @@ client.on("guildMemberRemove", async (member) => {
   console.info(`${member.user.username} left server.`);
   configsJSON = GuildsConfigs[member.guild.id]?.config;
 
-  let enabled = configsJSON?.WELCOMER == "true";
+  let enabled = configsJSON?.WELCOMERENABLED == "true";
   if (enabled) {
+    console.info(member)
     rozlouceni(member);
   }
 });
