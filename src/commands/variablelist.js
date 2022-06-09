@@ -22,8 +22,12 @@ module.exports = {
 
     for (f in DefaultFunctionsStates) {
       fields.push({
-        name: DefaultFunctionsStates[f].name,
+        name: DefaultFunctionsStates[f].name
+          ? DefaultFunctionsStates[f].name
+          : "Error",
         value: ConfigList[DefaultFunctionsStates[f].name]
+          ? ConfigList[DefaultFunctionsStates[f].name]
+          : "Error"
       });
     }
     const embed = new MessageEmbed()
