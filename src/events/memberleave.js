@@ -86,7 +86,7 @@ async function rozlouceni(member) {
     });
   }
 
-  var datum = moment(member.user.createdAt).format("l").split("/");
+  var datum = moment(member.joinedTimestamp).format("l").split("/");
   datum = [datum[1], datum[0], datum[2]].join(". ");
   require(join(Canvases, "WelcomeCanvas.js")).run({
     channel: GateRoom,
@@ -104,7 +104,6 @@ client.on("guildMemberRemove", async (member) => {
 
   let enabled = configsJSON?.WELCOMERENABLED == "true";
   if (enabled) {
-    console.info(member)
     rozlouceni(member);
   }
 });
