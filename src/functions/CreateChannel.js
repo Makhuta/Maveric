@@ -1,3 +1,5 @@
+const { client } = require(DClientLoc);
+
 async function CreateChannel({ name, type, guild, everyoneRole, BotID }) {
   return await guild.channels.create(name, {
     type: type,
@@ -8,7 +10,7 @@ async function CreateChannel({ name, type, guild, everyoneRole, BotID }) {
         deny: ["CONNECT"]
       },
       {
-        id: BotID.id,
+        id: client.user.id,
         allow: ["VIEW_CHANNEL", "MANAGE_CHANNELS", "CONNECT"],
         deny: []
       }
