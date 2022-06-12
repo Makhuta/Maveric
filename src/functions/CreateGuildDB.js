@@ -30,7 +30,6 @@ async function CreateGuildDB({ guildID }) {
       }
     }
     sql = `INSERT INTO ${guildID}_config ${sqlVALUES} ON DUPLICATE KEY UPDATE config_name=VALUES(config_name), config_value=VALUES(config_value);`;
-    console.info(sql);
     await ExecuteQuery({ sql });
     resolve({});
   });

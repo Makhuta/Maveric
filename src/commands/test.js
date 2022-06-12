@@ -1,4 +1,6 @@
 const { client } = require(DClientLoc);
+let { join } = require("path");
+let ExecuteQuery = require(join(Functions, "DBExecuter.js"));
 
 module.exports = {
   name: "Test",
@@ -19,7 +21,7 @@ module.exports = {
     let member = await (
       await client.guilds.fetch(guildID)
     ).members.fetch(authorID);
-    client.emit("guildDelete", guild);
+    console.info(GuildsConfigs)
   },
   create({ commands }) {
     let command = commands?.create({
