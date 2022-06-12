@@ -1,5 +1,6 @@
 const { client } = require(DClientLoc);
 let { join } = require("path");
+let RemoveCommand = require(join(Functions, "RemoveCommand.js"));
 let RegisterCommand = require(join(Functions, "RegisterCommand.js"));
 
 module.exports = {
@@ -23,7 +24,14 @@ module.exports = {
         content: `Registering for ${args[0]} was disabled!`
       });
     }
-    RegisterCommand({ cmds, NRCMD: { FileName: requrestedcmd.FileName } });
+    await RemoveCommand({
+      cmds,
+      NECMD: { FileName: requrestedcmd.FileName }
+    });
+    await RegisterCommand({
+      cmds,
+      NRCMD: { FileName: requrestedcmd.FileName }
+    });
     message.reply({
       content: `${args[0]} has been force registered!`
     });
