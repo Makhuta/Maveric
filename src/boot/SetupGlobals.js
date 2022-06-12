@@ -3,6 +3,8 @@ const { Constants } = require("discord.js");
 
 module.exports = {
   run(DIR) {
+    
+    //Promise that will resolve when all globals are set
     const promise = new Promise((resolve, reject) => {
       global.ROOT = DIR;
       global.SRC = join(ROOT, "src");

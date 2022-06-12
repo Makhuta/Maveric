@@ -3,6 +3,7 @@ const { join } = require("path");
 const { registerFont } = require("canvas");
 const { NSBR } = require(DClientLoc);
 
+//Converting commands data to more usable version
 function TableConvertor({ FileLocation, f }) {
   var FilePath = join(FileLocation, f);
   var file = require(FilePath);
@@ -17,6 +18,7 @@ function TableConvertor({ FileLocation, f }) {
   this.Permissions = file.default ? file.default : false;
 }
 
+//Loading commands from folder
 const CommandPromise = new Promise((resolve, reject) => {
   var FileLocation = Commands;
   fs.readdir(FileLocation, (err, files) => {
@@ -36,6 +38,7 @@ const CommandPromise = new Promise((resolve, reject) => {
   });
 });
 
+//Loading events from folder
 const EventPromise = new Promise((resolve, reject) => {
   var FileLocation = Events;
   fs.readdir(FileLocation, (err, files) => {
@@ -55,6 +58,7 @@ const EventPromise = new Promise((resolve, reject) => {
   });
 });
 
+//Loading fonts from folder
 const FontPromise = new Promise((resolve, reject) => {
   var FileLocation = Fonts;
   fs.readdir(FileLocation, (err, files) => {
@@ -75,6 +79,7 @@ const FontPromise = new Promise((resolve, reject) => {
   });
 });
 
+//Exporting loading functions
 module.exports = {
   async run(type) {
     switch (type) {
