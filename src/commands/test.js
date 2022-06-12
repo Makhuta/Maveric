@@ -7,7 +7,7 @@ module.exports = {
   description: "This is the test command.",
   default: "BotOwner",
   helpdescription: "This is the test command.",
-  usage: "/test",
+  usage: "!test",
   helpname: "Test",
   type: "Testing",
   async run(message) {
@@ -22,14 +22,5 @@ module.exports = {
       await client.guilds.fetch(guildID)
     ).members.fetch(authorID);
     console.info(GuildsConfigs)
-  },
-  create({ commands }) {
-    let command = commands?.create({
-      name: this.name.toLowerCase(),
-      description: this.description,
-      defaultPermission: false,
-      code: this.run
-    });
-    return command;
   }
 };
