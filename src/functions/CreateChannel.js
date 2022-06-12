@@ -7,11 +7,11 @@ async function CreateChannel({ name, type, guild, everyoneRole, BotID }) {
       {
         id: everyoneRole.id,
         allow: ["VIEW_CHANNEL"],
-        deny: ["CONNECT"]
+        deny: ["CONNECT", "SEND_MESSAGES"]
       },
       {
         id: client.user.id,
-        allow: ["VIEW_CHANNEL", "MANAGE_CHANNELS", "CONNECT"],
+        allow: ["VIEW_CHANNEL", "MANAGE_CHANNELS", "CONNECT", "SEND_MESSAGES"],
         deny: []
       }
     ]
