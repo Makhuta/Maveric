@@ -20,7 +20,7 @@ function GetPrivateCommandsNames() {
   return CMDList;
 }
 
-async function RunOwnerCommand({ prefix, command, message }) {
+async function RunOwnerCommand({ prefix, command, args, message }) {
   if (prefix != "!") return;
 
   let CMDNamesList = GetPrivateCommandsNames();
@@ -28,7 +28,7 @@ async function RunOwnerCommand({ prefix, command, message }) {
 
   let RequestedCommand = CommandList.find((CMD) => CMD.Name == command);
 
-  require(RequestedCommand.Location).run(message);
+  require(RequestedCommand.Location).run(message, args);
 }
 
 client.on("interactionCreate", async (interaction) => {
@@ -54,6 +54,7 @@ client.on("interactionCreate", async (interaction) => {
 
 client.on("messageCreate", async (message) => {
   let prefix = message.content.slice(0, 1);
-  let command = message.content.slice(1);
-  RunOwnerCommand({ prefix, command, message });
+  let messagecontent = message.content.slice(1).split(" ");
+  let command = messagecontent.shift();
+  RunOwnerCommand({ prefix, command, args: messagecontent, message });
 });
