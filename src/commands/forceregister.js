@@ -12,7 +12,7 @@ module.exports = {
   helpname: "ForceRegister",
   type: "Testing",
   async run(message, args) {
-    let cmds = message.guild.commands;
+    let cmds = client.application?.commands;
     let requrestedcmd = CommandList.find((c) => c.Name == args[0]);
     let requrestedcmdexist = requrestedcmd != undefined;
 
