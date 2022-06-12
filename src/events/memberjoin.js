@@ -99,7 +99,7 @@ async function uvitani(member) {
 client.on("guildMemberAdd", async (member) => {
   if (member.user.bot)
     return console.info(`${member.user.username} was bot skipping.`);
-  console.info(`${member.user.username} joined server.`);
+  console.info(`${member.user.username} joined server ${member.guild.id}.`);
   configsJSON = GuildsConfigs[member.guild.id]?.config;
 
   let enabled = configsJSON?.WELCOMERENABLED == "true";

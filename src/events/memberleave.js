@@ -99,7 +99,7 @@ async function rozlouceni(member) {
 client.on("guildMemberRemove", async (member) => {
   if (member.user.bot)
     return console.info(`${member.user.username} was bot skipping.`);
-  console.info(`${member.user.username} left server.`);
+  console.info(`${member.user.username} left server ${member.guild.id}.`);
   configsJSON = GuildsConfigs[member.guild.id]?.config;
 
   let enabled = configsJSON?.WELCOMERENABLED == "true";
