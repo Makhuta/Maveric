@@ -8,16 +8,21 @@ async function GetRawDatas({ guildIDs }) {
 
   for (g in guildIDs) {
     let gID = guildIDs[g];
-    if (guildIDs.length - 1 > g) {
+    if (g == 0 && guildIDs.length - 1 > g) {
       sqlSELECT =
         sqlSELECT +
-        `Guild${g}.config_name AS ${gID}_NAME, Guild${g}.config_VALUE AS ${gID}_VALUE, `;
-      sqlFROM = sqlFROM + `${gID}_config AS Guild${g}, `;
+        `Guild${g}.config_name AS ${gID}_NAME, Guild${g}.config_value AS ${gID}_VALUE, `;
+      sqlFROM = sqlFROM + `${gID}_config AS Guild${g} JOIN `;
+    } else if (guildIDs.length - 1 > g) {
+      sqlSELECT =
+        sqlSELECT +
+        `Guild${g}.config_name AS ${gID}_NAME, Guild${g}.config_value AS ${gID}_VALUE, `;
+      sqlFROM = sqlFROM + `${gID}_config AS Guild${g} ON Guild${g}.config_name = Guild0.config_name JOIN `;
     } else {
       sqlSELECT =
         sqlSELECT +
-        `Guild${g}.config_name AS ${gID}_NAME, Guild${g}.config_VALUE AS ${gID}_VALUE `;
-      sqlFROM = sqlFROM + `${gID}_config AS Guild${g} `;
+        `Guild${g}.config_name AS ${gID}_NAME, Guild${g}.config_value AS ${gID}_VALUE `;
+      sqlFROM = sqlFROM + `${gID}_config AS Guild${g} ON Guild${g}.config_name = Guild0.config_name `;
     }
   }
 
@@ -50,15 +55,12 @@ async function CheckIfTableExist({ guildIDs }) {
     let TableIDs = [];
     let ServersIDs = [];
 
-    //console.info(guildIDs);
-
     for (g in guildIDs) {
       let guildID = guildIDs[g];
 
       if (!ServersIDs.includes(guildID)) {
         ServersIDs.push(guildID);
       }
-      //console.info(guildID);
 
       //Raw Tables => Result of query
       for (RawTableID in RawTables) {
@@ -73,17 +75,9 @@ async function CheckIfTableExist({ guildIDs }) {
         if (!TableIDs.includes(TableID)) {
           TableIDs.push(TableID);
         }
-        /*await ExecuteQuery({
-        } else if (!guildIDs.includes(TableID)) {
-          console.info("Here");
-          let sqlDROP = `DROP TABLE IF EXISTS ${TableID}_${TableType}`;
-            sql: sqlDROP
-          }
-        });*/
       }
     }
 
-    console.info({ TableIDs, ServersIDs });
     let NotRegisteredConfig = ServersIDs.filter((item) => {
       if (TableIDs.length <= 0) return true;
 
@@ -98,8 +92,6 @@ async function CheckIfTableExist({ guildIDs }) {
       else return false;
     });
 
-    console.info({ NotRegisteredConfig, NotExistingConfig });
-
     for (NRCID in NotRegisteredConfig) {
       let NRC = NotRegisteredConfig[NRCID];
       await CreateGuildDB({ guildID: NRC });
@@ -108,19 +100,16 @@ async function CheckIfTableExist({ guildIDs }) {
     for (NECID in NotExistingConfig) {
       let NEC = NotExistingConfig[NECID];
       let sqlDROP = `DROP TABLE IF EXISTS ${NEC}_config`;
-      delete GuildsConfigs[NEC]
+      delete GuildsConfigs[NEC];
       await ExecuteQuery({
         sql: sqlDROP
       });
     }
-
-    //if (true) return;
     resolve();
   });
 }
 
 module.exports = async ({ guildIDs }) => {
-  //console.info(guildIDs);
   await CheckIfTableExist({ guildIDs });
 
   let GuildConfig = await GetRawDatas({ guildIDs });
