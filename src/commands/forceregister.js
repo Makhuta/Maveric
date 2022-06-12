@@ -26,7 +26,7 @@ module.exports = {
     }
     await RemoveCommand({
       cmds,
-      NECMD: { FileName: requrestedcmd.FileName }
+      NECMD: requrestedcmd.FileName
     });
     await RegisterCommand({
       cmds,
