@@ -1,17 +1,41 @@
 const DELAY = 150;
 const ItemsToCount = [];
 
-function ExecuteQuery({ sql }) {
+function FunctionConsole(sql, enabled) {
+  let sqlWORD = [`Query:`, ""];
+  let WordLength = 75;
+
+  for (pos = 0; pos < sql.length; pos += WordLength) {
+    sqlWORD.push(sql.slice(pos, pos + WordLength));
+  }
+
+  sqlWORD.push(``);
+
+  if (enabled) sqlWORD.push(`was executed.`);
+  else sqlWORD.push(`was tested.`);
+
+  console.table(sqlWORD);
+  console.info("");
+}
+
+function ExecuteQuery({ sql, enabled }) {
+  if (typeof enabled == "undefined") enabled = true;
+
   let Multiplier = ItemsToCount.length;
-  ItemsToCount.push("Item");
+
+  if (!enabled) ItemsToCount.push("Item");
   var promise = new Promise((resolve, reject) => {
-    setTimeout(async function () {
-      MySQLPool.query(sql, function (err, res) {
-        if (err) throw err;
-        console.info(`Query: "${sql}" was executed.`);
-        resolve(res)
-      });
-    }, DELAY * Multiplier);
+    if (enabled) {
+      setTimeout(async function () {
+        MySQLPool.query(sql, function (err, res) {
+          if (err) throw err;
+          FunctionConsole(sql, enabled);
+          resolve(res);
+        });
+      }, DELAY * Multiplier);
+    } else {
+      FunctionConsole(sql, enabled);
+    }
   });
 
   setTimeout(async function () {
