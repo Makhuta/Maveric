@@ -85,7 +85,7 @@ async function joinChannel(UserVoiceChannel, RequestedRadioChannel, guildId) {
         url: RequestedRadioChannel.url
       });
 
-      RadioHandler[guildId].currentSongParser.on(
+      RadioHandler[guildId].currentSongParser.once(
         "metadata",
         async (metadata) => {
           let e = await EmbedMaker(
