@@ -2,7 +2,8 @@ const { MessageEmbed } = require("discord.js");
 const {
   joinVoiceChannel,
   createAudioPlayer,
-  createAudioResource
+  createAudioResource,
+  AudioPlayerStatus
 } = require("@discordjs/voice");
 const { join } = require("path");
 const colors = require(join(ColorPaletes, "colors.json"));
@@ -43,7 +44,9 @@ async function joinChannel(UserVoiceChannel, RequestedRadioChannel, guildId) {
   const player = createAudioPlayer();
   VoiceConnection.subscribe(player);
   player.play(resource);
-
+  player.on(AudioPlayerStatus.Idle, function() {
+    console.info("IDLE")
+  });
   RadioHandler[guildId].player = player;
   RadioHandler[guildId].VoiceConnection = VoiceConnection;
   RadioHandler[guildId].interval = setInterval(async () => {
@@ -145,7 +148,12 @@ module.exports = {
       };
     } else {
       return interaction.reply({
-        embeds: [await EmbedMaker(RequestedRadioChannel, GuildRadio.currentSongParser.previousMetadata.get("StreamTitle"))],
+        embeds: [
+          await EmbedMaker(
+            RequestedRadioChannel,
+            GuildRadio.currentSongParser.previousMetadata.get("StreamTitle")
+          )
+        ],
         ephemeral: true
       });
     }
