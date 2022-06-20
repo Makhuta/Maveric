@@ -7,15 +7,30 @@ const {
 const { join } = require("path");
 const colors = require(join(ColorPaletes, "colors.json"));
 const RadioHandler = require(join(Functions, "RadioHandler.js"));
-const MilisecondsToTime = require(join(Functions, "MilisecondsToTime.js"));
 const RadioStations = require(join(Configs, "RadioStations.json"));
 const { client } = require(DClientLoc);
 const randomNum = require("random");
 const { isNull, isUndefined } = require("util");
+const { Parser } = require("icecast-parser");
 
-const cooldownLength = 300000;
+async function EmbedMaker(RequestedRadioChannel, songname) {
+  let embed = new MessageEmbed()
+    .setTitle(songname ? songname : "Unknown song")
+    .setURL(RequestedRadioChannel.url)
+    .setColor(colors.red)
+    .setTimestamp()
+    .setFooter({
+      text: ``,
+      iconURL: client.user.displayAvatarURL()
+    })
+    .setAuthor({
+      name: `Playing from:\n${RequestedRadioChannel.name}`,
+      url: RequestedRadioChannel.url
+    });
+  return embed;
+}
 
-function joinChannel(UserVoiceChannel, RequestedRadioChannel, guildId) {
+async function joinChannel(UserVoiceChannel, RequestedRadioChannel, guildId) {
   const VoiceConnection = joinVoiceChannel({
     channelId: UserVoiceChannel.id,
     guildId: UserVoiceChannel.guildId,
@@ -28,18 +43,7 @@ function joinChannel(UserVoiceChannel, RequestedRadioChannel, guildId) {
   const player = createAudioPlayer();
   VoiceConnection.subscribe(player);
   player.play(resource);
-  player.on("idle", () => {
-    try {
-      player.stop();
-    } catch (e) {
-      console.error(e);
-    }
-    try {
-      VoiceConnection.destroy();
-    } catch (e) {
-      console.error(e);
-    }
-  });
+
   RadioHandler[guildId].player = player;
   RadioHandler[guildId].VoiceConnection = VoiceConnection;
   RadioHandler[guildId].interval = setInterval(async () => {
@@ -68,6 +72,33 @@ function joinChannel(UserVoiceChannel, RequestedRadioChannel, guildId) {
     clearInterval(RadioHandler[guildId].interval);
     delete RadioHandler[guildId];
   }, 300000); //300000
+
+  let GuildRadio = RadioHandler[guildId];
+
+  if (GuildRadio.currentSongParser?.options.url != RequestedRadioChannel) {
+    if (isUndefined(GuildRadio.currentSongParser)) {
+      RadioHandler[guildId].currentSongParser = new Parser({
+        notifyOnChangeOnly: true,
+        url: RequestedRadioChannel.url
+      });
+
+      RadioHandler[guildId].currentSongParser.on(
+        "metadata",
+        async (metadata) => {
+          let e = await EmbedMaker(
+            RequestedRadioChannel,
+            metadata.get("StreamTitle")
+          );
+          GuildRadio.interaction.editReply({
+            embeds: [e]
+          });
+        }
+      );
+    } else {
+      RadioHandler[guildId].currentSongParser.options.url =
+        RequestedRadioChannel.url;
+    }
+  }
 }
 
 module.exports = {
@@ -103,43 +134,26 @@ module.exports = {
 
     if (isUndefined(GuildRadio)) {
       RadioHandler[guildId] = {
-        cooldownSince: 0,
         station: RequestedRadioChannel,
         guildID: guildId,
         player: undefined,
         VoiceConnection: undefined,
-        interval: undefined
+        interval: undefined,
+        interaction,
+        stationcheck: undefined,
+        currentSongParser: undefined
       };
-      GuildRadio = RadioHandler[guildId];
-    }
-
-    if (GuildRadio.cooldownSince > Date.now()) {
+    } else {
       return interaction.reply({
-        content: `Command is currently on cooldown with remaining time ${MilisecondsToTime(
-          GuildRadio.cooldownSince - Date.now()
-        )}.`,
+        embeds: [await EmbedMaker(RequestedRadioChannel, GuildRadio.currentSongParser.previousMetadata.get("StreamTitle"))],
         ephemeral: true
       });
-    } else {
-      RadioHandler[guildId].cooldownSince = Date.now() + cooldownLength;
     }
 
     await interaction.deferReply();
-    joinChannel(UserVoiceChannel, RequestedRadioChannel, guildId);
 
-    var embed = new MessageEmbed()
-      .setTitle(RequestedRadioChannel.name)
-      .setURL(RequestedRadioChannel.url)
-      .setColor(colors.red)
-      .setTimestamp()
-      .setFooter({
-        text: ``,
-        iconURL: client.user.displayAvatarURL()
-      })
-      .setAuthor({
-        name: "Playing:",
-        url: "https://ilovemusic.de"
-      });
+    joinChannel(UserVoiceChannel, RequestedRadioChannel, guildId);
+    var embed = await EmbedMaker(RequestedRadioChannel);
 
     interaction.editReply({
       embeds: [embed]
