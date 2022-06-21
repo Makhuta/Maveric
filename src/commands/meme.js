@@ -15,6 +15,7 @@ module.exports = {
   usage: "/meme",
   helpname: "Meme",
   type: "Global",
+  PMEnable: true,
   async run(interaction) {
     await interaction.deferReply();
     const { options } = interaction;

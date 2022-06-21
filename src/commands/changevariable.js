@@ -13,6 +13,7 @@ module.exports = {
   usage: "/changevariable",
   helpname: "Change variable",
   type: "Global",
+  PMEnable: false,
   async run(interaction) {
     const { options } = interaction;
     let guildID = interaction.guildId;

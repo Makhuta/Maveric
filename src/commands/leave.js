@@ -11,6 +11,7 @@ module.exports = {
   usage: "/leave",
   helpname: "Leave",
   type: "Global",
+  PMEnable: false,
   async run(interaction) {
     const { options, member, guildId } = interaction;
     let UserVoiceChannel = await (await member.fetch()).voice.channel;

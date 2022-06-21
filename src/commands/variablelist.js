@@ -15,6 +15,7 @@ module.exports = {
   usage: "/variablelist",
   helpname: "Variable list",
   type: "Global",
+  PMEnable: false,
   async run(interaction) {
     let GuildID = interaction.guildId;
     let ConfigList = GuildsConfigs[GuildID].config;

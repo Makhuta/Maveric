@@ -36,6 +36,7 @@ client.on("interactionCreate", async (interaction) => {
 
   const { commandName, options } = interaction;
   let CMDNamesList = GetCommandsNames();
+  console.info(interaction)
 
   if (!CMDNamesList.some((CMDName) => CMDName == commandName)) {
     interaction
@@ -48,6 +49,12 @@ client.on("interactionCreate", async (interaction) => {
   }
 
   let RequestedCommand = CommandList.find((CMD) => CMD.Name == commandName);
+
+  if(!(await require(RequestedCommand.Location).PMEnable)) {
+    return interaction.reply({
+      content: `You need to send this to server to use ${interaction.commandName}`
+    })
+  }
 
   await require(RequestedCommand.Location).run(interaction);
 });

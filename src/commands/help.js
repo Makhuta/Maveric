@@ -9,6 +9,7 @@ module.exports = {
   usage: "/help",
   helpname: "Help",
   type: "Global",
+  PMEnable: true,
   async run(interaction) {
     const { options } = interaction;
     let guildID = interaction.guildId;

@@ -37,7 +37,7 @@ async function joinChannel(UserVoiceChannel, RequestedRadioChannel, guildId) {
     guildId: UserVoiceChannel.guildId,
     adapterCreator: UserVoiceChannel.guild.voiceAdapterCreator
   });
-  const resource = createAudioResource(RequestedRadioChannel.url, {
+  const resource = createAudioResource("http://icecast8.play.cz/classic128.mp3", {
     inlineVolume: true
   });
   resource.volume.setVolume(0.2);
@@ -112,6 +112,7 @@ module.exports = {
   usage: "/radio",
   helpname: "Radio",
   type: "Global",
+  PMEnable: false,
   async run(interaction) {
     const { options, member, guildId } = interaction;
     let UserVoiceChannel = await (await member.fetch()).voice.channel;
