@@ -1,5 +1,8 @@
 const { Client, Intents } = require("discord.js");
-const client = new Client({ intents: new Intents(32767) });
+const client = new Client({
+  intents: new Intents(32767),
+  partials: ["MESSAGE", "CHANNEL", "REACTION"]
+});
 const EventEmitter = require("events");
 require("dotenv").config();
 

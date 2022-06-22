@@ -38,6 +38,7 @@ function CheckOwnership(message) {
 
 client.on("messageCreate", (message) => {
   if (message.author.bot) return;
+  if (message.guildId == null) return;
   if (CheckOwnership(message)) return;
   const MemberHighestRole = message.member.roles.highest.position;
   const BotHighestRole = message.guild.me.roles.highest.position;

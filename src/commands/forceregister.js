@@ -11,6 +11,7 @@ module.exports = {
   usage: "!forceregister",
   helpname: "ForceRegister",
   type: "Testing",
+  PMEnable: true,
   async run(message, args) {
     let cmds = client.application?.commands;
     let requrestedcmd = CommandList.find((c) => c.Name == args[0]);

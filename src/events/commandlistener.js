@@ -1,4 +1,5 @@
 const { client } = require(DClientLoc);
+require("dotenv").config();
 
 function GetCommandsNames() {
   let CMDList = [];
@@ -23,10 +24,27 @@ function GetPrivateCommandsNames() {
 async function RunOwnerCommand({ prefix, command, args, message }) {
   if (prefix != "!") return;
 
+  let where;
+
+  if (message.guildId == null) {
+    where = "through DM";
+  } else {
+    where = `from Guild: ${message.guildId}`;
+  }
+
+  if (message.author.id != process.env.OWNER_ID)
+    return console.info(
+      `${message.author.username}#${message.author.id} tried to use: ${command} ${where}`
+    );
+
   let CMDNamesList = GetPrivateCommandsNames();
   if (!CMDNamesList.includes(command)) return;
 
   let RequestedCommand = CommandList.find((CMD) => CMD.Name == command);
+
+  if (!require(RequestedCommand.Location).PMEnable) {
+    return console.info(`${command} has disabled DM usage.`);
+  }
 
   require(RequestedCommand.Location).run(message, args);
 }
