@@ -175,8 +175,8 @@ module.exports = {
 
       choices.push({
         name:
-          RadioStation.name.slice(0, 1).toUpperCase() +
-          RadioStation.name.slice(1, RadioStation.length),
+          RadioStation.style.slice(0, 1).toUpperCase() +
+          RadioStation.style.slice(1, RadioStation.length),
         value: RadioStationsID
       });
     }
