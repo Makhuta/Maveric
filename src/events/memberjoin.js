@@ -20,9 +20,14 @@ async function uvitani(member) {
   let GateRoom;
   let everyoneRole;
 
-  await guild.roles.fetch().then(async (roles) => {
-    everyoneRole = roles.filter((rle) => rle.name == "@everyone").first();
-  });
+  await guild.roles
+    .fetch()
+    .then(async (roles) => {
+      everyoneRole = roles.filter((rle) => rle.name == "@everyone").first();
+    })
+    .catch((error) => {
+      console.error(error);
+    });
 
   if (configsJSON.GATECATEGORY != "") {
     GateCategory = await guild.channels

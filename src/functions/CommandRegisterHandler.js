@@ -5,16 +5,21 @@ const { isString } = require("util");
 async function GetRegisteredCMDS(cmds) {
   //Getting commands that bot has registered
   let RegisteredCMDS = [];
-  await cmds.fetch().then(async (cmdslist) => {
-    for (individualcmd of cmdslist) {
-      RegisteredCMDS.push(
-        JSON.stringify({
-          name: individualcmd[1].name,
-          description: individualcmd[1].description
-        })
-      );
-    }
-  });
+  await cmds
+    .fetch()
+    .then(async (cmdslist) => {
+      for (individualcmd of cmdslist) {
+        RegisteredCMDS.push(
+          JSON.stringify({
+            name: individualcmd[1].name,
+            description: individualcmd[1].description
+          })
+        );
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+    });
   return RegisteredCMDS;
 }
 

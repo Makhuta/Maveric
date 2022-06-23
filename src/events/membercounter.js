@@ -20,9 +20,14 @@ const updateMembers = async ({ id }, configsJSON) => {
   let everyoneRole;
   let botRole = client.user;
 
-  await guild.roles.fetch().then(async (roles) => {
-    everyoneRole = roles.filter((rle) => rle.name == "@everyone").first();
-  });
+  await guild.roles
+    .fetch()
+    .then(async (roles) => {
+      everyoneRole = roles.filter((rle) => rle.name == "@everyone").first();
+    })
+    .catch((error) => {
+      console.error(error);
+    });
 
   if (configsJSON.SERVERSTATS != "") {
     ServerStatsCategory = await guild.channels
