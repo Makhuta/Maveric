@@ -1,15 +1,20 @@
 const { client, NSBR } = require(DClientLoc);
 require("dotenv").config();
 
-var typ_aktivity = [`Managing $NumberOfGuilds servers.`, process.env.NSBR_SERVER_INVITE];
+var typ_aktivity = [
+  { name: "/help", type: "LISTENING" },
+  { name: `Managing $NumberOfGuilds servers.`, type: "WATCHING" },
+  { name: process.env.NSBR_SERVER_INVITE, type: "PLAYING" }
+];
 
 async function aktivita() {
   let NumberOfGuilds = client.guilds.cache.size;
   let aktivita = typ_aktivity.shift();
 
-  aktivita = aktivita?.replace("$NumberOfGuilds", NumberOfGuilds);
-
-  client.user.setActivity(aktivita, { type: "PLAYING" });
+  client.user.setActivity(
+    aktivita.name.replace("$NumberOfGuilds", NumberOfGuilds),
+    { type: aktivita.type }
+  );
   typ_aktivity.push(aktivita);
 }
 
