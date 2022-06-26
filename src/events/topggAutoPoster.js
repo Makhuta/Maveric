@@ -6,6 +6,6 @@ if (process.env.TOPGGENABLE == "true") {
   const poster = AutoPoster(process.env.TOPGGTOKEN, client);
   poster.on("posted", (stats) => {
     // ran when succesfully posted
-    console.log(`Posted stats to Top.gg | \n${stats}\n servers`);
+    console.info(`Posted stats to Top.gg | ${stats.serverCount} servers`);
   });
 }
