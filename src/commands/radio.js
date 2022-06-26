@@ -14,39 +14,64 @@ const randomNum = require("random");
 const { isNull, isUndefined } = require("util");
 const { Parser } = require("icecast-parser");
 
-async function EmbedMaker(RequestedRadioChannel, songname) {
-  let embed = new MessageEmbed()
-    .setTitle(songname ? songname : "Unknown song")
-    .setURL(RequestedRadioChannel.url)
-    .setColor(colors.red)
-    .setTimestamp()
-    .setFooter({
-      text: ``,
-      iconURL: client.user.displayAvatarURL()
-    })
-    .setAuthor({
-      name: `Playing from:\n${RequestedRadioChannel.name}`,
-      url: RequestedRadioChannel.url
+async function EmbedMaker({ station, type }) {
+  let promise = new Promise((resolve, reject) => {
+    let radioStation = new Parser({
+      autoUpdate: false,
+      url: station.url
     });
-  return embed;
+
+    radioStation.once("metadata", (metadata) => {
+      let typesList = [
+        { Author: `Started playing from:\n${station.name}`, Color: colors.red },
+        {
+          Author: `Currently playing from:\n${station.name}`,
+          Color: colors.lime
+        }
+      ];
+      let title = metadata.get("StreamTitle");
+      let embed = new MessageEmbed()
+        .setTitle(title ? title : "Unknown song")
+        .setURL(station.url)
+        .setColor(typesList[type].Color)
+        .setTimestamp()
+        .setFooter({
+          text: client.user.username,
+          iconURL: client.user.displayAvatarURL()
+        })
+        .setAuthor({
+          name: typesList[type].Author,
+          url: station.url
+        });
+      resolve(embed);
+    });
+  });
+  return promise;
 }
 
 async function joinChannel(UserVoiceChannel, RequestedRadioChannel, guildId) {
+  //Joining voice channel
   const VoiceConnection = joinVoiceChannel({
     channelId: UserVoiceChannel.id,
     guildId: UserVoiceChannel.guildId,
     adapterCreator: UserVoiceChannel.guild.voiceAdapterCreator
   });
+  //Getting audio resource from url
   const resource = createAudioResource(RequestedRadioChannel.url, {
     inlineVolume: true
   });
+  //Setting volume
   resource.volume.setVolume(0.2);
+  //Creating player
   const player = createAudioPlayer();
+  //Subscribing to player
   VoiceConnection.subscribe(player);
+  //Playing resource
   player.play(resource);
-  player.on(AudioPlayerStatus.Idle, function() {
-    console.info("IDLE")
+  player.on(AudioPlayerStatus.Idle, function () {
+    console.info("IDLE");
   });
+  //Updating per guild radio variables
   RadioHandler[guildId].player = player;
   RadioHandler[guildId].VoiceConnection = VoiceConnection;
   RadioHandler[guildId].interval = setInterval(async () => {
@@ -75,33 +100,6 @@ async function joinChannel(UserVoiceChannel, RequestedRadioChannel, guildId) {
     clearInterval(RadioHandler[guildId].interval);
     delete RadioHandler[guildId];
   }, 300000); //300000
-
-  let GuildRadio = RadioHandler[guildId];
-
-  if (GuildRadio.currentSongParser?.options.url != RequestedRadioChannel) {
-    if (isUndefined(GuildRadio.currentSongParser)) {
-      RadioHandler[guildId].currentSongParser = new Parser({
-        notifyOnChangeOnly: true,
-        url: RequestedRadioChannel.url
-      });
-
-      RadioHandler[guildId].currentSongParser.once(
-        "metadata",
-        async (metadata) => {
-          let e = await EmbedMaker(
-            RequestedRadioChannel,
-            metadata.get("StreamTitle")
-          );
-          GuildRadio.interaction.editReply({
-            embeds: [e]
-          });
-        }
-      );
-    } else {
-      RadioHandler[guildId].currentSongParser.options.url =
-        RequestedRadioChannel.url;
-    }
-  }
 }
 
 module.exports = {
@@ -120,14 +118,18 @@ module.exports = {
 
     //Check if user is in voice channel
     if (!UserIsInVoiceChannel) {
-      return interaction.reply({
-        content: "You need to be in channel to use the command.",
+      await interaction.deferReply({
         ephemeral: true
+      });
+      return interaction.editReply({
+        content: "You need to be in channel to use the command."
       });
     }
 
+    //Getting per guild radio
     let GuildRadio = RadioHandler[guildId];
 
+    //Getting radio station from interaction
     let RequestedRadioChannel = RadioStations[options.getString("station")];
     let RequestIsUndefined = RequestedRadioChannel == null;
 
@@ -136,6 +138,7 @@ module.exports = {
         RadioStations[randomNum.int(1, Object.keys(RadioStations).length)];
     }
 
+    //If per guild radio not exist then create
     if (isUndefined(GuildRadio)) {
       RadioHandler[guildId] = {
         station: RequestedRadioChannel,
@@ -144,25 +147,24 @@ module.exports = {
         VoiceConnection: undefined,
         interval: undefined,
         interaction,
-        stationcheck: undefined,
-        currentSongParser: undefined
+        stationcheck: undefined
       };
     } else {
-      return interaction.reply({
-        embeds: [
-          await EmbedMaker(
-            GuildRadio.station,
-            GuildRadio.currentSongParser.previousMetadata.get("StreamTitle")
-          )
-        ],
+      await interaction.deferReply({
         ephemeral: true
       });
+      let embed = await EmbedMaker({
+        station: GuildRadio.station,
+        type: 1
+      });
+      return interaction.editReply({
+        embeds: [embed]
+      });
     }
-
     await interaction.deferReply();
 
     joinChannel(UserVoiceChannel, RequestedRadioChannel, guildId);
-    var embed = await EmbedMaker(RequestedRadioChannel);
+    var embed = await EmbedMaker({ station: RequestedRadioChannel, type: 0 });
 
     interaction.editReply({
       embeds: [embed]
