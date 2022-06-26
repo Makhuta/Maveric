@@ -23,13 +23,16 @@ function GetPrivateCommandsNames() {
 
 async function RunOwnerCommand({ prefix, command, args, message }) {
   if (prefix != "!") return;
+  let isDM;
 
   let where;
 
   if (message.guildId == null) {
     where = "through DM";
+    isDM = true;
   } else {
     where = `from Guild: ${message.guildId}`;
+    isDM = false;
   }
 
   if (message.author.id != process.env.OWNER_ID)
@@ -42,7 +45,7 @@ async function RunOwnerCommand({ prefix, command, args, message }) {
 
   let RequestedCommand = CommandList.find((CMD) => CMD.Name == command);
 
-  if (!require(RequestedCommand.Location).PMEnable) {
+  if (!require(RequestedCommand.Location).PMEnable && isDM) {
     return console.info(`${command} has disabled DM usage.`);
   }
 
