@@ -1,9 +1,10 @@
 const { join } = require("path");
 const { Constants } = require("discord.js");
+const Topgg = require("@top-gg/sdk");
+require("dotenv").config();
 
 module.exports = {
   run(DIR) {
-    
     //Promise that will resolve when all globals are set
     const promise = new Promise((resolve, reject) => {
       global.ROOT = DIR;
@@ -20,6 +21,7 @@ module.exports = {
       global.CommandTypes = Constants.ApplicationCommandOptionTypes;
       global.CommandList = [];
       global.GuildsConfigs = {};
+      global.TopGGApi = new Topgg.Api(process.env.TOPGGTOKEN);
 
       console.info("Globals Loaded!");
       resolve();
