@@ -14,9 +14,11 @@ module.exports = {
   category: "Main",
   PMEnable: true,
   async run(interaction) {
-    interaction[
-      "url"
-    ] = `https://discord.com/channels/${interaction.guild.id}/${interaction.channel.id}/${interaction.id}`;
+    if(interaction.guildId == null) {
+      interaction["url"] = `https://discord.com/channels/@me`;
+    } else {
+      interaction["url"] = `https://discord.com/channels/${interaction.guild.id}/${interaction.channel.id}/${interaction.id}`;
+    }
     let cmds = {};
     let CommandNameLength = {};
 
