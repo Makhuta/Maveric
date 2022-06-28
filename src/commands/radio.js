@@ -106,10 +106,11 @@ module.exports = {
   name: "Radio",
   description: "This is the radio command.",
   default: true,
-  helpdescription: "This is the radio command.",
-  usage: "/radio",
+  helpdescription: "This command will make Bot join your Voice channel and start playing radio station from your choice, if you did not choose station Bot will pick random station from list of available stations.",
+  usage: "/radio (station name)",
   helpname: "Radio",
   type: "Global",
+  category: "Music",
   PMEnable: false,
   VoteTied: true,
   async run(interaction) {

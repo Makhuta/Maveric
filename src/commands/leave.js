@@ -7,10 +7,11 @@ module.exports = {
   name: "Leave",
   description: "This is the leave command.",
   default: true,
-  helpdescription: "This is the leave command.",
+  helpdescription: "Make Bot leave your Voice channel (works only if radio is active)",
   usage: "/leave",
   helpname: "Leave",
   type: "Global",
+  category: "Music",
   PMEnable: false,
   async run(interaction) {
     const { options, member, guildId } = interaction;

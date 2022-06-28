@@ -10,11 +10,12 @@ module.exports = {
   description:
     "This command will show you list of variable configs and their states.",
   helpdescription:
-    "This command will show you list of variabl configs and their states.",
+    "This command will show you list of variable configs and their states.",
   default: false,
   usage: "/variablelist",
   helpname: "Variable list",
   type: "Global",
+  category: "Moderation",
   PMEnable: false,
   async run(interaction) {
     let GuildID = interaction.guildId;

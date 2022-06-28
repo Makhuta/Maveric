@@ -8,9 +8,10 @@ module.exports = {
   description: "This is the test command.",
   default: "BotOwner",
   helpdescription: "This is the test command.",
-  usage: "!forceregister",
+  usage: "!forceregister [command]",
   helpname: "ForceRegister",
   type: "Testing",
+  category: "Moderation",
   PMEnable: true,
   async run(message, args) {
     let cmds = client.application?.commands;

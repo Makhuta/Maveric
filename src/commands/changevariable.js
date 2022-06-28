@@ -10,9 +10,10 @@ module.exports = {
   description: "This command will let you change server configs",
   helpdescription: "This command will let you change server configs.",
   default: false,
-  usage: "/changevariable",
+  usage: "/changevariable [variable] [state]",
   helpname: "Change variable",
   type: "Global",
+  category: "Moderation",
   PMEnable: false,
   async run(interaction) {
     const { options } = interaction;

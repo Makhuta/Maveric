@@ -14,16 +14,12 @@ module.exports = {
   usage: "!test",
   helpname: "Test",
   type: "Testing",
+  category: "Moderation",
   PMEnable: false,
   async run(message) {
     message.reply({
       content: "This is test."
     });
-    let url = await fetch(
-      `https://top.gg/api/bots/${process.env.TOPGGID}/votes`
-    );
-    let TopggApi = new Topgg.Api(process.env.TOPGGTOKEN)
-    let TopGGJson = await TopggApi.hasVoted(message.author.id)
     //console.info(GuildsConfigs)
     /*let guildID = message.guildId;
     let guild = await client.guilds.fetch(guildID);
@@ -31,6 +27,6 @@ module.exports = {
     let member = await (
       await client.guilds.fetch(guildID)
     ).members.fetch(authorID);*/
-    console.info({url, TopGGJson, userID: message.author.id})
+    console.info(message.url)
   }
 };
