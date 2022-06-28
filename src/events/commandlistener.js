@@ -1,5 +1,8 @@
 const { client } = require(DClientLoc);
+const { join } = require("path");
+const colors = require(join(ColorPaletes, "colors.json"));
 require("dotenv").config();
+const { MessageEmbed } = require("discord.js");
 
 function GetCommandsNames() {
   let CMDList = [];
@@ -55,7 +58,7 @@ async function RunOwnerCommand({ prefix, command, args, message }) {
 client.on("interactionCreate", async (interaction) => {
   if (!interaction.isCommand()) return;
 
-  const { commandName, options } = interaction;
+  const { commandName, options, member } = interaction;
   let CMDNamesList = GetCommandsNames();
   //console.info(interaction);
 
@@ -70,6 +73,9 @@ client.on("interactionCreate", async (interaction) => {
   }
 
   let RequestedCommand = CommandList.find((CMD) => CMD.Name == commandName);
+  let VoteTied = require(RequestedCommand.Location).VoteTied
+    ? require(RequestedCommand.Location).VoteTied
+    : false;
 
   if (
     interaction.guildId == null &&
@@ -77,6 +83,23 @@ client.on("interactionCreate", async (interaction) => {
   ) {
     return interaction.reply({
       content: `You need to send this to server to use ${interaction.commandName}`
+    });
+  }
+
+  if (VoteTied && !(await TopGGApi.hasVoted(member.user.id))) {
+    let embed = new MessageEmbed()
+      .setTitle(`Missing vote`)
+      .setColor(colors.red)
+      .setFooter({
+        text: client.user.username,
+        iconURL: client.user.displayAvatarURL()
+      })
+      .addField(`For using ${interaction.commandName} you have to vote for me.`, `[TOP.GG](https://top.gg/bot/${process.env.TOPGGID}/vote)`)
+      .setTimestamp()
+
+    return interaction.reply({
+      embeds: [embed],
+      ephemeral: true
     });
   }
 
