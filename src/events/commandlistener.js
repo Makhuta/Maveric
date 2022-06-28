@@ -94,8 +94,11 @@ client.on("interactionCreate", async (interaction) => {
         text: client.user.username,
         iconURL: client.user.displayAvatarURL()
       })
-      .addField(`For using ${interaction.commandName} you have to vote for me.`, `[TOP.GG](https://top.gg/bot/${process.env.TOPGGID}/vote)`)
-      .setTimestamp()
+      .addField(
+        `For using ${interaction.commandName} you have to vote for me.`,
+        `[TOP.GG](https://top.gg/bot/${process.env.TOPGGID}/vote)`
+      )
+      .setTimestamp();
 
     return interaction.reply({
       embeds: [embed],
