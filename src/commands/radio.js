@@ -111,6 +111,7 @@ module.exports = {
   helpname: "Radio",
   type: "Global",
   PMEnable: false,
+  VoteTied: true,
   async run(interaction) {
     const { options, member, guildId } = interaction;
     let UserVoiceChannel = await (await member.fetch()).voice.channel;
