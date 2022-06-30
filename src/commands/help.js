@@ -14,7 +14,7 @@ module.exports = {
   category: "Main",
   PMEnable: true,
   async run(interaction) {
-    if(interaction.guildId == null) {
+    if (interaction.guildId == null) {
       interaction["url"] = `https://discord.com/channels/@me`;
     } else {
       interaction["url"] = `https://discord.com/channels/${interaction.guild.id}/${interaction.channel.id}/${interaction.id}`;
@@ -31,20 +31,13 @@ module.exports = {
           CommandNameLength[CommandCategory] = 0;
         }
 
-        let CMDPopup = `Usage: ${cmd.usage}\nDescription: ${cmd.helpdescription}`
+        let CMDPopup = `Usage: ${cmd.usage}\nDescription: ${cmd.helpdescription}`;
 
-        if (
-          cmd.helpname.length <= 10 &&
-          CommandNameLength[CommandCategory] <= 10
-        ) {
-          cmds[CommandCategory].push(
-            `[\`${cmd.helpname}\`](${interaction.url} "${CMDPopup}")`
-          );
+        if (cmd.helpname.length <= 10 && CommandNameLength[CommandCategory] <= 10) {
+          cmds[CommandCategory].push(`[\`${cmd.helpname}\`](${interaction.url} "${CMDPopup}")`);
           CommandNameLength[CommandCategory] = +cmd.helpname.length;
         } else {
-          cmds[CommandCategory].push(
-            `[\`${cmd.helpname}\`](${interaction.url} "${CMDPopup}")\n`
-          );
+          cmds[CommandCategory].push(`[\`${cmd.helpname}\`](${interaction.url} "${CMDPopup}")\n`);
           CommandNameLength[CommandCategory] = cmd.helpname.length;
         }
       }
@@ -92,10 +85,8 @@ module.exports = {
         { name: "Other", value: cmds["Other"].join(" "), inline: false }
       );
     }
-    embed.addField(
-      `Consider voting for me to unlock more features.`,
-      `[TOP.GG](https://top.gg/bot/${process.env.TOPGGID}/vote)`
-    );
+    embed.addField(`ㅤ\nIf you have other problems visit ${client.user.username} support server.`, `[${client.user.username} support](${process.env.NSBR_SERVER_INVITE})`);
+    embed.addField(`Consider voting for me to unlock more features.`, `[TOP.GG](https://top.gg/bot/${process.env.TOPGGID}/vote)`);
 
     interaction.reply({
       embeds: [embed],
