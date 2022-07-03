@@ -224,7 +224,9 @@ module.exports = {
           });
         }
       }
-      for (Inv of await g.invites.fetch()) {
+      let Invites = await await g?.invites?.fetch().catch((err) => {});
+      if (Invites == undefined) continue;
+      for (Inv of Invites) {
         Inv = Inv[1];
         g["InviteList"].push({
           Code: Inv.code,
