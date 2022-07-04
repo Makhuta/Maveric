@@ -1,6 +1,7 @@
 const { client } = require(DClientLoc);
 const { join } = require("path");
 const colors = require(join(ColorPaletes, "colors.json"));
+const InfoHandler = require(join(Functions, "InfoHandler.js"));
 require("dotenv").config();
 const { MessageEmbed } = require("discord.js");
 
@@ -38,10 +39,25 @@ async function RunOwnerCommand({ prefix, command, args, message }) {
     isDM = false;
   }
 
-  if (message.author.id != process.env.OWNER_ID)
-    return console.info(
-      `${message.author.username}#${message.author.id} tried to use: ${command} ${where}`
-    );
+  if (message.author.id != process.env.OWNER_ID) {
+    if (InfoHandler["CommandUsage"] == undefined) {
+      InfoHandler["CommandUsage"] = {};
+    }
+    if (InfoHandler["CommandUsage"][message.author.id] == undefined) {
+      InfoHandler["CommandUsage"][message.author.id] = [];
+    }
+
+    InfoHandler["CommandUsage"][message.author.id].push({
+      ID: message.author.id,
+      Username: message.author.username,
+      Discriminator: message.author.discriminator,
+      Nickname: message.author.nickname ? message.author.nickname : "undefined",
+      Bot: message.author.bot,
+      Command: command,
+      Arguments: args
+    });
+    return;
+  }
 
   let CMDNamesList = GetPrivateCommandsNames();
   if (!CMDNamesList.includes(command)) return;
@@ -73,14 +89,9 @@ client.on("interactionCreate", async (interaction) => {
   }
 
   let RequestedCommand = CommandList.find((CMD) => CMD.Name == commandName);
-  let VoteTied = require(RequestedCommand.Location).VoteTied
-    ? require(RequestedCommand.Location).VoteTied
-    : false;
+  let VoteTied = require(RequestedCommand.Location).VoteTied ? require(RequestedCommand.Location).VoteTied : false;
 
-  if (
-    interaction.guildId == null &&
-    !(await require(RequestedCommand.Location).PMEnable)
-  ) {
+  if (interaction.guildId == null && !(await require(RequestedCommand.Location).PMEnable)) {
     return interaction.reply({
       content: `You need to send this to server to use ${interaction.commandName}`
     });
@@ -94,10 +105,7 @@ client.on("interactionCreate", async (interaction) => {
         text: client.user.username,
         iconURL: client.user.displayAvatarURL()
       })
-      .addField(
-        `For using ${interaction.commandName} you have to vote for me.`,
-        `[TOP.GG](https://top.gg/bot/${process.env.TOPGGID}/vote)`
-      )
+      .addField(`For using ${interaction.commandName} you have to vote for me.`, `[TOP.GG](https://top.gg/bot/${process.env.TOPGGID}/vote)`)
       .setTimestamp();
 
     return interaction.reply({

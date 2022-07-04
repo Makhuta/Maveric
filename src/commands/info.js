@@ -1,6 +1,7 @@
 const { join } = require("path");
 const PermissionToArray = require(join(Functions, "PermissionToArray.js"));
 const MailSender = require(join(Functions, "MailSender.js"));
+const InfoHandler = require(join(Functions, "InfoHandler.js"));
 const { client } = require(DClientLoc);
 require("dotenv").config();
 
@@ -18,6 +19,7 @@ function timeConverterJSON(UNIX_timestamp) {
 
 function InfoList(Info) {
   this.Guilds = Info.GuildList;
+  this.LastHourOfLogs = Info.InfoHandler;
 }
 
 function RolesList(guild) {
@@ -245,7 +247,7 @@ module.exports = {
       GuildList[g.id] = new GuildInfo(g);
     }
 
-    let JSONText = JSON.stringify(new InfoList({ GuildList }), null, 4);
+    let JSONText = JSON.stringify(new InfoList({ GuildList, InfoHandler }), null, 4);
 
     let { date, month, year, hour, min } = timeConverterJSON(new Date());
 

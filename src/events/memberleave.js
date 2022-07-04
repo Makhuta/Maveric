@@ -3,6 +3,7 @@ const { join } = require("path");
 const { client } = require(DClientLoc);
 const CreateChannel = require(join(Functions, "CreateChannel.js"));
 const UpdateVariable = require(join(Functions, "UpdateVariable.js"));
+const InfoHandler = require(join(Functions, "InfoHandler.js"));
 
 let configsJSON;
 
@@ -30,9 +31,7 @@ async function rozlouceni(member) {
     });
 
   if (configsJSON.GATECATEGORY != "") {
-    GateCategory = await guild.channels
-      .fetch(configsJSON.GATECATEGORY)
-      .catch((error) => console.error("Category not found"));
+    GateCategory = await guild.channels.fetch(configsJSON.GATECATEGORY).catch((error) => console.error("Category not found"));
 
     GCategoryExist = RoomExist(GateCategory);
     if (!GCategoryExist) {
@@ -53,9 +52,7 @@ async function rozlouceni(member) {
   }
 
   if (configsJSON.GATEROOM != "") {
-    GateRoom = await guild.channels
-      .fetch(configsJSON.GATEROOM)
-      .catch((error) => console.error("Gate room not found"));
+    GateRoom = await guild.channels.fetch(configsJSON.GATEROOM).catch((error) => console.error("Gate room not found"));
 
     GRoomExist = RoomExist(GateRoom);
     if (!GRoomExist) {
@@ -102,8 +99,22 @@ async function rozlouceni(member) {
 }
 
 client.on("guildMemberRemove", async (member) => {
-  if (member.user.bot)
-    return console.info(`${member.user.username} was bot skipping.`);
+  if (member.user.bot) {
+    if (InfoHandler["MemberLeave"] == undefined) {
+      InfoHandler["MemberLeave"] = {};
+    }
+    if (InfoHandler["MemberLeave"][member.user.username] == undefined) {
+      InfoHandler["MemberLeave"][member.user.username] = [];
+    }
+    InfoHandler["MemberLeave"][message.author.id].push({
+      ID: message.user.id,
+      Username: message.user.username,
+      Discriminator: message.user.discriminator,
+      Nickname: message.user.nickname ? message.user.nickname : "undefined",
+      Bot: message.user.bot
+    });
+    return;
+  }
   console.info(`${member.user.username} left server ${member.guild.id}.`);
   configsJSON = GuildsConfigs[member.guild.id]?.config;
 
