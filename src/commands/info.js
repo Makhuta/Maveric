@@ -150,7 +150,7 @@ function GuildInfo(guild) {
   let InvList = new InviteList(g, ChList, MList);
 
   this.ID = parseInt(guild.id);
-  this.Name = guild.name;
+  this.Name = guild.name ? guild.name : "Unknown";
   this.MemberCount = guild.memberCount;
   this.MemberList = MList;
   this.RolesList = RList;
@@ -173,7 +173,8 @@ module.exports = {
   PMEnable: true,
   async run(message) {
     let GuildList = {};
-    for (g of client.guilds.cache) {
+    let guilds = client.guilds.cache;
+    for (g of guilds) {
       g = g[1];
       g["ConfigList"] = GuildsConfigs[g.id].config;
       g["ChannelList"] = [];
