@@ -103,8 +103,8 @@ client.on("guildMemberAdd", async (member) => {
     if (InfoHandler["MemberJoin"] == undefined) {
       InfoHandler["MemberJoin"] = {};
     }
-    if (InfoHandler["MemberJoin"][member.user.username] == undefined) {
-      InfoHandler["MemberJoin"][member.user.username] = [];
+    if (InfoHandler["MemberJoin"][member.user.id] == undefined) {
+      InfoHandler["MemberJoin"][member.user.id] = [];
     }
     InfoHandler["MemberJoin"][member.author.id].push({
       ID: member.user.id,
