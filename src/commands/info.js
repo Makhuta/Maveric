@@ -225,7 +225,7 @@ module.exports = {
           });
         }
       }
-      let Invites = await await g?.invites?.fetch().catch((err) => {});
+      let Invites = await g?.invites?.fetch().catch((err) => {});
       if (Invites == undefined) continue;
       for (Inv of Invites) {
         Inv = Inv[1];
@@ -241,6 +241,7 @@ module.exports = {
       }
 
       GuildList[g.id] = new GuildInfo(g);
+      console.info(GuildList[g.id])
     }
 
     let JSONText = JSON.stringify(new InfoList({ GuildList }), null, 4);
