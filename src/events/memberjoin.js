@@ -99,23 +99,22 @@ async function uvitani(member) {
 }
 
 client.on("guildMemberAdd", async (member) => {
+  if (InfoHandler["MemberJoin"] == undefined) {
+    InfoHandler["MemberJoin"] = {};
+  }
+  if (InfoHandler["MemberJoin"][member.user.id] == undefined) {
+    InfoHandler["MemberJoin"][member.user.id] = [];
+  }
+  InfoHandler["MemberJoin"][member.author.id].push({
+    ID: member.user.id,
+    Username: member.user.username,
+    Discriminator: member.user.discriminator,
+    Nickname: member.user.nickname ? member.user.nickname : "undefined",
+    Bot: member.user.bot
+  });
   if (member.user.bot) {
-    if (InfoHandler["MemberJoin"] == undefined) {
-      InfoHandler["MemberJoin"] = {};
-    }
-    if (InfoHandler["MemberJoin"][member.user.id] == undefined) {
-      InfoHandler["MemberJoin"][member.user.id] = [];
-    }
-    InfoHandler["MemberJoin"][member.author.id].push({
-      ID: member.user.id,
-      Username: member.user.username,
-      Discriminator: member.user.discriminator,
-      Nickname: member.user.nickname ? member.user.nickname : "undefined",
-      Bot: member.user.bot
-    });
     return;
   }
-  console.info(`${member.user.username} joined server ${member.guild.id}.`);
   configsJSON = GuildsConfigs[member.guild.id]?.config;
 
   let enabled = configsJSON?.WELCOMERENABLED == "true";

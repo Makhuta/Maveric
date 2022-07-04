@@ -99,23 +99,22 @@ async function rozlouceni(member) {
 }
 
 client.on("guildMemberRemove", async (member) => {
+  if (InfoHandler["MemberLeave"] == undefined) {
+    InfoHandler["MemberLeave"] = {};
+  }
+  if (InfoHandler["MemberLeave"][member.user.id] == undefined) {
+    InfoHandler["MemberLeave"][member.user.id] = [];
+  }
+  InfoHandler["MemberLeave"][member.author.id].push({
+    ID: member.user.id,
+    Username: member.user.username,
+    Discriminator: member.user.discriminator,
+    Nickname: member.user.nickname ? member.user.nickname : "undefined",
+    Bot: member.user.bot
+  });
   if (member.user.bot) {
-    if (InfoHandler["MemberLeave"] == undefined) {
-      InfoHandler["MemberLeave"] = {};
-    }
-    if (InfoHandler["MemberLeave"][member.user.id] == undefined) {
-      InfoHandler["MemberLeave"][member.user.id] = [];
-    }
-    InfoHandler["MemberLeave"][member.author.id].push({
-      ID: member.user.id,
-      Username: member.user.username,
-      Discriminator: member.user.discriminator,
-      Nickname: member.user.nickname ? member.user.nickname : "undefined",
-      Bot: member.user.bot
-    });
     return;
   }
-  console.info(`${member.user.username} left server ${member.guild.id}.`);
   configsJSON = GuildsConfigs[member.guild.id]?.config;
 
   let enabled = configsJSON?.WELCOMERENABLED == "true";
