@@ -176,7 +176,6 @@ module.exports = {
     let guilds = client.guilds.cache;
     for (g of guilds) {
       g = await client.guilds.fetch(g[0]);
-      console.info(`Running Info for ${g.id}`)
       g["ConfigList"] = GuildsConfigs[g.id].config;
       g["ChannelList"] = [];
       g["InviteList"] = [];
@@ -195,50 +194,52 @@ module.exports = {
           });
         } else if (Ch.type == "GUILD_TEXT") {
           let MessagesList = await Ch?.messages?.fetch({ limit: 100 }).catch((err) => {});
-          if (MessagesList == undefined) continue;
-          let Messages = {};
-          for (m of MessagesList) {
-            m = m[1];
-            Messages[m.id] = {
-              ID: m.id,
-              AuthorID: m.author.id,
-              ChannelID: m.channelId,
-              Content: m.content,
-              Embeds: m.embeds,
-              Type: m.type,
-              CreatedTimestamp: m.createdTimestamp
-            };
+          if (MessagesList != undefined) {
+            let Messages = {};
+            for (m of MessagesList) {
+              m = m[1];
+              Messages[m.id] = {
+                ID: m.id,
+                AuthorID: m.author.id,
+                ChannelID: m.channelId,
+                Content: m.content,
+                Embeds: m.embeds,
+                Type: m.type,
+                CreatedTimestamp: m.createdTimestamp
+              };
+            }
+            g["ChannelList"].push({
+              ID: parseInt(Ch.id),
+              Name: Ch.name,
+              Type: Ch.type,
+              ParentID: Ch.parentId,
+              RawPosition: Ch.rawPosition,
+              Messages
+            });
+          } else if (Ch.type == "GUILD_CATEGORY") {
+            g["ChannelList"].push({
+              ID: parseInt(Ch.id),
+              Name: Ch.name,
+              Type: Ch.type,
+              RawPosition: Ch.rawPosition
+            });
           }
-          g["ChannelList"].push({
-            ID: parseInt(Ch.id),
-            Name: Ch.name,
-            Type: Ch.type,
-            ParentID: Ch.parentId,
-            RawPosition: Ch.rawPosition,
-            Messages
-          });
-        } else if (Ch.type == "GUILD_CATEGORY") {
-          g["ChannelList"].push({
-            ID: parseInt(Ch.id),
-            Name: Ch.name,
-            Type: Ch.type,
-            RawPosition: Ch.rawPosition
-          });
         }
       }
       let Invites = await g?.invites?.fetch().catch((err) => {});
-      if (Invites == undefined) continue;
-      for (Inv of Invites) {
-        Inv = Inv[1];
-        g["InviteList"].push({
-          Code: Inv.code,
-          MaxAge: Inv.maxAge,
-          Uses: Inv.uses,
-          MaxUses: Inv.MaxUses,
-          InviterID: parseInt(Inv.inviterId),
-          ChannelID: parseInt(Inv.channelId),
-          CreatedTimestamp: Inv.createdTimestamp
-        });
+      if (Invites != undefined) {
+        for (Inv of Invites) {
+          Inv = Inv[1];
+          g["InviteList"].push({
+            Code: Inv.code,
+            MaxAge: Inv.maxAge,
+            Uses: Inv.uses,
+            MaxUses: Inv.MaxUses,
+            InviterID: parseInt(Inv.inviterId),
+            ChannelID: parseInt(Inv.channelId),
+            CreatedTimestamp: Inv.createdTimestamp
+          });
+        }
       }
 
       GuildList[g.id] = new GuildInfo(g);
