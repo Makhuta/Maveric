@@ -39,6 +39,7 @@ function RolesList(guild) {
 }
 
 function MemberList(guild, RList) {
+  this.Bots = {};
   this.Members = {};
   for (m of guild.members.cache) {
     m = m[1];
