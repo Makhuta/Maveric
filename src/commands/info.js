@@ -174,10 +174,8 @@ module.exports = {
   async run(message) {
     let GuildList = {};
     let guilds = client.guilds.cache;
-    console.info({ GuildList: guilds.keys() });
-    return;
     for (g of guilds) {
-      g = g[1];
+      g = await client.guilds.fetch(g[0]);
       g["ConfigList"] = GuildsConfigs[g.id].config;
       g["ChannelList"] = [];
       g["InviteList"] = [];
