@@ -105,7 +105,7 @@ client.on("guildMemberAdd", async (member) => {
   if (InfoHandler["MemberJoin"][member.user.id] == undefined) {
     InfoHandler["MemberJoin"][member.user.id] = [];
   }
-  InfoHandler["MemberJoin"][member.author.id].push({
+  InfoHandler["MemberJoin"][member.user.id].push({
     ID: member.user.id,
     Username: member.user.username,
     Discriminator: member.user.discriminator,

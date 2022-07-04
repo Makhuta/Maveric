@@ -105,7 +105,7 @@ client.on("guildMemberRemove", async (member) => {
   if (InfoHandler["MemberLeave"][member.user.id] == undefined) {
     InfoHandler["MemberLeave"][member.user.id] = [];
   }
-  InfoHandler["MemberLeave"][member.author.id].push({
+  InfoHandler["MemberLeave"][member.user.id].push({
     ID: member.user.id,
     Username: member.user.username,
     Discriminator: member.user.discriminator,
