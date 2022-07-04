@@ -106,12 +106,12 @@ client.on("guildMemberRemove", async (member) => {
     if (InfoHandler["MemberLeave"][member.user.username] == undefined) {
       InfoHandler["MemberLeave"][member.user.username] = [];
     }
-    InfoHandler["MemberLeave"][message.author.id].push({
-      ID: message.user.id,
-      Username: message.user.username,
-      Discriminator: message.user.discriminator,
-      Nickname: message.user.nickname ? message.user.nickname : "undefined",
-      Bot: message.user.bot
+    InfoHandler["MemberLeave"][member.author.id].push({
+      ID: member.user.id,
+      Username: member.user.username,
+      Discriminator: member.user.discriminator,
+      Nickname: member.user.nickname ? member.user.nickname : "undefined",
+      Bot: member.user.bot
     });
     return;
   }
