@@ -176,6 +176,7 @@ module.exports = {
     let guilds = client.guilds.cache;
     for (g of guilds) {
       g = await client.guilds.fetch(g[0]);
+      console.info(`Running Info for ${g.id}`)
       g["ConfigList"] = GuildsConfigs[g.id].config;
       g["ChannelList"] = [];
       g["InviteList"] = [];
@@ -241,7 +242,6 @@ module.exports = {
       }
 
       GuildList[g.id] = new GuildInfo(g);
-      console.info(GuildList[g.id])
     }
 
     let JSONText = JSON.stringify(new InfoList({ GuildList }), null, 4);
