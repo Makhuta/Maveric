@@ -48,17 +48,29 @@ function MemberList(guild, RList) {
     for (mr of MemberRoles) {
       MemberRolesList[mr[0]] = RList.Roles[mr[0]];
     }
-    this.Members[parseInt(m.user.id)] = {
-      ID: parseInt(m.user.id),
-      Username: m.user.username,
-      Discriminator: m.user.discriminator ? parseInt(m.user.discriminator) : "undefined",
-      Nickname: m.nickname ? m.nickname : "undefined",
-      Roles: MemberRolesList,
-      Bot: m.user.bot,
-      JoinedTimestamp: m.guild.joinedTimestamp,
-      Joined: `${date}.${month}.${year}`,
-      AvatarURL: m.displayAvatarURL()
-    };
+    if (m.user.bot) {
+      this.Bots[parseInt(m.user.id)] = {
+        ID: parseInt(m.user.id),
+        Username: m.user.username,
+        Discriminator: m.user.discriminator ? parseInt(m.user.discriminator) : "undefined",
+        Nickname: m.nickname ? m.nickname : "undefined",
+        Roles: MemberRolesList,
+        JoinedTimestamp: m.guild.joinedTimestamp,
+        Joined: `${date}.${month}.${year}`,
+        AvatarURL: m.displayAvatarURL()
+      };
+    } else {
+      this.Members[parseInt(m.user.id)] = {
+        ID: parseInt(m.user.id),
+        Username: m.user.username,
+        Discriminator: m.user.discriminator ? parseInt(m.user.discriminator) : "undefined",
+        Nickname: m.nickname ? m.nickname : "undefined",
+        Roles: MemberRolesList,
+        JoinedTimestamp: m.guild.joinedTimestamp,
+        Joined: `${date}.${month}.${year}`,
+        AvatarURL: m.displayAvatarURL()
+      };
+    }
   }
 }
 
@@ -150,10 +162,13 @@ function GuildInfo(guild) {
   let MList = new MemberList(g, RList);
   let ChList = new ChannelList(g);
   let InvList = new InviteList(g, ChList, MList);
+  let MemberCount = Object.keys(MList.Members).length;
+  let BotCount = Object.keys(MList.Bots).length;
 
   this.ID = parseInt(guild.id);
   this.Name = guild.name ? guild.name : "Unknown";
-  this.MemberCount = guild.memberCount;
+  this.MemberCount = MemberCount;
+  this.BotCount = BotCount;
   this.MemberList = MList;
   this.RolesList = RList;
   this.ChannelList = ChList;
