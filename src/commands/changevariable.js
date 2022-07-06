@@ -1,8 +1,5 @@
 const { join } = require("path");
-const DefaultFunctionsStates = require(join(
-  Configs,
-  "DefaultFunctionsStates.json"
-));
+const DefaultFunctionsStates = require(join(Configs, "DefaultFunctionsStates.json"));
 const UpdateVariable = require(join(Functions, "UpdateVariable.js"));
 
 module.exports = {
@@ -43,10 +40,12 @@ module.exports = {
   async create({ commands, permissions }) {
     let choices = [];
     for (f in DefaultFunctionsStates) {
-      choices.push({
-        name: DefaultFunctionsStates[f].name,
-        value: DefaultFunctionsStates[f].name
-      });
+      if (DefaultFunctionsStates[f].released) {
+        choices.push({
+          name: DefaultFunctionsStates[f].name,
+          value: DefaultFunctionsStates[f].name
+        });
+      }
     }
     let options = [
       {
