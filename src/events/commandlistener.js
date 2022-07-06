@@ -114,6 +114,13 @@ client.on("interactionCreate", async (interaction) => {
     });
   }
 
+  let IsDM = interaction.guildId == null;
+  if (IsDM) {
+    interaction["url"] = `https://discord.com/channels/@me`;
+  } else {
+    interaction["url"] = `https://discord.com/channels/${interaction.guild.id}/${interaction.channel.id}/${interaction.id}`;
+  }
+
   await require(RequestedCommand.Location).run(interaction);
 });
 
