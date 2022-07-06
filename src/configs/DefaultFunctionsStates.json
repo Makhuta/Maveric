@@ -1,14 +1,23 @@
 [
     {
         "name": "COUNTERENABLED",
-        "value": false
+        "value": false,
+        "released": true,
+        "description": "Enable/disable member, online, offline counter.",
+        "displayName": "Member counter"
     },
     {
         "name": "MONEYENABLED",
-        "value": false
+        "value": false,
+        "released": false,
+        "description": "TBD.",
+        "displayName": "Economy"
     },
     {
         "name": "WELCOMERENABLED",
-        "value": false
+        "value": false,
+        "released": true,
+        "description": "Enable/disable Welcome message if someone join/leave server.",
+        "displayName": "Welcomer"
     }
 ]
