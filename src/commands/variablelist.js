@@ -1,16 +1,12 @@
 const { join } = require("path");
 const { MessageEmbed } = require("discord.js");
-const DefaultFunctionsStates = require(join(
-  Configs,
-  "DefaultFunctionsStates.json"
-));
+const DefaultFunctionsStates = require(join(Configs, "DefaultFunctionsStates.json"));
+const { client } = require(DClientLoc);
 
 module.exports = {
   name: "VariableList",
-  description:
-    "This command will show you list of variable configs and their states.",
-  helpdescription:
-    "This command will show you list of variable configs and their states.",
+  description: "This command will show you list of variable configs and their states.",
+  helpdescription: "This command will show you list of variable configs and their states.",
   default: false,
   usage: "/variablelist",
   helpname: "Variable list",
@@ -23,23 +19,37 @@ module.exports = {
     let fields = [];
 
     for (f in DefaultFunctionsStates) {
-      fields.push({
-        name: DefaultFunctionsStates[f].name
-          ? DefaultFunctionsStates[f].name
-          : "Error",
-        value: ConfigList[DefaultFunctionsStates[f].name]
-          ? ConfigList[DefaultFunctionsStates[f].name]
-          : "Error"
-      });
+      if (DefaultFunctionsStates[f].released) {
+        let FunctionValue = ConfigList[DefaultFunctionsStates[f].name] ? ConfigList[DefaultFunctionsStates[f].name] : "Error";
+        if (FunctionValue == "true") {
+          FunctionValue = "✅";
+        } else if (FunctionValue == "false") {
+          FunctionValue = "❌";
+        }
+        fields.push({
+          name: `ㅤ`,
+          value: `[**${DefaultFunctionsStates[f].displayName}**](${interaction.url} "Description: ${DefaultFunctionsStates[f].description}")\n${FunctionValue}`,
+          inline: true
+        });
+      }
     }
     const embed = new MessageEmbed()
-      .setTitle("Variable list")
+      .setAuthor({
+        name: "Variable list",
+        iconURL: client.user.displayAvatarURL()
+      })
       .setColor(require(join(ColorPaletes, "colors.json")).red)
+      .setThumbnail("attachment://cogwheel.png")
       .addFields(fields)
+      .addField(`ㅤ\nIf you didn't vote consider voting for me to unlock more features.`, `[TOP.GG](https://top.gg/bot/${process.env.TOPGGID}/vote)`)
+      .setFooter({
+        text: "Hover over variables for info!"
+      })
       .setTimestamp();
 
     interaction.reply({
       embeds: [embed],
+      files: [join(Pictures, "cogwheel.png")],
       ephemeral: true
     });
   },
