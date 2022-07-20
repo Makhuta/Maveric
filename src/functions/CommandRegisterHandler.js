@@ -34,16 +34,13 @@ async function GuildHandler(data) {
   }
 
   //Filter guild commands from CommandList
-  let FilteredGuildCommands = CommandList.filter(
-    (cmd) => cmd.Type === "Guild"
-  ).filter((cmd) => !isString(cmd.Permissions));
+  let FilteredGuildCommands = CommandList.filter((cmd) => cmd.Type === "Guild").filter((cmd) => !isString(cmd.Permissions));
 
   //Getting (not)registered commands as arrays
-  let { NotRegisteredCommands, RegisteredCommands } =
-    await FilterRegisteredCommands({
-      cmds,
-      FilteredCommands: FilteredGuildCommands
-    });
+  let { NotRegisteredCommands, RegisteredCommands } = await FilterRegisteredCommands({
+    cmds,
+    FilteredCommands: FilteredGuildCommands
+  });
 
   //Registering not registered commands
   for (NRCMD of NotRegisteredCommands) {
@@ -55,11 +52,10 @@ async function GuildHandler(data) {
   }
 
   //Getting (not)existing commands as arrays
-  let { NotExistingCommands, ExistingCommands } =
-    await FilterNotExistingCommands({
-      cmds,
-      FilteredCommands: FilteredGuildCommands
-    });
+  let { NotExistingCommands, ExistingCommands } = await FilterNotExistingCommands({
+    cmds,
+    FilteredCommands: FilteredGuildCommands
+  });
 
   //Registering not existing commands
   for (NECMD of NotExistingCommands) {
@@ -73,16 +69,14 @@ async function GuildHandler(data) {
 async function GlobalHandler() {
   let cmds = client.application?.commands;
   //Filter guild commands from CommandList
-  let FilteredGuildCommands = CommandList.filter(
-    (cmd) => cmd.Type === "Global"
-  );
+  let FilteredGuildCommands = CommandList.filter((cmd) => cmd.Type === "Global");
 
   //Getting (not)registered commands as arrays
-  let { NotRegisteredCommands, RegisteredCommands } =
-    await FilterRegisteredCommands({
-      cmds,
-      FilteredCommands: FilteredGuildCommands
-    });
+  let { NotRegisteredCommands, RegisteredCommands } = await FilterRegisteredCommands({
+    cmds,
+    FilteredCommands: FilteredGuildCommands
+  });
+
 
   //Registering not registered commands
   for (NRCMD of NotRegisteredCommands) {
@@ -93,11 +87,10 @@ async function GlobalHandler() {
   }
 
   //Getting (not)existing commands as arrays
-  let { NotExistingCommands, ExistingCommands } =
-    await FilterNotExistingCommands({
-      cmds,
-      FilteredCommands: FilteredGuildCommands
-    });
+  let { NotExistingCommands, ExistingCommands } = await FilterNotExistingCommands({
+    cmds,
+    FilteredCommands: FilteredGuildCommands
+  });
 
   //Registering not existing commands
   for (NECMD of NotExistingCommands) {
@@ -142,9 +135,7 @@ async function FilterNotExistingCommands({ cmds, FilteredCommands }) {
 
   for (eCMD of ExistingCMDS) {
     if (FilteredCommandsChecks.includes(eCMD)) {
-      ExistingCommands.push(
-        FilteredCommands[FilteredCommandsChecks.indexOf(eCMD)]
-      );
+      ExistingCommands.push(FilteredCommands[FilteredCommandsChecks.indexOf(eCMD)]);
       console.info(`${JSON.parse(eCMD).name} exist`);
     } else {
       NotExistingCommands.push(JSON.parse(eCMD).name);

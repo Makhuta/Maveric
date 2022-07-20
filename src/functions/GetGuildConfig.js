@@ -8,20 +8,14 @@ async function GetRawDatas({ guildIDs }) {
 
   for (g in guildIDs) {
     let gID = guildIDs[g];
-    if (g == 0 && guildIDs.length - 1 > g) {
-      sqlSELECT =
-        sqlSELECT +
-        `Guild${g}.config_name AS ${gID}_NAME, Guild${g}.config_value AS ${gID}_VALUE, `;
+    if (g == 0 && guildIDs.length - 1 >= g) {
+      sqlSELECT = sqlSELECT + `Guild${g}.config_name AS ${gID}_NAME, Guild${g}.config_value AS ${gID}_VALUE, `;
       sqlFROM = sqlFROM + `${gID}_config AS Guild${g} JOIN `;
     } else if (guildIDs.length - 1 > g) {
-      sqlSELECT =
-        sqlSELECT +
-        `Guild${g}.config_name AS ${gID}_NAME, Guild${g}.config_value AS ${gID}_VALUE, `;
+      sqlSELECT = sqlSELECT + `Guild${g}.config_name AS ${gID}_NAME, Guild${g}.config_value AS ${gID}_VALUE, `;
       sqlFROM = sqlFROM + `${gID}_config AS Guild${g} ON Guild${g}.config_name = Guild0.config_name JOIN `;
     } else {
-      sqlSELECT =
-        sqlSELECT +
-        `Guild${g}.config_name AS ${gID}_NAME, Guild${g}.config_value AS ${gID}_VALUE `;
+      sqlSELECT = sqlSELECT + `Guild${g}.config_name AS ${gID}_NAME, Guild${g}.config_value AS ${gID}_VALUE `;
       sqlFROM = sqlFROM + `${gID}_config AS Guild${g} ON Guild${g}.config_name = Guild0.config_name `;
     }
   }
@@ -86,14 +80,13 @@ async function CheckIfTableExist({ guildIDs }) {
     });
 
     let NotExistingConfig = TableIDs.filter((item) => {
-      if (ServersIDs.length <= 0) return true;
-
-      if (!ServersIDs.includes(item)) return true;
+      if ((ServersIDs.length <= 0 || !ServersIDs.includes(item)) && item != "client") return true;
       else return false;
     });
 
     for (NRCID in NotRegisteredConfig) {
       let NRC = NotRegisteredConfig[NRCID];
+      console.info(NRC);
       await CreateGuildDB({ guildID: NRC });
     }
 
@@ -110,9 +103,11 @@ async function CheckIfTableExist({ guildIDs }) {
 }
 
 module.exports = async ({ guildIDs }) => {
-  await CheckIfTableExist({ guildIDs });
+  await CheckIfTableExist({ guildIDs: [...guildIDs, "client"] });
 
   let GuildConfig = await GetRawDatas({ guildIDs });
+  let ClientConfig = await ExecuteQuery({ sql: "SELECT Guild0.config_name AS client_NAME, Guild0.config_value AS client_VALUE FROM client_config AS Guild0" });
 
-  await CreateConfigJSON({ GuildConfig, guildIDs });
+  await CreateConfigJSON({ GuildConfig: [...GuildConfig], guildIDs: [...guildIDs, "client"] });
+  await CreateConfigJSON({ GuildConfig: [...ClientConfig], guildIDs: ["client"] });
 };
