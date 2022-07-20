@@ -32,7 +32,7 @@ module.exports = {
     });
     await RegisterCommand({
       cmds,
-      NRCMD: { FileName: requrestedcmd.FileName }
+      NRCMD: { FileName: requrestedcmd.FileName, default: requrestedcmd.Permissions }
     });
     message.reply({
       content: `${args[0]} has been force registered!`
