@@ -1,6 +1,12 @@
 let { join } = require("path");
+const { isUndefined } = require("util");
 let ExecuteQuery = require(join(Functions, "DBExecuter.js"));
 let CreateGuildDB = require(join(Functions, "CreateGuildDB.js"));
+
+async function ConfigExist({ searchvalue, JSONobj }) {
+  if (!isUndefined(JSONobj[searchvalue])) return true;
+  else return false;
+}
 
 async function GetRawDatas({ guildIDs }) {
   let sqlSELECT = "SELECT ";
@@ -36,12 +42,13 @@ async function CreateConfigJSON({ GuildConfig, guildIDs }) {
       let guildConfigValue = GC[`${guildID}_VALUE`];
 
       configs[guildConfigName] = guildConfigValue;
+      if (guildConfigName.includes("ENABLED") || !ConfigExist({ searchvalue: `${guildConfigName}ERRORED`, JSONobj: configs })) {
+        configs[`${guildConfigName}ERRORED`] = guildConfigValue;
+      }
     }
     GuildsConfigs[guildID] = { config: configs };
   }
 }
-
-async function FilterServers() {}
 
 async function CheckIfTableExist({ guildIDs }) {
   return new Promise(async (resolve, reject) => {

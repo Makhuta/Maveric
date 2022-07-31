@@ -9,13 +9,15 @@ async function ConfigExist({ searchvalue, JSONobj }) {
 
 async function PerConfigLoop({ JSONobj, TestJSON, Arrayobj }) {
   for (ConfigName in JSONobj) {
-    let value = JSONobj[ConfigName];
-    let CFGExist = await ConfigExist({
-      searchvalue: ConfigName,
-      JSONobj: TestJSON
-    });
-    if (!CFGExist) {
-      Arrayobj.push({ name: ConfigName, value });
+    if (!ConfigName.includes("ERRORED")) {
+      let value = JSONobj[ConfigName];
+      let CFGExist = await ConfigExist({
+        searchvalue: ConfigName,
+        JSONobj: TestJSON
+      });
+      if (!CFGExist) {
+        Arrayobj.push({ name: ConfigName, value });
+      }
     }
   }
 }

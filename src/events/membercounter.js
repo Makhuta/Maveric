@@ -2,6 +2,7 @@ const { client, NSBR } = require(DClientLoc);
 const { join } = require("path");
 const CreateChannel = require(join(Functions, "CreateChannel.js"));
 const UpdateVariable = require(join(Functions, "UpdateVariable.js"));
+const InfoHandler = require(join(Functions, "InfoHandler.js"));
 
 function RoomExist(channel) {
   if (channel != undefined) return true;
@@ -26,13 +27,33 @@ const updateMembers = async ({ id }, configsJSON) => {
       everyoneRole = roles.filter((rle) => rle.name == "@everyone").first();
     })
     .catch((error) => {
-      console.error(error);
+      InfoHandler["MemberCounterError"] = {};
+      if (InfoHandler["MemberCounterError"][guild.id] == undefined) {
+        InfoHandler["MemberCounterError"][guild.id] = [];
+      }
+      InfoHandler["MemberCounterError"][guild.id].push({
+        ErrorMessage: error,
+        guildID: guild.id
+      })
+      GuildsConfigs[guild.id][config][COUNTERENABLEDERRORED] = "false"
+
+      
     });
 
   if (configsJSON.SERVERSTATS != "") {
-    ServerStatsCategory = await guild.channels
-      .fetch(configsJSON.SERVERSTATS)
-      .catch((error) => console.error("Category not found"));
+    ServerStatsCategory = await guild.channels.fetch(configsJSON.SERVERSTATS).catch((error) => {
+      InfoHandler["MemberCounterError"] = {};
+      if (InfoHandler["MemberCounterError"][guild.id] == undefined) {
+        InfoHandler["MemberCounterError"][guild.id] = [];
+      }
+      InfoHandler["MemberCounterError"][guild.id].push({
+        ErrorMessage: error,
+        guildID: guild.id
+      })
+      GuildsConfigs[guild.id][config][COUNTERENABLEDERRORED] = "false"
+
+      console.error("Category not found");
+    });
 
     SSCategoryExist = RoomExist(ServerStatsCategory);
     if (!SSCategoryExist) {
@@ -67,9 +88,19 @@ const updateMembers = async ({ id }, configsJSON) => {
   let OffChannelExist;
 
   if (configsJSON.MEMBERCOUNT != "") {
-    MemberCountChannel = await guild.channels
-      .fetch(configsJSON.MEMBERCOUNT)
-      .catch((error) => console.error("Category not found"));
+    MemberCountChannel = await guild.channels.fetch(configsJSON.MEMBERCOUNT).catch((error) => {
+      InfoHandler["MemberCounterError"] = {};
+      if (InfoHandler["MemberCounterError"][guild.id] == undefined) {
+        InfoHandler["MemberCounterError"][guild.id] = [];
+      }
+      InfoHandler["MemberCounterError"][guild.id].push({
+        ErrorMessage: error,
+        guildID: guild.id
+      })
+      GuildsConfigs[guild.id][config][COUNTERENABLEDERRORED] = "false"
+
+      console.error("Category not found")
+    });
 
     MCChannelExist = RoomExist(MemberCountChannel);
     if (!MCChannelExist) {
@@ -100,9 +131,18 @@ const updateMembers = async ({ id }, configsJSON) => {
   }
 
   if (configsJSON.ONLINECOUNT != "") {
-    OnlineCountChannel = await guild.channels
-      .fetch(configsJSON.ONLINECOUNT)
-      .catch((error) => console.error("Category not found"));
+    OnlineCountChannel = await guild.channels.fetch(configsJSON.ONLINECOUNT).catch((error) => {
+      InfoHandler["MemberCounterError"] = {};
+      if (InfoHandler["MemberCounterError"][guild.id] == undefined) {
+        InfoHandler["MemberCounterError"][guild.id] = [];
+      }
+      InfoHandler["MemberCounterError"][guild.id].push({
+        ErrorMessage: error,
+        guildID: guild.id
+      })
+      GuildsConfigs[guild.id][config][COUNTERENABLEDERRORED] = "false"
+      
+      console.error("Category not found")});
 
     OnChannelExist = RoomExist(OnlineCountChannel);
     if (!OnChannelExist) {
@@ -133,9 +173,18 @@ const updateMembers = async ({ id }, configsJSON) => {
   }
 
   if (configsJSON.OFFLINECOUNT != "") {
-    OfflineCountChannel = await guild.channels
-      .fetch(configsJSON.OFFLINECOUNT)
-      .catch((error) => console.error("Category not found"));
+    OfflineCountChannel = await guild.channels.fetch(configsJSON.OFFLINECOUNT).catch((error) => {
+      InfoHandler["MemberCounterError"] = {};
+      if (InfoHandler["MemberCounterError"][guild.id] == undefined) {
+        InfoHandler["MemberCounterError"][guild.id] = [];
+      }
+      InfoHandler["MemberCounterError"][guild.id].push({
+        ErrorMessage: error,
+        guildID: guild.id
+      })
+      GuildsConfigs[guild.id][config][COUNTERENABLEDERRORED] = "false"
+
+      console.error("Category not found")});
 
     OffChannelExist = RoomExist(OfflineCountChannel);
     if (!OffChannelExist) {
@@ -166,46 +215,106 @@ const updateMembers = async ({ id }, configsJSON) => {
   }
 
   if (!MCChannelExist || !SSCategoryExist) {
-    MemberCountChannel?.setParent(ServerStatsCategory).catch((error) =>
-      console.error(error)
-    );
+    MemberCountChannel?.setParent(ServerStatsCategory).catch((error) => {
+      InfoHandler["MemberCounterError"] = {};
+      if (InfoHandler["MemberCounterError"][guild.id] == undefined) {
+        InfoHandler["MemberCounterError"][guild.id] = [];
+      }
+      InfoHandler["MemberCounterError"][guild.id].push({
+        ErrorMessage: error,
+        guildID: guild.id
+      })
+      GuildsConfigs[guild.id][config][COUNTERENABLEDERRORED] = "false"
+
+      });
   }
 
   if (!OnChannelExist || !SSCategoryExist) {
-    OnlineCountChannel?.setParent(ServerStatsCategory).catch((error) =>
-      console.error(error)
-    );
+    OnlineCountChannel?.setParent(ServerStatsCategory).catch((error) => {
+            InfoHandler["MemberCounterError"] = {};
+      if (InfoHandler["MemberCounterError"][guild.id] == undefined) {
+        InfoHandler["MemberCounterError"][guild.id] = [];
+      }
+      InfoHandler["MemberCounterError"][guild.id].push({
+        ErrorMessage: error,
+        guildID: guild.id
+      })
+      GuildsConfigs[guild.id][config][COUNTERENABLEDERRORED] = "false"
+
+      });
   }
 
   if (!OffChannelExist || !SSCategoryExist) {
-    OfflineCountChannel?.setParent(ServerStatsCategory).catch((error) =>
-      console.error(error)
-    );
+    OfflineCountChannel?.setParent(ServerStatsCategory).catch((error) => {
+            InfoHandler["MemberCounterError"] = {};
+      if (InfoHandler["MemberCounterError"][guild.id] == undefined) {
+        InfoHandler["MemberCounterError"][guild.id] = [];
+      }
+      InfoHandler["MemberCounterError"][guild.id].push({
+        ErrorMessage: error,
+        guildID: guild.id
+      })
+      GuildsConfigs[guild.id][config][COUNTERENABLEDERRORED] = "false"
+
+      });
   }
 
   guild.members
     .fetch()
     .then(async (members) => {
       const AllMembers = members.filter((m) => !m.user?.bot).size;
-      const OnlineMembers = members.filter(
-        (m) =>
-          !m.user?.bot &&
-          (m.presence?.status == "online" ||
-            m.presence?.status == "idle" ||
-            m.presence?.status == "dnd")
-      ).size;
+      const OnlineMembers = members.filter((m) => !m.user?.bot && (m.presence?.status == "online" || m.presence?.status == "idle" || m.presence?.status == "dnd")).size;
       const OfflineMembers = AllMembers - OnlineMembers;
 
-      MemberCountChannel.setName("Members: " + AllMembers).catch(console.error);
-      OnlineCountChannel.setName("Online: " + OnlineMembers).catch(
-        console.error
-      );
-      OfflineCountChannel.setName("Offline: " + OfflineMembers).catch(
-        console.error
-      );
+      MemberCountChannel.setName("Members: " + AllMembers).catch((error) => {
+              InfoHandler["MemberCounterError"] = {};
+      if (InfoHandler["MemberCounterError"][guild.id] == undefined) {
+        InfoHandler["MemberCounterError"][guild.id] = [];
+      }
+      InfoHandler["MemberCounterError"][guild.id].push({
+        ErrorMessage: error,
+        guildID: guild.id
+      })
+      GuildsConfigs[guild.id][config][COUNTERENABLEDERRORED] = "false"
+      });
+      OnlineCountChannel.setName("Online: " + OnlineMembers).catch((error) => {
+              InfoHandler["MemberCounterError"] = {};
+      if (InfoHandler["MemberCounterError"][guild.id] == undefined) {
+        InfoHandler["MemberCounterError"][guild.id] = [];
+      }
+      InfoHandler["MemberCounterError"][guild.id].push({
+        ErrorMessage: error,
+        guildID: guild.id
+      })
+      GuildsConfigs[guild.id][config][COUNTERENABLEDERRORED] = "false"
+      });
+      OfflineCountChannel.setName("Offline: " + OfflineMembers).catch((error) => {
+              InfoHandler["MemberCounterError"] = {};
+      if (InfoHandler["MemberCounterError"][guild.id] == undefined) {
+        InfoHandler["MemberCounterError"][guild.id] = [];
+      }
+      InfoHandler["MemberCounterError"][guild.id].push({
+        ErrorMessage: error,
+        guildID: guild.id
+      })
+      GuildsConfigs[guild.id][config][COUNTERENABLEDERRORED] = "false"
+      });
     })
-    .catch((error) => console.error(error));
+    .catch((error) => {
+      InfoHandler["MemberCounterError"] = {};
+      if (InfoHandler["MemberCounterError"][guild.id] == undefined) {
+        InfoHandler["MemberCounterError"][guild.id] = [];
+      }
+      InfoHandler["MemberCounterError"][guild.id].push({
+        ErrorMessage: error,
+        guildID: guild.id
+      })
+      GuildsConfigs[guild.id][config][COUNTERENABLEDERRORED] = "false"
+
+      });
 };
+
+async function SwitchCounter({ guildID }) {}
 
 NSBR.on("ready", async () => {
   let guilds = client.guilds.cache;
@@ -213,13 +322,15 @@ NSBR.on("ready", async () => {
     let configsJSON = GuildsConfigs[guild.id]?.config;
 
     let enabled = configsJSON?.COUNTERENABLED == "true";
-    if (enabled == true) {
+    let notErrored = configsJSON?.COUNTERENABLEDERRORED == "true";
+    if (enabled && notErrored) {
       updateMembers(guild, configsJSON);
     }
 
     setInterval(() => {
       enabled = configsJSON?.COUNTERENABLED == "true";
-      if (enabled == true) {
+      notErrored = configsJSON?.COUNTERENABLEDERRORED == "true";
+      if (enabled && notErrored) {
         updateMembers(guild, configsJSON);
       }
     }, 600000);
@@ -231,7 +342,8 @@ client.on("guildMemberAdd", async (member) => {
   let configsJSON = GuildsConfigs[member.guild.id]?.config;
 
   let enabled = configsJSON?.COUNTERENABLED == "true";
-  if (enabled == true) {
+  let notErrored = configsJSON?.COUNTERENABLEDERRORED == "true";
+  if (enabled && notErrored) {
     updateMembers(member.guild, configsJSON);
   }
 });
@@ -241,7 +353,8 @@ client.on("guildMemberRemove", async (member) => {
   let configsJSON = GuildsConfigs[member.guild.id]?.config;
 
   let enabled = configsJSON?.COUNTERENABLED == "true";
-  if (enabled == true) {
+  let notErrored = configsJSON?.COUNTERENABLEDERRORED == "true";
+  if (enabled && notErrored) {
     updateMembers(member.guild, configsJSON);
   }
 });

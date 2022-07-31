@@ -27,11 +27,29 @@ async function rozlouceni(member) {
       everyoneRole = roles.filter((rle) => rle.name == "@everyone").first();
     })
     .catch((error) => {
-      console.error(error);
+      InfoHandler["MemberJoinError"] = {};
+      if (InfoHandler["MemberJoinError"][guild.id] == undefined) {
+        InfoHandler["MemberJoinError"][guild.id] = [];
+      }
+      InfoHandler["MemberJoinError"][guild.id].push({
+        ErrorMessage: error,
+        guildID: guild.id
+      });
     });
 
   if (configsJSON.GATECATEGORY != "") {
-    GateCategory = await guild.channels.fetch(configsJSON.GATECATEGORY).catch((error) => console.error("Category not found"));
+    GateCategory = await guild.channels.fetch(configsJSON.GATECATEGORY).catch((error) => {
+      InfoHandler["MemberJoinError"] = {};
+      if (InfoHandler["MemberJoinError"][guild.id] == undefined) {
+        InfoHandler["MemberJoinError"][guild.id] = [];
+      }
+      InfoHandler["MemberJoinError"][guild.id].push({
+        ErrorMessage: error,
+        guildID: guild.id
+      });
+
+      console.error("Category not found");
+    });
 
     GCategoryExist = RoomExist(GateCategory);
     if (!GCategoryExist) {
@@ -52,7 +70,18 @@ async function rozlouceni(member) {
   }
 
   if (configsJSON.GATEROOM != "") {
-    GateRoom = await guild.channels.fetch(configsJSON.GATEROOM).catch((error) => console.error("Gate room not found"));
+    GateRoom = await guild.channels.fetch(configsJSON.GATEROOM).catch((error) => {
+      InfoHandler["MemberJoinError"] = {};
+      if (InfoHandler["MemberJoinError"][guild.id] == undefined) {
+        InfoHandler["MemberJoinError"][guild.id] = [];
+      }
+      InfoHandler["MemberJoinError"][guild.id].push({
+        ErrorMessage: error,
+        guildID: guild.id
+      });
+
+      console.error("Gate room not found");
+    });
 
     GRoomExist = RoomExist(GateRoom);
     if (!GRoomExist) {
@@ -118,7 +147,8 @@ client.on("guildMemberRemove", async (member) => {
   configsJSON = GuildsConfigs[member.guild.id]?.config;
 
   let enabled = configsJSON?.WELCOMERENABLED == "true";
-  if (enabled) {
+  let notErrored = configsJSON?.WELCOMERENABLEDERRORED == "true";
+  if (enabled && notErrored) {
     rozlouceni(member);
   }
 });

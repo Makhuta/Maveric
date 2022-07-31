@@ -1,10 +1,7 @@
 const { client } = require(DClientLoc);
 let { join } = require("path");
 let GetGuildConfig = require(join(Functions, "GetGuildConfig.js"));
-let DefaultFunctionsStates = require(join(
-  Configs,
-  "DefaultFunctionsStates.json"
-));
+let DefaultFunctionsStates = require(join(Configs, "DefaultFunctionsStates.json"));
 let DefaultVariables = require(join(Configs, "DefaultVariables.json"));
 let ConfigDBManager = require(join(Functions, "ConfigDBManager.js"));
 
