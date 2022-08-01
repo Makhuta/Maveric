@@ -90,6 +90,23 @@ client.on("interactionCreate", async (interaction) => {
 
   let RequestedCommand = CommandList.find((CMD) => CMD.Name == commandName);
   let VoteTied = require(RequestedCommand.Location).VoteTied ? require(RequestedCommand.Location).VoteTied : false;
+  let hasVoted = await TopGGApi.hasVoted(member.user.id).catch((error) => {
+    if (InfoHandler["VoteCheck"] == undefined) {
+      InfoHandler["VoteCheck"] = {};
+    }
+    if (InfoHandler["VoteCheck"][message.author.id] == undefined) {
+      InfoHandler["VoteCheck"][message.author.id] = [];
+    }
+
+    InfoHandler["VoteCheck"][message.author.id].push({
+      ID: message.author.id,
+      Username: message.author.username,
+      Discriminator: message.author.discriminator,
+      Nickname: message.author.nickname ? message.author.nickname : "undefined",
+      Bot: message.author.bot,
+      Error: error
+    });
+  })
 
   if (interaction.guildId == null && !(await require(RequestedCommand.Location).PMEnable)) {
     return interaction.reply({
@@ -97,7 +114,7 @@ client.on("interactionCreate", async (interaction) => {
     });
   }
 
-  if (VoteTied && !(await TopGGApi.hasVoted(member.user.id))) {
+  if (VoteTied && !hasVoted) {
     let embed = new MessageEmbed()
       .setTitle(`Missing vote`)
       .setColor(colors.red)
@@ -111,6 +128,22 @@ client.on("interactionCreate", async (interaction) => {
     return interaction.reply({
       embeds: [embed],
       ephemeral: true
+    }).catch((error) => {
+      if (InfoHandler["VoteCheck"] == undefined) {
+        InfoHandler["VoteCheck"] = {};
+      }
+      if (InfoHandler["VoteCheck"][interaction.author.id] == undefined) {
+        InfoHandler["VoteCheck"][interaction.author.id] = [];
+      }
+  
+      InfoHandler["VoteCheck"][interaction.author.id].push({
+        ID: message.author.id,
+        Username: message.author.username,
+        Discriminator: message.author.discriminator,
+        Nickname: message.author.nickname ? message.author.nickname : "undefined",
+        ChannelID: interaction.channel.id,
+        GuildID: interaction.guildId
+      });
     });
   }
 
