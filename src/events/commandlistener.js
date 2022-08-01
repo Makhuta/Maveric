@@ -95,24 +95,28 @@ client.on("interactionCreate", async (interaction) => {
       content: `You need to send this to server to use ${interaction.commandName}`
     });
   }
-  
+
   let hasVoted = await TopGGApi.hasVoted(member.user.id).catch((error) => {
     if (InfoHandler["VoteCheck"] == undefined) {
       InfoHandler["VoteCheck"] = {};
     }
-    if (InfoHandler["VoteCheck"][message.author.id] == undefined) {
-      InfoHandler["VoteCheck"][message.author.id] = [];
+    if (InfoHandler["VoteCheck"][member.user.id] == undefined) {
+      InfoHandler["VoteCheck"][member.user.id] = [];
     }
 
-    InfoHandler["VoteCheck"][message.author.id].push({
-      ID: message.author.id,
-      Username: message.author.username,
-      Discriminator: message.author.discriminator,
-      Nickname: message.author.nickname ? message.author.nickname : "undefined",
-      Bot: message.author.bot,
+    InfoHandler["VoteCheck"][member.user.id].push({
+      ID: member.user.id,
+      Username: member.user.username,
+      Discriminator: member.user.discriminator,
+      Nickname: member.user.nickname ? member.user.nickname : "undefined",
+      Bot: member.user.bot,
       Error: error
     });
   });
+
+  if (VoteTied) {
+    console.info(`User: ${member.user.username}#${member.user.discriminator} want to run vote tied command: ${commandName}.\nHas voted: ${hasVoted}`);
+  }
 
   if (VoteTied && !hasVoted) {
     let embed = new MessageEmbed()
