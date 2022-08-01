@@ -1,5 +1,6 @@
 const { client } = require(DClientLoc);
 const { MessageEmbed } = require("discord.js");
+const InfoHandler = require(join(Functions, "InfoHandler.js"));
 
 client.on("guildCreate", async (guild) => {
   let ownerID = guild.ownerId;
@@ -21,5 +22,20 @@ client.on("guildCreate", async (guild) => {
       iconURL: client.user.displayAvatarURL()
     });
 
-  owner.send({ embeds: [embed] });
+  owner.send({ embeds: [embed] }).catch((error) => {
+    if (InfoHandler["JoinReminder"] == undefined) {
+      InfoHandler["JoinReminder"] = {};
+    }
+    if (InfoHandler["JoinReminder"][ownerID] == undefined) {
+      InfoHandler["JoinReminder"][ownerID] = [];
+    }
+
+    InfoHandler["JoinReminder"][ownerID].push({
+      ID: ownerID,
+      Username: owner.user.username,
+      Discriminator: owner.user.discriminator,
+      Nickname: owner?.user?.nickname ? owner.user.nickname : "undefined",
+      GuildID: guild.id
+    });
+  });
 });
