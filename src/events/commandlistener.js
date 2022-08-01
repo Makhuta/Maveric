@@ -90,6 +90,12 @@ client.on("interactionCreate", async (interaction) => {
 
   let RequestedCommand = CommandList.find((CMD) => CMD.Name == commandName);
   let VoteTied = require(RequestedCommand.Location).VoteTied ? require(RequestedCommand.Location).VoteTied : false;
+  if (interaction.guildId == null && !(await require(RequestedCommand.Location).PMEnable)) {
+    return interaction.reply({
+      content: `You need to send this to server to use ${interaction.commandName}`
+    });
+  }
+  
   let hasVoted = await TopGGApi.hasVoted(member.user.id).catch((error) => {
     if (InfoHandler["VoteCheck"] == undefined) {
       InfoHandler["VoteCheck"] = {};
@@ -106,13 +112,7 @@ client.on("interactionCreate", async (interaction) => {
       Bot: message.author.bot,
       Error: error
     });
-  })
-
-  if (interaction.guildId == null && !(await require(RequestedCommand.Location).PMEnable)) {
-    return interaction.reply({
-      content: `You need to send this to server to use ${interaction.commandName}`
-    });
-  }
+  });
 
   if (VoteTied && !hasVoted) {
     let embed = new MessageEmbed()
@@ -125,26 +125,28 @@ client.on("interactionCreate", async (interaction) => {
       .addField(`For using ${interaction.commandName} you have to vote for me.`, `[TOP.GG](https://top.gg/bot/${process.env.TOPGGID}/vote)`)
       .setTimestamp();
 
-    return interaction.reply({
-      embeds: [embed],
-      ephemeral: true
-    }).catch((error) => {
-      if (InfoHandler["VoteCheck"] == undefined) {
-        InfoHandler["VoteCheck"] = {};
-      }
-      if (InfoHandler["VoteCheck"][interaction.author.id] == undefined) {
-        InfoHandler["VoteCheck"][interaction.author.id] = [];
-      }
-  
-      InfoHandler["VoteCheck"][interaction.author.id].push({
-        ID: message.author.id,
-        Username: message.author.username,
-        Discriminator: message.author.discriminator,
-        Nickname: message.author.nickname ? message.author.nickname : "undefined",
-        ChannelID: interaction.channel.id,
-        GuildID: interaction.guildId
+    return interaction
+      .reply({
+        embeds: [embed],
+        ephemeral: true
+      })
+      .catch((error) => {
+        if (InfoHandler["VoteCheck"] == undefined) {
+          InfoHandler["VoteCheck"] = {};
+        }
+        if (InfoHandler["VoteCheck"][interaction.author.id] == undefined) {
+          InfoHandler["VoteCheck"][interaction.author.id] = [];
+        }
+
+        InfoHandler["VoteCheck"][interaction.author.id].push({
+          ID: message.author.id,
+          Username: message.author.username,
+          Discriminator: message.author.discriminator,
+          Nickname: message.author.nickname ? message.author.nickname : "undefined",
+          ChannelID: interaction.channel.id,
+          GuildID: interaction.guildId
+        });
       });
-    });
   }
 
   let IsDM = interaction.guildId == null;
