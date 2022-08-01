@@ -74,7 +74,7 @@ async function RunOwnerCommand({ prefix, command, args, message }) {
 client.on("interactionCreate", async (interaction) => {
   if (!interaction.isCommand()) return;
 
-  const { commandName, options, member } = interaction;
+  const { commandName, options, member, user } = interaction;
   let CMDNamesList = GetCommandsNames();
   //console.info(interaction);
 
@@ -96,26 +96,28 @@ client.on("interactionCreate", async (interaction) => {
     });
   }
 
-  let hasVoted = await TopGGApi.hasVoted(member.user.id).catch((error) => {
-    if (InfoHandler["VoteCheck"] == undefined) {
-      InfoHandler["VoteCheck"] = {};
-    }
-    if (InfoHandler["VoteCheck"][member.user.id] == undefined) {
-      InfoHandler["VoteCheck"][member.user.id] = [];
-    }
-
-    InfoHandler["VoteCheck"][member.user.id].push({
-      ID: member.user.id,
-      Username: member.user.username,
-      Discriminator: member.user.discriminator,
-      Nickname: member.user.nickname ? member.user.nickname : "undefined",
-      Bot: member.user.bot,
-      Error: error
-    });
-  });
+  let hasVoted;
 
   if (VoteTied) {
-    console.info(`User: ${member.user.username}#${member.user.discriminator} want to run vote tied command: ${commandName}.\nHas voted: ${hasVoted}`);
+    hasVoted = await TopGGApi.hasVoted(user.id).catch((error) => {
+      if (InfoHandler["VoteCheck"] == undefined) {
+        InfoHandler["VoteCheck"] = {};
+      }
+      if (InfoHandler["VoteCheck"][user.id] == undefined) {
+        InfoHandler["VoteCheck"][user.id] = [];
+      }
+
+      InfoHandler["VoteCheck"][user.id].push({
+        ID: user.id,
+        Username: user.username,
+        Discriminator: user.discriminator,
+        Nickname: user.nickname ? user.nickname : "undefined",
+        Bot: user.bot,
+        Error: error
+      });
+    });
+
+    console.info(`User: ${user.username}#${user.discriminator} want to run vote tied command: ${commandName}.\nHas voted: ${hasVoted}`);
   }
 
   if (VoteTied && !hasVoted) {
@@ -135,18 +137,18 @@ client.on("interactionCreate", async (interaction) => {
         ephemeral: true
       })
       .catch((error) => {
-        if (InfoHandler["VoteCheck"] == undefined) {
-          InfoHandler["VoteCheck"] = {};
+        if (InfoHandler["EmbedMessage"] == undefined) {
+          InfoHandler["EmbedMessage"] = {};
         }
-        if (InfoHandler["VoteCheck"][interaction.author.id] == undefined) {
-          InfoHandler["VoteCheck"][interaction.author.id] = [];
+        if (InfoHandler["EmbedMessage"][user.id] == undefined) {
+          InfoHandler["EmbedMessage"][user.id] = [];
         }
 
-        InfoHandler["VoteCheck"][interaction.author.id].push({
-          ID: message.author.id,
-          Username: message.author.username,
-          Discriminator: message.author.discriminator,
-          Nickname: message.author.nickname ? message.author.nickname : "undefined",
+        InfoHandler["EmbedMessage"][user.id].push({
+          ID: user.id,
+          Username: user.username,
+          Discriminator: user.discriminator,
+          Nickname: user.nickname ? user.nickname : "undefined",
           ChannelID: interaction.channel.id,
           GuildID: interaction.guildId
         });
