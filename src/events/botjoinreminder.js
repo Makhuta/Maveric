@@ -1,5 +1,6 @@
 const { client } = require(DClientLoc);
 const { MessageEmbed } = require("discord.js");
+const { join } = require("path");
 const InfoHandler = require(join(Functions, "InfoHandler.js"));
 
 client.on("guildCreate", async (guild) => {
