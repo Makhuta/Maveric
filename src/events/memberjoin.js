@@ -35,7 +35,7 @@ async function uvitani(member) {
         ErrorMessage: error,
         guildID: guild.id
       });
-      GuildsConfigs[guild.id][config][WELCOMERENABLEDERRORED] = "false";
+      GuildsConfigs[guild.id]["config"]["WELCOMERENABLEDERRORED"] = "false";
     });
 
   if (configsJSON.GATECATEGORY != "") {

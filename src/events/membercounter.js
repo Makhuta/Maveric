@@ -35,7 +35,7 @@ const updateMembers = async ({ id }, configsJSON) => {
         ErrorMessage: error,
         guildID: guild.id
       })
-      GuildsConfigs[guild.id][config][COUNTERENABLEDERRORED] = "false"
+      GuildsConfigs[guild.id]["config"]["COUNTERENABLEDERRORED"] = "false"
 
       
     });
@@ -50,7 +50,7 @@ const updateMembers = async ({ id }, configsJSON) => {
         ErrorMessage: error,
         guildID: guild.id
       })
-      GuildsConfigs[guild.id][config][COUNTERENABLEDERRORED] = "false"
+      GuildsConfigs[guild.id]["config"]["COUNTERENABLEDERRORED"] = "false"
 
       console.error("Category not found");
     });
@@ -97,7 +97,7 @@ const updateMembers = async ({ id }, configsJSON) => {
         ErrorMessage: error,
         guildID: guild.id
       })
-      GuildsConfigs[guild.id][config][COUNTERENABLEDERRORED] = "false"
+      GuildsConfigs[guild.id]["config"]["COUNTERENABLEDERRORED"] = "false"
 
       console.error("Category not found")
     });
@@ -140,7 +140,7 @@ const updateMembers = async ({ id }, configsJSON) => {
         ErrorMessage: error,
         guildID: guild.id
       })
-      GuildsConfigs[guild.id][config][COUNTERENABLEDERRORED] = "false"
+      GuildsConfigs[guild.id]["config"]["COUNTERENABLEDERRORED"] = "false"
       
       console.error("Category not found")});
 
@@ -182,7 +182,7 @@ const updateMembers = async ({ id }, configsJSON) => {
         ErrorMessage: error,
         guildID: guild.id
       })
-      GuildsConfigs[guild.id][config][COUNTERENABLEDERRORED] = "false"
+      GuildsConfigs[guild.id]["config"]["COUNTERENABLEDERRORED"] = "false"
 
       console.error("Category not found")});
 
@@ -224,7 +224,7 @@ const updateMembers = async ({ id }, configsJSON) => {
         ErrorMessage: error,
         guildID: guild.id
       })
-      GuildsConfigs[guild.id][config][COUNTERENABLEDERRORED] = "false"
+      GuildsConfigs[guild.id]["config"]["COUNTERENABLEDERRORED"] = "false"
 
       });
   }
@@ -239,7 +239,7 @@ const updateMembers = async ({ id }, configsJSON) => {
         ErrorMessage: error,
         guildID: guild.id
       })
-      GuildsConfigs[guild.id][config][COUNTERENABLEDERRORED] = "false"
+      GuildsConfigs[guild.id]["config"]["COUNTERENABLEDERRORED"] = "false"
 
       });
   }
@@ -254,7 +254,7 @@ const updateMembers = async ({ id }, configsJSON) => {
         ErrorMessage: error,
         guildID: guild.id
       })
-      GuildsConfigs[guild.id][config][COUNTERENABLEDERRORED] = "false"
+      GuildsConfigs[guild.id]["config"]["COUNTERENABLEDERRORED"] = "false"
 
       });
   }
@@ -275,7 +275,7 @@ const updateMembers = async ({ id }, configsJSON) => {
         ErrorMessage: error,
         guildID: guild.id
       })
-      GuildsConfigs[guild.id][config][COUNTERENABLEDERRORED] = "false"
+      GuildsConfigs[guild.id]["config"]["COUNTERENABLEDERRORED"] = "false"
       });
       OnlineCountChannel.setName("Online: " + OnlineMembers).catch((error) => {
               InfoHandler["MemberCounterError"] = {};
@@ -286,7 +286,7 @@ const updateMembers = async ({ id }, configsJSON) => {
         ErrorMessage: error,
         guildID: guild.id
       })
-      GuildsConfigs[guild.id][config][COUNTERENABLEDERRORED] = "false"
+      GuildsConfigs[guild.id]["config"]["COUNTERENABLEDERRORED"] = "false"
       });
       OfflineCountChannel.setName("Offline: " + OfflineMembers).catch((error) => {
               InfoHandler["MemberCounterError"] = {};
@@ -297,7 +297,7 @@ const updateMembers = async ({ id }, configsJSON) => {
         ErrorMessage: error,
         guildID: guild.id
       })
-      GuildsConfigs[guild.id][config][COUNTERENABLEDERRORED] = "false"
+      GuildsConfigs[guild.id]["config"]["COUNTERENABLEDERRORED"] = "false"
       });
     })
     .catch((error) => {
@@ -309,7 +309,7 @@ const updateMembers = async ({ id }, configsJSON) => {
         ErrorMessage: error,
         guildID: guild.id
       })
-      GuildsConfigs[guild.id][config][COUNTERENABLEDERRORED] = "false"
+      GuildsConfigs[guild.id]["config"]["COUNTERENABLEDERRORED"] = "false"
 
       });
 };
