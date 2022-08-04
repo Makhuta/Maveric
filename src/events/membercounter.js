@@ -328,6 +328,7 @@ NSBR.on("ready", async () => {
     }
 
     setInterval(() => {
+      configsJSON = GuildsConfigs[guild.id]?.config;
       enabled = configsJSON?.COUNTERENABLED == "true";
       notErrored = configsJSON?.COUNTERENABLEDERRORED == "true";
       if (enabled && notErrored) {
