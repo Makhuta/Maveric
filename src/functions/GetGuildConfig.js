@@ -43,7 +43,7 @@ async function CreateConfigJSON({ GuildConfig, guildIDs }) {
 
       configs[guildConfigName] = guildConfigValue;
       if (guildConfigName.includes("ENABLED") || !ConfigExist({ searchvalue: `${guildConfigName}ERRORED`, JSONobj: configs })) {
-        configs[`${guildConfigName}ERRORED`] = guildConfigValue;
+        configs[`${guildConfigName}ERRORED`] = "true";
       }
     }
     GuildsConfigs[guildID] = { config: configs };
