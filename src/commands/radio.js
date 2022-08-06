@@ -1,10 +1,5 @@
 const { MessageEmbed } = require("discord.js");
-const {
-  joinVoiceChannel,
-  createAudioPlayer,
-  createAudioResource,
-  AudioPlayerStatus
-} = require("@discordjs/voice");
+const { joinVoiceChannel, createAudioPlayer, createAudioResource, AudioPlayerStatus } = require("@discordjs/voice");
 const { join } = require("path");
 const colors = require(join(ColorPaletes, "colors.json"));
 const RadioHandler = require(join(Functions, "RadioHandler.js"));
@@ -76,14 +71,9 @@ async function joinChannel(UserVoiceChannel, RequestedRadioChannel, guildId) {
   RadioHandler[guildId].VoiceConnection = VoiceConnection;
   RadioHandler[guildId].interval = setInterval(async () => {
     let GuildRadio = RadioHandler[guildId];
-    let BotVoiceChannel = await (
-      await (await client.guilds.fetch(guildId)).members.fetch(client.user.id)
-    ).voice.channel;
+    let BotVoiceChannel = await (await (await client.guilds.fetch(guildId)).members.fetch(client.user.id)).voice.channel;
 
-    if (
-      !isNull(BotVoiceChannel) &&
-      BotVoiceChannel.members.filter((member) => !member.user.bot).size >= 1
-    ) {
+    if (!isNull(BotVoiceChannel) && BotVoiceChannel.members.filter((member) => !member.user.bot).size >= 1) {
       return;
     }
 
@@ -106,7 +96,8 @@ module.exports = {
   name: "Radio",
   description: "This is the radio command.",
   default: true,
-  helpdescription: "This command will make Bot join your Voice channel and start playing radio station from your choice, if you did not choose station Bot will pick random station from list of available stations.",
+  helpdescription:
+    "This command will make Bot join your Voice channel and start playing radio station from your choice, if you did not choose station Bot will pick random station from list of available stations.",
   usage: "/radio (station name)",
   helpname: "Radio",
   type: "Global",
@@ -117,6 +108,11 @@ module.exports = {
     const { options, member, guildId } = interaction;
     let UserVoiceChannel = await (await member.fetch()).voice.channel;
     let UserIsInVoiceChannel = !isNull(UserVoiceChannel);
+    let PermissionsINChannel = interaction.member.guild.me.permissionsIn(UserVoiceChannel);
+    let CanView = PermissionsINChannel.has("VIEW_CHANNEL");
+    let CanTalk = PermissionsINChannel.has("SPEAK");
+    let CanJoin = PermissionsINChannel.has("CONNECT");
+    let CanContinue = CanView && CanTalk && CanJoin;
 
     //Check if user is in voice channel
     if (!UserIsInVoiceChannel) {
@@ -128,6 +124,30 @@ module.exports = {
       });
     }
 
+    if (!CanContinue) {
+      await interaction.deferReply({
+        ephemeral: true
+      });
+      let reasons = [];
+      if (!CanJoin) {
+        reasons.push("Don't have permission to join your channel.");
+      }
+      if (!CanView) {
+        reasons.push("Don't have permission to view your channel.");
+      }
+      if (!CanTalk) {
+        reasons.push("Don't have permission to talk in your channel.");
+      }
+      let embed = new MessageEmbed().setTitle("Can't join your channel.").addField("Reasons:", reasons.join("\n")).setColor(ColorPaletes.red).setTimestamp().setFooter({
+        text: client.user.username,
+        iconURL: client.user.displayAvatarURL()
+      });
+
+      return interaction.editReply({
+        embeds: [embed]
+      });
+    }
+
     //Getting per guild radio
     let GuildRadio = RadioHandler[guildId];
 
@@ -136,8 +156,7 @@ module.exports = {
     let RequestIsUndefined = RequestedRadioChannel == null;
 
     if (RequestIsUndefined) {
-      RequestedRadioChannel =
-        RadioStations[randomNum.int(1, Object.keys(RadioStations).length)];
+      RequestedRadioChannel = RadioStations[randomNum.int(1, Object.keys(RadioStations).length)];
     }
 
     //If per guild radio not exist then create
@@ -178,9 +197,7 @@ module.exports = {
       let RadioStation = RadioStations[RadioStationsID];
 
       choices.push({
-        name:
-          RadioStation.style.slice(0, 1).toUpperCase() +
-          RadioStation.style.slice(1, RadioStation.length),
+        name: RadioStation.style.slice(0, 1).toUpperCase() + RadioStation.style.slice(1, RadioStation.length),
         value: RadioStationsID
       });
     }
