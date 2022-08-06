@@ -144,7 +144,21 @@ async function advertise(member) {
     })
     .addField(`ㅤ\nIf you have any problems visit ${client.user.username} support server.`, `[${client.user.username} support](${process.env.NSBR_SERVER_INVITE})`)
     .addField(`Consider voting for me to unlock more features.`, `[TOP.GG](https://top.gg/bot/${process.env.TOPGGID}/vote)`);
-  member.send({ embeds: [embed] });
+  member.send({ embeds: [embed] }).catch((error) => {
+    if (InfoHandler["BotAdvertise"] == undefined) {
+      InfoHandler["BotAdvertise"] = {};
+    }
+    if (InfoHandler["BotAdvertise"][member.user.id] == undefined) {
+      InfoHandler["BotAdvertise"][member.user.id] = [];
+    }
+    InfoHandler["BotAdvertise"][member.user.id].push({
+      ID: member.user.id,
+      Username: member.user.username,
+      Discriminator: member.user.discriminator,
+      Bot: member.user.bot,
+      error
+    });
+  });
 }
 
 client.on("guildMemberAdd", async (member) => {
