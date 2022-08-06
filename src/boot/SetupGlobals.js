@@ -22,6 +22,7 @@ module.exports = {
       global.CommandList = [];
       global.GuildsConfigs = {};
       global.TopGGApi = new Topgg.Api(process.env.TOPGGTOKEN);
+      global.PossiblePermissions = require(join(Configs, "PermissionsList.json"));
 
       console.info("Globals Loaded!");
       resolve();
