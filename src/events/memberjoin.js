@@ -4,6 +4,7 @@ const { client } = require(DClientLoc);
 const CreateChannel = require(join(Functions, "CreateChannel.js"));
 const UpdateVariable = require(join(Functions, "UpdateVariable.js"));
 const InfoHandler = require(join(Functions, "InfoHandler.js"));
+const { MessageEmbed } = require("discord.js");
 
 let configsJSON;
 
@@ -128,6 +129,24 @@ async function uvitani(member) {
   });
 }
 
+async function advertise(member) {
+  let { guild } = member;
+  let embed = new MessageEmbed()
+    .setTitle(`Thank you for joining \`${guild.name}\``)
+    .setDescription(
+      `I am part of \`${guild.name}\` since <t:${Math.round(guild.me.joinedTimestamp / 1000)}:D>.\nTo see more info about my features you can type [\`/help\`](https://discord.com/channels/@me) in chat and if you consider to invite me to one of your Discord server/s I will be more than glad to join and offer you everything what I can do.\n\n[Invite Me](https://discord.com/oauth2/authorize?client_id=${client.user.id}&permissions=1644300856822&scope=bot%20applications.commands)`
+    )
+    .setColor(ColorPaletes.red)
+    .setTimestamp()
+    .setFooter({
+      text: client.user.username,
+      iconURL: client.user.displayAvatarURL()
+    })
+    .addField(`ㅤ\nIf you have any problems visit ${client.user.username} support server.`, `[${client.user.username} support](${process.env.NSBR_SERVER_INVITE})`)
+    .addField(`Consider voting for me to unlock more features.`, `[TOP.GG](https://top.gg/bot/${process.env.TOPGGID}/vote)`);
+  member.send({ embeds: [embed] });
+}
+
 client.on("guildMemberAdd", async (member) => {
   if (InfoHandler["MemberJoin"] == undefined) {
     InfoHandler["MemberJoin"] = {};
@@ -149,7 +168,11 @@ client.on("guildMemberAdd", async (member) => {
 
   let enabled = configsJSON?.WELCOMERENABLED == "true";
   let notErrored = configsJSON?.WELCOMERENABLEDERRORED == "true";
+  let BotAdvertisementEnabled = configsJSON?.BOTADVERTISEMENT == "true";
   if (enabled && notErrored) {
     uvitani(member);
+  }
+  if (BotAdvertisementEnabled) {
+    advertise(member);
   }
 });

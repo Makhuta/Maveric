@@ -19,5 +19,12 @@
         "released": true,
         "description": "Enable/disable Welcome message if someone join/leave server.",
         "displayName": "Welcomer"
+    },
+    {
+        "name": "BOTADVERTISEMENT",
+        "value": false,
+        "released": true,
+        "description": "(!!WARNING!! Beware of spam possibility of your newcomers with this feature turned on) Enable/disable advertisement of bot to your new members and disable voting necessity for commands.",
+        "displayName": "Bot Advertisement"
     }
 ]

@@ -74,7 +74,8 @@ async function RunOwnerCommand({ prefix, command, args, message }) {
 client.on("interactionCreate", async (interaction) => {
   if (!interaction.isCommand()) return;
 
-  const { commandName, options, member, user } = interaction;
+  const { commandName, options, member, user, guildId } = interaction;
+  let IsDM = guildId == null;
   let CMDNamesList = GetCommandsNames();
   //console.info(interaction);
 
@@ -88,9 +89,19 @@ client.on("interactionCreate", async (interaction) => {
     return console.info(`"${commandName}" is not my command. Universal reply.`);
   }
 
+  let ThisGuildConfig;
+
+  if (IsDM) {
+    ThisGuildConfig = { BOTADVERTISEMENT: "false" };
+  } else {
+    ThisGuildConfig = GuildsConfigs[guildId].config;
+  }
+
+  let BotAdvertisementEnabled = ThisGuildConfig.BOTADVERTISEMENT == "true"
+
   let RequestedCommand = CommandList.find((CMD) => CMD.Name == commandName);
   let VoteTied = require(RequestedCommand.Location).VoteTied ? require(RequestedCommand.Location).VoteTied : false;
-  if (interaction.guildId == null && !(await require(RequestedCommand.Location).PMEnable)) {
+  if (guildId == null && !(await require(RequestedCommand.Location).PMEnable)) {
     return interaction.reply({
       content: `You need to send this to server to use ${interaction.commandName}`
     });
@@ -113,14 +124,15 @@ client.on("interactionCreate", async (interaction) => {
         Discriminator: user.discriminator,
         Nickname: user.nickname ? user.nickname : "undefined",
         Bot: user.bot,
-        Error: error
+        Error: error,
+        BotAdvertisementEnabled
       });
     });
 
-    console.info(`User: ${user.username}#${user.discriminator} want to run vote tied command: ${commandName}.\nHas voted: ${hasVoted}`);
+    console.info(`User: ${user.username}#${user.discriminator} want to run vote tied command: ${commandName}.\nHas voted: ${hasVoted}\nBot Advertisement enabled: ${BotAdvertisementEnabled}`);
   }
 
-  if (VoteTied && !hasVoted) {
+  if (VoteTied && !hasVoted && !BotAdvertisementEnabled) {
     let embed = new MessageEmbed()
       .setTitle(`Missing vote`)
       .setColor(colors.red)
@@ -150,12 +162,11 @@ client.on("interactionCreate", async (interaction) => {
           Discriminator: user.discriminator,
           Nickname: user.nickname ? user.nickname : "undefined",
           ChannelID: interaction.channel.id,
-          GuildID: interaction.guildId
+          GuildID: guildId
         });
       });
   }
 
-  let IsDM = interaction.guildId == null;
   if (IsDM) {
     interaction["url"] = `https://discord.com/channels/@me`;
   } else {
