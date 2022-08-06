@@ -38,10 +38,10 @@ module.exports = function error_mail(input) {
   } else {
     let NumberOfLoops = Math.ceil(SizeInMB / 20);
     for (let i = 0; i < NumberOfLoops; i++) {
-      let newFilename = filename.split(".")[0] + `part${i + 1}/${NumberOfLoops}.` + filename.split(".")[1];
+      let newFilename = filename.split(".")[0] + `_part${i + 1}/${NumberOfLoops}.` + filename.split(".")[1];
       let newContent = content.slice(i * 1048576 * 20, (i + 1) * 1048576 * 20);
       mailOptions.attachments = { filename: newFilename, content: newContent };
-      
+
       transporter.sendMail(mailOptions, function (error, info) {
         if (error) {
           console.error(error);
