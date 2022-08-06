@@ -41,14 +41,14 @@ module.exports = function error_mail(input) {
       let newFilename = filename.split(".")[0] + `part${i + 1}/${NumberOfLoops}.` + filename.split(".")[1];
       let newContent = content.slice(i * 1048576 * 20, (i + 1) * 1048576 * 20);
       mailOptions.attachments = { filename: newFilename, content: newContent };
+      
+      transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+          console.error(error);
+        } else {
+          console.info(`Email sent part${i + 1}/${NumberOfLoops}: ` + info.response);
+        }
+      });
     }
-
-    transporter.sendMail(mailOptions, function (error, info) {
-      if (error) {
-        console.error(error);
-      } else {
-        console.info(`Email sent part${i + 1}/${NumberOfLoops}: ` + info.response);
-      }
-    });
   }
 };
