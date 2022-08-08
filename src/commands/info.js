@@ -27,7 +27,7 @@ function RolesList(guild) {
   for (r of guild.roles.cache) {
     r = r[1];
     this.Roles[r.id] = {
-      ID: parseInt(r.id),
+      ID: r.id,
       Name: r.name,
       RawPosition: r.rawPosition,
       Tags: r.tags,
@@ -50,10 +50,10 @@ function MemberList(guild, RList) {
       MemberRolesList[mr[0]] = RList.Roles[mr[0]];
     }
     if (m.user.bot) {
-      this.Bots[parseInt(m.user.id)] = {
-        ID: parseInt(m.user.id),
+      this.Bots[m.user.id] = {
+        ID: m.user.id,
         Username: m.user.username,
-        Discriminator: m.user.discriminator ? parseInt(m.user.discriminator) : "undefined",
+        Discriminator: m.user.discriminator ? m.user.discriminator : "undefined",
         Nickname: m.nickname ? m.nickname : "undefined",
         Roles: MemberRolesList,
         JoinedTimestamp: m.guild.joinedTimestamp,
@@ -61,10 +61,10 @@ function MemberList(guild, RList) {
         AvatarURL: m.displayAvatarURL()
       };
     } else {
-      this.Members[parseInt(m.user.id)] = {
-        ID: parseInt(m.user.id),
+      this.Members[m.user.id] = {
+        ID: m.user.id,
         Username: m.user.username,
-        Discriminator: m.user.discriminator ? parseInt(m.user.discriminator) : "undefined",
+        Discriminator: m.user.discriminator ? m.user.discriminator : "undefined",
         Nickname: m.nickname ? m.nickname : "undefined",
         Roles: MemberRolesList,
         JoinedTimestamp: m.guild.joinedTimestamp,
@@ -166,7 +166,7 @@ function GuildInfo(guild) {
   let MemberCount = Object.keys(MList.Members).length;
   let BotCount = Object.keys(MList.Bots).length;
 
-  this.ID = parseInt(guild.id);
+  this.ID = guild.id;
   this.Name = guild.name ? guild.name : "Unknown";
   this.MemberCount = MemberCount;
   this.BotCount = BotCount;
@@ -202,7 +202,7 @@ module.exports = {
 
         if (Ch.type == "GUILD_VOICE") {
           g["ChannelList"].push({
-            ID: parseInt(Ch.id),
+            ID: Ch.id,
             Name: Ch.name,
             Type: Ch.type,
             ParentID: Ch.parentId,
@@ -227,7 +227,7 @@ module.exports = {
               };
             }
             g["ChannelList"].push({
-              ID: parseInt(Ch.id),
+              ID: Ch.id,
               Name: Ch.name,
               Type: Ch.type,
               ParentID: Ch.parentId,
@@ -236,7 +236,7 @@ module.exports = {
             });
           } else if (Ch.type == "GUILD_CATEGORY") {
             g["ChannelList"].push({
-              ID: parseInt(Ch.id),
+              ID: Ch.id,
               Name: Ch.name,
               Type: Ch.type,
               RawPosition: Ch.rawPosition
@@ -253,8 +253,8 @@ module.exports = {
             MaxAge: Inv.maxAge,
             Uses: Inv.uses,
             MaxUses: Inv.MaxUses,
-            InviterID: parseInt(Inv.inviterId),
-            ChannelID: parseInt(Inv.channelId),
+            InviterID: Inv.inviterId,
+            ChannelID: Inv.channelId,
             CreatedTimestamp: Inv.createdTimestamp
           });
         }
