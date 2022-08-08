@@ -34,10 +34,8 @@ const updateMembers = async ({ id }, configsJSON) => {
       InfoHandler["MemberCounterError"][guild.id].push({
         ErrorMessage: error,
         guildID: guild.id
-      })
-      GuildsConfigs[guild.id]["config"]["COUNTERENABLEDERRORED"] = "false"
-
-      
+      });
+      GuildsConfigs[guild.id]["config"]["COUNTERENABLEDERRORED"] = "false";
     });
 
   if (configsJSON.SERVERSTATS != "") {
@@ -49,8 +47,8 @@ const updateMembers = async ({ id }, configsJSON) => {
       InfoHandler["MemberCounterError"][guild.id].push({
         ErrorMessage: error,
         guildID: guild.id
-      })
-      GuildsConfigs[guild.id]["config"]["COUNTERENABLEDERRORED"] = "false"
+      });
+      GuildsConfigs[guild.id]["config"]["COUNTERENABLEDERRORED"] = "false";
 
       console.error("Category not found");
     });
@@ -96,10 +94,10 @@ const updateMembers = async ({ id }, configsJSON) => {
       InfoHandler["MemberCounterError"][guild.id].push({
         ErrorMessage: error,
         guildID: guild.id
-      })
-      GuildsConfigs[guild.id]["config"]["COUNTERENABLEDERRORED"] = "false"
+      });
+      GuildsConfigs[guild.id]["config"]["COUNTERENABLEDERRORED"] = "false";
 
-      console.error("Category not found")
+      console.error("Category not found");
     });
 
     MCChannelExist = RoomExist(MemberCountChannel);
@@ -139,10 +137,11 @@ const updateMembers = async ({ id }, configsJSON) => {
       InfoHandler["MemberCounterError"][guild.id].push({
         ErrorMessage: error,
         guildID: guild.id
-      })
-      GuildsConfigs[guild.id]["config"]["COUNTERENABLEDERRORED"] = "false"
-      
-      console.error("Category not found")});
+      });
+      GuildsConfigs[guild.id]["config"]["COUNTERENABLEDERRORED"] = "false";
+
+      console.error("Category not found");
+    });
 
     OnChannelExist = RoomExist(OnlineCountChannel);
     if (!OnChannelExist) {
@@ -181,10 +180,11 @@ const updateMembers = async ({ id }, configsJSON) => {
       InfoHandler["MemberCounterError"][guild.id].push({
         ErrorMessage: error,
         guildID: guild.id
-      })
-      GuildsConfigs[guild.id]["config"]["COUNTERENABLEDERRORED"] = "false"
+      });
+      GuildsConfigs[guild.id]["config"]["COUNTERENABLEDERRORED"] = "false";
 
-      console.error("Category not found")});
+      console.error("Category not found");
+    });
 
     OffChannelExist = RoomExist(OfflineCountChannel);
     if (!OffChannelExist) {
@@ -223,40 +223,37 @@ const updateMembers = async ({ id }, configsJSON) => {
       InfoHandler["MemberCounterError"][guild.id].push({
         ErrorMessage: error,
         guildID: guild.id
-      })
-      GuildsConfigs[guild.id]["config"]["COUNTERENABLEDERRORED"] = "false"
-
       });
+      GuildsConfigs[guild.id]["config"]["COUNTERENABLEDERRORED"] = "false";
+    });
   }
 
   if (!OnChannelExist || !SSCategoryExist) {
     OnlineCountChannel?.setParent(ServerStatsCategory).catch((error) => {
-            InfoHandler["MemberCounterError"] = {};
+      InfoHandler["MemberCounterError"] = {};
       if (InfoHandler["MemberCounterError"][guild.id] == undefined) {
         InfoHandler["MemberCounterError"][guild.id] = [];
       }
       InfoHandler["MemberCounterError"][guild.id].push({
         ErrorMessage: error,
         guildID: guild.id
-      })
-      GuildsConfigs[guild.id]["config"]["COUNTERENABLEDERRORED"] = "false"
-
       });
+      GuildsConfigs[guild.id]["config"]["COUNTERENABLEDERRORED"] = "false";
+    });
   }
 
   if (!OffChannelExist || !SSCategoryExist) {
     OfflineCountChannel?.setParent(ServerStatsCategory).catch((error) => {
-            InfoHandler["MemberCounterError"] = {};
+      InfoHandler["MemberCounterError"] = {};
       if (InfoHandler["MemberCounterError"][guild.id] == undefined) {
         InfoHandler["MemberCounterError"][guild.id] = [];
       }
       InfoHandler["MemberCounterError"][guild.id].push({
         ErrorMessage: error,
         guildID: guild.id
-      })
-      GuildsConfigs[guild.id]["config"]["COUNTERENABLEDERRORED"] = "false"
-
       });
+      GuildsConfigs[guild.id]["config"]["COUNTERENABLEDERRORED"] = "false";
+    });
   }
 
   guild.members
@@ -267,37 +264,37 @@ const updateMembers = async ({ id }, configsJSON) => {
       const OfflineMembers = AllMembers - OnlineMembers;
 
       MemberCountChannel.setName("Members: " + AllMembers).catch((error) => {
-              InfoHandler["MemberCounterError"] = {};
-      if (InfoHandler["MemberCounterError"][guild.id] == undefined) {
-        InfoHandler["MemberCounterError"][guild.id] = [];
-      }
-      InfoHandler["MemberCounterError"][guild.id].push({
-        ErrorMessage: error,
-        guildID: guild.id
-      })
-      GuildsConfigs[guild.id]["config"]["COUNTERENABLEDERRORED"] = "false"
+        InfoHandler["MemberCounterError"] = {};
+        if (InfoHandler["MemberCounterError"][guild.id] == undefined) {
+          InfoHandler["MemberCounterError"][guild.id] = [];
+        }
+        InfoHandler["MemberCounterError"][guild.id].push({
+          ErrorMessage: error,
+          guildID: guild.id
+        });
+        GuildsConfigs[guild.id]["config"]["COUNTERENABLEDERRORED"] = "false";
       });
       OnlineCountChannel.setName("Online: " + OnlineMembers).catch((error) => {
-              InfoHandler["MemberCounterError"] = {};
-      if (InfoHandler["MemberCounterError"][guild.id] == undefined) {
-        InfoHandler["MemberCounterError"][guild.id] = [];
-      }
-      InfoHandler["MemberCounterError"][guild.id].push({
-        ErrorMessage: error,
-        guildID: guild.id
-      })
-      GuildsConfigs[guild.id]["config"]["COUNTERENABLEDERRORED"] = "false"
+        InfoHandler["MemberCounterError"] = {};
+        if (InfoHandler["MemberCounterError"][guild.id] == undefined) {
+          InfoHandler["MemberCounterError"][guild.id] = [];
+        }
+        InfoHandler["MemberCounterError"][guild.id].push({
+          ErrorMessage: error,
+          guildID: guild.id
+        });
+        GuildsConfigs[guild.id]["config"]["COUNTERENABLEDERRORED"] = "false";
       });
       OfflineCountChannel.setName("Offline: " + OfflineMembers).catch((error) => {
-              InfoHandler["MemberCounterError"] = {};
-      if (InfoHandler["MemberCounterError"][guild.id] == undefined) {
-        InfoHandler["MemberCounterError"][guild.id] = [];
-      }
-      InfoHandler["MemberCounterError"][guild.id].push({
-        ErrorMessage: error,
-        guildID: guild.id
-      })
-      GuildsConfigs[guild.id]["config"]["COUNTERENABLEDERRORED"] = "false"
+        InfoHandler["MemberCounterError"] = {};
+        if (InfoHandler["MemberCounterError"][guild.id] == undefined) {
+          InfoHandler["MemberCounterError"][guild.id] = [];
+        }
+        InfoHandler["MemberCounterError"][guild.id].push({
+          ErrorMessage: error,
+          guildID: guild.id
+        });
+        GuildsConfigs[guild.id]["config"]["COUNTERENABLEDERRORED"] = "false";
       });
     })
     .catch((error) => {
@@ -308,10 +305,9 @@ const updateMembers = async ({ id }, configsJSON) => {
       InfoHandler["MemberCounterError"][guild.id].push({
         ErrorMessage: error,
         guildID: guild.id
-      })
-      GuildsConfigs[guild.id]["config"]["COUNTERENABLEDERRORED"] = "false"
-
       });
+      GuildsConfigs[guild.id]["config"]["COUNTERENABLEDERRORED"] = "false";
+    });
 };
 
 async function SwitchCounter({ guildID }) {}
@@ -358,4 +354,15 @@ client.on("guildMemberRemove", async (member) => {
   if (enabled && notErrored) {
     updateMembers(member.guild, configsJSON);
   }
+});
+
+client.on("guildCreate", async (guild) => {
+  setInterval(() => {
+    let configsJSON = GuildsConfigs[guild.id]?.config;
+    let enabled = configsJSON?.COUNTERENABLED == "true";
+    let notErrored = configsJSON?.COUNTERENABLEDERRORED == "true";
+    if (enabled && notErrored) {
+      updateMembers(guild, configsJSON);
+    }
+  }, 600000);
 });
