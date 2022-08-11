@@ -71,7 +71,9 @@ async function joinChannel(UserVoiceChannel, RequestedRadioChannel, guildId) {
   RadioHandler[guildId].VoiceConnection = VoiceConnection;
   RadioHandler[guildId].interval = setInterval(async () => {
     let GuildRadio = RadioHandler[guildId];
-    let BotVoiceChannel = await (await (await client.guilds.fetch(guildId)).members.fetch(client.user.id)).voice.channel;
+    let GetGuild = await client.guilds.fetch(guildId).catch((error) => console.error(error));
+    let GetUserInVoiceChannel = await GetGuild.members.fetch(client.user.id).catch((error) => console.error(error));
+    let BotVoiceChannel = await GetUserInVoiceChannel.voice.channel;
 
     if (!isNull(BotVoiceChannel) && BotVoiceChannel.members.filter((member) => !member.user.bot).size >= 1) {
       return;
