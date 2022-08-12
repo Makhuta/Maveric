@@ -72,8 +72,10 @@ async function joinChannel(UserVoiceChannel, RequestedRadioChannel, guildId) {
   RadioHandler[guildId].interval = setInterval(async () => {
     let GuildRadio = RadioHandler[guildId];
     let GetGuild = await client.guilds.fetch(guildId).catch((error) => console.error(error));
-    let GetUserInVoiceChannel = await GetGuild.members.fetch(client.user.id).catch((error) => console.error(error));
-    let BotVoiceChannel = await GetUserInVoiceChannel.voice.channel;
+    let GetUserInVoiceChannel = await GetGuild?.members.fetch(client.user.id).catch((error) => console.error(error));
+    let BotVoiceChannel = await GetUserInVoiceChannel?.voice.channel;
+
+    if (isUndefined(BotVoiceChannel)) return console.info("Prevented crash.");
 
     if (!isNull(BotVoiceChannel) && BotVoiceChannel.members.filter((member) => !member.user.bot).size >= 1) {
       return;
