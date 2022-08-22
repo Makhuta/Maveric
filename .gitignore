@@ -1,5 +1,0 @@
-.env
-node_modules/
-start.sh
-src/commands/test.js
-src/events/test.js
