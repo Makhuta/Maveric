@@ -5,7 +5,7 @@ const JSONFilter = require(join(Functions, "global/JSONFilter.js"));
 const InfoHandler = require(join(Functions, "placeholders/InfoHandler.js"));
 require("dotenv").config();
 const PermissionsList = require(join(Configs, "PermissionsList.json"));
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 
 async function RunOwnerCommand({ prefix, command, args, message }) {
   console.info(prefix);
@@ -119,14 +119,14 @@ client.on("interactionCreate", async (interaction) => {
   }
 
   if (VoteTied && !hasVoted && !BotAdvertisementEnabled) {
-    let embed = new MessageEmbed()
+    let embed = new EmbedBuilder()
       .setTitle(`Missing vote`)
       .setColor(colors.red)
       .setFooter({
         text: client.user.username,
         iconURL: client.user.displayAvatarURL()
       })
-      .addField(`For using ${interaction.commandName} you have to vote for me.`, `[TOP.GG](https://top.gg/bot/${process.env.TOPGGID}/vote)`)
+      .addFields({ name: `For using ${interaction.commandName} you have to vote for me.`, value: `[TOP.GG](https://top.gg/bot/${process.env.TOPGGID}/vote)` })
       .setTimestamp();
 
     return interaction
