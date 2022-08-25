@@ -34,6 +34,6 @@ module.exports = {
     let member = await (
       await client.guilds.fetch(guildID)
     ).members.fetch(authorID);*/
-    console.info(CommandList);
+    console.info(GuildsConfigs[message.member.guild.id].config);
   }
 };
