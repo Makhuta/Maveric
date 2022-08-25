@@ -11,4 +11,4 @@ global.MySQLPool = mysql.createPool({
 });
 
 //Loading configs of all guilds from Database
-require(join(Functions, "LoadGuildsConfigs.js"))();
+require(join(Functions, "database/LoadGuildsConfigs.js"))();

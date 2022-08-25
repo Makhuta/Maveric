@@ -1,7 +1,7 @@
-const { client, NSBR } = require(DClientLoc);
+const { NSBR } = require(DClientLoc);
 const { join } = require("path");
-const InfoHandler = require(join(Functions, "InfoHandler.js"));
-const MailSender = require(join(Functions, "MailSender.js"));
+const InfoHandler = require(join(Functions, "placeholders/InfoHandler.js"));
+const MailSender = require(join(Functions, "global/MailSender.js"));
 
 function timeConverterJSON(UNIX_timestamp) {
   var a = new Date(UNIX_timestamp);

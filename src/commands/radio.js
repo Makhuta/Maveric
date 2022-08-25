@@ -1,13 +1,17 @@
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const { joinVoiceChannel, createAudioPlayer, createAudioResource, AudioPlayerStatus } = require("@discordjs/voice");
 const { join } = require("path");
 const colors = require(join(ColorPaletes, "colors.json"));
-const RadioHandler = require(join(Functions, "RadioHandler.js"));
+const RadioHandler = require(join(Functions, "placeholders/RadioHandler.js"));
 const RadioStations = require(join(Configs, "RadioStations.json"));
+const PermissionsList = require(join(Configs, "PermissionsList.json"));
 const { client } = require(DClientLoc);
-const randomNum = require("random");
 const { isNull, isUndefined } = require("util");
 const { Parser } = require("icecast-parser");
+
+function getRandomInt(max) {
+  return Math.floor(Math.random() * max);
+}
 
 async function EmbedMaker({ station, type }) {
   let promise = new Promise((resolve, reject) => {
@@ -25,7 +29,7 @@ async function EmbedMaker({ station, type }) {
         }
       ];
       let title = metadata.get("StreamTitle");
-      let embed = new MessageEmbed()
+      let embed = new EmbedBuilder()
         .setTitle(title ? title : "Unknown song")
         .setURL(station.url)
         .setColor(typesList[type].Color)
@@ -97,25 +101,29 @@ async function joinChannel(UserVoiceChannel, RequestedRadioChannel, guildId) {
 }
 
 module.exports = {
-  name: "Radio",
-  description: "This is the radio command.",
-  default: true,
-  helpdescription:
+  Name: "Radio",
+  DescriptionShort: "This is the radio command.",
+  DescriptionLong:
     "This command will make Bot join your Voice channel and start playing radio station from your choice, if you did not choose station Bot will pick random station from list of available stations.",
-  usage: "/radio (station name)",
-  helpname: "Radio",
-  type: "Global",
-  category: "Music",
+  Usage: "/radio (station name)",
+  Category: "Music",
+  IsPremium: false,
+  IsVoteDependent: true,
+  IsOwnerDependent: false,
+  IsAdminDependent: false,
+  SupportServerOnly: false,
   PMEnable: false,
-  VoteTied: true,
+  Released: true,
+  RequiedUserPermissions: ["SEND_MESSAGES", "VIEW_CHANNEL"],
+  RequiedBotPermissions: ["SEND_MESSAGES", "VIEW_CHANNEL", "SPEAK", "CONNECT"],
   async run(interaction) {
     const { options, member, guildId } = interaction;
     let UserVoiceChannel = await (await member.fetch()).voice.channel;
     let UserIsInVoiceChannel = !isNull(UserVoiceChannel);
-    let PermissionsINChannel = interaction.member.guild.me.permissionsIn(UserVoiceChannel);
-    let CanView = PermissionsINChannel.has("VIEW_CHANNEL");
-    let CanTalk = PermissionsINChannel.has("SPEAK");
-    let CanJoin = PermissionsINChannel.has("CONNECT");
+    let PermissionsINChannel = interaction.guild.members.me.permissionsIn(UserVoiceChannel);
+    let CanView = PermissionsINChannel.has(PermissionsList["VIEW_CHANNEL"]);
+    let CanTalk = PermissionsINChannel.has(PermissionsList["SPEAK"]);
+    let CanJoin = PermissionsINChannel.has(PermissionsList["CONNECT"]);
     let CanContinue = CanView && CanTalk && CanJoin;
 
     //Check if user is in voice channel
@@ -142,10 +150,15 @@ module.exports = {
       if (!CanTalk) {
         reasons.push("Don't have permission to talk in your channel.");
       }
-      let embed = new MessageEmbed().setTitle("Can't join your channel.").addField("Reasons:", reasons.join("\n")).setColor(ColorPaletes.red).setTimestamp().setFooter({
-        text: client.user.username,
-        iconURL: client.user.displayAvatarURL()
-      });
+      let embed = new EmbedBuilder()
+        .setTitle("Can't join your channel.")
+        .addFields({ name: "Reasons:", value: reasons.join("\n") })
+        .setColor(colors.red)
+        .setTimestamp()
+        .setFooter({
+          text: client.user.username,
+          iconURL: client.user.displayAvatarURL()
+        });
 
       return interaction.editReply({
         embeds: [embed]
@@ -160,7 +173,7 @@ module.exports = {
     let RequestIsUndefined = RequestedRadioChannel == null;
 
     if (RequestIsUndefined) {
-      RequestedRadioChannel = RadioStations[randomNum.int(1, Object.keys(RadioStations).length)];
+      RequestedRadioChannel = RadioStations[getRandomInt(Object.keys(RadioStations).length) + 1];
     }
 
     //If per guild radio not exist then create
@@ -195,7 +208,7 @@ module.exports = {
       embeds: [embed]
     });
   },
-  async create({ commands, permissions }) {
+  async create({ commands, permissions, dmEnabled }) {
     let choices = [];
     for (RadioStationsID in RadioStations) {
       let RadioStation = RadioStations[RadioStationsID];
@@ -210,14 +223,15 @@ module.exports = {
         name: "station",
         description: "Name of station you want to play music from",
         required: false,
-        type: CommandTypes.STRING,
+        type: CommandTypes.String,
         choices: choices
       }
     ];
     let command = await commands?.create({
-      name: this.name.toLowerCase(),
-      description: this.description,
-      defaultPermission: permissions,
+      name: this.Name.toLowerCase(),
+      description: this.DescriptionShort,
+      default_permission: permissions,
+      dm_permission: dmEnabled,
       options
     });
     return command;

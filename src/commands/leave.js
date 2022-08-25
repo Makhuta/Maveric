@@ -1,18 +1,24 @@
 const { join } = require("path");
-const RadioHandler = require(join(Functions, "RadioHandler.js"));
+const RadioHandler = require(join(Functions, "placeholders/RadioHandler.js"));
 const { client } = require(DClientLoc);
 const { isNull, isUndefined } = require("util");
 
 module.exports = {
-  name: "Leave",
-  description: "This is the leave command.",
-  default: true,
-  helpdescription: "Make Bot leave your Voice channel (works only if radio is active)",
-  usage: "/leave",
-  helpname: "Leave",
-  type: "Global",
-  category: "Music",
+  Name: "Leave",
+  DescriptionShort: "This is the leave command for radio.",
+  DescriptionLong:
+    "Make Bot leave your Voice channel (works only if radio is active)",
+  Usage: "/leave",
+  Category: "Music",
+  IsPremium: false,
+  IsVoteDependent: false,
+  IsOwnerDependent: false,
+  IsAdminDependent: false,
+  SupportServerOnly: false,
   PMEnable: false,
+  Released: true,
+  RequiedUserPermissions: ["SEND_MESSAGES", "VIEW_CHANNEL"],
+  RequiedBotPermissions: ["SEND_MESSAGES", "VIEW_CHANNEL"],
   async run(interaction) {
     const { options, member, guildId } = interaction;
     let UserVoiceChannel = await (await member.fetch()).voice.channel;
@@ -58,11 +64,12 @@ module.exports = {
       content: "Goodbye."
     });
   },
-  async create({ commands, permissions }) {
+  async create({ commands, permissions, dmEnabled }) {
     let command = await commands?.create({
-      name: this.name.toLowerCase(),
-      description: this.description,
-      defaultPermission: permissions
+      name: this.Name.toLowerCase(),
+      description: this.DescriptionShort,
+      default_permission: permissions,
+      dm_permission: dmEnabled
     });
     return command;
   }

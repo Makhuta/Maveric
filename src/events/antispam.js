@@ -41,7 +41,7 @@ client.on("messageCreate", (message) => {
   if (message.guildId == null) return;
   if (CheckOwnership(message)) return;
   const MemberHighestRole = message.member.roles.highest.position;
-  const BotHighestRole = message.guild.me.roles.highest.position;
+  const BotHighestRole = message.member.guild.members.me.roles.highest.position;
 
   if (MemberHighestRole >= BotHighestRole) return;
   const guild = message.guild;

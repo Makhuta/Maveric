@@ -1,5 +1,5 @@
 const { join } = require("path");
-const { Constants } = require("discord.js");
+const { ApplicationCommandOptionType } = require("discord.js");
 const Topgg = require("@top-gg/sdk");
 require("dotenv").config();
 
@@ -18,8 +18,8 @@ module.exports = {
       global.Fonts = join(SRC, "fonts");
       global.Configs = join(SRC, "configs");
       global.Functions = join(SRC, "functions");
-      global.CommandTypes = Constants.ApplicationCommandOptionTypes;
-      global.CommandList = [];
+      global.CommandTypes = ApplicationCommandOptionType;
+      global.CommandList = {};
       global.GuildsConfigs = {};
       global.TopGGApi = new Topgg.Api(process.env.TOPGGTOKEN);
       global.PossiblePermissions = require(join(Configs, "PermissionsList.json"));

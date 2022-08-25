@@ -1,41 +1,73 @@
 const { client } = require(DClientLoc);
 let { join } = require("path");
-let RemoveCommand = require(join(Functions, "RemoveCommand.js"));
-let RegisterCommand = require(join(Functions, "RegisterCommand.js"));
+let RemoveCommand = require(join(Functions, "command/Remove.js"));
+let RegisterCommand = require(join(Functions, "command/Register.js"));
+const JSONFilter = require(join(Functions, "global/JSONFilter.js"));
 
 module.exports = {
-  name: "ForceRegister",
-  description: "This is the test command.",
-  default: "BotOwner",
-  helpdescription: "This is the test command.",
-  usage: "!forceregister [command]",
-  helpname: "ForceRegister",
-  type: "Testing",
-  category: "Moderation",
-  PMEnable: true,
-  async run(message, args) {
-    let cmds = client.application?.commands;
-    let requrestedcmd = CommandList.find((c) => c.Name == args[0]);
-    let requrestedcmdexist = requrestedcmd != undefined;
-
-    if (!requrestedcmdexist) {
-      return message.reply({ content: `${args[0]} not exist!` });
-    }
-    if (requrestedcmd.Type == "Testing" || requrestedcmd.Type == "Disabled") {
-      return message.reply({
-        content: `Registering for ${args[0]} was disabled!`
+  Name: "ForceRegister",
+  DescriptionShort: "This is the force register command.",
+  DescriptionLong: "This is the force register command.",
+  Usage: "/forceregister [command]",
+  Category: "Moderation",
+  IsOwnerDependent: true,
+  Released: true,
+  RequiedUserPermissions: ["ADMINISTRATOR"],
+  RequiedBotPermissions: ["SEND_MESSAGES", "VIEW_CHANNEL"],
+  async create({ commands, permissions, dmEnabled }) {
+    let choices = [];
+    let CommandListFiltered = Object.keys(JSONFilter({ JSONObject: CommandList, SearchedElement: "Released", ElementValue: true }));
+    for (IndividualCommand of CommandListFiltered) {
+      choices.push({
+        name: CommandList[IndividualCommand].Name,
+        value: CommandList[IndividualCommand].Name
       });
     }
+    let options = [
+      {
+        name: "command",
+        description: "Name of command you want to force register",
+        required: true,
+        type: CommandTypes.String,
+        choices: choices
+      }
+    ];
+    let command = await commands?.create({
+      name: this.Name.toLowerCase(),
+      description: this.DescriptionShort,
+      dmPermission: dmEnabled,
+      defaultMemberPermissions: permissions,
+      options
+    });
+    return command;
+  },
+  async run(interaction) {
+    await interaction.deferReply();
+    const { options } = interaction;
+    let RequestedCommandName = options.getString("command");
+    let ccmds = client.application?.commands;
+    let gcmds = interaction.guild.commands;
+    let cmds;
+    let requrestedcmd = JSONFilter({ JSONObject: CommandList, SearchedElement: "Name", ElementValue: RequestedCommandName })[RequestedCommandName.toLowerCase()];
+
+    let requrestedcmdexist = requrestedcmd != undefined;
+    if (!requrestedcmdexist) {
+      return message.reply({ content: `${RequestedCommandName} not exist!` });
+    }
+
+    if (requrestedcmd.SupportServerOnly) cmds = gcmds;
+    else cmds = ccmds;
+
     await RemoveCommand({
       cmds,
-      NECMD: requrestedcmd.FileName
+      NECMD: requrestedcmd.Name.toLowerCase()
     });
     await RegisterCommand({
       cmds,
-      NRCMD: { FileName: requrestedcmd.FileName, default: requrestedcmd.Permissions }
+      NRCMD: requrestedcmd
     });
-    message.reply({
-      content: `${args[0]} has been force registered!`
+    interaction.editReply({
+      content: `${RequestedCommandName} has been force registered!`
     });
   }
 };

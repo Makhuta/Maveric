@@ -6,30 +6,23 @@ async function run() {
 
   //Initialize Client
   await require(join(Boot, "botinit.js")).run();
-  
+
   //Init Database (MySQL)
   await require(join(Boot, "dbinit.js"));
-  
+
   //Load/Register Source files
   await require(join(Boot, "loadfiles.js")).run("Event");
   await require(join(Boot, "loadfiles.js")).run("Command");
   await require(join(Boot, "loadfiles.js")).run("Font");
-  
+
   //Register commands
   await require(join(Boot, "RegisterCommands.js"));
-  
-  console.info("Done!")
+
+  console.info("Done!");
 
   //Emmitting that bot is done loading
   const { NSBR } = require(DClientLoc);
-  NSBR.emit("ready")
+  NSBR.emit("ready");
 }
 
-//CommandList
-//DClientLoc
-/*
-require(join(events, "botinit.js"));
-require(join(events, "start.js"));
-*/
-
-run()
+run();

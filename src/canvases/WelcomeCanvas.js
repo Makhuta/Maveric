@@ -1,5 +1,5 @@
-const { createCanvas, loadImage } = require("canvas");
-const { MessageAttachment } = require("discord.js");
+const { createCanvas, loadImage } = require("@napi-rs/canvas");
+const { AttachmentBuilder } = require("discord.js");
 const { join } = require("path");
 const color = require(join(ColorPaletes, "colors.json"));
 
@@ -10,7 +10,7 @@ module.exports = {
     let user_username = target.username;
     let stav = hodnoty.stav;
     let datum = hodnoty.datum;
-    let guild = channel.guild
+    let guild = channel.guild;
 
     if (user_username.length >= 20) {
       user_username = user_username.slice(0, 20) + "...";
@@ -27,7 +27,7 @@ module.exports = {
     let sirkapole = 60;
     let velikost_textu = 15;
     let text_mensi_o = velikost_textu - 3;
-    let stav_font = "Square";
+    let stav_font = "MyFontSquareFont";
     let barvy = [color.light_blue, color.red];
     let obraz_jmeno = ["Join", "Leave"];
     let verze_pro_datum = ["Joined", "Member since"];
@@ -56,12 +56,12 @@ module.exports = {
 
     ctx.textAlign = "left";
     ctx.lineWidth = sirkacary;
-    ctx.font = `80px ${stav_font}`;
+    ctx.font = `80px "${stav_font}"`;
     ctx.strokeText(stav, vyska / 2 + polomer + vzdalenost_od_avataru + text_mensi_o, 110);
 
     ctx.fillStyle = barvy[stav_barva];
     ctx.textAlign = "left";
-    ctx.font = `lighter 80px ${stav_font}`;
+    ctx.font = `lighter 80px "${stav_font}"`;
     ctx.fillText(stav, vyska / 2 + polomer + vzdalenost_od_avataru + text_mensi_o, 110);
 
     ctx.fillStyle = color.white;
@@ -97,17 +97,7 @@ module.exports = {
     const avatar = await loadImage(target.displayAvatarURL({ format: "jpg", size: rozliseni }));
     ctx.drawImage(avatar, vyska / 2 - polomer - sirkacary, vyska / 2 - polomer - sirkacary, 256, 256);
 
-    const attachment = new MessageAttachment(canvas.toBuffer(), `${obraz_jmeno[stav_barva]}.png`);
-    channel.send({ files: [attachment] }).catch((error) => {
-      InfoHandler["MemberJoinError"] = {};
-      if (InfoHandler["MemberJoinError"][guild.id] == undefined) {
-        InfoHandler["MemberJoinError"][guild.id] = [];
-      }
-      InfoHandler["MemberJoinError"][guild.id].push({
-        ErrorMessage: error,
-        guildID: guild.id
-      });
-      GuildsConfigs[guild.id]["config"]["WELCOMERENABLEDERRORED"] = "false";
-    });
+    const attachment = new AttachmentBuilder(await canvas.encode("png"), { name: `${obraz_jmeno[stav_barva]}.png` });
+    return attachment;
   }
 };

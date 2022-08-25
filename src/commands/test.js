@@ -1,21 +1,28 @@
-const { client } = require(DClientLoc);
-let { join } = require("path");
-let ExecuteQuery = require(join(Functions, "DBExecuter.js"));
-const { Intents } = require("discord.js");
-const fetch = require("node-fetch");
-const Topgg = require("@top-gg/sdk");
-require("dotenv").config();
-
 module.exports = {
-  name: "Test",
-  description: "This is the test command.",
-  default: "BotOwner",
-  helpdescription: "This is the test command.",
-  usage: "!test",
-  helpname: "Test",
-  type: "Testing",
-  category: "Moderation",
+  Name: "Test",
+  DescriptionShort: "This is the test command.",
+  DescriptionLong: "This is the test command.",
+  Usage: "/test",
+  Category: "Moderation",
+  IsPremium: false,
+  IsVoteDependent: false,
+  IsOwnerDependent: true,
+  IsAdminDependent: false,
+  SupportServerOnly: false,
   PMEnable: false,
+  Released: true,
+  RequiedUserPermissions: ["MANAGE_GUILD"],
+  RequiedBotPermissions: ["ADMINISTRATOR"],
+  async create({ commands, permissions, dmEnabled }) {
+    console.info(typeof permissions);
+    let command = await commands?.create({
+      name: this.Name.toLowerCase(),
+      description: this.DescriptionShort,
+      dmPermission: dmEnabled,
+      defaultMemberPermissions: permissions
+    });
+    return command;
+  },
   async run(message) {
     message.reply({
       content: "This is test."
@@ -27,6 +34,6 @@ module.exports = {
     let member = await (
       await client.guilds.fetch(guildID)
     ).members.fetch(authorID);*/
-    console.info(message.url)
+    console.info(CommandList);
   }
 };

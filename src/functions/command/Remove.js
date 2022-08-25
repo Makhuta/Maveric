@@ -1,7 +1,3 @@
-const { join } = require("path");
-
-const { client, NSBR } = require(DClientLoc);
-
 async function RemoveCMD({ cmds, NECMD }) {
   await cmds
     .fetch()

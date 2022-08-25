@@ -1,24 +1,25 @@
 const { join } = require("path");
 const DefaultFunctionsStates = require(join(Configs, "DefaultFunctionsStates.json"));
-const UpdateVariable = require(join(Functions, "UpdateVariable.js"));
+const UpdateVariable = require(join(Functions, "database/UpdateVariable.js"));
 
 module.exports = {
-  name: "ChangeVariable",
-  description: "This command will let you change server configs",
-  helpdescription: "This command will let you change server configs.",
-  default: false,
-  usage: "/changevariable [variable] [state]",
-  helpname: "Change variable",
-  type: "Global",
-  category: "Moderation",
+  Name: "ChangeVariable",
+  DescriptionShort: "This command will let you change server configs",
+  DescriptionLong: "This command will let you change server configs.",
+  Usage: "/changevariable [variable] [state]",
+  Category: "Moderation",
+  IsAdminDependent: true,
   PMEnable: false,
+  Released: true,
+  RequiedUserPermissions: ["MANAGE_GUILD"],
+  RequiedBotPermissions: ["SEND_MESSAGES", "VIEW_CHANNEL"],
   async run(interaction) {
     const { options } = interaction;
     let guildID = interaction.guildId;
     let OptionName = options.getString("name");
     let OptionVariable = options.getBoolean("value");
 
-    let GuildVariable = GuildsConfigs[guildID].config[OptionName] == "true";
+    let GuildVariable = GuildsConfigs[guildID].config[OptionName];
     let IsSimilar = GuildVariable == OptionVariable;
     if (IsSimilar) {
       interaction.reply({
@@ -37,7 +38,7 @@ module.exports = {
       });
     }
   },
-  async create({ commands, permissions }) {
+  async create({ commands, permissions, dmEnabled }) {
     let choices = [];
     for (f in DefaultFunctionsStates) {
       if (DefaultFunctionsStates[f].released) {
@@ -52,20 +53,21 @@ module.exports = {
         name: "name",
         description: "Name of variable to change",
         required: true,
-        type: CommandTypes.STRING,
+        type: CommandTypes.String,
         choices: choices
       },
       {
         name: "value",
         description: "Value of the config variable",
         required: true,
-        type: CommandTypes.BOOLEAN
+        type: CommandTypes.Boolean
       }
     ];
     let command = await commands?.create({
-      name: this.name.toLowerCase(),
-      description: this.description,
-      defaultPermission: permissions,
+      name: this.Name.toLowerCase(),
+      description: this.DescriptionShort,
+      dmPermission: dmEnabled,
+      defaultMemberPermissions: permissions,
       options
     });
     return command;

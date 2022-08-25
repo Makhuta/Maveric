@@ -1,334 +1,125 @@
 const { client, NSBR } = require(DClientLoc);
 const { join } = require("path");
-const CreateChannel = require(join(Functions, "CreateChannel.js"));
-const UpdateVariable = require(join(Functions, "UpdateVariable.js"));
-const InfoHandler = require(join(Functions, "InfoHandler.js"));
+const { isUndefined } = require("util");
+const GuildGlobals = require(join(Functions, "placeholders/GuildGlobals.js"));
 
-function RoomExist(channel) {
-  if (channel != undefined) return true;
-  else return false;
+async function updateMembers(guild, configsJSON, type, UserStart) {
+  switch (type) {
+    case "ONLINECOUNT":
+      let OnlineCountChannelID = configsJSON[type];
+      if (OnlineCountChannelID.length < 5) {
+        GuildsConfigs[guild.id].config.ONLINE_COUNTER_ENABLED = false;
+        return;
+      }
+      let OnlineCountChannel = await guild.channels.fetch(configsJSON.ONLINECOUNT).catch((error) => {
+        GuildsConfigs[guild.id].config.ONLINE_COUNTER_ENABLED = false;
+        return;
+      });
+      if (isUndefined(OnlineCountChannel)) {
+        GuildsConfigs[guild.id].config.ONLINE_COUNTER_ENABLED = false;
+        return;
+      }
+      OnlineCountChannel.setName("Online: " + UserStart?.OnlineMembers).catch((error) => {
+        GuildsConfigs[guild.id].config.ONLINE_COUNTER_ENABLED = false;
+        return;
+      });
+
+      break;
+    case "OFFLINECOUNT":
+      let OfflineCountChannelID = configsJSON[type];
+      if (OfflineCountChannelID.length < 5) {
+        GuildsConfigs[guild.id].config.OFFLINE_COUNTER_ENABLED = false;
+        return;
+      }
+      let OfflineCountChannel = await guild.channels.fetch(configsJSON.OFFLINECOUNT).catch((error) => {
+        GuildsConfigs[guild.id].config.OFFLINE_COUNTER_ENABLED = false;
+        return;
+      });
+      if (isUndefined(OfflineCountChannel)) {
+        GuildsConfigs[guild.id].config.OFFLINE_COUNTER_ENABLED = false;
+        return;
+      }
+      OfflineCountChannel.setName("Offline: " + UserStart?.OfflineMembers).catch((error) => {
+        GuildsConfigs[guild.id].config.OFFLINE_COUNTER_ENABLED = false;
+        return;
+      });
+
+      break;
+    case "MEMBERCOUNT":
+      let MemberCountChannelID = configsJSON[type];
+      if (MemberCountChannelID.length < 5) {
+        GuildsConfigs[guild.id].config.MEMBERS_COUNTER_ENABLED = false;
+        return;
+      }
+      let MemberCountChannel = await guild.channels.fetch(configsJSON.MEMBERCOUNT).catch((error) => {
+        GuildsConfigs[guild.id].config.MEMBERS_COUNTER_ENABLED = false;
+        return;
+      });
+      if (isUndefined(MemberCountChannel)) {
+        GuildsConfigs[guild.id].config.MEMBERS_COUNTER_ENABLED = false;
+        return;
+      }
+      MemberCountChannel.setName("Members: " + UserStart?.AllMembers).catch((error) => {
+        GuildsConfigs[guild.id].config.MEMBERS_COUNTER_ENABLED = false;
+        return;
+      });
+
+      break;
+    case "SERVERSTATS":
+      let ServerStatsCategoryID = configsJSON[type];
+      if (ServerStatsCategoryID.length < 5) {
+        GuildsConfigs[guild.id].config.STATS_CATEGORY_ENABLED = false;
+        return;
+      }
+      let ServerStatsCategory = await guild.channels.fetch(configsJSON.SERVERSTATS).catch((error) => {
+        GuildsConfigs[guild.id].config.STATS_CATEGORY_ENABLED = false;
+        return;
+      });
+      if (isUndefined(ServerStatsCategory)) {
+        GuildsConfigs[guild.id].config.STATS_CATEGORY_ENABLED = false;
+        return;
+      }
+
+      break;
+  }
 }
-
-const updateMembers = async ({ id }, configsJSON) => {
-  let guild = await client.guilds.fetch(id);
-
-  let ServerStatsCategory;
-  let SSCategoryExist;
-  let MemberCountChannel;
-  let OnlineCountChannel;
-  let OfflineCountChannel;
-
-  let everyoneRole;
-  let botRole = client.user;
-
-  await guild.roles
-    .fetch()
-    .then(async (roles) => {
-      everyoneRole = roles.filter((rle) => rle.name == "@everyone").first();
-    })
-    .catch((error) => {
-      InfoHandler["MemberCounterError"] = {};
-      if (InfoHandler["MemberCounterError"][guild.id] == undefined) {
-        InfoHandler["MemberCounterError"][guild.id] = [];
-      }
-      InfoHandler["MemberCounterError"][guild.id].push({
-        ErrorMessage: error,
-        guildID: guild.id
-      });
-      GuildsConfigs[guild.id]["config"]["COUNTERENABLEDERRORED"] = "false";
-    });
-
-  if (configsJSON.SERVERSTATS != "") {
-    ServerStatsCategory = await guild.channels.fetch(configsJSON.SERVERSTATS).catch((error) => {
-      InfoHandler["MemberCounterError"] = {};
-      if (InfoHandler["MemberCounterError"][guild.id] == undefined) {
-        InfoHandler["MemberCounterError"][guild.id] = [];
-      }
-      InfoHandler["MemberCounterError"][guild.id].push({
-        ErrorMessage: error,
-        guildID: guild.id
-      });
-      GuildsConfigs[guild.id]["config"]["COUNTERENABLEDERRORED"] = "false";
-
-      console.error("Category not found");
-    });
-
-    SSCategoryExist = RoomExist(ServerStatsCategory);
-    if (!SSCategoryExist) {
-      ServerStatsCategory = await CreateChannel({
-        name: "📊 Server Stats 📊",
-        type: "GUILD_CATEGORY",
-        guild,
-        everyoneRole,
-        BotID: botRole
-      });
-    }
-  } else {
-    ServerStatsCategory = await CreateChannel({
-      name: "📊 Server Stats 📊",
-      type: "GUILD_CATEGORY",
-      guild,
-      everyoneRole,
-      BotID: botRole
-    });
-  }
-
-  if (!SSCategoryExist) {
-    UpdateVariable({
-      guildID: guild.id,
-      variable: "SERVERSTATS",
-      value: ServerStatsCategory.id
-    });
-  }
-
-  let MCChannelExist;
-  let OnChannelExist;
-  let OffChannelExist;
-
-  if (configsJSON.MEMBERCOUNT != "") {
-    MemberCountChannel = await guild.channels.fetch(configsJSON.MEMBERCOUNT).catch((error) => {
-      InfoHandler["MemberCounterError"] = {};
-      if (InfoHandler["MemberCounterError"][guild.id] == undefined) {
-        InfoHandler["MemberCounterError"][guild.id] = [];
-      }
-      InfoHandler["MemberCounterError"][guild.id].push({
-        ErrorMessage: error,
-        guildID: guild.id
-      });
-      GuildsConfigs[guild.id]["config"]["COUNTERENABLEDERRORED"] = "false";
-
-      console.error("Category not found");
-    });
-
-    MCChannelExist = RoomExist(MemberCountChannel);
-    if (!MCChannelExist) {
-      MemberCountChannel = await CreateChannel({
-        name: "Members:",
-        type: "GUILD_VOICE",
-        guild,
-        everyoneRole,
-        BotID: botRole
-      });
-    }
-  } else {
-    MemberCountChannel = await CreateChannel({
-      name: "Members:",
-      type: "GUILD_VOICE",
-      guild,
-      everyoneRole,
-      BotID: botRole
-    });
-  }
-
-  if (!MCChannelExist) {
-    UpdateVariable({
-      guildID: guild.id,
-      variable: "MEMBERCOUNT",
-      value: MemberCountChannel.id
-    });
-  }
-
-  if (configsJSON.ONLINECOUNT != "") {
-    OnlineCountChannel = await guild.channels.fetch(configsJSON.ONLINECOUNT).catch((error) => {
-      InfoHandler["MemberCounterError"] = {};
-      if (InfoHandler["MemberCounterError"][guild.id] == undefined) {
-        InfoHandler["MemberCounterError"][guild.id] = [];
-      }
-      InfoHandler["MemberCounterError"][guild.id].push({
-        ErrorMessage: error,
-        guildID: guild.id
-      });
-      GuildsConfigs[guild.id]["config"]["COUNTERENABLEDERRORED"] = "false";
-
-      console.error("Category not found");
-    });
-
-    OnChannelExist = RoomExist(OnlineCountChannel);
-    if (!OnChannelExist) {
-      OnlineCountChannel = await CreateChannel({
-        name: "Online:",
-        type: "GUILD_VOICE",
-        guild,
-        everyoneRole,
-        BotID: botRole
-      });
-    }
-  } else {
-    OnlineCountChannel = await CreateChannel({
-      name: "Online:",
-      type: "GUILD_VOICE",
-      guild,
-      everyoneRole,
-      BotID: botRole
-    });
-  }
-
-  if (!OnChannelExist) {
-    UpdateVariable({
-      guildID: guild.id,
-      variable: "ONLINECOUNT",
-      value: OnlineCountChannel.id
-    });
-  }
-
-  if (configsJSON.OFFLINECOUNT != "") {
-    OfflineCountChannel = await guild.channels.fetch(configsJSON.OFFLINECOUNT).catch((error) => {
-      InfoHandler["MemberCounterError"] = {};
-      if (InfoHandler["MemberCounterError"][guild.id] == undefined) {
-        InfoHandler["MemberCounterError"][guild.id] = [];
-      }
-      InfoHandler["MemberCounterError"][guild.id].push({
-        ErrorMessage: error,
-        guildID: guild.id
-      });
-      GuildsConfigs[guild.id]["config"]["COUNTERENABLEDERRORED"] = "false";
-
-      console.error("Category not found");
-    });
-
-    OffChannelExist = RoomExist(OfflineCountChannel);
-    if (!OffChannelExist) {
-      OfflineCountChannel = await CreateChannel({
-        name: "Offline:",
-        type: "GUILD_VOICE",
-        guild,
-        everyoneRole,
-        BotID: botRole
-      });
-    }
-  } else {
-    OfflineCountChannel = await CreateChannel({
-      name: "Offline:",
-      type: "GUILD_VOICE",
-      guild,
-      everyoneRole,
-      BotID: botRole
-    });
-  }
-
-  if (!OffChannelExist) {
-    UpdateVariable({
-      guildID: guild.id,
-      variable: "OFFLINECOUNT",
-      value: OfflineCountChannel.id
-    });
-  }
-
-  if (!MCChannelExist || !SSCategoryExist) {
-    MemberCountChannel?.setParent(ServerStatsCategory).catch((error) => {
-      InfoHandler["MemberCounterError"] = {};
-      if (InfoHandler["MemberCounterError"][guild.id] == undefined) {
-        InfoHandler["MemberCounterError"][guild.id] = [];
-      }
-      InfoHandler["MemberCounterError"][guild.id].push({
-        ErrorMessage: error,
-        guildID: guild.id
-      });
-      GuildsConfigs[guild.id]["config"]["COUNTERENABLEDERRORED"] = "false";
-    });
-  }
-
-  if (!OnChannelExist || !SSCategoryExist) {
-    OnlineCountChannel?.setParent(ServerStatsCategory).catch((error) => {
-      InfoHandler["MemberCounterError"] = {};
-      if (InfoHandler["MemberCounterError"][guild.id] == undefined) {
-        InfoHandler["MemberCounterError"][guild.id] = [];
-      }
-      InfoHandler["MemberCounterError"][guild.id].push({
-        ErrorMessage: error,
-        guildID: guild.id
-      });
-      GuildsConfigs[guild.id]["config"]["COUNTERENABLEDERRORED"] = "false";
-    });
-  }
-
-  if (!OffChannelExist || !SSCategoryExist) {
-    OfflineCountChannel?.setParent(ServerStatsCategory).catch((error) => {
-      InfoHandler["MemberCounterError"] = {};
-      if (InfoHandler["MemberCounterError"][guild.id] == undefined) {
-        InfoHandler["MemberCounterError"][guild.id] = [];
-      }
-      InfoHandler["MemberCounterError"][guild.id].push({
-        ErrorMessage: error,
-        guildID: guild.id
-      });
-      GuildsConfigs[guild.id]["config"]["COUNTERENABLEDERRORED"] = "false";
-    });
-  }
-
-  guild.members
-    .fetch()
-    .then(async (members) => {
-      const AllMembers = members.filter((m) => !m.user?.bot).size;
-      const OnlineMembers = members.filter((m) => !m.user?.bot && (m.presence?.status == "online" || m.presence?.status == "idle" || m.presence?.status == "dnd")).size;
-      const OfflineMembers = AllMembers - OnlineMembers;
-
-      MemberCountChannel.setName("Members: " + AllMembers).catch((error) => {
-        InfoHandler["MemberCounterError"] = {};
-        if (InfoHandler["MemberCounterError"][guild.id] == undefined) {
-          InfoHandler["MemberCounterError"][guild.id] = [];
-        }
-        InfoHandler["MemberCounterError"][guild.id].push({
-          ErrorMessage: error,
-          guildID: guild.id
-        });
-        GuildsConfigs[guild.id]["config"]["COUNTERENABLEDERRORED"] = "false";
-      });
-      OnlineCountChannel.setName("Online: " + OnlineMembers).catch((error) => {
-        InfoHandler["MemberCounterError"] = {};
-        if (InfoHandler["MemberCounterError"][guild.id] == undefined) {
-          InfoHandler["MemberCounterError"][guild.id] = [];
-        }
-        InfoHandler["MemberCounterError"][guild.id].push({
-          ErrorMessage: error,
-          guildID: guild.id
-        });
-        GuildsConfigs[guild.id]["config"]["COUNTERENABLEDERRORED"] = "false";
-      });
-      OfflineCountChannel.setName("Offline: " + OfflineMembers).catch((error) => {
-        InfoHandler["MemberCounterError"] = {};
-        if (InfoHandler["MemberCounterError"][guild.id] == undefined) {
-          InfoHandler["MemberCounterError"][guild.id] = [];
-        }
-        InfoHandler["MemberCounterError"][guild.id].push({
-          ErrorMessage: error,
-          guildID: guild.id
-        });
-        GuildsConfigs[guild.id]["config"]["COUNTERENABLEDERRORED"] = "false";
-      });
-    })
-    .catch((error) => {
-      InfoHandler["MemberCounterError"] = {};
-      if (InfoHandler["MemberCounterError"][guild.id] == undefined) {
-        InfoHandler["MemberCounterError"][guild.id] = [];
-      }
-      InfoHandler["MemberCounterError"][guild.id].push({
-        ErrorMessage: error,
-        guildID: guild.id
-      });
-      GuildsConfigs[guild.id]["config"]["COUNTERENABLEDERRORED"] = "false";
-    });
-};
-
-async function SwitchCounter({ guildID }) {}
 
 NSBR.on("ready", async () => {
   let guilds = client.guilds.cache;
   guilds.forEach(async (guild) => {
     let configsJSON = GuildsConfigs[guild.id]?.config;
-
-    let enabled = configsJSON?.COUNTERENABLED == "true";
-    let notErrored = configsJSON?.COUNTERENABLEDERRORED == "true";
-    if (enabled && notErrored) {
-      updateMembers(guild, configsJSON);
+    if (!Object.keys(GuildGlobals).includes(guild.id)) {
+      GuildGlobals[guild.id] = {};
     }
 
-    setInterval(() => {
+    let enabled = configsJSON?.COUNTERENABLED;
+    let AnyWorking = configsJSON?.ONLINE_COUNTER_ENABLED || configsJSON?.OFFLINE_COUNTER_ENABLED || configsJSON?.MEMBERS_COUNTER_ENABLED;
+    if (enabled && AnyWorking) {
+      await guild.members.fetch().then(async (members) => {
+        let AllMembers = members.filter((m) => !m.user?.bot).size;
+        let OnlineMembers = members.filter((m) => !m.user?.bot && (m.presence?.status == "online" || m.presence?.status == "idle" || m.presence?.status == "dnd")).size;
+        let OfflineMembers = AllMembers - OnlineMembers;
+        let UserStart = { AllMembers, OnlineMembers, OfflineMembers };
+        if (configsJSON?.ONLINE_COUNTER_ENABLED) await updateMembers(guild, configsJSON, "ONLINECOUNT", UserStart);
+        if (configsJSON?.OFFLINE_COUNTER_ENABLED) await updateMembers(guild, configsJSON, "OFFLINECOUNT", UserStart);
+        if (configsJSON?.MEMBERS_COUNTER_ENABLED) await updateMembers(guild, configsJSON, "MEMBERCOUNT", UserStart);
+      });
+    }
+
+    GuildGlobals[guild.id]["MemberCounterInterval"] = setInterval(async () => {
       configsJSON = GuildsConfigs[guild.id]?.config;
-      enabled = configsJSON?.COUNTERENABLED == "true";
-      notErrored = configsJSON?.COUNTERENABLEDERRORED == "true";
-      if (enabled && notErrored) {
-        updateMembers(guild, configsJSON);
+      enabled = configsJSON?.COUNTERENABLED;
+      AnyWorking = configsJSON?.ONLINE_COUNTER_ENABLED || configsJSON?.ONLINE_COUNTER_ENABLED || configsJSON?.ONLINE_COUNTER_ENABLED;
+      if (enabled && AnyWorking) {
+        await guild.members.fetch().then(async (members) => {
+          let AllMembers = members.filter((m) => !m.user?.bot).size;
+          let OnlineMembers = members.filter((m) => !m.user?.bot && (m.presence?.status == "online" || m.presence?.status == "idle" || m.presence?.status == "dnd")).size;
+          let OfflineMembers = AllMembers - OnlineMembers;
+          let UserStart = { AllMembers, OnlineMembers, OfflineMembers };
+          if (configsJSON?.ONLINE_COUNTER_ENABLED) await updateMembers(guild, configsJSON, "ONLINECOUNT", UserStart);
+          if (configsJSON?.OFFLINE_COUNTER_ENABLED) await updateMembers(guild, configsJSON, "OFFLINECOUNT", UserStart);
+          if (configsJSON?.MEMBERS_COUNTER_ENABLED) await updateMembers(guild, configsJSON, "MEMBERCOUNT", UserStart);
+        });
       }
     }, 600000);
   });
@@ -336,33 +127,67 @@ NSBR.on("ready", async () => {
 
 client.on("guildMemberAdd", async (member) => {
   if (member.user.bot) return;
-  let configsJSON = GuildsConfigs[member.guild.id]?.config;
+  let guild = member.guild;
+  let configsJSON = GuildsConfigs[guild.id]?.config;
 
-  let enabled = configsJSON?.COUNTERENABLED == "true";
-  let notErrored = configsJSON?.COUNTERENABLEDERRORED == "true";
-  if (enabled && notErrored) {
-    updateMembers(member.guild, configsJSON);
+  let enabled = configsJSON?.COUNTERENABLED;
+  let AnyWorking = configsJSON?.ONLINE_COUNTER_ENABLED || configsJSON?.OFFLINE_COUNTER_ENABLED || configsJSON?.MEMBERS_COUNTER_ENABLED;
+  if (enabled && AnyWorking) {
+    await guild.members.fetch().then(async (members) => {
+      let AllMembers = members.filter((m) => !m.user?.bot).size;
+      let OnlineMembers = members.filter((m) => !m.user?.bot && (m.presence?.status == "online" || m.presence?.status == "idle" || m.presence?.status == "dnd")).size;
+      let OfflineMembers = AllMembers - OnlineMembers;
+      let UserStart = { AllMembers, OnlineMembers, OfflineMembers };
+      if (configsJSON?.ONLINE_COUNTER_ENABLED) await updateMembers(guild, configsJSON, "ONLINECOUNT", UserStart);
+      if (configsJSON?.OFFLINE_COUNTER_ENABLED) await updateMembers(guild, configsJSON, "OFFLINECOUNT", UserStart);
+      if (configsJSON?.MEMBERS_COUNTER_ENABLED) await updateMembers(guild, configsJSON, "MEMBERCOUNT", UserStart);
+    });
   }
 });
 
 client.on("guildMemberRemove", async (member) => {
   if (member.user.bot) return;
-  let configsJSON = GuildsConfigs[member.guild.id]?.config;
+  let guild = member.guild;
+  let configsJSON = GuildsConfigs[guild.id]?.config;
 
-  let enabled = configsJSON?.COUNTERENABLED == "true";
-  let notErrored = configsJSON?.COUNTERENABLEDERRORED == "true";
-  if (enabled && notErrored) {
-    updateMembers(member.guild, configsJSON);
+  let enabled = configsJSON?.COUNTERENABLED;
+  let AnyWorking = configsJSON?.ONLINE_COUNTER_ENABLED || configsJSON?.OFFLINE_COUNTER_ENABLED || configsJSON?.MEMBERS_COUNTER_ENABLED;
+  if (enabled && AnyWorking) {
+    await guild.members.fetch().then(async (members) => {
+      let AllMembers = members.filter((m) => !m.user?.bot).size;
+      let OnlineMembers = members.filter((m) => !m.user?.bot && (m.presence?.status == "online" || m.presence?.status == "idle" || m.presence?.status == "dnd")).size;
+      let OfflineMembers = AllMembers - OnlineMembers;
+      let UserStart = { AllMembers, OnlineMembers, OfflineMembers };
+      if (configsJSON?.ONLINE_COUNTER_ENABLED) await updateMembers(guild, configsJSON, "ONLINECOUNT", UserStart);
+      if (configsJSON?.OFFLINE_COUNTER_ENABLED) await updateMembers(guild, configsJSON, "OFFLINECOUNT", UserStart);
+      if (configsJSON?.MEMBERS_COUNTER_ENABLED) await updateMembers(guild, configsJSON, "MEMBERCOUNT", UserStart);
+    });
   }
 });
 
 client.on("guildCreate", async (guild) => {
-  setInterval(() => {
-    let configsJSON = GuildsConfigs[guild.id]?.config;
-    let enabled = configsJSON?.COUNTERENABLED == "true";
-    let notErrored = configsJSON?.COUNTERENABLEDERRORED == "true";
-    if (enabled && notErrored) {
-      updateMembers(guild, configsJSON);
+  let configsJSON;
+  if (!Object.keys(GuildGlobals).includes(guild.id)) {
+    GuildGlobals[guild.id] = {};
+  }
+  GuildGlobals[guild.id]["MemberCounterInterval"] = setInterval(async () => {
+    configsJSON = GuildsConfigs[guild.id]?.config;
+    enabled = configsJSON?.COUNTERENABLED;
+    AnyWorking = configsJSON?.ONLINE_COUNTER_ENABLED || configsJSON?.ONLINE_COUNTER_ENABLED || configsJSON?.ONLINE_COUNTER_ENABLED;
+    if (enabled && AnyWorking) {
+      await guild.members.fetch().then(async (members) => {
+        let AllMembers = members.filter((m) => !m.user?.bot).size;
+        let OnlineMembers = members.filter((m) => !m.user?.bot && (m.presence?.status == "online" || m.presence?.status == "idle" || m.presence?.status == "dnd")).size;
+        let OfflineMembers = AllMembers - OnlineMembers;
+        let UserStart = { AllMembers, OnlineMembers, OfflineMembers };
+        if (configsJSON?.ONLINE_COUNTER_ENABLED) await updateMembers(guild, configsJSON, "ONLINECOUNT", UserStart);
+        if (configsJSON?.OFFLINE_COUNTER_ENABLED) await updateMembers(guild, configsJSON, "OFFLINECOUNT", UserStart);
+        if (configsJSON?.MEMBERS_COUNTER_ENABLED) await updateMembers(guild, configsJSON, "MEMBERCOUNT", UserStart);
+      });
     }
   }, 600000);
+});
+
+client.on("guildDelete", async (guild) => {
+  clearInterval(GuildGlobals[guild.id]["MemberCounterInterval"]);
 });

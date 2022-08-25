@@ -1,49 +1,81 @@
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const { join } = require("path");
 const { isUndefined } = require("util");
 const { client } = require(DClientLoc);
+const JSONFilter = require(join(Functions, "global/JSONFilter.js"));
 
 module.exports = {
-  name: "Help",
-  description: "This is the help command.",
-  helpdescription: "This is the help command.",
-  default: true,
-  usage: "/help",
-  helpname: "Help",
-  type: "Global",
-  category: "Main",
+  Name: "Help",
+  DescriptionShort: "This is the help command.",
+  DescriptionLong: "This is the help command.",
+  Usage: "/help",
+  Category: "Main",
+  IsPremium: false,
+  IsVoteDependent: false,
+  IsOwnerDependent: false,
+  IsAdminDependent: false,
+  SupportServerOnly: false,
   PMEnable: true,
+  Released: true,
+  RequiedUserPermissions: ["SEND_MESSAGES", "VIEW_CHANNEL"],
+  RequiedBotPermissions: ["SEND_MESSAGES", "VIEW_CHANNEL"],
   async run(interaction) {
+    let FilteredCommands;
     if (interaction.guildId == null) {
       interaction["url"] = `https://discord.com/channels/@me`;
+      FilteredCommands = JSONFilter({
+        JSONObject: JSONFilter({
+          JSONObject: JSONFilter({ JSONObject: CommandList, SearchedElement: "Released", ElementValue: true }),
+          SearchedElement: "SupportServerOnly",
+          ElementValue: false
+        }),
+        SearchedElement: "IsOwnerDependent",
+        ElementValue: false
+      });
     } else {
       interaction["url"] = `https://discord.com/channels/${interaction.guild.id}/${interaction.channel.id}/${interaction.id}`;
-    }
-    let cmds = {};
-    let CommandNameLength = {};
-
-    for (c in CommandList) {
-      if (CommandList[c].Type != "Testing") {
-        let cmd = require(CommandList[c].Location);
-        let CommandCategory = cmd.category ? cmd.category : "Other";
-        if (!Object.keys(cmds).includes(CommandCategory)) {
-          cmds[CommandCategory] = [];
-          CommandNameLength[CommandCategory] = 0;
-        }
-
-        let CMDPopup = `Usage: ${cmd.usage}\nDescription: ${cmd.helpdescription}`;
-
-        if (cmd.helpname.length <= 10 && CommandNameLength[CommandCategory] <= 10) {
-          cmds[CommandCategory].push(`[\`${cmd.helpname}\`](${interaction.url} "${CMDPopup}")`);
-          CommandNameLength[CommandCategory] = +cmd.helpname.length;
-        } else {
-          cmds[CommandCategory].push(`[\`${cmd.helpname}\`](${interaction.url} "${CMDPopup}")\n`);
-          CommandNameLength[CommandCategory] = cmd.helpname.length;
-        }
+      if (interaction.guild.id == process.env.SUPPORT_SERVER_ID) {
+        FilteredCommands = JSONFilter({
+          JSONObject: JSONFilter({ JSONObject: JSONFilter({ JSONObject: CommandList, SearchedElement: "Released", ElementValue: true }) }),
+          SearchedElement: "IsOwnerDependent",
+          ElementValue: false
+        });
+      } else {
+        FilteredCommands = JSONFilter({
+          JSONObject: JSONFilter({
+            JSONObject: JSONFilter({ JSONObject: CommandList, SearchedElement: "Released", ElementValue: true }),
+            SearchedElement: "SupportServerOnly",
+            ElementValue: false
+          }),
+          SearchedElement: "IsOwnerDependent",
+          ElementValue: false
+        });
       }
     }
 
-    var embed = new MessageEmbed()
+    let cmds = {};
+    let CommandNameLength = {};
+
+    for (c in FilteredCommands) {
+      let cmd = FilteredCommands[c];
+      let CommandCategory = cmd.Category;
+      if (!Object.keys(cmds).includes(CommandCategory)) {
+        cmds[CommandCategory] = [];
+        CommandNameLength[CommandCategory] = 0;
+      }
+
+      let CMDPopup = `Usage: ${cmd.Usage}\nDescription: ${cmd.DescriptionLong}`;
+
+      if (cmd.Name.length <= 10 && CommandNameLength[CommandCategory] <= 10) {
+        cmds[CommandCategory].push(`[\`${cmd.Name}\`](${interaction.url} "${CMDPopup}")`);
+        CommandNameLength[CommandCategory] = +cmd.Name.length;
+      } else {
+        cmds[CommandCategory].push(`[\`${cmd.Name}\`](${interaction.url} "${CMDPopup}")\n`);
+        CommandNameLength[CommandCategory] = cmd.Name.length;
+      }
+    }
+
+    var embed = new EmbedBuilder()
       .setAuthor({
         name: `Available commands`,
         iconURL: client.user.displayAvatarURL()
@@ -67,7 +99,12 @@ module.exports = {
           name: "Music",
           value: cmds["Music"].join(" "),
           inline: true
-        }
+        },
+        {
+          name: `ㅤ\nIf you have other problems visit ${client.user.username} support server.`,
+          value: `[${client.user.username} support](${process.env.NSBR_SERVER_INVITE})`
+        },
+        { name: `Consider voting for me to unlock more features.`, value: `[TOP.GG](https://top.gg/bot/${process.env.TOPGGID}/vote)` }
       );
     } else {
       embed.addFields(
@@ -82,11 +119,14 @@ module.exports = {
           value: cmds["Music"].join(" "),
           inline: true
         },
-        { name: "Other", value: cmds["Other"].join(" "), inline: false }
+        { name: "Other", value: cmds["Other"].join(" "), inline: false },
+        {
+          name: `ㅤ\nIf you have other problems visit ${client.user.username} support server.`,
+          value: `[${client.user.username} support](${process.env.NSBR_SERVER_INVITE})`
+        },
+        { name: `Consider voting for me to unlock more features.`, value: `[TOP.GG](https://top.gg/bot/${process.env.TOPGGID}/vote)` }
       );
     }
-    embed.addField(`ㅤ\nIf you have other problems visit ${client.user.username} support server.`, `[${client.user.username} support](${process.env.NSBR_SERVER_INVITE})`);
-    embed.addField(`Consider voting for me to unlock more features.`, `[TOP.GG](https://top.gg/bot/${process.env.TOPGGID}/vote)`);
 
     interaction.reply({
       embeds: [embed],
@@ -94,11 +134,12 @@ module.exports = {
       ephemeral: true
     });
   },
-  async create({ commands, permissions }) {
+  async create({ commands, permissions, dmEnabled }) {
     let command = await commands?.create({
-      name: this.name.toLowerCase(),
-      description: this.description,
-      defaultPermission: permissions
+      name: this.Name.toLowerCase(),
+      description: this.DescriptionShort,
+      default_permission: permissions,
+      dm_permission: dmEnabled
     });
     return command;
   }

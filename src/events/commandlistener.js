@@ -1,32 +1,17 @@
 const { client } = require(DClientLoc);
 const { join } = require("path");
 const colors = require(join(ColorPaletes, "colors.json"));
-const InfoHandler = require(join(Functions, "InfoHandler.js"));
+const JSONFilter = require(join(Functions, "global/JSONFilter.js"));
+const InfoHandler = require(join(Functions, "placeholders/InfoHandler.js"));
 require("dotenv").config();
+const PermissionsList = require(join(Configs, "PermissionsList.json"));
 const { MessageEmbed } = require("discord.js");
 
-function GetCommandsNames() {
-  let CMDList = [];
-  for (cmdID in CommandList) {
-    let cmd = CommandList[cmdID];
-    CMDList.push(cmd.Name);
-  }
-  return CMDList;
-}
-
-function GetPrivateCommandsNames() {
-  let CMDList = [];
-  for (cmdID in CommandList) {
-    let cmd = CommandList[cmdID];
-    if (cmd.Type == "Testing" || cmd.Type == "Private") {
-      CMDList.push(cmd.Name);
-    }
-  }
-  return CMDList;
-}
-
 async function RunOwnerCommand({ prefix, command, args, message }) {
+  console.info(prefix);
   if (prefix != "!") return;
+  console.info(message);
+
   let isDM;
 
   let where;
@@ -59,7 +44,7 @@ async function RunOwnerCommand({ prefix, command, args, message }) {
     return;
   }
 
-  let CMDNamesList = GetPrivateCommandsNames();
+  let CMDNamesList = JSONFilter({ JSONObject: CommandList, SearchedElement: "IsOwnerDependent", ElementValue: true });
   if (!CMDNamesList.includes(command)) return;
 
   let RequestedCommand = CommandList.find((CMD) => CMD.Name == command);
@@ -76,8 +61,7 @@ client.on("interactionCreate", async (interaction) => {
 
   const { commandName, options, member, user, guildId } = interaction;
   let IsDM = guildId == null;
-  let CMDNamesList = GetCommandsNames();
-  //console.info(interaction);
+  let CMDNamesList = Object.keys(CommandList);
 
   if (!CMDNamesList.some((CMDName) => CMDName == commandName)) {
     interaction
@@ -97,11 +81,11 @@ client.on("interactionCreate", async (interaction) => {
     ThisGuildConfig = GuildsConfigs[guildId].config;
   }
 
-  let BotAdvertisementEnabled = ThisGuildConfig.BOTADVERTISEMENT == "true"
+  let BotAdvertisementEnabled = ThisGuildConfig.BOTADVERTISEMENT == "true";
 
-  let RequestedCommand = CommandList.find((CMD) => CMD.Name == commandName);
-  let VoteTied = require(RequestedCommand.Location).VoteTied ? require(RequestedCommand.Location).VoteTied : false;
-  if (guildId == null && !(await require(RequestedCommand.Location).PMEnable)) {
+  let RequestedCommand = CommandList[commandName];
+  let VoteTied = RequestedCommand.IsVoteDependent;
+  if (IsDM && RequestedCommand.PMEnable) {
     return interaction.reply({
       content: `You need to send this to server to use ${interaction.commandName}`
     });
@@ -129,7 +113,9 @@ client.on("interactionCreate", async (interaction) => {
       });
     });
 
-    console.info(`User: ${user.username}#${user.discriminator} want to run vote tied command: ${commandName}.\nHas voted: ${hasVoted}\nBot Advertisement enabled: ${BotAdvertisementEnabled}`);
+    console.info(
+      `User: ${user.username}#${user.discriminator} want to run vote tied command: ${commandName}.\nHas voted: ${hasVoted}\nBot Advertisement enabled: ${BotAdvertisementEnabled}`
+    );
   }
 
   if (VoteTied && !hasVoted && !BotAdvertisementEnabled) {
@@ -173,12 +159,22 @@ client.on("interactionCreate", async (interaction) => {
     interaction["url"] = `https://discord.com/channels/${interaction.guild.id}/${interaction.channel.id}/${interaction.id}`;
   }
 
-  await require(RequestedCommand.Location).run(interaction);
-});
+  let commandHasRequiredPermissions = [];
+  for (BotPermission of RequestedCommand.RequiedBotPermissions) {
+    commandHasRequiredPermissions.push({ Name: BotPermission, Has: interaction.guild.members.me.permissions.has(PermissionsList[BotPermission]) });
+  }
 
-client.on("messageCreate", async (message) => {
-  let prefix = message.content.slice(0, 1);
-  let messagecontent = message.content.slice(1).split(" ");
-  let command = messagecontent.shift();
-  RunOwnerCommand({ prefix, command, args: messagecontent, message });
+  if (commandHasRequiredPermissions.some((element) => !element.Has))
+    return interaction.reply({
+      content: `Don't have permission to perform this task.\nNeeded permission/s: ${(function () {
+        let CMDsNoPerm = commandHasRequiredPermissions.filter((e) => !e.Has);
+        let ReqPerms = [];
+        for (CMDNoPerm of CMDsNoPerm) {
+          ReqPerms.push(CMDNoPerm.Name);
+        }
+        return ReqPerms.join(", ");
+      })()}`
+    });
+
+  await require(RequestedCommand.Path).run(interaction);
 });

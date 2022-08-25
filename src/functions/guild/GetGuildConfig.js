@@ -1,7 +1,8 @@
 let { join } = require("path");
 const { isUndefined } = require("util");
-let ExecuteQuery = require(join(Functions, "DBExecuter.js"));
-let CreateGuildDB = require(join(Functions, "CreateGuildDB.js"));
+let ExecuteQuery = require(join(Functions, "database/Executer.js"));
+let CreateGuildDB = require(join(Functions, "database/CreateGuild.js"));
+let DefaultFunctionsStates = require(join(Configs, "DefaultFunctionsStates.json"));
 
 async function ConfigExist({ searchvalue, JSONobj }) {
   if (!isUndefined(JSONobj[searchvalue])) return true;
@@ -41,9 +42,17 @@ async function CreateConfigJSON({ GuildConfig, guildIDs }) {
       let guildConfigName = GC[`${guildID}_NAME`];
       let guildConfigValue = GC[`${guildID}_VALUE`];
 
-      configs[guildConfigName] = guildConfigValue;
-      if (guildConfigName.includes("ENABLED") || !ConfigExist({ searchvalue: `${guildConfigName}ERRORED`, JSONobj: configs })) {
-        configs[`${guildConfigName}ERRORED`] = "true";
+      if (guildConfigName.includes("ENABLED") || guildConfigName.includes("ADVERTISEMENT")) {
+        configs[guildConfigName] = guildConfigValue == "true";
+      } else {
+        configs[guildConfigName] = guildConfigValue;
+      }
+
+      let DefaultFunctionsStatesFound = DefaultFunctionsStates.find((e) => e.name == guildConfigName);
+      if ((DefaultFunctionsStatesFound || false) && (DefaultFunctionsStatesFound.possibleInit?.length > 0 || false)) {
+        for (DFStateEnabled of DefaultFunctionsStatesFound.possibleInit) {
+          configs[`${DFStateEnabled}_ENABLED`] = true;
+        }
       }
     }
     GuildsConfigs[guildID] = { config: configs };

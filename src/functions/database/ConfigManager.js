@@ -1,6 +1,6 @@
 let { join } = require("path");
 const { isUndefined } = require("util");
-let ExecuteQuery = require(join(Functions, "DBExecuter.js"));
+let ExecuteQuery = require(join(Functions, "database/Executer.js"));
 
 async function ConfigExist({ searchvalue, JSONobj }) {
   if (!isUndefined(JSONobj[searchvalue])) return true;
@@ -44,12 +44,14 @@ async function GetConfigStats({ ExistingJSON, DatabaseJSON, guildID }) {
   };
 }
 
-async function ConfigDBManager({ type, guildIDs, ExistingConfigs }) {
+async function ConfigManager({ type, guildIDs, ExistingConfigs }) {
   let sql;
 
   for (guildID of guildIDs) {
     let GuildConfig = GuildsConfigs[guildID];
     let DatabaseJSON = GuildConfig?.config;
+
+    //console.info(DatabaseJSON)
 
     let { NotExistingConfigs, NotRegisteredConfigs } = await GetConfigStats({
       ExistingJSON: ExistingConfigs,
@@ -70,7 +72,9 @@ async function ConfigDBManager({ type, guildIDs, ExistingConfigs }) {
           }
         }
         sql = `INSERT INTO ${guildID}_config ${sqlVALUES} ON DUPLICATE KEY UPDATE config_name=VALUES(config_name), config_value=VALUES(config_value);`;
-        await ExecuteQuery({ sql });
+
+        console.info("Config manager placeholder execute insert")
+        //await ExecuteQuery({ sql });
 
         break;
       case "DELETE":
@@ -85,10 +89,12 @@ async function ConfigDBManager({ type, guildIDs, ExistingConfigs }) {
           }
         }
         sql = `DELETE FROM ${guildID}_config ${sqlWHERE};`;
-        await ExecuteQuery({ sql });
+
+        console.info("Config manager placeholder execute delete")
+        //await ExecuteQuery({ sql });
         break;
     }
   }
 }
 
-module.exports = ConfigDBManager;
+module.exports = ConfigManager;

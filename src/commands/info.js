@@ -1,7 +1,7 @@
 const { join } = require("path");
-const PermissionToArray = require(join(Functions, "PermissionToArray.js"));
-const MailSender = require(join(Functions, "MailSender.js"));
-const InfoHandler = require(join(Functions, "InfoHandler.js"));
+const PermissionToArray = require(join(Functions, "global/PermissionToArray.js"));
+const MailSender = require(join(Functions, "global/MailSender.js"));
+const InfoHandler = require(join(Functions, "placeholders/InfoHandler.js"));
 const { client } = require(DClientLoc);
 require("dotenv").config();
 
@@ -180,6 +180,16 @@ function GuildInfo(guild) {
 }
 
 module.exports = {
+  Name: "Info",
+  DescriptionShort: "This is the Info command.",
+  DescriptionLong: "This is the Info command.",
+  Usage: "/info",
+  Category: "Moderation",
+  IsOwnerDependent: true,
+  Released: true,
+  RequiedUserPermissions: ["ADMINISTRATOR"],
+  RequiedBotPermissions: ["SEND_MESSAGES", "VIEW_CHANNEL"],
+
   name: "Info",
   description: "This is the Info command.",
   default: "BotOwner",
@@ -189,7 +199,7 @@ module.exports = {
   type: "Testing",
   category: "Moderation",
   PMEnable: true,
-  async run(message) {
+  async run(interaction) {
     let GuildList = {};
     let guilds = client.guilds.cache;
     for (g of guilds) {
@@ -274,8 +284,18 @@ module.exports = {
       }
     });
 
-    message.author.send({
-      content: "Done."
+    interaction.reply({
+      content: "Done.",
+      ephemeral: true
     });
+  },
+  async create({ commands, permissions, dmEnabled }) {
+    let command = await commands?.create({
+      name: this.Name.toLowerCase(),
+      description: this.DescriptionShort,
+      dmPermission: dmEnabled,
+      defaultMemberPermissions: permissions
+    });
+    return command;
   }
 };

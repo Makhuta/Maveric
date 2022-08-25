@@ -1,6 +1,6 @@
 const { client } = require(DClientLoc);
 let { join } = require("path");
-let GetGuildConfig = require(join(Functions, "GetGuildConfig.js"));
+let GetGuildConfig = require(join(Functions, "guild/GetGuildConfig.js"));
 
 client.on("guildCreate", async (guild) => {
   let guildID = [guild.id];

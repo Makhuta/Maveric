@@ -1,5 +1,5 @@
 let { join } = require("path");
-let ExecuteQuery = require(join(Functions, "DBExecuter.js"));
+let ExecuteQuery = require(join(Functions, "database/Executer.js"));
 let DefaultFunctionsStates = require(join(Configs, "DefaultFunctionsStates.json")).concat(require(join(Configs, "DefaultVariables.json")));
 
 async function CreateGuildDB({ guildID }) {

@@ -1,6 +1,7 @@
 const { join } = require("path");
 const { client } = require(DClientLoc);
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
+const colors = require(join(ColorPaletes, "colors.json"));
 
 function timeConverter(UNIX_timestamp) {
   var a = new Date(UNIX_timestamp);
@@ -52,10 +53,10 @@ async function GetEmbedFields({ RequestedUser, IsDM, Guild, interaction }) {
         OtherRoles.push(role.name);
       }
 
-      if(OtherRoles.length < 1) {
-        OtherRoles = `${RequestedUser.username} has no other roles`
+      if (OtherRoles.length < 1) {
+        OtherRoles = `${RequestedUser.username} has no other roles`;
       } else {
-        OtherRoles = OtherRoles.join(", ")
+        OtherRoles = OtherRoles.join(", ");
       }
 
       PrivateFields = [
@@ -82,15 +83,15 @@ async function GetEmbedFields({ RequestedUser, IsDM, Guild, interaction }) {
 }
 
 module.exports = {
-  name: "Profile",
-  description: "This is the profile command.",
-  default: true,
-  helpdescription: "Show you your profile information",
-  usage: "/profile",
-  helpname: "Profile",
-  type: "Global",
-  category: "Main",
+  Name: "Profile",
+  DescriptionShort: "This is the profile command.",
+  DescriptionLong: "Show you your profile information",
+  Usage: "/profile (user)",
+  Category: "Main",
   PMEnable: true,
+  Released: true,
+  RequiedUserPermissions: ["SEND_MESSAGES", "VIEW_CHANNEL"],
+  RequiedBotPermissions: ["SEND_MESSAGES", "VIEW_CHANNEL"],
   async run(interaction) {
     const { options, member, user, guildId } = interaction;
     let Request = options.getUser("user");
@@ -138,14 +139,15 @@ module.exports = {
       interaction
     });
 
-    let embed = new MessageEmbed()
-      .setColor("RANDOM")
+    EmbedFields.push({ name: `ㅤ\nIf you didn't vote consider voting for me to unlock more features.`, value: `[TOP.GG](https://top.gg/bot/${process.env.TOPGGID}/vote)` });
+
+    let embed = new EmbedBuilder()
+      .setColor(colors.red)
       .setAuthor({ name: "Profile" })
       .setTitle(RequestedUser.username)
       .setURL(interaction.url)
       .setThumbnail(RequestedUser.avatarURL)
       .addFields(EmbedFields)
-      .addField(`ㅤ\nIf you didn't vote consider voting for me to unlock more features.`, `[TOP.GG](https://top.gg/bot/${process.env.TOPGGID}/vote)`)
 
       .setTimestamp()
       .setFooter({
@@ -157,19 +159,20 @@ module.exports = {
       embeds: [embed]
     });
   },
-  async create({ commands, permissions }) {
+  async create({ commands, permissions, dmEnabled }) {
     let options = [
       {
         name: "user",
         description: "Select user of which you want to see profile.",
         required: false,
-        type: CommandTypes.USER
+        type: CommandTypes.User
       }
     ];
     let command = await commands?.create({
-      name: this.name.toLowerCase(),
-      description: this.description,
-      defaultPermission: permissions,
+      name: this.Name.toLowerCase(),
+      description: this.DescriptionShort,
+      default_permission: permissions,
+      dm_permission: dmEnabled,
       options
     });
     return command;

@@ -4,7 +4,8 @@
         "value": false,
         "released": true,
         "description": "Enable/disable member, online, offline counter.",
-        "displayName": "Member counter"
+        "displayName": "Member counter",
+        "possibleInit": ["ONLINE_COUNTER", "OFFLINE_COUNTER", "MEMBERS_COUNTER", "STATS_CATEGORY"]
     },
     {
         "name": "MONEYENABLED",
@@ -18,7 +19,8 @@
         "value": false,
         "released": true,
         "description": "Enable/disable Welcome message if someone join/leave server.",
-        "displayName": "Welcomer"
+        "displayName": "Welcomer",
+        "possibleInit": ["WELCOME_MESSAGE"]
     },
     {
         "name": "BOTADVERTISEMENT",

@@ -1,18 +1,23 @@
 const { join } = require("path");
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const DefaultFunctionsStates = require(join(Configs, "DefaultFunctionsStates.json"));
 const { client } = require(DClientLoc);
 
 module.exports = {
-  name: "VariableList",
-  description: "This command will show you list of variable configs and their states.",
-  helpdescription: "This command will show you list of variable configs and their states.",
-  default: false,
-  usage: "/variablelist",
-  helpname: "Variable list",
-  type: "Global",
-  category: "Moderation",
+  Name: "VariableList",
+  DescriptionShort: "This command will show you list of variable configs and their states.",
+  DescriptionLong: "This command will show you list of variable configs and their states.",
+  Usage: "/variablelist",
+  Category: "Moderation",
+  IsPremium: false,
+  IsVoteDependent: false,
+  IsOwnerDependent: false,
+  IsAdminDependent: true,
+  SupportServerOnly: false,
   PMEnable: false,
+  Released: true,
+  RequiedUserPermissions: ["MANAGE_GUILD"],
+  RequiedBotPermissions: ["SEND_MESSAGES", "VIEW_CHANNEL"],
   async run(interaction) {
     let GuildID = interaction.guildId;
     let ConfigList = GuildsConfigs[GuildID].config;
@@ -20,10 +25,10 @@ module.exports = {
 
     for (f in DefaultFunctionsStates) {
       if (DefaultFunctionsStates[f].released) {
-        let FunctionValue = ConfigList[DefaultFunctionsStates[f].name] ? ConfigList[DefaultFunctionsStates[f].name] : "Error";
-        if (FunctionValue == "true") {
+        let FunctionValue = ConfigList[DefaultFunctionsStates[f].name] ? ConfigList[DefaultFunctionsStates[f].name] : false;
+        if (FunctionValue) {
           FunctionValue = "✅";
-        } else if (FunctionValue == "false") {
+        } else {
           FunctionValue = "❌";
         }
         fields.push({
@@ -33,7 +38,7 @@ module.exports = {
         });
       }
     }
-    const embed = new MessageEmbed()
+    const embed = new EmbedBuilder()
       .setAuthor({
         name: "Variable list",
         iconURL: client.user.displayAvatarURL()
@@ -41,7 +46,7 @@ module.exports = {
       .setColor(require(join(ColorPaletes, "colors.json")).red)
       .setThumbnail("attachment://cogwheel.png")
       .addFields(fields)
-      .addField(`ㅤ\nIf you didn't vote consider voting for me to unlock more features.`, `[TOP.GG](https://top.gg/bot/${process.env.TOPGGID}/vote)`)
+      //.addField(`ㅤ\nIf you didn't vote consider voting for me to unlock more features.`, `[TOP.GG](https://top.gg/bot/${process.env.TOPGGID}/vote)`)
       .setFooter({
         text: "Hover over variables for info!"
       })
@@ -53,11 +58,12 @@ module.exports = {
       ephemeral: true
     });
   },
-  async create({ commands, permissions }) {
+  async create({ commands, permissions, dmEnabled }) {
     let command = await commands?.create({
-      name: this.name.toLowerCase(),
-      description: this.description,
-      defaultPermission: permissions
+      name: this.Name.toLowerCase(),
+      description: this.DescriptionShort,
+      dmPermission: dmEnabled,
+      defaultMemberPermissions: permissions
     });
     return command;
   }

@@ -3,21 +3,6 @@ const { join } = require("path");
 const { registerFont } = require("canvas");
 const { NSBR } = require(DClientLoc);
 
-//Converting commands data to more usable version
-function TableConvertor({ FileLocation, f }) {
-  var FilePath = join(FileLocation, f);
-  var file = require(FilePath);
-  this.Name = f.split(".").shift();
-  this.Location = FilePath;
-  (this.Type = file?.type ? file?.type : "Disabled"),
-    (this.Check = JSON.stringify({
-      name: this.Name,
-      description: file.description
-    }));
-  this.FileName = f;
-  this.Permissions = file.default ? file.default : false;
-}
-
 //Loading commands from folder
 const CommandPromise = new Promise((resolve, reject) => {
   var FileLocation = Commands;
@@ -30,7 +15,37 @@ const CommandPromise = new Promise((resolve, reject) => {
       return;
     }
     jsfiles.forEach((f, i) => {
-      CommandList.push(new TableConvertor({ FileLocation, f }));
+      let FilePath = join(FileLocation, f);
+      let RequestedCommand = require(FilePath);
+      let CommandName = RequestedCommand.Name || `${f.split(".").shift().slice(0, 1).toUpperCase()}${f.split(".").shift().slice(1)}`;
+      let CommandStructured = {
+        Name: CommandName,
+        DescriptionShort: RequestedCommand.DescriptionShort || `This is the ${CommandName.toLowerCase()} command.`,
+        DescriptionLong: RequestedCommand.DescriptionLong || `This is the ${CommandName.toLowerCase()} command.`,
+        IsPremium: RequestedCommand.IsPremium || false,
+        IsVoteDependent: RequestedCommand.IsVoteDependent || false,
+        IsOwnerDependent: RequestedCommand.IsOwnerDependent || false,
+        IsAdminDependent: (function () {
+          if (RequestedCommand.IsOwnerDependent) return true;
+          else return RequestedCommand.IsAdminDependent || false;
+        })(),
+        SupportServerOnly: (function () {
+          if (RequestedCommand.IsOwnerDependent) return true;
+          else return RequestedCommand.SupportServerOnly || false;
+        })(),
+        PMEnable: (function () {
+          if (RequestedCommand.IsOwnerDependent) return false;
+          else return RequestedCommand.PMEnable || false;
+        })(),
+        Released: RequestedCommand.Released || false,
+        Usage: RequestedCommand.Usage || `${RequestedCommand.IsOwnerDependent || false ? "!" : "/"}${CommandName.toLowerCase()}`,
+        Category: RequestedCommand.Category || "Other",
+        RequiedUserPermissions: RequestedCommand.RequiedUserPermissions || [],
+        RequiedBotPermissions: RequestedCommand.RequiedBotPermissions || [],
+        Path: FilePath
+      };
+      CommandList[CommandStructured.Name.toLowerCase()] = CommandStructured;
+      CommandList[CommandStructured.Name] = CommandStructured.Name.toLowerCase();
     });
     console.info("Commands loaded!");
     NSBR.emit("CommandLoad");
@@ -71,7 +86,7 @@ const FontPromise = new Promise((resolve, reject) => {
     }
     tfffiles.forEach((f, i) => {
       let name = f.toLocaleString().split(".").shift();
-      registerFont(join(Fonts, f), { family: `${name}` });
+      registerFont(join(Fonts, f.toLocaleString()).replace("\\", "/"), { family: `MyFont${name}Font` });
     });
     console.info("Fonts registered!");
     NSBR.emit("FontLoad");
