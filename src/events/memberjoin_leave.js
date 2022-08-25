@@ -56,7 +56,7 @@ async function advertise(member) {
     .setTitle(`Thank you for joining \`${guild.name}\``)
     .setDescription(
       `I am part of \`${guild.name}\` since <t:${Math.round(
-        guild.me.joinedTimestamp / 1000
+        guild.members.me.joinedTimestamp / 1000
       )}:D>.\nTo see more info about my features you can type [\`/help\`](https://discord.com/channels/@me) in chat and if you consider to invite me to one of your Discord server/s I will be more than glad to join and offer you everything what I can do.\n\n[Invite Me](https://discord.com/oauth2/authorize?client_id=${
         client.user.id
       }&permissions=1644300856822&scope=bot%20applications.commands)`
