@@ -1,6 +1,7 @@
 const { join } = require("path");
 const { client } = require(DClientLoc);
 const InfoHandler = require(join(Functions, "placeholders/InfoHandler.js"));
+const colors = require(join(ColorPaletes, "colors.json"));
 const { EmbedBuilder } = require("discord.js");
 const { isUndefined } = require("util");
 
@@ -61,7 +62,7 @@ async function advertise(member) {
         client.user.id
       }&permissions=1644300856822&scope=bot%20applications.commands)`
     )
-    .setColor(ColorPaletes.red)
+    .setColor(colors.red)
     .setTimestamp()
     .setFooter({
       text: client.user.username,
