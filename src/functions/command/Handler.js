@@ -43,7 +43,7 @@ async function GuildHandler({ guild }) {
   console.info(
     `\nSupport server:\nRegistered commands: ${RegisteredCommands.join(", ")}\nNot registered commands: ${NotRegisteredCommands}\nExisting commands: ${Object.keys(
       ExistingCommands
-    ).join(", ")}\nNot existing commands: ${NotRegisteredCommands}\n`
+    ).join(", ")}\nNot existing commands: ${NotExistingCommands}\n`
   );
 
   //Registering not registered commands
@@ -100,7 +100,7 @@ async function GlobalHandler() {
   console.info(
     `\nGlobal:\nRegistered commands: ${RegisteredCommands.join(", ")}\nNot registered commands: ${NotRegisteredCommands}\nExisting commands: ${Object.keys(
       ExistingCommands
-    ).join(", ")}\nNot existing commands: ${NotRegisteredCommands}\n`
+    ).join(", ")}\nNot existing commands: ${NotExistingCommands}\n`
   );
 
   //Registering not registered commands

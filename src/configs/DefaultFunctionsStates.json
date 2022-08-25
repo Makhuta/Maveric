@@ -5,7 +5,22 @@
         "released": true,
         "description": "Enable/disable member, online, offline counter.",
         "displayName": "Member counter",
-        "possibleInit": ["ONLINE_COUNTER", "OFFLINE_COUNTER", "MEMBERS_COUNTER", "STATS_CATEGORY"]
+        "possibleInit": [
+            "ONLINE_COUNTER",
+            "OFFLINE_COUNTER",
+            "MEMBERS_COUNTER",
+            "STATS_CATEGORY"
+        ],
+        "requiredPermissions": [
+            "MANAGE_CHANNELS",
+            "VIEW_CHANNEL"
+        ],
+        "correspondingVariables": {
+            "ONLINE_COUNTER": "ONLINECOUNT",
+            "OFFLINE_COUNTER": "OFFLINECOUNT",
+            "MEMBERS_COUNTER": "MEMBERCOUNT",
+            "STATS_CATEGORY": "SERVERSTATS"
+        }
     },
     {
         "name": "MONEYENABLED",
@@ -20,7 +35,17 @@
         "released": true,
         "description": "Enable/disable Welcome message if someone join/leave server.",
         "displayName": "Welcomer",
-        "possibleInit": ["WELCOME_MESSAGE"]
+        "possibleInit": [
+            "WELCOME_MESSAGE"
+        ],
+        "requiredPermissions": [
+            "SEND_MESSAGES",
+            "VIEW_CHANNEL",
+            "ATTACH_FILES"
+        ],
+        "correspondingVariables": {
+            "WELCOME_MESSAGE": "GATEROOM"
+        }
     },
     {
         "name": "BOTADVERTISEMENT",
