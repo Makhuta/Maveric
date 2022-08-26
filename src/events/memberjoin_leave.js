@@ -68,8 +68,9 @@ async function advertise(member) {
       text: client.user.username,
       iconURL: client.user.displayAvatarURL()
     })
-    .addField(`ㅤ\nIf you have any problems visit ${client.user.username} support server.`, `[${client.user.username} support](${process.env.NSBR_SERVER_INVITE})`)
-    .addField(`Consider voting for me to unlock more features.`, `[TOP.GG](https://top.gg/bot/${process.env.TOPGGID}/vote)`);
+    .addFields({
+      name:`ㅤ\nIf you have any problems visit ${client.user.username} support server.`, value: `[${client.user.username} support](${process.env.NSBR_SERVER_INVITE})`},
+      {name: `Consider voting for me to unlock more features.`,value: `[TOP.GG](https://top.gg/bot/${process.env.TOPGGID}/vote)`});
   member.send({ embeds: [embed] }).catch((error) => {
     if (InfoHandler["BotAdvertise"] == undefined) {
       InfoHandler["BotAdvertise"] = {};
