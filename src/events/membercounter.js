@@ -6,7 +6,7 @@ const GuildGlobals = require(join(Functions, "placeholders/GuildGlobals.js"));
 async function updateMembers(guild, configsJSON, type, UserStart) {
   switch (type) {
     case "ONLINECOUNT":
-      let OnlineCountChannelID = configsJSON[type];
+      let OnlineCountChannelID = configsJSON[type] || "";
       if (OnlineCountChannelID.length < 5) {
         GuildsConfigs[guild.id].config.ONLINE_COUNTER_ENABLED = false;
         return;
@@ -104,6 +104,11 @@ NSBR.on("ready", async () => {
         if (configsJSON?.OFFLINE_COUNTER_ENABLED) await updateMembers(guild, configsJSON, "OFFLINECOUNT", UserStart);
         if (configsJSON?.MEMBERS_COUNTER_ENABLED) await updateMembers(guild, configsJSON, "MEMBERCOUNT", UserStart);
       });
+    } else {
+      GuildsConfigs[guild.id].config.ONLINE_COUNTER_ENABLED = false;
+      GuildsConfigs[guild.id].config.OFFLINE_COUNTER_ENABLED = false;
+      GuildsConfigs[guild.id].config.MEMBERS_COUNTER_ENABLED = false;
+      GuildsConfigs[guild.id].config.STATS_CATEGORY_ENABLED = false;
     }
 
     GuildGlobals[guild.id]["MemberCounterInterval"] = setInterval(async () => {
@@ -170,6 +175,12 @@ client.on("guildCreate", async (guild) => {
   if (!Object.keys(GuildGlobals).includes(guild.id)) {
     GuildGlobals[guild.id] = {};
   }
+  
+  GuildsConfigs[guild.id].config.ONLINE_COUNTER_ENABLED = false;
+  GuildsConfigs[guild.id].config.OFFLINE_COUNTER_ENABLED = false;
+  GuildsConfigs[guild.id].config.MEMBERS_COUNTER_ENABLED = false;
+  GuildsConfigs[guild.id].config.STATS_CATEGORY_ENABLED = false;
+
   GuildGlobals[guild.id]["MemberCounterInterval"] = setInterval(async () => {
     configsJSON = GuildsConfigs[guild.id]?.config;
     enabled = configsJSON?.COUNTERENABLED;

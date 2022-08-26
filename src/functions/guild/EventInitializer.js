@@ -20,7 +20,6 @@ module.exports = async function (RequestedInits, interaction) {
     ControlledChannelList[RequestedInitKey] = { ID: RequestedInit.Channel.id, CorrespondingVariable: CorrespondingVariable };
     SuccesfullOperation.push((RequestedInitKey.slice(0, 1) + RequestedInitKey.slice(1, RequestedInitKey.length).toLowerCase()).replace("_", " "));
     GuildsConfigs[guild.id].config[`${RequestedInitKey}_ENABLED`] = true;
-    GuildsConfigs[guild.id].config[CorrespondingVariable] = RequestedInit.Channel.id;
     await UpdateVariable({
       guildID: guild.id,
       variable: CorrespondingVariable,
