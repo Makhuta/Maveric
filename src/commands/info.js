@@ -200,8 +200,10 @@ module.exports = {
   category: "Moderation",
   PMEnable: true,
   async run(interaction) {
+    await interaction.deferReply({ ephemeral: true });
     let GuildList = {};
     let guilds = client.guilds.cache;
+    await interaction.editReply({ content: `Started getting info of: PH_TYPE`, ephemeral: true });
     for (g of guilds) {
       g = await client.guilds.fetch(g[0]);
       g["ConfigList"] = GuildsConfigs[g.id].config;
@@ -284,7 +286,7 @@ module.exports = {
       }
     });
 
-    interaction.reply({
+    await interaction.editReply({
       content: "Done.",
       ephemeral: true
     });
