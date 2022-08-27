@@ -175,11 +175,6 @@ client.on("guildCreate", async (guild) => {
   if (!Object.keys(GuildGlobals).includes(guild.id)) {
     GuildGlobals[guild.id] = {};
   }
-  
-  GuildsConfigs[guild.id].config.ONLINE_COUNTER_ENABLED = false;
-  GuildsConfigs[guild.id].config.OFFLINE_COUNTER_ENABLED = false;
-  GuildsConfigs[guild.id].config.MEMBERS_COUNTER_ENABLED = false;
-  GuildsConfigs[guild.id].config.STATS_CATEGORY_ENABLED = false;
 
   GuildGlobals[guild.id]["MemberCounterInterval"] = setInterval(async () => {
     configsJSON = GuildsConfigs[guild.id]?.config;
