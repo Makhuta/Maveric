@@ -7,59 +7,11 @@ require("dotenv").config();
 const PermissionsList = require(join(Configs, "PermissionsList.json"));
 const { EmbedBuilder } = require("discord.js");
 
-async function RunOwnerCommand({ prefix, command, args, message }) {
-  console.info(prefix);
-  if (prefix != "!") return;
-  console.info(message);
-
-  let isDM;
-
-  let where;
-
-  if (message.guildId == null) {
-    where = "through DM";
-    isDM = true;
-  } else {
-    where = `from Guild: ${message.guildId}`;
-    isDM = false;
-  }
-
-  if (message.author.id != process.env.OWNER_ID) {
-    if (InfoHandler["CommandUsage"] == undefined) {
-      InfoHandler["CommandUsage"] = {};
-    }
-    if (InfoHandler["CommandUsage"][message.author.id] == undefined) {
-      InfoHandler["CommandUsage"][message.author.id] = [];
-    }
-
-    InfoHandler["CommandUsage"][message.author.id].push({
-      ID: message.author.id,
-      Username: message.author.username,
-      Discriminator: message.author.discriminator,
-      Nickname: message.author.nickname ? message.author.nickname : "undefined",
-      Bot: message.author.bot,
-      Command: command,
-      Arguments: args
-    });
-    return;
-  }
-
-  let CMDNamesList = JSONFilter({ JSONObject: CommandList, SearchedElement: "IsOwnerDependent", ElementValue: true });
-  if (!CMDNamesList.includes(command)) return;
-
-  let RequestedCommand = CommandList.find((CMD) => CMD.Name == command);
-
-  if (!require(RequestedCommand.Location).PMEnable && isDM) {
-    return console.info(`${command} has disabled DM usage.`);
-  }
-
-  require(RequestedCommand.Location).run(message, args);
-}
-
 client.on("interactionCreate", async (interaction) => {
   if (!interaction.isCommand()) return;
+  //await interaction.deferReply();
 
-  const { commandName, options, member, user, guildId } = interaction;
+  const { commandName, user, guildId } = interaction;
   let IsDM = guildId == null;
   let CMDNamesList = Object.keys(CommandList);
 
@@ -176,5 +128,23 @@ client.on("interactionCreate", async (interaction) => {
       })()}`
     });
 
-  await require(RequestedCommand.Path).run(interaction);
+  try {
+    await require(RequestedCommand.Path).run(interaction);
+  } catch (InteractionError) {
+    interaction.reply({
+      content: `There was an error while processing your command.\nPlease contact support\n[${client.user.username} support](${process.env.NSBR_SERVER_INVITE})`
+    });
+
+    if (InfoHandler["InteractionExecute"] == undefined) {
+      InfoHandler["InteractionExecute"] = {};
+    }
+    if (InfoHandler["InteractionExecute"][RequestedCommand.Name.toLowerCase()] == undefined) {
+      InfoHandler["InteractionExecute"][RequestedCommand.Name.toLowerCase()] = [];
+    }
+
+    InfoHandler["InteractionExecute"][RequestedCommand.Name.toLowerCase()].push({
+      Command: RequestedCommand,
+      Error: InteractionError
+    });
+  }
 });
