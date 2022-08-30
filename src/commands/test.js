@@ -24,8 +24,9 @@ module.exports = {
     return command;
   },
   async run(message) {
-    message.reply({
-      content: "This is test."
+    message.editReply({
+      content: "This is test.",
+      ephemeral: true
     });
     //console.info(GuildsConfigs)
     /*let guildID = message.guildId;
@@ -34,6 +35,6 @@ module.exports = {
     let member = await (
       await client.guilds.fetch(guildID)
     ).members.fetch(authorID);*/
-    console.info(GuildsConfigs[message.member.guild.id].config);
+    console.info(CommandList);
   }
 };
