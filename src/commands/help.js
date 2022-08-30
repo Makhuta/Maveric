@@ -164,7 +164,7 @@ module.exports = {
     let HelpCommandName = options.getString("command");
     let CommandHasOption = HelpCommandName != null;
     let InteractionGuildIn = { has: interaction.guildId != null, interaction: interaction };
-    if (InteractionGuildIn.has) {
+    if (!InteractionGuildIn.has) {
       interaction["url"] = `https://discord.com/channels/@me`;
     } else {
       interaction["url"] = `https://discord.com/channels/${interaction.guild.id}/${interaction.channel.id}/${interaction.id}`;
