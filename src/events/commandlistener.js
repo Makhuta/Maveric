@@ -37,7 +37,7 @@ client.on("interactionCreate", async (interaction) => {
 
   let RequestedCommand = CommandList[commandName];
   let VoteTied = RequestedCommand.IsVoteDependent;
-  if (IsDM && RequestedCommand.PMEnable) {
+  if (IsDM && !RequestedCommand.PMEnable) {
     return interaction.reply({
       content: `You need to send this to server to use ${interaction.commandName}`
     });
