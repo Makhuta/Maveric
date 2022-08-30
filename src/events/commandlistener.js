@@ -111,29 +111,37 @@ client.on("interactionCreate", async (interaction) => {
     interaction["url"] = `https://discord.com/channels/${interaction.guild.id}/${interaction.channel.id}/${interaction.id}`;
   }
 
-  let commandHasRequiredPermissions = [];
-  for (BotPermission of RequestedCommand.RequiedBotPermissions) {
-    commandHasRequiredPermissions.push({ Name: BotPermission, Has: interaction.guild.members.me.permissions.has(PermissionsList[BotPermission]) });
-  }
+  if (!IsDM) {
+    let commandHasRequiredPermissions = [];
+    for (BotPermission of RequestedCommand.RequiedBotPermissions) {
+      commandHasRequiredPermissions.push({ Name: BotPermission, Has: interaction.guild.members.me.permissions.has(PermissionsList[BotPermission]) });
+    }
 
-  if (commandHasRequiredPermissions.some((element) => !element.Has))
-    return interaction.reply({
-      content: `Don't have permission to perform this task.\nNeeded permission/s: ${(function () {
-        let CMDsNoPerm = commandHasRequiredPermissions.filter((e) => !e.Has);
-        let ReqPerms = [];
-        for (CMDNoPerm of CMDsNoPerm) {
-          ReqPerms.push(CMDNoPerm.Name);
-        }
-        return ReqPerms.join(", ");
-      })()}`
-    });
+    if (commandHasRequiredPermissions.some((element) => !element.Has))
+      return interaction.reply({
+        content: `Don't have permission to perform this task.\nNeeded permission/s: ${(function () {
+          let CMDsNoPerm = commandHasRequiredPermissions.filter((e) => !e.Has);
+          let ReqPerms = [];
+          for (CMDNoPerm of CMDsNoPerm) {
+            ReqPerms.push(CMDNoPerm.Name);
+          }
+          return ReqPerms.join(", ");
+        })()}`
+      });
+  }
 
   try {
     await require(RequestedCommand.Path).run(interaction);
   } catch (InteractionError) {
-    interaction.reply({
-      content: `There was an error while processing your command.\nPlease contact support\n[${client.user.username} support](${process.env.NSBR_SERVER_INVITE})`
-    });
+    if (interaction.deferred) {
+      interaction.editReply({
+        content: `There was an error while processing your command.\nPlease contact support\n[${client.user.username} support](${process.env.NSBR_SERVER_INVITE})`
+      });
+    } else {
+      interaction.reply({
+        content: `There was an error while processing your command.\nPlease contact support\n[${client.user.username} support](${process.env.NSBR_SERVER_INVITE})`
+      });
+    }
 
     if (InfoHandler["InteractionExecute"] == undefined) {
       InfoHandler["InteractionExecute"] = {};
