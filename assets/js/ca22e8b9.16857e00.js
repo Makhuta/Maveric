@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmaveric_website=self.webpackChunkmaveric_website||[]).push([[338],{3540:e=>{e.exports=JSON.parse('{"title":"Commands","slug":"/category/commands","permalink":"/Maveric/docs/category/commands","navigation":{"next":{"title":"Main","permalink":"/Maveric/docs/commands/main"}}}')}}]);
