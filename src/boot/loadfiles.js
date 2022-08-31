@@ -86,7 +86,7 @@ const FontPromise = new Promise((resolve, reject) => {
     }
     tfffiles.forEach((f, i) => {
       let name = f.toLocaleString().split(".").shift();
-      registerFont(join(Fonts, f.toLocaleString()).replace("\\", "/"), { family: `MyFont${name}Font` });
+      registerFont(join(Fonts, f.toLocaleString()).replace("\\", "/"), { family: `${name}` });
     });
     console.info("Fonts registered!");
     NSBR.emit("FontLoad");

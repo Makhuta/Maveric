@@ -5,12 +5,10 @@ const color = require(join(ColorPaletes, "colors.json"));
 
 module.exports = {
   run: async (hodnoty) => {
-    let channel = hodnoty.channel;
     let target = hodnoty.target;
     let user_username = target.username;
     let stav = hodnoty.stav;
     let datum = hodnoty.datum;
-    let guild = channel.guild;
 
     if (user_username.length >= 20) {
       user_username = user_username.slice(0, 20) + "...";
@@ -27,7 +25,7 @@ module.exports = {
     let sirkapole = 60;
     let velikost_textu = 15;
     let text_mensi_o = velikost_textu - 3;
-    let stav_font = "MyFontSquareFont";
+    let stav_font = "Square";
     let barvy = [color.light_blue, color.red];
     let obraz_jmeno = ["Join", "Leave"];
     let verze_pro_datum = ["Joined", "Member since"];
