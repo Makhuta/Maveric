@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmaveric_website=self.webpackChunkmaveric_website||[]).push([[175],{7252:e=>{e.exports=JSON.parse('{"title":"Commands","slug":"/category/commands","permalink":"/docs/category/commands","navigation":{"next":{"title":"Main","permalink":"/docs/commands/main"}}}')}}]);
