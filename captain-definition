@@ -5,7 +5,7 @@
 						"RUN apk add --no-cache python3 py3-pip make g++ npm",
                         "WORKDIR /usr/src/app",
                         "COPY ./package.json .",
-                        "RUN npm install —legacy-peer-deps",
+                        "RUN npm install",
                         "COPY . .",
                         "CMD [\"node\",\"./index.js\"]"
                     ]
