@@ -1,7 +1,7 @@
 {
 	"schemaVersion" :2,
 	"dockerfileLines": [
-                        "FROM node:16",
+                        "FROM node:16-alpine",
 						"RUN apk add --no-cache python3 py3-pip make g++",
                         "WORKDIR /usr/src/app",
                         "COPY ./package.json .",
