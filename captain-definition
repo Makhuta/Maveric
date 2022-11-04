@@ -1,4 +1,11 @@
 {
 	"schemaVersion" :2,
-	"templateId" :"node/8.7.0"
+	"dockerfileLines": [
+                        "FROM node:alpine",
+                        "WORKDIR /usr/src/app",
+                        "COPY ./package.json .",
+                        "RUN npm install",
+                        "COPY . .",
+                        "CMD [\"node\",\"./index.js\"]"
+                    ]
 }
