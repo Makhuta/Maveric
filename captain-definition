@@ -1,15 +1,10 @@
 {
 	"schemaVersion" :2,
 	"dockerfileLines": [
-                        "FROM node:18.12.0-alpine",
+                        "FROM node:18.12.0",
 						"RUN mkdir -p /usr/src/app",
                         "WORKDIR /usr/src/app",
-						"RUN apk --update --no-cache --virtual build-dependencies add \
-							python python-dev py-pip \ 
-							build-base make g++ pkgconfig autoconf automake bash \ 
-							imagemagick cairo-dev jpeg-dev pango-dev giflib-dev pixman-dev pangomm-dev libjpeg-turbo-dev freetype-dev \ 
-							libc6-compat \  
-						&& apk add --no-cache python3 py3-pip make g++ pkgconfig pixman cairo pango giflib libjpeg",
+						"RUN apk add --no-cache python3 py3-pip make g++ pkgconfig pixman",
                         "COPY ./package.json /usr/src/app/",
 						"RUN npm install canvas",
                         "RUN npm install && npm cache clean --force",
