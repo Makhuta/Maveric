@@ -90,8 +90,8 @@ NSBR.on("ready", async () => {
     let configsJSON = GuildsConfigs[guild.id]?.config;
     if (!Object.keys(GuildGlobals).includes(guild.id)) {
       GuildGlobals[guild.id] = {};
-      GuildsConfigs[guild.id] = {};
-      GuildsConfigs[guild.id]?.config = false;
+      GuildsConfigs[guild.id]?.config = {};
+      GuildsConfigs[guild.id].config.COUNTERENABLED = false;
     }
 
     configsJSON = GuildsConfigs[guild.id]?.config;
