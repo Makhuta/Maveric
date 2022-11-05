@@ -27,11 +27,15 @@ function ExecuteQuery({ sql, enabled }) {
   var promise = new Promise((resolve, reject) => {
     if (enabled) {
       setTimeout(async function () {
-        MySQLPool.query(sql, function (err, res) {
-          if (err) throw err;
-          FunctionConsole(sql, enabled);
-          resolve(res);
-        });
+        try {
+          MySQLPool.query(sql, function (err, res) {
+            if (err) throw err;
+            FunctionConsole(sql, enabled);
+            resolve(res);
+          });
+        } catch (e){
+          console.info(e)
+        }
       }, DELAY * Multiplier);
     } else {
       FunctionConsole(sql, enabled);
