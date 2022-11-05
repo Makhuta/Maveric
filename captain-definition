@@ -4,7 +4,7 @@
                         "FROM node:18.12.0-alpine",
 						"RUN mkdir -p /usr/src/app",
                         "WORKDIR /usr/src/app",
-						"RUN apk --no-cache add \
+						"RUN apk --no-cache .build-deps add \
 						python3 \
 						py3-pip \
 						make \
