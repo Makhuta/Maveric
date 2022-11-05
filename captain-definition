@@ -4,7 +4,7 @@
                         "FROM node:18.12.0-alpine",
 						"RUN mkdir -p /usr/src/app",
                         "WORKDIR /usr/src/app",
-						"RUN apk add --no-cache python3 py3-pip make g++ pkgconfig",
+						"RUN apk add --no-cache python3 py3-pip make g++ pkgconfig pixman",
                         "COPY ./package.json /usr/src/app/",
 						"RUN npm install canvas",
                         "RUN npm install && npm cache clean --force",
