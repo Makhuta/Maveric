@@ -4,7 +4,23 @@
                         "FROM node:18.12.0-alpine",
 						"RUN mkdir -p /usr/src/app",
                         "WORKDIR /usr/src/app",
-						"RUN apk add --no-cache python3 py3-pip make g++ pkgconfig pixman",
+						"RUN apk --no-cache add \
+						python3 \
+						py3-pip \
+						make \
+						g++ \
+						pkgconfig \
+						pixman \
+					&& apk --no-cache --virtual .canvas-build-deps add \
+						build-base \
+						cairo-dev \
+						jpeg-dev \
+						pango-dev \
+						giflib-dev \
+						pixman-dev \
+						pangomm-dev \
+						libjpeg-turbo-dev \
+						freetype-dev",
                         "COPY ./package.json /usr/src/app/",
 						"RUN npm install canvas",
                         "RUN npm install && npm cache clean --force",
