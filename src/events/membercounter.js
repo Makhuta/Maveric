@@ -90,8 +90,10 @@ NSBR.on("ready", async () => {
     let configsJSON = GuildsConfigs[guild.id]?.config;
     if (!Object.keys(GuildGlobals).includes(guild.id)) {
       GuildGlobals[guild.id] = {};
+      GuildsConfigs[guild.id]?.config = false;
     }
 
+    configsJSON = GuildsConfigs[guild.id]?.config;
     let enabled = configsJSON?.COUNTERENABLED;
     let AnyWorking = configsJSON?.ONLINE_COUNTER_ENABLED || configsJSON?.OFFLINE_COUNTER_ENABLED || configsJSON?.MEMBERS_COUNTER_ENABLED;
     if (enabled && AnyWorking) {
