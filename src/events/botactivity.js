@@ -5,7 +5,7 @@ require("dotenv").config();
 var typ_aktivity = [
   { name: "/help", type: ActivityType.Listening },
   { name: `Managing $NumberOfGuilds servers.`, type: ActivityType.Watching },
-  { name: process.env.NSBR_SERVER_INVITE, type: ActivityType.Playing }
+  { name: process.env.SUPPORT_SERVER_INVITE, type: ActivityType.Playing }
 ];
 
 async function aktivita() {

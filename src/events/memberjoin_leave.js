@@ -69,7 +69,7 @@ async function advertise(member) {
       iconURL: client.user.displayAvatarURL()
     })
     .addFields({
-      name:`ㅤ\nIf you have any problems visit ${client.user.username} support server.`, value: `[${client.user.username} support](${process.env.NSBR_SERVER_INVITE})`},
+      name:`ㅤ\nIf you have any problems visit ${client.user.username} support server.`, value: `[${client.user.username} support](${process.env.SUPPORT_SERVER_INVITE})`},
       {name: `Consider voting for me to unlock more features.`,value: `[TOP.GG](https://top.gg/bot/${process.env.TOPGGID}/vote)`});
   member.send({ embeds: [embed] }).catch((error) => {
     if (InfoHandler["BotAdvertise"] == undefined) {

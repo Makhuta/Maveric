@@ -85,7 +85,7 @@ async function EmbedNoCommandSelected({ embed, InteractionGuildIn }) {
       },
       {
         name: `ㅤ\nIf you have other problems visit ${client.user.username} support server.`,
-        value: `[${client.user.username} support](${process.env.NSBR_SERVER_INVITE})`
+        value: `[${client.user.username} support](${process.env.SUPPORT_SERVER_INVITE})`
       },
       { name: `Consider voting for me to unlock more features.`, value: `[TOP.GG](https://top.gg/bot/${process.env.TOPGGID}/vote)` }
     );
@@ -105,7 +105,7 @@ async function EmbedNoCommandSelected({ embed, InteractionGuildIn }) {
       { name: "Other", value: cmds["Other"].join(" "), inline: false },
       {
         name: `ㅤ\nIf you have other problems visit ${client.user.username} support server.`,
-        value: `[${client.user.username} support](${process.env.NSBR_SERVER_INVITE})`
+        value: `[${client.user.username} support](${process.env.SUPPORT_SERVER_INVITE})`
       },
       { name: `Consider voting for me to unlock more features.`, value: `[TOP.GG](https://top.gg/bot/${process.env.TOPGGID}/vote)` }
     );
@@ -139,7 +139,7 @@ async function DefaultCOmmandEmbed({ embed, RequiredCommand, InteractionGuildIn 
     { name: "Required permission/s to use", value: `${RequiredCommand.RequiedUserPermissions.join("\n")}`, inline: true },
     {
       name: `ㅤ\nIf you have other problems visit ${client.user.username} support server.`,
-      value: `[${client.user.username} support](${process.env.NSBR_SERVER_INVITE})`
+      value: `[${client.user.username} support](${process.env.SUPPORT_SERVER_INVITE})`
     },
     { name: `Consider voting for me to unlock more features.`, value: `[TOP.GG](https://top.gg/bot/${process.env.TOPGGID}/vote)` }
   );

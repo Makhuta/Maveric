@@ -135,11 +135,11 @@ client.on("interactionCreate", async (interaction) => {
   } catch (InteractionError) {
     if (interaction.deferred) {
       interaction.editReply({
-        content: `There was an error while processing your command.\nPlease contact support\n[${client.user.username} support](${process.env.NSBR_SERVER_INVITE})`
+        content: `There was an error while processing your command.\nPlease contact support\n[${client.user.username} support](${process.env.SUPPORT_SERVER_INVITE})`
       });
     } else {
       interaction.reply({
-        content: `There was an error while processing your command.\nPlease contact support\n[${client.user.username} support](${process.env.NSBR_SERVER_INVITE})`
+        content: `There was an error while processing your command.\nPlease contact support\n[${client.user.username} support](${process.env.SUPPORT_SERVER_INVITE})`
       });
     }
 
