@@ -35,7 +35,7 @@ async function GetRawDatas({ guildIDs }) {
 
 async function CreateConfigJSON({ GuildConfig, guildIDs }) {
   for (g in guildIDs) {
-    let configs = {};
+    let config = {};
     let guildID = guildIDs[g];
     for (GCID in GuildConfig) {
       let GC = JSON.parse(JSON.stringify(GuildConfig[GCID]));
@@ -43,19 +43,19 @@ async function CreateConfigJSON({ GuildConfig, guildIDs }) {
       let guildConfigValue = GC[`${guildID}_VALUE`];
 
       if (guildConfigName.includes("ENABLED") || guildConfigName.includes("ADVERTISEMENT")) {
-        configs[guildConfigName] = guildConfigValue == "true";
+        config[guildConfigName] = guildConfigValue == "true";
       } else {
-        configs[guildConfigName] = guildConfigValue;
+        config[guildConfigName] = guildConfigValue;
       }
 
       let DefaultFunctionsStatesFound = DefaultFunctionsStates.find((e) => e.name == guildConfigName);
       if ((DefaultFunctionsStatesFound || false) && (DefaultFunctionsStatesFound.possibleInit?.length > 0 || false)) {
         for (DFStateEnabled of DefaultFunctionsStatesFound.possibleInit) {
-          configs[`${DFStateEnabled}_ENABLED`] = true;
+          config[`${DFStateEnabled}_ENABLED`] = true;
         }
       }
     }
-    GuildsConfigs[guildID] = { config: configs };
+    GuildsConfigs[guildID] = { config };
   }
 }
 
