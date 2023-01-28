@@ -108,7 +108,13 @@ function ChannelList(guild) {
 
 async function parse_invites(guild, channel_list, members_list) {
     let invite_list = {};
-    for(invite of (await guild.invites.fetch()).values()) {
+    let invites = new Map();
+    try {
+        invites = await guild.invites.fetch();
+    } catch (e) {
+        console.info(e);
+    }
+    for(invite of invites.values()) {
         let invite_created_at = timeConverterJSON(invite.createdTimestamp);
         invite_list[invite.code] = {
             code: invite.code,
