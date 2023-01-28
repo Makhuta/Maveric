@@ -110,7 +110,7 @@ async function parse_invites(guild, channel_list, members_list) {
     let invite_list = {};
     let invites = new Map();
     try {
-        invites = await guild.invites.fetch();
+        invites = await guild.invites.cache;
     } catch (e) {
         console.info(e);
     }
