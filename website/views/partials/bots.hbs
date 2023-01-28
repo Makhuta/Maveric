@@ -1,0 +1,10 @@
+{{#if (if_has this.bots)}}
+    <button type="button" class="collapsible">Bots ({{array_length this.bots}})</button>
+    <div class="content">
+    {{#each this.bots}}
+        {{> users}}
+    {{/each}}
+    </div>
+{{else}}
+    <button type="button" class="not_collapsible">Bots ({{array_length this.bots}})</button>
+{{/if}}

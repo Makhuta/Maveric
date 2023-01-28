@@ -1,0 +1,34 @@
+{{#if (is_type this.type "Text channel")}}
+    <button type="button" class="not_collapsible">ID: {{this.id}}</button>
+    <button type="button" class="not_collapsible">Name: {{this.name}}</button>
+    <button type="button" class="not_collapsible">Type: {{this.type}}</button>
+{{/if}}
+{{#if (is_type this.type "Voice channel")}}
+    <button type="button" class="not_collapsible">ID: {{this.id}}</button>
+    <button type="button" class="not_collapsible">Name: {{this.name}}</button>
+    <button type="button" class="not_collapsible">Type: {{this.type}}</button>
+    <button type="button" class="not_collapsible">Bitrate: {{this.bitrate}}</button>
+    <button type="button" class="not_collapsible">User limit: {{this.user_limit}}</button>
+{{/if}}
+{{#if (is_type this.type "Channel category")}}
+    <button type="button" class="collapsible">{{this.name}} ({{this.id}})</button>
+        <div class="content">
+            <button type="button" class="not_collapsible">ID: {{this.id}}</button>
+            <button type="button" class="not_collapsible">Name: {{this.name}}</button>
+            <button type="button" class="not_collapsible">Type: {{this.type}}</button>
+            {{#if (if_has this.channels)}}
+                <button type="button" class="collapsible">Child channels: ({{array_length this.channels}})</button>
+                    <div class="content">
+                        {{#each this.channels}}
+                            <button type="button" class="collapsible">{{this.name}} ({{this.id}})</button>
+                                <div class="content">
+                                    {{> channel}}
+                                </div>
+                        {{/each}}
+                    </div>
+            {{else}}
+                <button type="button" class="not_collapsible">Child channels: ({{array_length this.channels}})</button>
+                {{> channel}}
+            {{/if}}
+        </div>
+{{/if}}

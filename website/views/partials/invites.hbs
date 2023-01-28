@@ -1,0 +1,28 @@
+{{#if (if_has this.invites)}}
+    <button type="button" class="collapsible">Invites ({{array_length this.invites}})</button>
+    <div class="content">
+    {{#each this.invites}}
+        <button type="button" class="collapsible"><a href="https://discord.gg/{{this.code}}">{{this.code}}</a></button>
+        <div class="content">
+            <button type="button" class="not_collapsible">Code: {{this.code}}</button>
+            <button type="button" class="not_collapsible">Max age: {{this.max_age}}</button>
+            <button type="button" class="not_collapsible">Uses: {{this.uses}}</button>
+            <button type="button" class="not_collapsible">Max uses: {{this.max_uses}}</button>
+            <button type="button" class="not_collapsible">Created timestamp: {{this.created_timestamp}}</button>
+            <button type="button" class="not_collapsible">Created date: {{this.created_at}}</button>
+            {{#if (if_has this.channels)}}
+                <button type="button" class="collapsible">Channel</button>
+                <div class="content">
+                    {{#each this.channels}}
+                        {{> channel}}
+                    {{/each}}
+                </div>
+            {{else}}
+                <button type="button" class="not_collapsible">Channel</button>
+            {{/if}}
+        </div>
+    {{/each}}
+    </div>
+{{else}}
+    <button type="button" class="not_collapsible">Invites ({{array_length this.invites}})</button>
+{{/if}}

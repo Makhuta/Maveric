@@ -1,0 +1,6 @@
+<button type="button" class="collapsible">Config</button>
+    <div class="content">
+        {{#each this.config}}
+            <button type="button" class="not_collapsible">{{this.name}}: {{this.value}}</button>
+        {{/each}}
+    </div>

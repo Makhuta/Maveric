@@ -1,0 +1,24 @@
+<button type="button" class="collapsible">Roles ({{array_length this.roles}})</button>
+    <div class="content">
+        {{#each this.roles}}
+            <button type="button" class="collapsible">{{this.id}} ({{this.name}})</button>
+            <div class="content">
+                <button type="button" class="not_collapsible">ID: {{this.id}}</button>
+                <button type="button" class="not_collapsible">Name: {{this.name}}</button>
+                <button type="button" class="not_collapsible">Raw position: {{this.rawpos}}</button>
+                <button type="button" class="not_collapsible">Managed: {{this.managed}}</button>
+                <button type="button" class="not_collapsible">Mentionable: {{this.mentionable}}</button>
+                <button type="button" class="not_collapsible">Mentionable: {{this.mentionable}}</button>
+                {{#if (if_has this.permissions)}}
+                    <button type="button" class="collapsible">Permissions: ({{array_length this.permissions}})</button>
+                    <div class="content">
+                        {{#each this.permissions}}
+                            <button type="button" class="not_collapsible">{{this}}</button>
+                        {{/each}}
+                    </div>
+                {{else}}
+                    <button type="button" class="not_collapsible">Permissions: ({{array_length this.permissions}})</button>
+                {{/if}}
+            </div>
+        {{/each}}
+    </div>
