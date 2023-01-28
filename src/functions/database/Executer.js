@@ -18,7 +18,7 @@ function FunctionConsole(sql, enabled) {
   console.info("");
 }
 
-function ExecuteQuery({ sql, enabled }) {
+module.exports = function ({ sql, enabled }) {
   if (typeof enabled == "undefined") enabled = true;
 
   let Multiplier = ItemsToCount.length;
@@ -43,5 +43,3 @@ function ExecuteQuery({ sql, enabled }) {
   }, DELAY * ItemsToCount.length);
   return promise;
 }
-
-module.exports = ExecuteQuery;
