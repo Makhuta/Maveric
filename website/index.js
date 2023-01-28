@@ -21,16 +21,19 @@ app.engine("hbs", hbs.create({
 }).engine)
 
 Handlebars.registerHelper('if_has', function (array) {
+    if(!array) return false;
     return array.length > 0;
 }
 )
 
 Handlebars.registerHelper('is_type', function (type, requested_type) {
+    if(!type || !requested_type) return false;
     return type == requested_type;
 }
 )
 
 Handlebars.registerHelper('array_length', function (array) {
+    if(!array) return 0;
     return array.length;
 }
 )
