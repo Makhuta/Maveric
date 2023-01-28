@@ -3,40 +3,19 @@ const util = require('util')
 const {join} = require("path");
 const express = require("express")
 const hbs = require("express-handlebars");
-const Handlebars = require("handlebars");
 const app = express()
 
 var port = process.env.PORT || 8080
 var host = process.env.HOST
 
-var layoutsDir = __dirname + "/views/layouts"
-var partialsDir = __dirname + "/views/partials"
+var layoutslozka = __dirname + "/views/layouts"
 
 
 app.engine("hbs", hbs.create({
     extname: "hbs",
     defaultLayout: "layout",
-    layoutsDir,
-    partialsDir
+    layoutsDir: layoutslozka
 }).engine)
-
-Handlebars.registerHelper('if_has', function (array) {
-    if(!array) return false;
-    return array.length > 0;
-}
-)
-
-Handlebars.registerHelper('is_type', function (type, requested_type) {
-    if(!type || !requested_type) return false;
-    return type == requested_type;
-}
-)
-
-Handlebars.registerHelper('array_length', function (array) {
-    if(!array) return 0;
-    return array.length;
-}
-)
 
 app.set("view engine", "hbs")
 app.set("views", join(__dirname, "/views"))
