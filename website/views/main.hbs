@@ -1,62 +1,31 @@
-    <button type="button" class="collapsible">Guilds</button>
+{{#each guilds}}
+    <button type="button" class="collapsible main_btn">
+        <div class="guild_button">
+            <img src="{{this.icon_url}}" alt="{{this.name}} ({{this.id}}) icon" class="icon" >
+        </div>
+        <div class="guild_button">
+            <h3>{{this.name}} ({{this.id}})</h3>
+        </div>
+    </button>
     <div class="content">
-    {{#each guilds}}
-        <button type="button" class="collapsible">{{this.id}} ({{this.name}})</button>
-            <div class="content">
-                    <button type="button" class="not_collapsible">ID: {{this.id}}</button>
-                    <button type="button" class="not_collapsible">Name: {{this.name}}</button>
-                    <button type="button" class="not_collapsible">Bot count: {{this.bot_count}}</button>
-                    <button type="button" class="not_collapsible">Member count: {{this.member_count}}</button>
-
-                {{#if this.has_bots}}
-                    <button type="button" class="collapsible">Bots</button>
-                    <div class="content">
-                    {{#each this.bots}}
-                        <button type="button" class="collapsible">{{this.id}} ({{this.name}})</button>
-                        <div class="content">
-                            <button type="button" class="not_collapsible">ID: {{this.id}}</button>
-                            <button type="button" class="not_collapsible">Name: {{this.name}}</button>
-                            <button type="button" class="not_collapsible">Nickname: {{this.nickname}}</button>
-                            <button type="button" class="not_collapsible">Discriminator: {{this.discriminator}}</button>
-                            <button type="button" class="not_collapsible">Joined timestamp: {{this.joinedTimestamp}}</button>
-                            <button type="button" class="not_collapsible">Joined date: {{this.joined_date}}</button>
-                        </div>
-                    {{/each}}
-                    </div>
-                {{/if}}
-
-                {{#else}}
-                    <button type="button" class="not_collapsible">Bots</button>
-                {{/else}}
-
-                {{#if this.has_members}}
-                    <button type="button" class="collapsible">Members</button>
-                    <div class="content">
-                    {{#each this.members}}
-                        <button type="button" class="collapsible">{{this.id}} ({{this.name}})</button>
-                        <div class="content">
-                            <button type="button" class="not_collapsible">ID: {{this.id}}</button>
-                            <button type="button" class="not_collapsible">Name: {{this.name}}</button>
-                            <button type="button" class="not_collapsible">Nickname: {{this.nickname}}</button>
-                            <button type="button" class="not_collapsible">Discriminator: {{this.discriminator}}</button>
-                            <button type="button" class="not_collapsible">Joined timestamp: {{this.joinedTimestamp}}</button>
-                            <button type="button" class="not_collapsible">Joined date: {{this.joined_date}}</button>
-                        </div>
-                    {{/each}}
-                    </div>
-                {{/if}}
-
-                {{#else}}
-                    <button type="button" class="not_collapsible">Members</button>
-                {{/else}}
-
-                <button type="button" class="collapsible">Config</button>
-                <div class="content">
-                    {{#each this.config}}
-                        <button type="button" class="not_collapsible">{{this.name}}: {{this.value}}</button>
-                    {{/each}}
-                </div>
-
+        <button type="button" class="not_collapsible">ID: {{this.id}}</button>
+        <button type="button" class="not_collapsible">Name: {{this.name}}</button>
+        <button type="button" class="collapsible">
+            <div class="guild_button">
+                <img src="{{this.owner.avatar_url}}" alt="{{this.owner.username}} ({{this.owner.id}}) avatar" class="avatar" >
             </div>
-    {{/each}}
+            <div class="guild_button">
+                <h4>Owner: {{this.owner.username}}#{{this.owner.discriminator}}</h3>
+            </div>
+        </button>
+        <div class="content">
+            <button type="button" class="not_collapsible">ID: {{this.owner.id}}</button>
+            <button type="button" class="not_collapsible">Username: {{this.owner.username}}</button>
+            <button type="button" class="not_collapsible">Nickname: {{this.owner.nickname}}</button>
+            <button type="button" class="not_collapsible">Discriminator: {{this.owner.discriminator}}</button>
+        </div>
+        <button type="button" class="not_collapsible">Members: {{this.members}}</button>
+        <button type="button" class="not_collapsible">Bots: {{this.bots}}</button>
+        <a href="/?guild_id={{this.id}}"><button type="button" class="not_collapsible">View guild</button></a>
     </div>
+{{/each}}

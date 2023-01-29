@@ -67,7 +67,7 @@ module.exports = {
                         joined_date: `${joined_date.date}.${joined_date.month}.${joined_date.year} ${joined_date.hour}:${joined_date.min}`
                     })
                 }
-                //console.info(util.inspect(member, false, null, true));
+                console.info(util.inspect(member.displayAvatarURL(), false, null, true));
             }
 
             output.push({

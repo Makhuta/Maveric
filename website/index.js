@@ -8,13 +8,15 @@ const app = express()
 var port = process.env.PORT || 8080
 var host = process.env.HOST
 
-var layoutslozka = __dirname + "/views/layouts"
+var layoutsDir = __dirname + "/views/layouts"
+var partialsDir = __dirname + "/views/partials"
 
 
 app.engine("hbs", hbs.create({
     extname: "hbs",
     defaultLayout: "layout",
-    layoutsDir: layoutslozka
+    layoutsDir,
+    partialsDir
 }).engine)
 
 app.set("view engine", "hbs")
@@ -26,10 +28,29 @@ app.use("/js", express.static(__dirname + "/public/js"))
 app.use("/img", express.static(__dirname + "/public/img"))
 
 
-app.get("/*", async function(req, res) {
+app.get("/", async function(req, res) {
+
+    if(req.query.guild_id != undefined) {
+        let guild_id = req.query.guild_id;
+        if(!client.guilds.cache.get(guild_id)) {
+            let guilds = await require(join(__dirname, "src/load_all_guilds.js")).run();
+            res.render('main', {layout: 'index', guilds});
+        } else {
+            let guild_data = await require(join(__dirname, "src/load_requested_guild.js")).run(guild_id);
+            res.render('guild', {layout: 'index', guild_data});
+        }
+    } else {
+        let guilds = await require(join(__dirname, "src/load_all_guilds.js")).run();
+        res.render('main', {layout: 'index', guilds});
+    }
+
+    
+    
+    
+    /*
     guilds = await require(join(__dirname, "load_guilds.js")).run();
-    //console.info(util.inspect(guilds, false, null, true));
     res.render('main', {layout: 'index', guilds});
+    */
 })
 
 
