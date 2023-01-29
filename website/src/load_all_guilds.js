@@ -4,10 +4,10 @@ module.exports = {
     run() {
         let output = [];
         let guids = client.guilds.cache;
-        let owner = {};
         for(guild of guids) {
             guild = guild[1];
-
+            
+            let owner = {};
             let members_count = 0;
             let bots_count = 0;
             for(member of guild.members.cache) {
