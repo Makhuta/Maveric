@@ -1,5 +1,19 @@
 const { client } = require(DClientLoc);
 
+async function parsed_config(guild_id) {
+    let config = GuildsConfigs[guild_id].config;
+    let output = {};
+
+    for(key of Object.keys(config)) {
+        value = config[key] == "" ? "undefined" : config[key] == true ? "True" : config[key] == false ? "False" : config[key];
+        output[key] = {
+            name: key,
+            value: value
+        };
+    }
+    return Object.values(output);
+}
+
 function user_add(user_array, user_obj) {
     user_array.push({
         id: user_obj.user.id,
@@ -11,7 +25,7 @@ function user_add(user_array, user_obj) {
 }
 
 module.exports = {
-    run(guild_id) {
+    async run(guild_id) {
         let requested_guild = client.guilds.cache.get(guild_id);
         let members = [];
         let bots = [];
@@ -41,6 +55,7 @@ module.exports = {
             members,
             bots,
             icon_url: requested_guild.iconURL() ? requested_guild.iconURL() : "https://cdn.discordapp.com/embed/avatars/3.png",
+            config: await parsed_config(requested_guild.id),
         }
         return output;
     }

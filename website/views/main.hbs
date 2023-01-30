@@ -1,73 +1,49 @@
-<div class="top">
-    <div class="stats_tab">
-        <p class="stats_content">Guilds: {{guilds.length}}</p>
-    </div>
-</div>
-<div class="middle">
-    <div class="servers_coll">
-        {{#each guilds}}
+<div class="servers_list">
+    <div class="servers_list_padder"></div>
+    {{#each guilds}}
+        <div class="backgrounded_icon">
             <button class="server_btn" id="{{this.id}}" type="button">
                 <img src="{{this.icon_url}}" alt="{{this.name}} ({{this.id}}) icon" class="server_icon" >
             </button>
-        {{/each}}
-    </div>
-    <div class="servers_stats">
-        {{#each guilds}}
-            <div class="guild_info" id="{{this.id}}_stats">
-                <div class="stat_middle">
-                    <p class="stat_text">ID: {{this.id}}</p>
-                    <p class="stat_text">Name: {{this.name}}</p>
-                    <p class="stat_text">Owner: {{this.owner.username}}#{{this.owner.discriminator}} (TBD)</p>
-                    <p class="stat_text">Members: {{this.members}}</p>
-                    <p class="stat_text">Bots: {{this.bots}}</p>
-                    <a href="/?guild_id={{this.id}}"><button class="view_btn"><p class="stat_text">View</p></button></a>
+        </div>
+    {{/each}}
+</div>
+<div class="top">
+    <button class="menu_btn">
+        <div></div>
+        <div></div>
+        <div></div>
+    </button>
+    <p class="top_text">{{bot_user.username}}#{{bot_user.discriminator}} Guilds: {{guilds.length}}</p>
+</div>
+<div class="middle">
+    <div class="server_stats">
+        <div class="server_stats_content">
+            {{#each guilds}}
+                <div class="guild_stats" id="{{this.id}}_stats">
+                    <div class="guild_stats_no_view">
+                        <img src="{{this.icon_url}}" alt="{{this.name}} ({{this.id}}) icon" class="guild_stats_server_icon" >
+                        <p class="guild_stat_text">ID: {{this.id}}</p>
+                        <p class="guild_stat_text">Name: {{this.name}}</p>
+                        <p class="guild_stat_text guild_stat_text_collapsable" id="{{this.id}}_owner">Owner: {{this.owner.username}}#{{this.owner.discriminator}}</p>
+                        <div class="guild_stat_text guild_stat_text_collapsable_content first_level" id="{{this.id}}_owner_content">
+                                <p class="guild_stat_text">ID: {{this.owner.id}}</p>
+                                <p class="guild_stat_text">Username: {{this.owner.username}}</p>
+                                <p class="guild_stat_text">Nickname: {{this.owner.nickname}}</p>
+                                <p class="guild_stat_text">Discriminator: {{this.owner.discriminator}}</p>
+                        </div>
+                        <p class="guild_stat_text">Members: {{this.members}}</p>
+                        <p class="guild_stat_text">Bots: {{this.bots}}</p>
+                        <p class="guild_stat_text guild_stat_text_collapsable" id="{{this.id}}_config">Config</p>
+                        <div class="guild_stat_text guild_stat_text_collapsable_content first_level guild_config" id="{{this.id}}_config_content">
+                            {{#each this.config}}
+                                <p class="guild_stat_text">{{this.name}}: {{this.value}}</p>
+                            {{/each}}
+                        </div>
+                    </div>
+                    <a href="/?guild_id={{this.id}}"><button class="view_btn"><p class="guild_stat_text">View</p></button></a>
                 </div>
-                <div class="stat_top">
-                    <img src="{{this.icon_url}}" alt="{{this.name}} ({{this.id}}) icon" class="stats_server_icon" >
-                </div>
-            </div>
-        {{/each}}
+            {{/each}}
+        </div>
     </div>
 </div>
-
-
-
-
-
-
-
-
-
-{{!--
-{{#each guilds}}
-    <button type="button" class="collapsible main_btn">
-        <div class="guild_button">
-            <img src="{{this.icon_url}}" alt="{{this.name}} ({{this.id}}) icon" class="icon" >
-        </div>
-        <div class="guild_button">
-            <h3>{{this.name}} ({{this.id}})</h3>
-        </div>
-    </button>
-    <div class="content">
-        <button type="button" class="not_collapsible">ID: {{this.id}}</button>
-        <button type="button" class="not_collapsible">Name: {{this.name}}</button>
-        <button type="button" class="collapsible">
-            <div class="guild_button">
-                <img src="{{this.owner.avatar_url}}" alt="{{this.owner.username}} ({{this.owner.id}}) avatar" class="avatar" >
-            </div>
-            <div class="guild_button">
-                <h4>Owner: {{this.owner.username}}#{{this.owner.discriminator}}</h3>
-            </div>
-        </button>
-        <div class="content">
-            <button type="button" class="not_collapsible">ID: {{this.owner.id}}</button>
-            <button type="button" class="not_collapsible">Username: {{this.owner.username}}</button>
-            <button type="button" class="not_collapsible">Nickname: {{this.owner.nickname}}</button>
-            <button type="button" class="not_collapsible">Discriminator: {{this.owner.discriminator}}</button>
-        </div>
-        <button type="button" class="not_collapsible">Members: {{this.members}}</button>
-        <button type="button" class="not_collapsible">Bots: {{this.bots}}</button>
-        <a href="/?guild_id={{this.id}}"><button type="button" class="not_collapsible">View guild</button></a>
-    </div>
-{{/each}}
---}}

@@ -1,97 +1,138 @@
-a {
-    color: inherit;
+.top {
+    display: flex;
+    padding: 0;
+    height: 7vh;
+    line-height: 7vh;
+    background-color: #111;
+    text-align: center;
+    z-index: 11;
 }
 
-a .not_collapsible {
-    cursor: pointer;
-    background-color: rgb(255, 60, 60);
+.middle {
+    height: 93vh;
+    display: flex;
 }
 
-h1, h2, h3, h4 {
-    padding-left: 20px;
-}
-
-.guild_button {
+.top_text {
+    width: 100%;
     display: inline-block;
     vertical-align: middle;
+    font-size: min(5vh, 5vw);
+    margin: 0;
+    color: #fff;
 }
 
-.text_middle {
-    vertical-align: middle;
-}
-
-.icon {
-    width: 75px;
-    border-radius: 100%;
-}
-
-.avatar {
-    width: 50px;
-    border-radius: 100%;
-}
-
-.guild_name {
+.middle {
+    height: 93vh;
     display: flex;
-    width: 100%;
-    text-align: center;
 }
 
-.main_btn {
-    border-radius: 18px;
-    margin: 10px 0 0 0;
+.server_stats {
+    border-radius: min(5vh, 5vw);
+    background-color: #111;
+    margin: 1vh 0 0 1vw;
+    width: 98vw;
+    height: 91vh;
 }
 
-.collapsible {
-    background-color: rgb(100, 100, 255);
-    color: white;
+.server_stats_content {
+    margin: min(5vh, 5vw) min(5vh, 5vw) min(5vh, 5vw) min(5vh, 5vw);
+    width: calc(100% - min(5vh, 5vw) * 2);
+    height: calc(100% - min(5vh, 5vw) * 2);
+}
+
+.guild_stat_text {
+    margin: min(2vw, 10px) 0 min(2vw, 10px) 0;
+    padding-left: min(2vh, 2vw);
+    font-size: min(2vh, 2vw);
+    color: #fff;
+}
+
+.guild_stat_text_collapsable {
     cursor: pointer;
-    padding: 15px;
-    min-width: 100%;
-    width: fit-content;
-    border: none;
-    text-align: left;
-    outline: none;
-    font-size: 15px;
+    border-radius: min(2vh, 2vw);
+    padding-top: min(1vw, 5px);
+    padding-bottom: min(1vw, 5px);
+    background-color: #222;
+    user-select: none;
+}::-webkit-scrollbar {
+    width: 10px;
+    border-radius: 5px;
+    background-color: #444;
+}::-webkit-scrollbar-thumb {
+    width: 10px;
+    border-radius: 5px;
+    background-color: #333;
 }
 
-.rounded_bottom {
-    border-radius: 0 0 18px 18px;
+.first_level {
+    margin-top: 0;
+    margin-left: min(2vh, 2vw);
 }
 
-.not_collapsible {
-    background-color: rgb(50, 50, 255);
-    color: white;
-    padding: 15px;
-    min-width: 100%;
-    width: fit-content;
-    border: none;
-    text-align: left;
-    outline: none;
-    font-size: 15px;
+.second_level {
+    margin-left: min(4vh, 4vw);
+}
+
+.collapsable_clear_background {
+    border-radius: min(2vh, 2vw);
+    background-color: #111;
+} .active {
+    border-bottom-left-radius: 0;
+}
+
+.guild_stat_text_collapsable_content {
+    display: none;
+    border-radius: 0 0 min(2vh, 2vw) min(2vh, 2vw);
+    margin-top: 0;
+    padding-left: 0;
+    padding-top: min(1vw, 5px);
+    padding-bottom: min(1vw, 5px);
+    background-color: #222;
+    max-height: calc(calc(min(2vh, 2vw) + min(2vw, 10px) * 2) * 6 + min(2vw, 10px));
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.guild_config {
+    max-height: calc(calc(min(2vh, 2vw) + min(2vw, 10px) * 2) * 4 + min(2vw, 10px));
+}
+
+.active_collapsable {
+    margin-bottom: 0;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: min(2vh, 2vw);
 }
 
 .active {
-    border-radius: 18px 18px 0 18px;
+    display: block;
 }
 
-.not_colapsable .active {
-    border-radius: 18px 18px 0 18px;
+.guild_stats_server_icon {
+    border-radius: 25%;
+    width: max(12vh, 12vw);
+    height: max(12vh, 12vw);
 }
 
-.active, .collapsible:hover {
-    background-color: rgb(75, 75, 255);
+.guild_stats_no_back {
+    height: calc(91vh - min(5vh, 5vw) * 2 - min(7vh, 7vw));
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
-.content {
-    padding: 0 0 0 18px;
-    display: none;
-    overflow: hidden;
+.back_btn {
+    border-radius: calc(min(5vh, 5vw) * 2);
+    position: absolute;
+    background-color: #222;
+    border: 0;
+    cursor: pointer;
+    bottom: 0;
+    width: calc(100% - min(5vh, 5vw) * 2 - min(6vh, 6vw) / 2);
+    height: min(6vh, 6vw);
+    bottom: 0;
+    transform: translateY(-100%);
 }
 
-.not_colapsable {
-    display: grid;
-}
-
-button:last-child {
-    border-radius: 0 0 18px 18px;
+.bordered {
+    border: 1px white solid;
 }

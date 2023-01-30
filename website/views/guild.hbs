@@ -1,3 +1,72 @@
+<div class="top">
+    <p class="top_text">{{guild_data.name}} ({{guild_data.id}})</p>
+</div>
+<div class="middle">
+    <div class="server_stats">
+        <div class="server_stats_content">
+            <div class="guild_stats_no_back">
+                <img src="{{guild_data.icon_url}}" alt="{{guild_data.name}} ({{guild_data.id}}) icon" class="guild_stats_server_icon" >
+                <p class="guild_stat_text">ID: {{guild_data.id}}</p>
+                <p class="guild_stat_text">Name: {{guild_data.name}}</p>
+                <p class="guild_stat_text guild_stat_text_collapsable" id="{{guild_data.id}}_owner">Owner: {{guild_data.owner.username}}#{{guild_data.owner.discriminator}}</p>
+                <div class="guild_stat_text guild_stat_text_collapsable_content first_level" id="{{guild_data.id}}_owner_content">
+                        <p class="guild_stat_text">ID: {{guild_data.owner.id}}</p>
+                        <p class="guild_stat_text">Username: {{guild_data.owner.username}}</p>
+                        <p class="guild_stat_text">Nickname: {{guild_data.owner.nickname}}</p>
+                        <p class="guild_stat_text">Discriminator: {{guild_data.owner.discriminator}}</p>
+                </div>
+
+                <p class="guild_stat_text guild_stat_text_collapsable" id="members">Members ({{guild_data.members.length}})</p>
+                <div class="guild_stat_text guild_stat_text_collapsable_content first_level" id="members_content">
+                    {{#each guild_data.members}}
+                        <div class="collapsable_clear_background" id="{{this.id}}_user_clear">
+                            <p class="guild_stat_text guild_stat_text_collapsable" id="{{this.id}}_user">{{this.username}}</p>
+                            <div class="guild_stat_text guild_stat_text_collapsable_content second_level" id="{{this.id}}_user_content">
+                                <p class="guild_stat_text">ID: {{this.id}}</p>
+                                <p class="guild_stat_text">Username: {{this.username}}</p>
+                                <p class="guild_stat_text">Nickname: {{this.nickname}}</p>
+                                <p class="guild_stat_text">Discriminator: {{this.discriminator}}</p>
+                            </div>
+                        </div>    
+                    {{/each}}
+                </div>
+
+                <p class="guild_stat_text guild_stat_text_collapsable" id="bots">Bots ({{guild_data.bots.length}})</p>
+                <div class="guild_stat_text guild_stat_text_collapsable_content first_level" id="bots_content">
+                    {{#each guild_data.bots}}
+                        <div class="collapsable_clear_background" id="{{this.id}}_user_clear">
+                            <p class="guild_stat_text guild_stat_text_collapsable" id="{{this.id}}_user">{{this.username}}</p>
+                            <div class="guild_stat_text guild_stat_text_collapsable_content second_level" id="{{this.id}}_user_content">
+                                <p class="guild_stat_text">ID: {{this.id}}</p>
+                                <p class="guild_stat_text">Username: {{this.username}}</p>
+                                <p class="guild_stat_text">Nickname: {{this.nickname}}</p>
+                                <p class="guild_stat_text">Discriminator: {{this.discriminator}}</p>
+                            </div>
+                        </div>    
+                    {{/each}}
+                </div>
+                <p class="guild_stat_text guild_stat_text_collapsable" id="{{guild_data.id}}_config">Config</p>
+                <div class="guild_stat_text guild_stat_text_collapsable_content first_level guild_config" id="{{guild_data.id}}_config_content">
+                    {{#each guild_data.config}}
+                        <p class="guild_stat_text">{{this.name}}: {{this.value}}</p>
+                    {{/each}}
+                </div>
+            </div>
+            <a href="/"><button class="back_btn"><p class="guild_stat_text">Back</p></button></a>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+{{!---
 <button type="button" class="not_collapsible main_btn active">
     <div class="guild_button">
         <img src="{{guild_data.icon_url}}" alt="{{guild_data.name}} ({{guild_data.id}}) icon" class="icon" >
@@ -37,3 +106,4 @@
         </div>
     <a href="/"><button type="button" class="not_collapsible">Back</button></a>
 </div>
+---}}

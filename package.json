@@ -6,7 +6,7 @@
   "scripts": {
     "test": "npm install nodemon --save-dev",
     "needed": "npm install canvas discord.js dotenv mysql path",
-    "watch": "nodemon ./index.js"
+    "watch": "nodemon ./index.js --ignore website/public/js"
   },
   "author": "Makhuta",
   "license": "ISC",
