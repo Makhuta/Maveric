@@ -34,14 +34,14 @@ app.get("/", async function(req, res) {
         let guild_id = req.query.guild_id;
         if(!client.guilds.cache.get(guild_id)) {
             let guilds = await require(join(__dirname, "src/load_all_guilds.js")).run();
-            res.render('main', {layout: 'index', guilds});
+            res.render('main', {layout: 'index', guilds, file: "main", bot_user: client.user});
         } else {
             let guild_data = await require(join(__dirname, "src/load_requested_guild.js")).run(guild_id);
-            res.render('guild', {layout: 'index', guild_data});
+            res.render('guild', {layout: 'index', guild_data, file: "guild"});
         }
     } else {
         let guilds = await require(join(__dirname, "src/load_all_guilds.js")).run();
-        res.render('main', {layout: 'index', guilds});
+        res.render('main', {layout: 'index', guilds, file: "main", bot_user: client.user});
     }
 
     
