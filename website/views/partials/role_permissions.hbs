@@ -1,0 +1,8 @@
+<div class="collapsable_clear_background" id="{{this.role_owner}}_{{this.id}}_role_permissions_clear">
+    <p class="guild_stat_text guild_stat_text_collapsable" id="{{this.role_owner}}_{{this.id}}_role_permissions">Permissions ({{this.permissions.length}})</p>
+    <div class="guild_stat_text guild_stat_text_collapsable_content third_level" id="{{this.role_owner}}_{{this.id}}_role_permissions_content">
+    {{#each this.permissions}}
+            <p class="guild_stat_text">{{this}}</p>
+    {{/each}}
+    </div>    
+</div>

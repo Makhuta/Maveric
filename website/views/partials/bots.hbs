@@ -1,0 +1,41 @@
+<p class="guild_stat_text guild_stat_text_collapsable" id="bots">Bots ({{guild_data.bots.length}})</p>
+<div class="guild_stat_text guild_stat_text_collapsable_content first_level guild_members" id="bots_content">
+    {{#each guild_data.bots}}
+        <div class="collapsable_clear_background" id="{{this.id}}_user_clear">
+            <p class="guild_stat_text guild_stat_text_collapsable" id="{{this.id}}_user">{{this.username}}</p>
+            <div class="guild_stat_text guild_stat_text_collapsable_content second_level" id="{{this.id}}_user_content">
+                <p class="guild_stat_text">ID: {{this.id}}</p>
+                <p class="guild_stat_text">Username: {{this.username}}</p>
+                <p class="guild_stat_text">Nickname: {{this.nickname}}</p>
+                <p class="guild_stat_text">Discriminator: {{this.discriminator}}</p>
+
+                <div class="collapsable_clear_background" id="{{this.id}}_roles_clear">
+                    <p class="guild_stat_text guild_stat_text_collapsable" id="{{this.id}}_roles">Roles ({{this.roles.length}})</p>
+                    <div class="guild_stat_text guild_stat_text_collapsable_content second_level guild_roles" id="{{this.id}}_roles_content">
+                        {{#each this.roles}}
+                            <div class="collapsable_clear_background" id="{{this.id}}_user_role_clear">
+                                <p class="guild_stat_text guild_stat_text_collapsable" id="{{this.id}}_user_role">{{this.name}}</p>
+                                <div class="guild_stat_text guild_stat_text_collapsable_content third_level guild_roles" id="{{this.id}}_user_role_content">
+                                    <p class="guild_stat_text">ID: {{this.id}}</p>
+                                    <p class="guild_stat_text">Name: {{this.name}}</p>
+                                    <p class="guild_stat_text">Raw possition: {{this.raw_position}}</p>
+                                    <p class="guild_stat_text">Managed: {{this.managed}}</p>
+                                    <p class="guild_stat_text">Mentionable: {{this.mentionable}}</p>
+                                    <div class="collapsable_clear_background" id="{{this.id}}_user_role_permissions_clear">
+                                        <p class="guild_stat_text guild_stat_text_collapsable" id="{{this.id}}_user_role_permissions">Permissions ({{this.permissions.length}})</p>
+                                        <div class="guild_stat_text guild_stat_text_collapsable_content third_level" id="{{this.id}}_user_role_permissions_content">
+                                        {{#each this.permissions}}
+                                                <p class="guild_stat_text">{{this}}</p>
+                                        {{/each}}
+                                        </div>    
+                                    </div>
+                                </div>
+                            </div>    
+                        {{/each}}
+                    </div>
+                </div>
+
+            </div>
+        </div>    
+    {{/each}}
+</div>

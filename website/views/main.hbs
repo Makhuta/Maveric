@@ -25,15 +25,19 @@
                         <img src="{{this.icon_url}}" alt="{{this.name}} ({{this.id}}) icon" class="guild_stats_server_icon" >
                         <p class="guild_stat_text">ID: {{this.id}}</p>
                         <p class="guild_stat_text">Name: {{this.name}}</p>
+                        <p class="guild_stat_text">Creation date: {{this.created_date}}</p>
                         <p class="guild_stat_text guild_stat_text_collapsable" id="{{this.id}}_owner">Owner: {{this.owner.username}}#{{this.owner.discriminator}}</p>
                         <div class="guild_stat_text guild_stat_text_collapsable_content first_level" id="{{this.id}}_owner_content">
                                 <p class="guild_stat_text">ID: {{this.owner.id}}</p>
                                 <p class="guild_stat_text">Username: {{this.owner.username}}</p>
                                 <p class="guild_stat_text">Nickname: {{this.owner.nickname}}</p>
                                 <p class="guild_stat_text">Discriminator: {{this.owner.discriminator}}</p>
+                                <p class="guild_stat_text">Joining date: {{this.owner.joined_date}}</p>
+                                <p class="guild_stat_text">Creation date: {{this.owner.created_date}}</p>
                         </div>
                         <p class="guild_stat_text">Members: {{this.members}}</p>
                         <p class="guild_stat_text">Bots: {{this.bots}}</p>
+                        <p class="guild_stat_text">Roles: {{this.roles}}</p>
                         <p class="guild_stat_text guild_stat_text_collapsable" id="{{this.id}}_config">Config</p>
                         <div class="guild_stat_text guild_stat_text_collapsable_content first_level guild_config" id="{{this.id}}_config_content">
                             {{#each this.config}}

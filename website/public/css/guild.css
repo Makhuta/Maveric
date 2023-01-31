@@ -74,6 +74,10 @@
     margin-left: min(4vh, 4vw);
 }
 
+.third_level {
+    margin-left: min(6vh, 6vw);
+}
+
 .collapsable_clear_background {
     border-radius: min(2vh, 2vw);
     background-color: #111;
@@ -96,6 +100,14 @@
 
 .guild_config {
     max-height: calc(calc(min(2vh, 2vw) + min(2vw, 10px) * 2) * 4 + min(2vw, 10px));
+}
+
+.guild_roles {
+    max-height: calc(calc(min(2vh, 2vw) + min(2vw, 10px) * 2) * 10 + min(2vw, 10px));
+}
+
+.guild_members {
+    max-height: calc(calc(min(2vh, 2vw) + min(2vw, 10px) * 2) * 10 + min(2vw, 10px));
 }
 
 .active_collapsable {

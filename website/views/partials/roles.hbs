@@ -1,0 +1,11 @@
+<div class="collapsable_clear_background" id="{{this.id}}_{{this.role_owner}}_roles_clear">
+    <p class="guild_stat_text guild_stat_text_collapsable" id="{{this.id}}_{{this.role_owner}}_roles">{{this.name}}</p>
+    <div class="guild_stat_text guild_stat_text_collapsable_content third_level guild_roles" id="{{this.id}}_{{this.role_owner}}_roles_content">
+        <p class="guild_stat_text">ID: {{this.id}}</p>
+        <p class="guild_stat_text">Name: {{this.name}}</p>
+        <p class="guild_stat_text">Raw possition: {{this.raw_position}}</p>
+        <p class="guild_stat_text">Managed: {{this.managed}}</p>
+        <p class="guild_stat_text">Mentionable: {{this.mentionable}}</p>
+        {{> role_permissions}}
+    </div>
+</div>
