@@ -11,8 +11,8 @@ module.exports = {
   Category: "Moderation",
   IsAdminDependent: true,
   Released: true,
-  RequiedUserPermissions: ["MANAGE_GUILD"],
-  RequiedBotPermissions: ["MANAGE_CHANNELS", "VIEW_CHANNEL", "SEND_MESSAGES", "ATTACH_FILES"],
+  RequiedUserPermissions: ["ManageGuild"],
+  RequiedBotPermissions: ["ManageChannels", "ViewChannels", "SendMessages", "AttachFiles"],
   async create({ commands, permissions, dmEnabled }) {
     let choices = [];
     for (DFunction of DefaultFunctionsStates) {

@@ -1,12 +1,11 @@
 const { join } = require("path");
 
 async function run_bot() {
-  //Load Global Files
+  //Init Global Files
   await require(join(__dirname, "src/boot/SetupGlobals.js")).run(__dirname);
-  
+
   //Initialize Client
   await require(join(Boot, "botinit.js")).run();
-  run_website();
 
   //Init Database (MySQL)
   await require(join(Boot, "dbinit.js"));
@@ -20,19 +19,8 @@ async function run_bot() {
   await require(join(Boot, "RegisterCommands.js"));
 
   console.info("Done!");
-
-  //Emmitting that bot is done loading
   const { NSBR } = require(DClientLoc);
   NSBR.emit("ready");
-}
-
-async function run_website() {
-  const { NSBR } = require(DClientLoc);
-
-  NSBR.on("ready", () => {
-    require(join(__dirname, "website/index.js"));
-  })
-
 }
 
 run_bot();

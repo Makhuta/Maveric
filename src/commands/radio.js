@@ -4,7 +4,6 @@ const { join } = require("path");
 const colors = require(join(ColorPaletes, "colors.json"));
 const RadioHandler = require(join(Functions, "placeholders/RadioHandler.js"));
 const RadioStations = require(join(Configs, "RadioStations.json"));
-const PermissionsList = require(join(Configs, "PermissionsList.json"));
 const { client } = require(DClientLoc);
 const { isNull, isUndefined } = require("util");
 const { Parser } = require("icecast-parser");
@@ -114,16 +113,16 @@ module.exports = {
   SupportServerOnly: false,
   PMEnable: false,
   Released: true,
-  RequiedUserPermissions: ["SEND_MESSAGES", "VIEW_CHANNEL"],
-  RequiedBotPermissions: ["SEND_MESSAGES", "VIEW_CHANNEL", "SPEAK", "CONNECT"],
+  RequiedUserPermissions: ["SendMessages", "ViewChannel"],
+  RequiedBotPermissions: ["SendMessages", "ViewChannel", "Speak", "Connect"],
   async run(interaction) {
     const { options, member, guildId } = interaction;
     let UserVoiceChannel = await (await member.fetch()).voice.channel;
     let UserIsInVoiceChannel = !isNull(UserVoiceChannel);
     let PermissionsINChannel = interaction.guild.members.me.permissionsIn(UserVoiceChannel);
-    let CanView = PermissionsINChannel.has(PermissionsList["VIEW_CHANNEL"]);
-    let CanTalk = PermissionsINChannel.has(PermissionsList["SPEAK"]);
-    let CanJoin = PermissionsINChannel.has(PermissionsList["CONNECT"]);
+    let CanView = PermissionsINChannel.has(PossiblePermissions["ViewChannel"]);
+    let CanTalk = PermissionsINChannel.has(PossiblePermissions["Speak"]);
+    let CanJoin = PermissionsINChannel.has(PossiblePermissions["Connect"]);
     let CanContinue = CanView && CanTalk && CanJoin;
 
     //Check if user is in voice channel

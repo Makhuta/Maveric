@@ -187,8 +187,8 @@ module.exports = {
   Category: "Moderation",
   IsOwnerDependent: true,
   Released: true,
-  RequiedUserPermissions: ["ADMINISTRATOR"],
-  RequiedBotPermissions: ["SEND_MESSAGES", "VIEW_CHANNEL"],
+  RequiedUserPermissions: ["Administrator"],
+  RequiedBotPermissions: ["SendMessages", "ViewChannel"],
 
   name: "Info",
   description: "This is the Info command.",

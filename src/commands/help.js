@@ -84,10 +84,10 @@ async function EmbedNoCommandSelected({ embed, InteractionGuildIn }) {
         inline: true
       },
       {
-        name: `ㅤ\nIf you have other problems visit ${client.user.username} support server.`,
+        name: `ㅤ\nIf you have any other problems visit ${client.user.username} support server.`,
         value: `[${client.user.username} support](${process.env.SUPPORT_SERVER_INVITE})`
       },
-      { name: `Consider voting for me to unlock more features.`, value: `[TOP.GG](https://top.gg/bot/${process.env.TOPGGID}/vote)` }
+      { name: `Or ${client.user.username} support website.`, value: `[Maveric support](https://maveric-website.xyz)` }
     );
   } else {
     embed.addFields(
@@ -104,10 +104,10 @@ async function EmbedNoCommandSelected({ embed, InteractionGuildIn }) {
       },
       { name: "Other", value: cmds["Other"].join(" "), inline: false },
       {
-        name: `ㅤ\nIf you have other problems visit ${client.user.username} support server.`,
+        name: `ㅤ\nIf you have any other problems visit ${client.user.username} support server.`,
         value: `[${client.user.username} support](${process.env.SUPPORT_SERVER_INVITE})`
       },
-      { name: `Consider voting for me to unlock more features.`, value: `[TOP.GG](https://top.gg/bot/${process.env.TOPGGID}/vote)` }
+      { name: `Or ${client.user.username} support website.`, value: `[Maveric support](https://maveric-website.xyz)` }
     );
   }
 
@@ -138,10 +138,10 @@ async function DefaultCOmmandEmbed({ embed, RequiredCommand, InteractionGuildIn 
     },
     { name: "Required permission/s to use", value: `${RequiredCommand.RequiedUserPermissions.join("\n")}`, inline: true },
     {
-      name: `ㅤ\nIf you have other problems visit ${client.user.username} support server.`,
+      name: `ㅤ\nIf you have any other problems visit ${client.user.username} support server.`,
       value: `[${client.user.username} support](${process.env.SUPPORT_SERVER_INVITE})`
     },
-    { name: `Consider voting for me to unlock more features.`, value: `[TOP.GG](https://top.gg/bot/${process.env.TOPGGID}/vote)` }
+    { name: `Or ${client.user.username} support website.`, value: `[Maveric support](https://maveric-website.xyz)` }
   );
   embed.setTimestamp();
 
@@ -156,8 +156,8 @@ module.exports = {
   Category: "Main",
   PMEnable: true,
   Released: true,
-  RequiedUserPermissions: ["SEND_MESSAGES", "VIEW_CHANNEL"],
-  RequiedBotPermissions: ["SEND_MESSAGES", "VIEW_CHANNEL"],
+  RequiedUserPermissions: ["SendMessages", "ViewChannel"],
+  RequiedBotPermissions: ["SendMessages", "ViewChannel"],
   async run(interaction) {
     await interaction.deferReply();
     const { options } = interaction;

@@ -1,5 +1,4 @@
 const { join } = require("path");
-const PermissionsList = require(join(Configs, "PermissionsList.json"));
 const UpdateVariable = require(join(Functions, "database/UpdateVariable.js"));
 
 module.exports = async function (RequestedInits, interaction) {
@@ -13,7 +12,7 @@ module.exports = async function (RequestedInits, interaction) {
     let PermissionsInChannel = guild.members.me.permissionsIn(RequestedInit.Channel);
     let ArrayOfOwnedPerms = [];
     for (RequestedInitPerm of RequestedInit.Permissions) {
-      ArrayOfOwnedPerms.push(PermissionsInChannel.has(PermissionsList[RequestedInitPerm]));
+      ArrayOfOwnedPerms.push(PermissionsInChannel.has(PossiblePermissions[RequestedInitPerm]));
     }
     if (ArrayOfOwnedPerms.some((e) => !e)) continue;
     let CorrespondingVariable = RequestedInit.CorrespondingVariables[RequestedInitKey];

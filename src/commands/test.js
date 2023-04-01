@@ -25,10 +25,9 @@ module.exports = {
   SupportServerOnly: false,
   PMEnable: false,
   Released: true,
-  RequiedUserPermissions: ["MANAGE_GUILD"],
-  RequiedBotPermissions: ["ADMINISTRATOR"],
+  RequiedUserPermissions: ["ManageGuild"],
+  RequiedBotPermissions: ["Administrator"],
   async create({ commands, permissions, dmEnabled }) {
-    console.info(typeof permissions);
     let options = [
       {
         name: "iswelcome",

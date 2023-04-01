@@ -16,8 +16,8 @@ module.exports = {
   SupportServerOnly: false,
   PMEnable: false,
   Released: true,
-  RequiedUserPermissions: ["MANAGE_GUILD"],
-  RequiedBotPermissions: ["SEND_MESSAGES", "VIEW_CHANNEL"],
+  RequiedUserPermissions: ["ManageGuild"],
+  RequiedBotPermissions: ["SendMessages", "ViewChannel"],
   async run(interaction) {
     let GuildID = interaction.guildId;
     let ConfigList = GuildsConfigs[GuildID].config;

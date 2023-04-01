@@ -17,8 +17,8 @@ module.exports = {
   SupportServerOnly: false,
   PMEnable: false,
   Released: true,
-  RequiedUserPermissions: ["SEND_MESSAGES", "VIEW_CHANNEL"],
-  RequiedBotPermissions: ["SEND_MESSAGES", "VIEW_CHANNEL"],
+  RequiedUserPermissions: ["SendMessages", "ViewChannel"],
+  RequiedBotPermissions: ["SendMessages", "ViewChannel"],
   async run(interaction) {
     const { options, member, guildId } = interaction;
     let UserVoiceChannel = await (await member.fetch()).voice.channel;

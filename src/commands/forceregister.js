@@ -12,8 +12,8 @@ module.exports = {
   Category: "Moderation",
   IsOwnerDependent: true,
   Released: true,
-  RequiedUserPermissions: ["ADMINISTRATOR"],
-  RequiedBotPermissions: ["SEND_MESSAGES", "VIEW_CHANNEL"],
+  RequiedUserPermissions: ["Administrator"],
+  RequiedBotPermissions: ["SendMessages", "ViewChannel"],
   async create({ commands, permissions, dmEnabled }) {
     let choices = [];
     let CommandListFiltered = Object.keys(JSONFilter({ JSONObject: CommandList, SearchedElement: "Released", ElementValue: true }));

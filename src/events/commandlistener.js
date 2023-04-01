@@ -1,10 +1,8 @@
 const { client } = require(DClientLoc);
 const { join } = require("path");
 const colors = require(join(ColorPaletes, "colors.json"));
-const JSONFilter = require(join(Functions, "global/JSONFilter.js"));
 const InfoHandler = require(join(Functions, "placeholders/InfoHandler.js"));
 require("dotenv").config();
-const PermissionsList = require(join(Configs, "PermissionsList.json"));
 const { EmbedBuilder } = require("discord.js");
 
 client.on("interactionCreate", async (interaction) => {
@@ -46,24 +44,7 @@ client.on("interactionCreate", async (interaction) => {
   let hasVoted;
 
   if (VoteTied) {
-    hasVoted = await TopGGApi.hasVoted(user.id).catch((error) => {
-      if (InfoHandler["VoteCheck"] == undefined) {
-        InfoHandler["VoteCheck"] = {};
-      }
-      if (InfoHandler["VoteCheck"][user.id] == undefined) {
-        InfoHandler["VoteCheck"][user.id] = [];
-      }
-
-      InfoHandler["VoteCheck"][user.id].push({
-        ID: user.id,
-        Username: user.username,
-        Discriminator: user.discriminator,
-        Nickname: user.nickname ? user.nickname : "undefined",
-        Bot: user.bot,
-        Error: error,
-        BotAdvertisementEnabled
-      });
-    });
+    hasVoted = true;
 
     console.info(
       `User: ${user.username}#${user.discriminator} want to run vote tied command: ${commandName}.\nHas voted: ${hasVoted}\nBot Advertisement enabled: ${BotAdvertisementEnabled}`
@@ -114,12 +95,12 @@ client.on("interactionCreate", async (interaction) => {
   if (!IsDM) {
     let commandHasRequiredPermissions = [];
     for (BotPermission of RequestedCommand.RequiedBotPermissions) {
-      commandHasRequiredPermissions.push({ Name: BotPermission, Has: interaction.guild.members.me.permissions.has(PermissionsList[BotPermission]) });
+      commandHasRequiredPermissions.push({ Name: BotPermission, Has: interaction.guild.members.me.permissions.has(PossiblePermissions[BotPermission]) });
     }
 
     if (commandHasRequiredPermissions.some((element) => !element.Has))
       return interaction.reply({
-        content: `Don't have permission to perform this task.\nNeeded permission/s: ${(function () {
+        content: `I don't have permission to perform this task.\nNeeded permission/s: ${(function () {
           let CMDsNoPerm = commandHasRequiredPermissions.filter((e) => !e.Has);
           let ReqPerms = [];
           for (CMDNoPerm of CMDsNoPerm) {
@@ -133,6 +114,7 @@ client.on("interactionCreate", async (interaction) => {
   try {
     await require(RequestedCommand.Path).run(interaction);
   } catch (InteractionError) {
+    console.error(InteractionError);
     if (interaction.deferred) {
       interaction.editReply({
         content: `There was an error while processing your command.\nPlease contact support\n[${client.user.username} support](${process.env.SUPPORT_SERVER_INVITE})`

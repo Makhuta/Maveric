@@ -24,11 +24,6 @@ async function GetEmbedFields({ RequestedUser, IsDM, Guild, interaction }) {
     }
     let EmbedFields = [
       {
-        name: "Voted",
-        value: Voted,
-        inline: true
-      },
-      {
         name: "Discriminator",
         value: `#${RequestedUser.discriminator}`,
         inline: true
@@ -90,8 +85,8 @@ module.exports = {
   Category: "Main",
   PMEnable: true,
   Released: true,
-  RequiedUserPermissions: ["SEND_MESSAGES", "VIEW_CHANNEL"],
-  RequiedBotPermissions: ["SEND_MESSAGES", "VIEW_CHANNEL"],
+  RequiedUserPermissions: ["SendMessages", "ViewChannel"],
+  RequiedBotPermissions: ["SendMessages", "ViewChannel"],
   async run(interaction) {
     const { options, member, user, guildId } = interaction;
     let Request = options.getUser("user");
@@ -113,7 +108,6 @@ module.exports = {
       bot: Request?.bot ? Request.bot : user.bot,
       owner: (member?.guild?.ownerId == (Request?.id ? Request.id : user.id)).toString().replace("true", "✅").replace("false", "❌"),
       avatarURL: Request?.displayAvatarURL() ? Request.displayAvatarURL() : user.displayAvatarURL(),
-      voted: await TopGGApi.hasVoted(Request?.id ? Request.id : user.id),
       createdTimestamp: Request?.createdAt ? Request.createdAt : user.createdAt,
       createdDate: timeConverter(Request?.createdAt ? Request.createdAt : user.createdAt),
       joinedTimestamp: member?.guild?.members?.cache?.get(Request?.id ? Request.id : user.id)?.joinedTimestamp
@@ -139,7 +133,8 @@ module.exports = {
       interaction
     });
 
-    EmbedFields.push({ name: `ㅤ\nIf you didn't vote consider voting for me to unlock more features.`, value: `[TOP.GG](https://top.gg/bot/${process.env.TOPGGID}/vote)` });
+    EmbedFields.push({ name: `ㅤ\n`, value: `ㅤ` });
+    //EmbedFields.push({ name: `ㅤ\nIf you didn't vote consider voting for me to unlock more features.`, value: `[TOP.GG](https://top.gg/bot/${process.env.TOPGGID}/vote)` });
 
     let embed = new EmbedBuilder()
       .setColor(colors.red)

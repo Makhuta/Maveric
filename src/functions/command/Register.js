@@ -1,5 +1,12 @@
-const { join } = require("path");
 require("dotenv").config();
+
+function get_permissions(NRCMD) {
+  let buff = [];
+  for(required_permissions of NRCMD.RequiedUserPermissions) {
+    buff.push(PossiblePermissions[required_permissions]);
+  }
+  return buff;
+}
 
 async function RegisterCMD({ cmds, NRCMD }) {
   await require(NRCMD.Path).create({
@@ -7,7 +14,7 @@ async function RegisterCMD({ cmds, NRCMD }) {
     permissions: (function () {
       if (NRCMD.IsOwnerDependent || NRCMD.IsAdminDependent) {
         if (NRCMD.RequiedUserPermissions.length < 1) return "0";
-        else return require(join(Configs, "PermissionsList.json"))[NRCMD.RequiedUserPermissions];
+        else return get_permissions(NRCMD);
       }
     })(),
     dmEnabled: NRCMD.PMEnable

@@ -17,8 +17,8 @@ module.exports = {
   Usage: "/meme (subredit)",
   PMEnable: true,
   Released: true,
-  RequiedUserPermissions: ["SEND_MESSAGES", "VIEW_CHANNEL"],
-  RequiedBotPermissions: ["SEND_MESSAGES", "VIEW_CHANNEL"],
+  RequiedUserPermissions: ["SendMessages", "ViewChannel"],
+  RequiedBotPermissions: ["SendMessages", "ViewChannel"],
   async create({ commands, permissions, dmEnabled }) {
     let choices = [];
     for (SubRedditID in SubReddits) {

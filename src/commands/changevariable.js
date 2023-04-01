@@ -11,8 +11,8 @@ module.exports = {
   IsAdminDependent: true,
   PMEnable: false,
   Released: true,
-  RequiedUserPermissions: ["MANAGE_GUILD"],
-  RequiedBotPermissions: ["SEND_MESSAGES", "VIEW_CHANNEL"],
+  RequiedUserPermissions: ["ManageGuild"],
+  RequiedBotPermissions: ["SendMessages", "ViewChannel"],
   async run(interaction) {
     const { options } = interaction;
     let guildID = interaction.guildId;
