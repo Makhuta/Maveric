@@ -5,7 +5,7 @@ const colors = require(join(ColorPaletes, "colors.json"));
 
 
 module.exports = {
-  Name: "StaredServers",
+  Name: "SharedServers",
   DescriptionShort: "This is the shared servers command.",
   DescriptionLong: "Shows shared servers with selected User. (I need to be there)",
   Usage: "/sharedservers",
