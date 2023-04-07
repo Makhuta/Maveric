@@ -12,15 +12,24 @@ global.DClientLoc = __filename;
 class MyEmitter extends EventEmitter {}
 const NSBR = new MyEmitter();
 
+//Logging up the client
+client.login(process.env.BOT_TOKEN);
+
+
 const promise = new Promise((resolve, reject) => {
   client.on("ready", () => {
     console.info(`\nLogged in as ${client.user.tag}.`);
     resolve();
   });
-});
 
-//Logging up the client
-client.login(process.env.BOT_TOKEN);
+  /*
+  var log = [];
+  console.info = function(d) {
+      console.log("Catched: ");
+      console.log(d);
+  };
+  */
+});
 
 //Exporting variables
 module.exports = {
