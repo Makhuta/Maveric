@@ -80,7 +80,7 @@ module.exports = {
     let embed = new EmbedBuilder()
       .setColor(colors.red)
       .setTitle(requested_user.username)
-      .setAuthor({ name: `Shared servers (${number_of_guilds}):` })
+      .setAuthor({ name: `Shared servers (${shared_guilds.length}):` })
       .setURL(interaction.url)
       .setThumbnail(requested_user.displayAvatarURL())
       .setTimestamp()
