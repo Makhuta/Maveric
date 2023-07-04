@@ -1,6 +1,6 @@
 global.BotGuilds = new Map();
 
-const { client, NSBR } = require(DClientLoc);
+const { client, Maveric } = require(DClientLoc);
 const { MessageBuilder, Webhook } = require("discord-webhook-node");
 
 const ServerStatsHook = new Webhook(process.env.SERVER_STATS_WEBHOOK);
@@ -36,7 +36,7 @@ async function StatsEmbedCreator({ guild, add }) {
   return embed;
 }
 
-NSBR.on("ready", () => {
+Maveric.on("ready", () => {
   client.guilds
     .fetch()
     .then((guilds) => {

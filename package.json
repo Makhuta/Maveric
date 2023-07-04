@@ -1,31 +1,28 @@
 {
   "name": "maveric",
-  "version": "3.0.0",
+  "version": "4.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "watch": "nodemon ./index.js --ignore website/public/js"
+    "watch": "nodemon ./index.js"
   },
   "author": "Makhuta",
   "license": "ISC",
   "devDependencies": {
-    "nodemon": "^2.0.22"
+    "nodemon": "^1.14.9"
   },
   "dependencies": {
-    "@discordjs/opus": "^0.9.0",
-    "@discordjs/voice": "^0.15.0",
-    "canvas": "^2.11.0",
+    "@discordjs/voice": "^0.16.0",
+    "@napi-rs/canvas": "^0.1.41",
+    "canvas": "^2.11.2",
     "discord-webhook-node": "^1.1.8",
-    "discord.js": "^14.8.0",
-    "dotenv": "^16.0.3",
-    "events": "^3.3.0",
-    "ffmpeg-static": "^5.1.0",
+    "discord.js": "^14.11.0",
+    "dotenv": "^16.3.1",
     "fs": "^0.0.1-security",
     "icecast-parser": "^4.0.2",
-    "libsodium-wrappers": "^0.7.11",
-    "mysql": "^2.18.1",
-    "nodemailer": "^6.9.1",
+    "mysql2": "^3.4.4",
+    "nodemailer": "^6.9.3",
     "path": "^0.12.7",
     "topgg-autoposter": "^2.0.1"
   }

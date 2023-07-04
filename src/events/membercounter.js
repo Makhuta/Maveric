@@ -1,4 +1,4 @@
-const { client, NSBR } = require(DClientLoc);
+const { client, Maveric } = require(DClientLoc);
 const { join } = require("path");
 const { isUndefined } = require("util");
 const GuildGlobals = require(join(Functions, "placeholders/GuildGlobals.js"));
@@ -84,7 +84,7 @@ async function updateMembers(guild, configsJSON, type, UserStart) {
   }
 }
 
-NSBR.on("ready", async () => {
+Maveric.on("ready", async () => {
   let guilds = client.guilds.cache;
   guilds.forEach(async (guild) => {
     let configsJSON = GuildsConfigs[guild.id]?.config;

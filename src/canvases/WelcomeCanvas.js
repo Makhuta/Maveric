@@ -10,6 +10,8 @@ module.exports = {
     let stav = hodnoty.stav;
     let datum = hodnoty.datum;
 
+    console.info(target)
+
     if (user_username.length >= 20) {
       user_username = user_username.slice(0, 20) + "...";
     }
@@ -31,7 +33,7 @@ module.exports = {
     let verze_pro_datum = ["Joined", "Member since"];
     let stav_barva;
 
-    if (stav === "Welcome") stav_barva = 0;
+    if (stav == "Welcome") stav_barva = 0;
     else stav_barva = 1;
 
     const canvas = createCanvas(sirka, vyska);

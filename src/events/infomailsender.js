@@ -1,4 +1,4 @@
-const { NSBR } = require(DClientLoc);
+const { Maveric } = require(DClientLoc);
 const { join } = require("path");
 const InfoHandler = require(join(Functions, "placeholders/InfoHandler.js"));
 const MailSender = require(join(Functions, "global/MailSender.js"));
@@ -15,7 +15,7 @@ function timeConverterJSON(UNIX_timestamp) {
   return time;
 }
 
-NSBR.on("ready", () => {
+Maveric.on("ready", () => {
   setInterval(function () {
     if (Object.keys(InfoHandler).length < 1) return;
 

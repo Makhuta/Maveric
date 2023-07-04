@@ -1,26 +1,25 @@
 const { join } = require("path");
 
-async function run_bot() {
-  //Init Global Files
-  await require(join(__dirname, "src/boot/SetupGlobals.js")).run(__dirname);
+async function run() {
+    //Init Global Files
+    await require(join(__dirname, "src/boot/SetupGlobals.js")).run(__dirname);
+    
+    //Initialize Maveric
+    await require(join(Boot, "botinit.js")).run();
+    
+    //Init Database (MySQL)
+    await require(join(Boot, "dbinit.js"));
 
-  //Initialize Client
-  await require(join(Boot, "botinit.js")).run();
+    //Load/Register Source files
+    await require(join(Boot, "loadfiles.js")).run("Event");
+    await require(join(Boot, "loadfiles.js")).run("Command");
+    await require(join(Boot, "loadfiles.js")).run("Font");
 
-  //Init Database (MySQL)
-  await require(join(Boot, "dbinit.js"));
+    //Register commands
+    await require(join(Boot, "RegisterCommands.js"));
 
-  //Load/Register Source files
-  await require(join(Boot, "loadfiles.js")).run("Event");
-  await require(join(Boot, "loadfiles.js")).run("Command");
-  await require(join(Boot, "loadfiles.js")).run("Font");
-
-  //Register commands
-  await require(join(Boot, "RegisterCommands.js"));
-
-  console.info("Done!");
-  const { NSBR } = require(DClientLoc);
-  NSBR.emit("ready");
+    console.info("Done!");
+    require(DClientLoc).Maveric.emit("ready");
 }
 
-run_bot();
+run();

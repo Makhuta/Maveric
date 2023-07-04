@@ -1,7 +1,7 @@
 const fs = require("fs");
 const { join } = require("path");
 const { registerFont } = require("canvas");
-const { NSBR } = require(DClientLoc);
+const { Maveric } = require(DClientLoc);
 
 //Loading commands from folder
 const CommandPromise = new Promise((resolve, reject) => {
@@ -48,7 +48,7 @@ const CommandPromise = new Promise((resolve, reject) => {
       CommandList[CommandStructured.Name] = CommandStructured.Name.toLowerCase();
     });
     console.info("Commands loaded!");
-    NSBR.emit("CommandLoad");
+    Maveric.emit("CommandLoad");
     resolve();
   });
 });
@@ -68,7 +68,7 @@ const EventPromise = new Promise((resolve, reject) => {
       require(join(FileLocation, f));
     });
     console.info("Events Loaded!");
-    NSBR.emit("EventLoad");
+    Maveric.emit("EventLoad");
     resolve();
   });
 });
@@ -89,7 +89,7 @@ const FontPromise = new Promise((resolve, reject) => {
       registerFont(join(Fonts, f.toLocaleString()).replace("\\", "/"), { family: `${name}` });
     });
     console.info("Fonts registered!");
-    NSBR.emit("FontLoad");
+    Maveric.emit("FontLoad");
     resolve();
   });
 });

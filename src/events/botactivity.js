@@ -1,4 +1,4 @@
-const { client, NSBR } = require(DClientLoc);
+const { client, Maveric } = require(DClientLoc);
 const { ActivityType } = require("discord.js");
 require("dotenv").config();
 
@@ -16,7 +16,7 @@ async function aktivita() {
   typ_aktivity.push(aktivita);
 }
 
-NSBR.on("EventLoad", () => {
+Maveric.on("EventLoad", () => {
   aktivita();
 
   setInterval(() => {
