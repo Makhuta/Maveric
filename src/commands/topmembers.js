@@ -64,14 +64,32 @@ module.exports = {
             var userIsAuthor = user.id == member.user.id;
 
             userList.push({
-                name: userIsAuthor ? `**__${member.user.username}__**` : member.user.username,
+                name: userIsAuthor ? `**${member.user.username}**` : member.user.username,
                 id: member.user.id,
-                joinDate: userIsAuthor ? `**__${joinDate.date + "." + joinDate.month + "." + joinDate.year}__**` : joinDate.date + "." + joinDate.month + "." + joinDate.year,
-                joinUNIX: Date.parse(member.user.createdAt),
-                createDate: userIsAuthor ? `**__${createDate.date + "." + createDate.month + "." + createDate.year}__**` : createDate.date + "." + createDate.month + "." + createDate.year,
-                createUNIX: member.joinedTimestamp
+                joinDate: userIsAuthor ? `**${joinDate.date + "." + joinDate.month + "." + joinDate.year}**` : joinDate.date + "." + joinDate.month + "." + joinDate.year,
+                joinUNIX: new Date(member.joinedTimestamp),
+                createDate: userIsAuthor ? `**${createDate.date + "." + createDate.month + "." + createDate.year}**` : createDate.date + "." + createDate.month + "." + createDate.year,
+                createUNIX: new Date(member.user.createdAt)
             })
         }
+
+        userList.sort((a, b) => a.joinUNIX - b.joinUNIX);
+        const sortedByJoinNames = [];
+        const sortedByJoinDates = [];
+        for (let i = 0; i < ((userList.length - 1 < 10) ? userList.length - 1 : 10); i++) {
+            sortedByJoinNames.push((userList[i].name));
+            sortedByJoinDates.push((userList[i].joinDate));
+        }
+
+
+        const sortedByCreateNames = [];
+        const sortedByCreateDates = [];
+        userList.sort((a, b) => a.createUNIX - b.createUNIX);
+        for (let i = 0; i < ((userList.length - 1 < 10) ? userList.length - 1 : 10); i++) {
+            sortedByCreateNames.push((userList[i].name));
+            sortedByCreateDates.push((userList[i].createDate));
+        }
+
 
         let embed = new EmbedBuilder()
             .setTitle('List of tom members')
@@ -79,59 +97,23 @@ module.exports = {
             .addFields(
                 {
                     name: 'Join list',
-                    value:
-                        `${function () {
-                            userList.sort((a, b) => a.joinUNIX < b.joinUNIX)
-
-                            var outputList = [];
-                            for (let i = 0; i < ((userList.length - 1 < 10) ? userList.length - 1 : 10); i++) {
-                                outputList.push((userList[i].name));
-                            }
-                            return outputList.join("\n");
-                        }()}`,
+                    value: `${sortedByJoinNames.join("\n")}`,
                     inline: true
                 },
                 {
                     name: '\u200B',
-                    value:
-                        `${function () {
-                            userList.sort((a, b) => a.joinUNIX < b.joinUNIX)
-
-                            var outputList = [];
-                            for (let i = 0; i < ((userList.length - 1 < 10) ? userList.length - 1 : 10); i++) {
-                                outputList.push(userList[i].joinDate);
-                            }
-                            return outputList.join("\n");
-                        }()}`,
+                    value: `${sortedByJoinDates.join("\n")}`,
                     inline: true
                 },
                 { name: '\u200B', value: '\u200B' },
                 {
                     name: 'Creation list',
-                    value:
-                        `${function () {
-                            userList.sort((a, b) => a.createUNIX < b.createUNIX)
-
-                            var outputList = [];
-                            for (let i = 0; i < ((userList.length - 1 < 10) ? userList.length - 1 : 10); i++) {
-                                outputList.push(userList[i].name);
-                            }
-                            return outputList.join("\n");
-                        }()}`,
+                    value: `${sortedByCreateNames.join("\n")}`,
                     inline: true
                 },
                 {
                     name: '\u200B',
-                    value:
-                        `${function () {
-                            userList.sort((a, b) => a.createUNIX < b.createUNIX)
-
-                            var outputList = [];
-                            for (let i = 0; i < ((userList.length - 1 < 10) ? userList.length - 1 : 10); i++) {
-                                outputList.push(userList[i].createDate);
-                            }
-                            return outputList.join("\n");
-                        }()}`,
+                    value: `${sortedByCreateDates.join("\n")}`,
                     inline: true
                 }
             )
