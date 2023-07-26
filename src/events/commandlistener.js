@@ -5,13 +5,11 @@ const InfoHandler = require(join(Functions, "placeholders/InfoHandler.js"));
 require("dotenv").config();
 const { EmbedBuilder } = require("discord.js");
 
-client.on("interactionCreate", async (interaction) => {
-  if (!interaction.isCommand()) return;
-  //await interaction.deferReply();
 
+async function command(interaction) {
   const { commandName, user, guildId } = interaction;
+  const CMDNamesList = Object.keys(CommandList);
   let IsDM = guildId == null;
-  let CMDNamesList = Object.keys(CommandList);
 
   if (!CMDNamesList.some((CMDName) => CMDName == commandName)) {
     interaction
@@ -137,4 +135,55 @@ client.on("interactionCreate", async (interaction) => {
       Error: InteractionError
     });
   }
+}
+
+async function modal(interaction) {
+  const CMDNamesList = Object.keys(CommandList);
+  var modalSource = interaction.customId;
+  if (!CMDNamesList.some((CMDName) => CMDName == modalSource)) {
+    interaction
+    .reply({
+      content: "I don´t know how to response to this."
+    })
+    .catch((error) => console.error(error));
+    
+    return console.info(`"${commandName}" is not my command. Universal reply.`);
+  }
+
+  const RequestedCommand = CommandList[modalSource];
+
+  try {
+    await require(RequestedCommand.Path).modal(interaction);
+  } catch (InteractionError) {
+    console.error(InteractionError);
+    if (interaction.deferred) {
+      interaction.editReply({
+        content: `There was an error while processing your command.\nPlease contact support\n[${client.user.username} support](${process.env.SUPPORT_SERVER_INVITE})`
+      });
+    } else {
+      interaction.reply({
+        content: `There was an error while processing your command.\nPlease contact support\n[${client.user.username} support](${process.env.SUPPORT_SERVER_INVITE})`
+      });
+    }
+
+    if (InfoHandler["InteractionExecute"] == undefined) {
+      InfoHandler["InteractionExecute"] = {};
+    }
+    if (InfoHandler["InteractionExecute"][RequestedCommand.Name.toLowerCase()] == undefined) {
+      InfoHandler["InteractionExecute"][RequestedCommand.Name.toLowerCase()] = [];
+    }
+
+    InfoHandler["InteractionExecute"][RequestedCommand.Name.toLowerCase()].push({
+      Command: RequestedCommand,
+      Error: InteractionError
+    });
+  }
+}
+
+client.on("interactionCreate", async (interaction) => {
+  if (interaction.isCommand()) command(interaction);
+  else if(interaction.isModalSubmit) modal(interaction);
+  //await interaction.deferReply();
+
+  
 });
