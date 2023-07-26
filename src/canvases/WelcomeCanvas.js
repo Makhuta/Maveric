@@ -1,4 +1,4 @@
-const { createCanvas, loadImage } = require("@napi-rs/canvas");
+const { createCanvas, loadImage, GlobalFonts } = require("@napi-rs/canvas");
 const { AttachmentBuilder } = require("discord.js");
 const { join } = require("path");
 const color = require(join(ColorPaletes, "colors.json"));
@@ -10,7 +10,7 @@ module.exports = {
     let stav = hodnoty.stav;
     let datum = hodnoty.datum;
 
-    console.info(target)
+    //console.log(GlobalFonts.families);
 
     if (user_username.length >= 20) {
       user_username = user_username.slice(0, 20) + "...";
@@ -66,7 +66,7 @@ module.exports = {
 
     ctx.fillStyle = color.white;
     ctx.textAlign = "left";
-    ctx.font = `${sirkapole - velikost_textu}px Arial Black`;
+    ctx.font = `${sirkapole - velikost_textu}px Arial`;
     ctx.fillText(user_username, vyska / 2 + polomer + vzdalenost_od_avataru + text_mensi_o, vyska / 2 - vzdalenost1 - text_mensi_o);
 
     ctx.fillStyle = color.dark_gray;
@@ -75,7 +75,7 @@ module.exports = {
 
     ctx.fillStyle = color.white;
     ctx.textAlign = "left";
-    ctx.font = `${sirkapole - velikost_textu}px Arial Black`;
+    ctx.font = `${sirkapole - velikost_textu}px Arial`;
     ctx.fillText("# " + target.discriminator, vyska / 2 + polomer + vzdalenost_od_avataru + text_mensi_o, vyska / 2 + sirkapole + vzdalenost1 - text_mensi_o);
 
     ctx.fillStyle = color.dark_gray;
@@ -84,7 +84,7 @@ module.exports = {
 
     ctx.fillStyle = color.white;
     ctx.textAlign = "left";
-    ctx.font = `${sirkapole - velikost_textu}px Arial Black`;
+    ctx.font = `${sirkapole - velikost_textu}px Arial`;
     ctx.fillText(`${verze_pro_datum[stav_barva]}: ` + datum, vyska / 2 + polomer + text_mensi_o - 60, vyska - 42);
 
     ctx.globalAlpha = 1;

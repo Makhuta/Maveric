@@ -1,6 +1,6 @@
 const fs = require("fs");
 const { join } = require("path");
-const { registerFont } = require("canvas");
+const { GlobalFonts } = require("@napi-rs/canvas");
 const { Maveric } = require(DClientLoc);
 
 //Loading commands from folder
@@ -86,7 +86,7 @@ const FontPromise = new Promise((resolve, reject) => {
     }
     tfffiles.forEach((f, i) => {
       let name = f.toLocaleString().split(".").shift();
-      registerFont(join(Fonts, f.toLocaleString()).replace("\\", "/"), { family: `${name}` });
+      GlobalFonts.registerFromPath(join(Fonts, f.toLocaleString()).replace("\\", "/"), name);
     });
     console.info("Fonts registered!");
     Maveric.emit("FontLoad");
