@@ -14,6 +14,16 @@ function timeConverterJSON(UNIX_timestamp) {
     return time;
 }
 
+function checkDate(date, max, fallback) {
+    if (isNaN(date)) return fallback;
+    if (date < 1 || date > max) return fallback;
+    return date;
+}
+
+function lastDay(y, m) {
+    return new Date(y, m, 0).getDate();
+}
+
 module.exports = {
     Name: "Announcement",
     DescriptionShort: "This is the announcement command.",
@@ -105,10 +115,15 @@ module.exports = {
     },
     async modal(interaction) {
         const items = interaction.components;
+        const today = new Date(Date.now());
+
+        const m = checkDate(items[1].components[0].value, 12, today.getMonth() + 1);
+        const y = checkDate(items[2].components[0].value, 9999, today.getFullYear());
+
         const components = {
-            day: items[0].components[0].value,
-            month: items[1].components[0].value,
-            year: items[2].components[0].value,
+            day: checkDate(items[0].components[0].value, lastDay(y, m), today.getDate()),
+            month: m,
+            year: y,
             title: items[3].components[0].value,
             message: items[4].components[0].value
         }
@@ -121,7 +136,6 @@ module.exports = {
             .setTimestamp(new Date(`${components.month}/${components.day}/${components.year} 00:00:00`))
 
 
-        console.info(components);
         await interaction.reply({ embeds: [embed] })
     }
 };
